@@ -20,13 +20,6 @@
   </div>
 </template>
 <style scoped>
-  body {
-    background: #65cea7 url("../../static/css/img/login-bg.jpg") no-repeat fixed;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-  }
-
   .login-box {
     background: #fff;
     margin: 0 auto;
@@ -102,5 +95,18 @@
   }
 </style>
 <script>
-  //  import '../../static/css/login.css'
+  import $ from 'jquery'
+  export default{
+    components: {
+
+    },
+    ready: function () {
+      this.loadBg()
+    },
+    methods: {
+      loadBg: function () {
+        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
+      }
+    }
+  }
 </script>
