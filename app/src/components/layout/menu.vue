@@ -48,7 +48,7 @@
       },
       showMenu: function () {
         var that = this
-        that.$http.get(QK.SERVER_URL+'/menu/all').then(function(res){
+        that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
           var data = jQuery.parseJSON(res.body)
           console.log(data.data.menus)
           that.menuList = data.data.menus
