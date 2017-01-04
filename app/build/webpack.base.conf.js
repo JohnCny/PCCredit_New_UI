@@ -9,17 +9,17 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
-  // devServer: {
-  //   hot: true,
-  //   inline: true,
-  //   proxy: {
-  //     '*': {
-  //       target: 'localhost:8080',
-  //       host:'http://192.168.1.133:81',
-  //       secure: false,
-  //     }
-  //   }
-  // },
+  devServer: {
+    hot: true,
+    inline: true,
+    proxy: {
+      '*': {
+        target: 'localhost:8080',
+        host:'http://192.168.1.133:81',
+        secure: false,
+      }
+    }
+  },
   externals: {
     'AMap': 'window.AMap'
   },
