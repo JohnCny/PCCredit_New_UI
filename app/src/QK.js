@@ -443,7 +443,7 @@ QK.getStateCode = (that, code) => {
     result.msg = '身份证格式错误'
     return
   }
-  return result
+  return {state: false, msg: ''}
 }
 
 /**

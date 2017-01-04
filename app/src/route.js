@@ -54,9 +54,6 @@ export default {
   '/system': {
     component: System,
     subRoutes: {
-      '': {
-        component: System
-      },
       '/admin': {
         component: System
       }

@@ -104,7 +104,6 @@
   }
 </style>
 <script>
-  import $ from 'jquery'
   import QK from '../QK'
   export default{
     components: {
@@ -130,22 +129,25 @@
           $('input:text:first').focus()
        },
        login:function(){
-          var that = this
-          var username = that.user.username+''
-          var password = that.user.password+''
-          that.$http.post(QK.SERVER_URL+'/logon/login',that.user,true).then(function(res){
-            var data = jQuery.parseJSON(res.body)
-            var result = QK.getStateCode(that,data.code)
-            if(result.state){
-              alert("登陆成功")
-              localStorage.roleName = data.data[0].roleName;
-              that.$router.go({path: '/system/' + localStorage.roleName})
-            }else{
-              that.message.msg = result.msg
-              that.message.errorImg = '/static/images/error1.png'
-              //$('.errorMessage img').attr("src","/static/images/error.png")
-            }
-          })
+         var that = this
+         that.$router.go({path: '/system'})
+
+//          var that = this
+//          var username = that.user.username+''
+//          var password = that.user.password+''
+//          that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
+//            var data = jQuery.parseJSON(res.body)
+//            var result = QK.getStateCode(that,data.code)
+//            if(result.state){
+//              alert("登陆成功")
+//              localStorage.roleName = data.data[0].roleName;
+//              that.$router.go({path: '/system/' + localStorage.roleName})
+//            }else{
+//              that.message.msg = result.msg
+//              that.message.errorImg = '/static/images/error1.png'
+//              //$('.errorMessage img').attr("src","/static/images/error.png")
+//            }
+//          })
        },
       loadBg: function () {
         $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})

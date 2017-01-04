@@ -21,9 +21,7 @@
 </style>
 
 <script>
-  import $ from 'jquery'
   import QK from '../../QK'
-
   export default{
     components: {
 
@@ -39,8 +37,8 @@
     methods: {
       showMenu: function () {
       var that = this
-        that.$http.get(QK.SERVER_URL+'/menu/all').then(function(res){
-          var data = jQuery.parseJSON(res.body)
+        that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
+          var data = $.parseJSON(res.body)
           console.log(data)
         })
       }
