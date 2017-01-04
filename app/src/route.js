@@ -68,7 +68,8 @@ export default {
       },
       '/customer/edit': {
         component: CustomerEdit
-      }
+      },
+
 
 
     }

@@ -150,7 +150,7 @@
         methods:{
               getInfos:function() {
                 var that = this;
-                that.$http.post(QK.SERVER_URL+'/customerBasic', true).then(function (data) {
+                that.$http.post(QK.SERVER_URL+'/api/customerBasic', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -160,7 +160,7 @@
               },
               searchId:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/cert', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/cert', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -170,7 +170,7 @@
               },
               marCondition:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/marriageStatus', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/marriageStatus', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -180,7 +180,7 @@
               },
               degree:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/educationDegree', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/educationDegree', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
