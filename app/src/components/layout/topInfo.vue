@@ -2,13 +2,13 @@
   <li>
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       <img src="/static/images/photos/user-avatar.png" alt=""/>
-      John Doe
+      ${user.roleNameZh}
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-      <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-      <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-      <li><a href="/logon/logout"><i class="fa fa-sign-out"></i> Log Out</a></li>
+      <li><a href="#"><i class="fa fa-user"></i> 个人中心</a></li>
+      <li><a href="#"><i class="fa fa-cog"></i> 个人设置</a></li>
+      <li><a href="/logon/logout"><i class="fa fa-sign-out"></i> 注销</a></li>
     </ul>
   </li>
 </template>
@@ -16,7 +16,11 @@
   export default{
     data(){
       return {
-        msg: 'hello vue'
+        user: {
+          id: '',
+          roleName:'',
+          roleNameZh:''
+        }
       }
     },
     ready: function () {
@@ -24,7 +28,7 @@
     },
     methods: {
       init: function () {
-
+        this.$set('user', JSON.parse(localStorage.user))
       }
     }
   }
