@@ -10,9 +10,12 @@
             <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
               <div class="row-fluid">
                 <div class="search">
-                  <span>字典类别：<input type="text" class="form-control" aria-controls="dynamic-table" name="dataType" id="dataType"></span>
-                  <span>数据字典代码： <input type="text" class="form-control" aria-controls="dynamic-table" name="dataCode" id="dataCode"></span>
-                  <span>字典名称：<input type="text" class="form-control" aria-controls="dynamic-table" name="dataName" id="dataName"></span>
+                  <span>字典类别：<input type="text" class="form-control" aria-controls="dynamic-table" name="dataType"
+                                    id="dataType"></span>
+                  <span>数据字典代码： <input type="text" class="form-control" aria-controls="dynamic-table" name="dataCode"
+                                       id="dataCode"></span>
+                  <span>字典名称：<input type="text" class="form-control" aria-controls="dynamic-table" name="dataName"
+                                    id="dataName"></span>
                   <input class="searchBtn" type="button" value="搜 索">
                 </div>
 
@@ -32,7 +35,8 @@
                     <td>${info.dataCode}</td>
                     <td>${info.dataName}</td>
                     <td>${info.bankCode}</td>
-                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
+                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a>
+                    </td>
                   </tr>
                   </tbody>
                 </table>
@@ -47,30 +51,32 @@
 <style>
 </style>
 <script>
-  import $ from 'jquery'
-    export default{
-        data:function(){
-             return {
-              infos: [{
-                dataId: '',
-                dataType: '',
-                dataCode: '',
-                dataName: '',
-                bankCode: ''
-              }],
-            }
-        },
-        methods:{
-         getInfos:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-        }
+  export default{
+    data: function () {
+      return {
+        infos: [{
+          dataId: '',
+          dataType: '',
+          dataCode: '',
+          dataName: '',
+          bankCode: ''
+        }],
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.get(QK.SERVER_URL + '', true).then(function (data) {
+          var data = jQuery.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
     }
+  }
 </script>

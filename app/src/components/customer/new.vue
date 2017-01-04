@@ -174,7 +174,7 @@
               getInfos:function() {
                 var that = this;
                 that.$http.post(QK.SERVER_URL+'/api/customerBasic', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$set("customerBasicInfo", data.data)
@@ -184,7 +184,7 @@
               searchId:function() {
                 var that = this;
                 that.$http.get(QK.SERVER_URL+'/api/customerBasic/allStatus', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$set("certificate", data.data.cert)
@@ -197,7 +197,7 @@
              industry:function() {
                 var that = this;
                 that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$set("customerIndustry", data.data)

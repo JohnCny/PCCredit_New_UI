@@ -12,8 +12,8 @@
             <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
               <div class="row-fluid">
 
-                <div class="search" >
-                  <span>客户经理名称：<input type="text" class="short" name="userCname" id="userCname" ></span>
+                <div class="search">
+                  <span>客户经理名称：<input type="text" class="short" name="userCname" id="userCname"></span>
                   <span>工号：<input type="text" name="employeeNumber" id="employeeNumber"></span>
                   <span>级别：
                         <select name="levelId" id="levelId">
@@ -25,12 +25,12 @@
                     </span>
                   <input class="searchBtn" type="button" value="搜 索">
                 </div>
-                <table id="customerManagerList" class="table table-bordered" style="width: 100%" >
+                <table id="customerManagerList" class="table table-bordered" style="width: 100%">
                   <thead>
                   <tr>
                     <th>客户经理</th>
                     <th>工号</th>
-                    <th>当前级别	</th>
+                    <th>当前级别</th>
                     <th>操作</th>
                   </tr>
                   </thead>
@@ -39,7 +39,8 @@
                     <td>${info.userCname}</td>
                     <td>${info.employeeNumber}</td>
                     <td>${info.levelName}</td>
-                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 管理 </a></td>
+                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 管理 </a>
+                    </td>
                     <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i
                       class="glyphicon glyphicon-trash"></i> 删除 </a></td>
                   </tr>
@@ -56,29 +57,31 @@
 <style>
 </style>
 <script>
-  import $ from 'jquery'
-    export default{
-        data:function(){
-             return {
-              infos: [{
-                userId: '',
-                userCname: '',
-                employeeNumber: '',
-                levelName: ''
-              }],
-            }
-        },
-        methods:{
-         getInfos:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-        }
+  export default{
+    data: function () {
+      return {
+        infos: [{
+          userId: '',
+          userCname: '',
+          employeeNumber: '',
+          levelName: ''
+        }],
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.get(QK.SERVER_URL + '', true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
     }
+  }
 </script>

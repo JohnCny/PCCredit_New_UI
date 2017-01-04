@@ -19,7 +19,7 @@
                 <label for="sex">性别</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="sex" type="text"  name="sex" class="form-control" v-model="customerBasicInfo.sex">
+                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
                     <option value="1" v-if="customerBasicInfo.sex==1" selected>男</option>
                     <option value="1" v-else>男</option>
                     <option value="0" v-if="customerBasicInfo.sex==0" selected>女</option>
@@ -32,7 +32,8 @@
                 <label for="certificateType">证件类型</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="customerBasicInfo.certificateType">
+                  <select id="certificateType" type="text" name="certificateType" class="form-control"
+                          v-model="customerBasicInfo.certificateType">
                     <option value="1" v-if="customerBasicInfo.certificateType==1" selected>身份证</option>
                     <option value="1" v-else>身份证</option>
                   </select>
@@ -43,7 +44,8 @@
                 <label for="certificateNumber">证件号码</label>
                 <div class="input-icon right">
                   <i class="fa checkId"></i>
-                  <input id="certificateNumber" type="text" class="form-control idNumber" name="certificateNumber"  v-model="customerBasicInfo.certificateNumber">
+                  <input id="certificateNumber" type="text" class="form-control idNumber" name="certificateNumber"
+                         v-model="customerBasicInfo.certificateNumber">
                   <div class="message" id="idMessage"></div>
                 </div>
               </div>
@@ -51,7 +53,7 @@
                 <label for="tel">手机号码</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <input id="tel" type="text" class="form-control" name="tel"  v-model="customerBasicInfo.tel">
+                  <input id="tel" type="text" class="form-control" name="tel" v-model="customerBasicInfo.tel">
                   <div class="message">${telError}</div>
                 </div>
               </div>
@@ -59,7 +61,8 @@
                 <label for="homeAddress">家庭住址</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <input   id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="${customerBasicInfo.homeAddress}">
+                  <input id="homeAddress" type="text" class="form-control" name="homeAddress"
+                         v-model="${customerBasicInfo.homeAddress}">
                   <div class="message">${homeAddressError}</div>
                 </div>
               </div>
@@ -67,7 +70,8 @@
                 <label for="marriageStatus">婚姻状况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="marriageStatus" type="text"  name="marriageStatus" class="form-control" v-model="${customerBasicInfo.marriageStatus}">
+                  <select id="marriageStatus" type="text" name="marriageStatus" class="form-control"
+                          v-model="${customerBasicInfo.marriageStatus}">
                     <option value="" v-if="customerBasicInfo.marriageStatus!=null">--请选择--</option>
                     <option value="" selected v-else>--请选择--</option>
                     <option value="1" v-if="customerBasicInfo.marriageStatus==1" selected>未婚</option>
@@ -86,7 +90,8 @@
                 <label for="educationDegree">教育情况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="${customerBasicInfo.educationDegree}">
+                  <select id="educationDegree" type="text" class="form-control" name="educationDegree"
+                          v-model="${customerBasicInfo.educationDegree}">
                     <option value="" v-if="customerBasicInfo.educationDegree!=null">--请选择--</option>
                     <option value="" selected v-else>--请选择--</option>
                     <option value="1" v-if="customerBasicInfo.educationDegree==1" selected>本科以上</option>
@@ -113,40 +118,43 @@
 <style>
 </style>
 <script>
-    export default{
-        data:function(){
-             return {
-              customerBasicInfo: {
-                cname: '',
-                sex: '',
-                certificateType: '',
-                certificateNumber: '',
-                tel: '',
-                homeAddress: '',
-                marriageStatus: '',
-                educationDegree: '',
-              },
-              errors:{
-                sexError: '',
-                certificateTypeError: '',
-                telError: '',
-                homeAddressError: '',
-                marriageError: '',
-                eductionError: ''
-              }
-            }
+  export default{
+    data: function () {
+      return {
+        customerBasicInfo: {
+          cname: '',
+          sex: '',
+          certificateType: '',
+          certificateNumber: '',
+          tel: '',
+          homeAddress: '',
+          marriageStatus: '',
+          educationDegree: '',
         },
-        methods:{
-              getInfos:function() {
-                var that = this;
-                that.$http.put(QK.SERVER_URL+'/api/customerBasic', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-           }
+        errors: {
+          sexError: '',
+          certificateTypeError: '',
+          telError: '',
+          homeAddressError: '',
+          marriageError: '',
+          eductionError: ''
         }
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.put(QK.SERVER_URL + '/api/customerBasic', true).then(function (data) {
+          var data = jQuery.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
+    }
+  }
 </script>
