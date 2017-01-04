@@ -104,7 +104,6 @@
   }
 </style>
 <script>
-  import $ from 'jquery'
   import QK from '../QK'
   export default{
     components: {
@@ -139,11 +138,11 @@
             if(result.state){
               alert("登陆成功")
               localStorage.roleName = data.data[0].roleName;
+              localStorage.url = '/system/' + localStorage.roleName;
               that.$router.go({path: '/system/' + localStorage.roleName})
             }else{
               that.message.msg = result.msg
               that.message.errorImg = '/static/images/error1.png'
-              //$('.errorMessage img').attr("src","/static/images/error.png")
             }
           })
        },
