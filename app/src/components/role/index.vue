@@ -17,7 +17,7 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.roleName}</td>
-                <td> <a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
+                <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
               </tr>
               </tbody>
             </table>
@@ -30,27 +30,29 @@
 <style>
 </style>
 <script>
-  import $ from 'jquery'
-    export default{
-        data:function(){
-             return {
-              infos: [{
-                id: '',
-                roleName: ''
-              }],
-            }
-        },
-        methods:{
-         getInfos:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-        }
+  export default{
+    data: function () {
+      return {
+        infos: [{
+          id: '',
+          roleName: ''
+        }],
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.get(QK.SERVER_URL + '', true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
     }
+  }
 </script>

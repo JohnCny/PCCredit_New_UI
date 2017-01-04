@@ -33,10 +33,10 @@
       }
     },
     ready: function () {
-      this.showMenu()
+      this.init()
     },
     methods: {
-      showMenu: function () {
+      init: function () {
         var that = this
         that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
           var data = jQuery.parseJSON(res.body)
