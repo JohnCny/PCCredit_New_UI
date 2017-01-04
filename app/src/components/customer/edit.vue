@@ -148,7 +148,7 @@
       init: function () {
         var that = this;
         that.$http.put(QK.SERVER_URL + '/api/customerBasic', true).then(function (data) {
-          var data = jQuery.parseJSON(data.body);
+          var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("infos", data.data)
