@@ -17,6 +17,7 @@
     "jquery.nicescroll": "^3.6.8",
     "style-loader": "^0.13.1",
     "vue": "^1.0.21",
+    "vue-datatable": "^1.0.4",
     "vue-router": "^0.7.13"
   },
   "devDependencies": {
