@@ -14,6 +14,8 @@ import System from './components/System.vue'
 /************************
 * 客户管理
 * ***********************/
+import Customer from './components/customer/index.vue'//客户列表
+import CustomerNew from './components/customer/new.vue'//新建客户
 
 /************************
  * 客户经理管理
@@ -54,9 +56,20 @@ export default {
   '/system': {
     component: System,
     subRoutes: {
+      '': {
+        component: System
+      },
       '/admin': {
         component: System
-      }
+      },
+      '/customer/index': {//客户列表
+        component: Customer
+      },
+      '/customer/new': {
+        component: CustomerNew
+      },
+
+
     }
   }
 }
