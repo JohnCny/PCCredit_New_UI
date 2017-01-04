@@ -8,20 +8,18 @@
         <div class="panel-body">
           <div class="table-responsive">
             <form action="">
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="cname">姓名</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
                   <input id="cname" type="text" class="form-control" name="cname" v-model="customerBasicInfo.cname">
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="sex">性别</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
                   <select id="sex" type="text"  name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="" v-if="customerBasicInfo.sex!=null">--请选择--</option>
-                    <option value="" selected v-else>--请选择--</option>
                     <option value="1" v-if="customerBasicInfo.sex==1" selected>男</option>
                     <option value="1" v-else>男</option>
                     <option value="0" v-if="customerBasicInfo.sex==0" selected>女</option>
@@ -30,20 +28,18 @@
                   <div class="message">${sexError}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="certificateType">证件类型</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
                   <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="customerBasicInfo.certificateType">
-                    <option value="" v-if="customerBasicInfo.certificateType!=null">--请选择--</option>
-                    <option value="" selected v-else>--请选择--</option>
                     <option value="1" v-if="customerBasicInfo.certificateType==1" selected>身份证</option>
                     <option value="1" v-else>身份证</option>
                   </select>
                   <div class="message">${certificateTypeError}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="certificateNumber">证件号码</label>
                 <div class="input-icon right">
                   <i class="fa checkId"></i>
@@ -51,7 +47,7 @@
                   <div class="message" id="idMessage"></div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="tel">手机号码</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
@@ -59,7 +55,7 @@
                   <div class="message">${telError}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="homeAddress">家庭住址</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
@@ -67,7 +63,7 @@
                   <div class="message">${homeAddressError}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="marriageStatus">婚姻状况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
@@ -86,7 +82,7 @@
                   <div class="message">${marriageError}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="educationDegree">教育情况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
