@@ -6,9 +6,9 @@
     <form id="loginForm">
       <!--错误信息提示-->
       <div class="errorMessage isHidden" >
-        <img src='${message.errorImg}'/><span>${message.msg}</span>
+        <img v-bind:src="message.errorImg"/><span>${message.msg}</span>
       </div>
-      <input id="user" name="userName" type="text" class="login-input" placeholder="用户名" v-model="user.username">
+      <input id="user" name="userName" type="text" class="login-input" placeholder="用户名" v-model="user.userName">
       <input id="password" name="password" type="password" class="login-input" placeholder="密码" v-model="user.password">
 
       <a v-on:click="login" class="login-button">登&nbsp;&nbsp;录</a>
@@ -115,7 +115,7 @@
     data: function () {
       return {
         user: {
-          username: '',
+          userName: '',
           password: ''
         },
         message:{
@@ -133,21 +133,21 @@
        },
        login:function(){
           var that = this
-          var username = that.user.username+''
+          var userName = that.user.userName+''
           var password = that.user.password+''
-          that.$http.post(QK.SERVER_URL+'/logon/login',that.user,true).then(function(res){
+          that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
             var data = jQuery.parseJSON(res.body)
             var result = QK.getStateCode(that,data.code)
             if(result.state){
-              $(".errorMessage").addClass("isHidden");
+              $(".errorMessage").addClass("isHidden")
               alert("登陆成功")
-              localStorage.roleName = data.data[0].roleName;
-              localStorage.url = '/system/' + localStorage.roleName;
-              that.$router.go({path: '/system/' + localStorage.roleName})
+              //localStorage.roleName = data.data[0].roleName;
+              //localStorage.url = '/system/' + localStorage.roleName;
+              that.$router.go({path: '/system'})
             }else{
               that.message.msg = result.msg
               that.message.errorImg = '/static/images/error1.png'
-              $(".errorMessage").removeClass("isHidden");
+              $(".errorMessage").removeClass("isHidden")
             }
           })
        },
