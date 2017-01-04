@@ -49,6 +49,6 @@ router.beforeEach(({to, next}) => {
   }
 })
 router.redirect({
-  '/': '/login'
+  '/': '/index'
 })
 router.start(App, 'app')

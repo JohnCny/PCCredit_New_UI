@@ -8,7 +8,7 @@ const QK = {}
 // QK.SERVER_URL = ''
 // QK.SERVER_URL = 'http://114.55.225.130:8081'
 // QK.SERVER_URL = 'http://192.168.1.117:8090'
-QK.SERVER_URL = ('https:' == document.location.protocol ? 'http://192.168.1.117:8090' : '');
+QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.117:8090');
 // QK.SERVER_URL = 'http://10.45.51.0:8081'
 // QK.SERVER_URL = 'https://192.168.1.204:8443'
 // QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://www.advisingbank.com:8081');
@@ -386,8 +386,6 @@ QK.getStateCode = (that, code) => {
     result.msg = '登录成功'
   } else if (code == 500) {
     result.msg = '服务器错误'
-  } else if (code == 401) {
-    result.msg = '没有权限'
   } else if (code == 404) {
     result.msg = '未找到'
   } else if (code == 5001) {
@@ -411,39 +409,11 @@ QK.getStateCode = (that, code) => {
   } else if (code == 5010) {
     result.msg = '验证码超时'
   } else if (code == 5011) {
-    result.msg = '没有登录'
-    that.$router.go({path: '/login'})
-  } else if (code == 5012) {
-    result.msg = '没有权限'
-  } else if (code == 5013) {
-    result.msg = '不是合法的邮箱或手机号'
-  } else if (code == 5014) {
-    result.msg = '填写的绑定邮箱错误'
-  } else if (code == 5015) {
-    result.msg = '填入的绑定手机号错误'
-  } else if (code == 5016) {
-    result.msg = '原密码错误'
-  } else if (code == 5017) {
-    result.msg = '账号未激活'
-  } else if (code == 5018) {
-    result.msg = '账号或密码为空'
-  } else if (code == 5019) {
-    result.msg = '必填参数不能为空'
-  } else if (code == 5020) {
-    result.msg = '操作失败'
-  } else if (code == 5021) {
-    result.msg = '请求超时'
-  } else if (code == 5022) {
-    result.msg = '登陆超时'
-  } else if (code == 5023) {
-    result.msg = '接口签名不匹配'
-  } else if (code == 5024) {
     result.msg = '客户输入验证码为空'
-  } else if (code == 5025) {
-    result.msg = '身份证格式错误'
+    that.$router.go({path: '/login'})
     return
   }
-  return {state: false, msg: ''}
+  return result
 }
 
 /**

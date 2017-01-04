@@ -33,10 +33,8 @@
                     <td>${info.tel}</td>
                     <td>${info.certificateNumber}</td>
                     <td>${info.createTime}</td>
-                    <td> <a class="btn btn-outline dark btn-xs blue"><i
-                      class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
-                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i
-                      class="glyphicon glyphicon-trash"></i> 删除 </a></td>
+                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
+                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i class="glyphicon glyphicon-trash"></i> 删除 </a></td>
                   </tr>
                   </tbody>
                 </table>
@@ -68,7 +66,7 @@
         methods:{
          getInfos:function() {
                 var that = this;
-                that.$http.get('/customerBasic/condition', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {

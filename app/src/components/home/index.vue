@@ -1,6 +1,6 @@
 <template>
-    <left></left>
-    <main></main>
+  <left></left>
+  <main></main>
 </template>
 <script>
   import Left from '../layout/left.vue'
