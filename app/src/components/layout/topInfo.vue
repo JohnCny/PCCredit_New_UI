@@ -2,7 +2,7 @@
   <li>
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       <img src="/static/images/photos/user-avatar.png" alt=""/>
-      ${uname}
+      ${user.roleNameZh}
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -16,7 +16,11 @@
   export default{
     data(){
       return {
-        uname: ''
+        user: {
+          id: '',
+          roleName:'',
+          roleNameZh:''
+        }
       }
     },
     ready: function () {
@@ -24,7 +28,7 @@
     },
     methods: {
       init: function () {
-        this.uname = localStorage.user.roleNameZh
+        this.$set('user', JSON.parse(localStorage.user))
       }
     }
   }

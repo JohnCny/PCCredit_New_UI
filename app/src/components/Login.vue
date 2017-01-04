@@ -136,12 +136,12 @@
           var userName = that.user.userName+''
           var password = that.user.password+''
           that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
-            var data = jQuery.parseJSON(res.body)
+            var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that,data.code)
             if(result.state){
               $(".errorMessage").addClass("isHidden")
               console.log("登陆成功")
-              localStorage.user = data.data;
+              localStorage.user = JSON.stringify(data.data)
               that.$router.go({path: '/system'})
             }else{
               that.message.msg = result.msg
