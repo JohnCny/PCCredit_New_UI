@@ -16,6 +16,7 @@ import System from './components/System.vue'
 * ***********************/
 import Customer from './components/customer/index.vue'//客户列表
 import CustomerNew from './components/customer/new.vue'//新建客户
+import CustomerEdit from './components/customer/edit.vue'//编辑客户
 
 /************************
  * 客户经理管理
@@ -68,6 +69,9 @@ export default {
       '/customer/new': {
         component: CustomerNew
       },
+      '/customer/edit': {
+        component: CustomerEdit
+      }
 
 
     }

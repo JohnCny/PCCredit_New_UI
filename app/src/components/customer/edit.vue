@@ -20,9 +20,12 @@
                 <div class="input-icon right">
                   <i class="fa"></i>
                   <select id="sex" type="text"  name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="">--请选择--</option>
-                    <option value="1">男</option>
-                    <option value="0">女</option>
+                    <option value="" v-if="customerBasicInfo.sex!=null">--请选择--</option>
+                    <option value="" selected v-else>--请选择--</option>
+                    <option value="1" v-if="customerBasicInfo.sex==1" selected>男</option>
+                    <option value="1" v-else>男</option>
+                    <option value="0" v-if="customerBasicInfo.sex==0" selected>女</option>
+                    <option value="0" v-else>女</option>
                   </select>
                   <div class="message">${sexError}</div>
                 </div>
@@ -31,9 +34,11 @@
                 <label for="certificateType">证件类型</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="certificateType" type="text" name="" class="form-control">
-                    <option value="">--请选择--</option>
-                    <option value="1" selected>身份证</option>
+                  <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="customerBasicInfo.certificateType">
+                    <option value="" v-if="customerBasicInfo.certificateType!=null">--请选择--</option>
+                    <option value="" selected v-else>--请选择--</option>
+                    <option value="1" v-if="customerBasicInfo.certificateType==1" selected>身份证</option>
+                    <option value="1" v-else>身份证</option>
                   </select>
                   <div class="message">${certificateTypeError}</div>
                 </div>
@@ -42,7 +47,7 @@
                 <label for="certificateNumber">证件号码</label>
                 <div class="input-icon right">
                   <i class="fa checkId"></i>
-                  <input data-error="${idNumberError}" id="certificateNumber" type="text" class="form-control idNumber" name="" value="${customerBasicInfo.idNumber}" placeholder="请输入有效证件号码">
+                  <input id="certificateNumber" type="text" class="form-control idNumber" name="certificateNumber"  v-model="customerBasicInfo.certificateNumber">
                   <div class="message" id="idMessage"></div>
                 </div>
               </div>
@@ -50,7 +55,7 @@
                 <label for="tel">手机号码</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <input data-error="${telError}" id="tel" type="text" class="form-control" name="" value="${customerBasicInfo.tel}" placeholder="请输入正确的手机号码">
+                  <input id="tel" type="text" class="form-control" name="tel"  v-model="customerBasicInfo.tel">
                   <div class="message">${telError}</div>
                 </div>
               </div>
@@ -58,7 +63,7 @@
                 <label for="homeAddress">家庭住址</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <input   id="homeAddress" type="text" class="form-control" name="" value="${customerBasicInfo.homeAddress}" placeholder="请输入有效地址">
+                  <input   id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="${customerBasicInfo.homeAddress}">
                   <div class="message">${homeAddressError}</div>
                 </div>
               </div>
@@ -66,12 +71,17 @@
                 <label for="marriageStatus">婚姻状况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="marriageStatus" type="text"  name="" class="form-control" >
-                    <option value="">--请选择--</option>
-                    <option value="1">未婚</option>
-                    <option value="2">已婚</option>
-                    <option value="3">离婚</option>
-                    <option value="4">丧偶</option>
+                  <select id="marriageStatus" type="text"  name="marriageStatus" class="form-control" v-model="${customerBasicInfo.marriageStatus}">
+                    <option value="" v-if="customerBasicInfo.marriageStatus!=null">--请选择--</option>
+                    <option value="" selected v-else>--请选择--</option>
+                    <option value="1" v-if="customerBasicInfo.marriageStatus==1" selected>未婚</option>
+                    <option value="1" v-else>未婚</option>
+                    <option value="2" v-if="customerBasicInfo.marriageStatus==2" selected>已婚</option>
+                    <option value="2" v-else>已婚</option>
+                    <option value="3" v-if="customerBasicInfo.marriageStatus==3" selected>离婚</option>
+                    <option value="3" v-else>离婚</option>
+                    <option value="4" v-if="customerBasicInfo.marriageStatus==4" selected>丧偶</option>
+                    <option value="4" v-else>丧偶</option>
                   </select>
                   <div class="message">${marriageError}</div>
                 </div>
@@ -80,13 +90,19 @@
                 <label for="educationDegree">教育情况</label>
                 <div class="input-icon right">
                   <i class="fa"></i>
-                  <select id="educationDegree" type="text" class="form-control" name="" >
-                    <option value="">--请选择--</option>
-                    <option value="1">本科以上</option>
-                    <option value="2">本科</option>
-                    <option value="3">大专</option>
-                    <option value="4">高中/中专</option>
-                    <option value="5">初中及以下</option>
+                  <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="${customerBasicInfo.educationDegree}">
+                    <option value="" v-if="customerBasicInfo.educationDegree!=null">--请选择--</option>
+                    <option value="" selected v-else>--请选择--</option>
+                    <option value="1" v-if="customerBasicInfo.educationDegree==1" selected>本科以上</option>
+                    <option value="1" v-else>本科以上</option>
+                    <option value="2" v-if="customerBasicInfo.educationDegree==2" selected>本科</option>
+                    <option value="2" v-else>本科</option>
+                    <option value="3" v-if="customerBasicInfo.educationDegree==3" selected>大专</option>
+                    <option value="3" v-else>大专</option>
+                    <option value="4" v-if="customerBasicInfo.educationDegree==4" selected>大专</option>
+                    <option value="4" v-else>大专</option>
+                    <option value="5" v-if="customerBasicInfo.educationDegree==5" selected>初中及以下</option>
+                    <option value="5" v-else>初中及以下</option>
                   </select>
                   <div class="message">${eductionError}</div>
                 </div>
@@ -114,23 +130,6 @@
                 marriageStatus: '',
                 educationDegree: '',
               },
-              certificate:[
-              {
-                 id: '',
-                 value: ''
-              },
-              {
-                 id: '',
-                 value: ''
-              }],
-              marriage:[{
-                 id: '',
-                 value: ''
-              }],
-              education:[{
-                 id: '',
-                 value: ''
-              }],
               errors:{
                 sexError: '',
                 certificateTypeError: '',
@@ -141,52 +140,17 @@
               }
             }
         },
-        ready:function(){
-            this.searchId()
-            this.marCondition()
-            this.degree()
-        },
         methods:{
               getInfos:function() {
                 var that = this;
-                that.$http.post(QK.SERVER_URL+'/customerBasic', true).then(function (data) {
+                that.$http.put(QK.SERVER_URL+'/customerBasic', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$set("infos", data.data)
                   }
                 })
-              },
-              searchId:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/cert', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("certificate", data.data)
-                  }
-                })
-              },
-              marCondition:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/marriageStatus', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("marriage", data.data)
-                  }
-                })
-              },
-              degree:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/educationDegree', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("education", data.data)
-                  }
-                })
               }
-            }
+           }
         }
 </script>
