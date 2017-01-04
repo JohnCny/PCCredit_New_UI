@@ -5,7 +5,7 @@
     <img src="../../static/images/login-logo1.png"/>
     <form id="loginForm">
       <!--错误信息提示-->
-      <div class="errorMessage">
+      <div class="errorMessage isHidden" >
         <img src='${message.errorImg}'/><span>${message.msg}</span>
       </div>
       <input id="user" name="userName" type="text" class="login-input" placeholder="用户名" v-model="user.username">
@@ -22,6 +22,9 @@
   </div>
 </template>
 <style scoped>
+  .isHidden{
+    visibility:hidden
+  }
   .titleText{
     font-size: 24px;
     color: #fff;
@@ -116,8 +119,8 @@
           password: ''
         },
         message:{
-          msg : '用户名为空',
-          errorImg : '/static/images/error1.png'
+          msg : '',
+          errorImg : ''
         }
       }
     },
@@ -136,6 +139,7 @@
             var data = jQuery.parseJSON(res.body)
             var result = QK.getStateCode(that,data.code)
             if(result.state){
+              $(".errorMessage").addClass("isHidden");
               alert("登陆成功")
               localStorage.roleName = data.data[0].roleName;
               localStorage.url = '/system/' + localStorage.roleName;
@@ -143,6 +147,7 @@
             }else{
               that.message.msg = result.msg
               that.message.errorImg = '/static/images/error1.png'
+              $(".errorMessage").removeClass("isHidden");
             }
           })
        },
