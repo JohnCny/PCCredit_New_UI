@@ -143,7 +143,7 @@
         methods:{
               getInfos:function() {
                 var that = this;
-                that.$http.put(QK.SERVER_URL+'/customerBasic', true).then(function (data) {
+                that.$http.put(QK.SERVER_URL+'/api/customerBasic', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
