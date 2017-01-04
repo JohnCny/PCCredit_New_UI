@@ -38,7 +38,7 @@
 
   .login-input {
     display: block;
-    width: 76%;
+    width: 100%;
     border-radius: 5px;
     border: none;
     outline: none;
