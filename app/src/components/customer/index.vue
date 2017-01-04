@@ -23,7 +23,7 @@
                     <th>联系方式</th>
                     <th>证件号码</th>
                     <th>创建时间</th>
-                    <th>操作</th>
+                    <th colspan="2">操作</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -66,7 +66,7 @@
         methods:{
          getInfos:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/customerBasic/condition', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/condition', true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
