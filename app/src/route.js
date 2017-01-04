@@ -48,9 +48,9 @@ import CustomerEdit from './components/customer/edit.vue'//编辑客户
 
 
 export default {
-  '/index': {
-    component: Login
-  },
+  // '/index': {
+  //   component: Login
+  // },
   '/login': {
     component: Login
   },
