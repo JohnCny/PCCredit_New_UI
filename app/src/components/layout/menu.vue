@@ -1,14 +1,14 @@
 <template>
   <!--侧导航 start-->
   <ul class="nav nav-pills nav-stacked custom-nav"  id="leftNav" >
-    <li v-for="menu in menuList" v-if="menu.menuLists.length > 0" class="menu-list">
+    <li v-for="menu in menuList" class="menu-list">
       <a href="${menu.menuUrl}">
         <i class=""></i>
         <span>${menu.menuNameZh}</span>
       </a>
       <ul v-if="menu.menuLists.length > 0" class="sub-menu-list">
         <template v-for="menuSmall in menu.menuLists">
-          <li class="dropdown more-dropdown-sub" data-title="${second.name}">
+          <li class="dropdown more-dropdown-sub">
             <a href="${menuSmall.menuUrl}"> ${menuSmall.menuNameZh}</a>
           </li>
         </template>
