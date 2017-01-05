@@ -18,6 +18,9 @@ import Error from './components/error.vue'
 import Customer from './components/customer/index.vue'//客户列表
 import CustomerNew from './components/customer/new.vue'//新建客户
 import CustomerEdit from './components/customer/edit.vue'//编辑客户
+import Maintenance from './components/customer/maintenance.vue'//客户维护列表
+import MainNew from './components/customer/mainNew.vue'//新增客户维护
+import MainRecord from './components/customer/mainRecord.vue'//客户维护记录
 
 /************************
  * 客户经理管理
@@ -85,12 +88,21 @@ export default {
       '/customer/list': {//客户列表
         component: Customer
       },
-      '/customer/new': {
+      '/customer/new': {//新建客户
         component: CustomerNew
       },
-      '/customer/edit': {
+      '/customer/edit': {//编辑客户
         component: CustomerEdit
       },
+      '/customer/mainList':{//客户维护列表
+        component: Maintenance
+      },
+      '/customer/mainNew': {//新增客户维护
+        component: MainNew
+      },
+      '/customer/mainRecord': {//客户维护记录
+        component: MainRecord
+      }
     }
   }
 }

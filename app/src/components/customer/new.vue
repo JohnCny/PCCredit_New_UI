@@ -42,12 +42,15 @@
                     <div class="message">${errors.certificateTypeError}</div>
                     </div>
                 </div>
+
               <div class="col-md-2"></div>
                 <div class="form-group col-md-3  col-sm-6 col-xs-12">
                   <label for="certificateNumber">证件号码</label>
+                  <div class="input-icon right">
                     <input data-error="${idNumberError}" id="certificateNumber" type="text" class="form-control idNumber"
-                           name="certificateNumber" v-model="customerBasicInfo.certificateNumber" placeholder="请输入有效证件号码">
+                           name="certificateNumber" v-model="customerBasicInfo.certificateNumber" placeholder="请输入有效证件号码" v-on:change="idNumberCheck()">
                     <div class="message" id="idMessage"></div>
+                  </div>
                 </div>
 
 
@@ -112,7 +115,7 @@
                 </div>
                 <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                   <button id="btn_submit" class="btn btn-success">确定</button>
-                  <a href="/customer" type="reset" class="btn btn-default">取消</a>
+                  <a href="/system/customer/list" type="reset" class="btn btn-default">取消</a>
                 </div>
               <!--</template>-->
             </form>
@@ -129,7 +132,7 @@
   }
 </style>
 <script>
-    import QK from '../../QK'
+    import QK from '../../QK.js'
     import jQueryValidation from 'jquery-validation'
     export default{
         data:function(){
@@ -168,6 +171,7 @@
                  industryName: ''
               }],
               errors:{
+                cnameError: '',
                 sexError: '',
                 certificateTypeError: '',
                 telError: '',
@@ -210,7 +214,7 @@
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$router.go({path:''})
+                    that.$router.go({path:'/system/customer/list'})
                   }
                 })
               }
@@ -237,7 +241,34 @@
                     that.$set("customerIndustry", data.data)
                   }
                 })
-              }
+              },
+              messageCname(parent,msg){
+            parent.find(".checkId").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75")
+            parent.find(".message").css("color", "red").html(msg)
+            $("#btn_submit").attr("disabled", "true")
+          },
+          idNumberCheck(){
+            var that = this
+            var certificateNumber = that.customerBasicInfo.certificateNumber
+            var len = certificateNumber.length
+            var msg3 = "身份证已存在或格式不正确！"
+            var msg4 = "证件可用"
+            var msg5 = "身份证长度不够！"
+            if (len < 14) {
+              that.messageCname($("#idNumberDiv"),msg5)
+            }else {
+              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist'+certificateNumber, true).then(function (res) {
+              var data = jQuery.parseJSON(res.body)
+                    if (!data.data) {
+                        that.messageCname($("#idNumberDiv"),msg3)
+                    } else {
+                        $("#idNumberDiv").find("div.message").css("color", "#32c5d2").html(msg4)
+                        $("#idNumberDiv").find("i.checkId").removeClass("fa-warning").addClass("fa-check").css("color", "#32c5d2")
+                        $("#btn_submit").removeAttr("disabled")
+                  }
+              })
             }
-        }
+          }
+      }
+   }
 </script>
