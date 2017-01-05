@@ -46,12 +46,13 @@
 <style>
 </style>
 <script>
+  import QK from '../../QK.js'
   export default{
     data: function () {
       return {
         infos: [{
-          id: '',
           cname: '',
+          certificateNumber: '',
           tel: ''
         }],
       }
@@ -64,7 +65,7 @@
         var that = this;
         that.$http.get(QK.SERVER_URL + '/api/customerMaintenance/condition', true).then(function (data) {
           var data = $.parseJSON(data.body);
-          var result = QK.getStateCode(that, data.code)
+          var result = QK.getStateCode(that,data.code)
           if (result.state) {
             that.$set("infos", data.data)
           }
