@@ -29,6 +29,7 @@ import MainRecord from './components/customer/mainRecord.vue'//客户维护记�
 /************************
  * 系统管理
  * ***********************/
+import UserChangePass from './components/user/changePass.vue'//用户列表
 
 /************************
  * 用户管理
@@ -69,6 +70,9 @@ export default {
     subRoutes: {
       '/admin': {
         component: System
+      },
+      '/user/changePass': { //修改密码
+        component: UserChangePass
       },
       /*start---用户---start*/
       '/user/list': { //用户列表
