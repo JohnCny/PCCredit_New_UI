@@ -168,6 +168,7 @@
                  industryName: ''
               }],
               errors:{
+                cnameError: '',
                 sexError: '',
                 certificateTypeError: '',
                 telError: '',
