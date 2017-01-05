@@ -29,6 +29,7 @@ import CustomerEdit from './components/customer/edit.vue'//编辑客户
 /************************
  * 用户管理
  * ***********************/
+import UsersNew from './components/user/new.vue'//新建用户
 
 /************************
  * 角色管理
@@ -59,6 +60,9 @@ export default {
     subRoutes: {
       '/admin': {
         component: System
+      },
+      '/users/new': { //新建用户
+        component: UsersNew
       },
       '/customer/index': {//客户列表
         component: Customer
