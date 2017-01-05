@@ -1,23 +1,58 @@
 <template>
-  <h1 class="titleText">登 录</h1>
-  <div class="login-box">
-
-    <img src="../../static/images/login-logo1.png"/>
-    <form id="loginForm">
-      <!--错误信息提示-->
-      <div class="errorMessage isHidden" >
-        <img v-bind:src="message.errorImg"/><span>${message.msg}</span>
+  <div class="container">
+    <form class="form-signin"  id="loginForm">
+      <div class="form-signin-heading text-center">
+        <h1 class="sign-title">登  录</h1>
+        <img src="/static/images/login-logo1.png" alt=""/>
       </div>
-      <input id="user" name="userName" type="text" class="login-input" placeholder="用户名" v-model="user.userName">
-      <input id="password" name="password" type="password" class="login-input" placeholder="密码" v-model="user.password">
+      <div class="login-wrap">
+        <input id="user" name="userName" type="text" class="form-control login-input" placeholder="用户名" v-model="user.userName" autofocus>
+        <input id="password" name="password" type="password" class="form-control  login-input" placeholder="密码" v-model="user.password">
 
-      <a v-on:click="login" class="login-button">登&nbsp;&nbsp;录</a>
-      <div class="codeImg">
+        <a class="btn btn-lg btn-login btn-block"  v-on:click="login">
+          <i class="fa fa-check"></i>
+        </a>
+        <!-- 注册 -->
+        <!--<div class="registration">-->
+          <!--Not a member yet?-->
+          <!--<a class="" href="registration.html">-->
+            <!--Signup-->
+          <!--</a>-->
+        <!--</div>-->
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> 记住我
+          <span class="pull-right">
+                    <a data-toggle="modal" href="#myModal"> 忘记密码？</a>
+
+                </span>
+        </label>
 
       </div>
-      <div class="forgetPwd">
-        <a href="/user/anon/resetPasswordPage">忘记密码？</a>
+
+      <!-- Modal -->
+      <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
+           class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">忘记密码 ?</h4>
+            </div>
+            <div class="modal-body">
+              <p>Enter your e-mail address below to reset your password.</p>
+              <input type="text" name="email" placeholder="Email" autocomplete="off"
+                     class="form-control placeholder-no-fix">
+
+            </div>
+            <div class="modal-footer">
+              <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+              <button class="btn btn-primary" type="button">Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- modal -->
+
     </form>
   </div>
 </template>
@@ -25,35 +60,13 @@
   .isHidden{
     visibility:hidden
   }
-  .titleText{
-    font-size: 24px;
-    color: #fff;
-    text-align:center;
-    margin-top:60px
-  }
-  .login-box {
-    background: #fff;
-    margin: 0 auto;
-    margin-top: 2em;
-    width: 24em;
-    border-radius: 0.5em;
-    text-align: center;
-    padding: 1em;
-  }
-
-  .login-box form {
-    width: 85%;
-    margin: 0 auto;
-    margin-top: 2em;
-  }
-
   .login-input {
     display: block;
     width: 100%;
     border-radius: 5px;
     border: none;
     outline: none;
-    background: #eaeaec url("../../static/css/img/yhm.png") no-repeat left center;
+    background: #eaeaec url("../../static/css/img/yhm.png") no-repeat left center !important;
     box-shadow: none;
     font-size: 0.9em;
     padding: 10px 13%;
@@ -61,26 +74,7 @@
   }
 
   input[type=password] {
-    background: #eaeaec url("../../static/css/img/mm.png") no-repeat left center;
-  }
-
-  .login-button {
-    display: block;
-    background: #6bc5a4;
-    border: none;
-    color: #fff;
-    width: 100%;
-    border-radius: 5px;
-    box-shadow: none;
-    font-size: 1em;
-    padding: 15px;
-    margin-top: 20px;
-    margin-bottom: 1em;
-  }
-
-  .login-button:hover {
-    background: #688ac2;
-    cursor: pointer;
+    background: #eaeaec url("../../static/css/img/mm.png") no-repeat left center !important;
   }
 
   /*错误提示信息*/
@@ -125,11 +119,16 @@
       }
     },
     ready: function () {
+      this.loadBg()
       this.focus()
+      this.loadBg()
     },
     methods: {
        focus: function () {
           $('input:text:first').focus()
+       },
+       loadBg: function () {
+        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
        },
        login:function(){
           var that = this
@@ -140,7 +139,6 @@
             var result = QK.getStateCode(that,data.code)
             if(result.state){
               $(".errorMessage").addClass("isHidden")
-              console.log("登陆成功")
               localStorage.user = JSON.stringify(data.data)
               that.$router.go({path: '/system'})
             }else{
@@ -150,9 +148,6 @@
             }
           })
        },
-      loadBg: function () {
-        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
-      }
     }
   }
 </script>

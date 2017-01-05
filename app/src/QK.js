@@ -386,6 +386,8 @@ QK.getStateCode = (that, code) => {
     result.msg = '登录成功'
   } else if (code == 500) {
     result.msg = '服务器错误'
+  } else if (code == 401) {
+    result.msg = '没有权限'
   } else if (code == 404) {
     result.msg = '未找到'
   } else if (code == 5001) {
@@ -409,9 +411,37 @@ QK.getStateCode = (that, code) => {
   } else if (code == 5010) {
     result.msg = '验证码超时'
   } else if (code == 5011) {
-    result.msg = '客户输入验证码为空'
+    result.msg = '没有登录'
     that.$router.go({path: '/login'})
     return
+  } else if (code == 5012) {
+    result.msg = '没有权限'
+  } else if (code == 5013) {
+    result.msg = '不是合法的邮箱或手机号'
+  } else if (code == 5014) {
+    result.msg = '填写的绑定邮箱错误'
+  } else if (code == 5015) {
+    result.msg = '填入的绑定手机号错误'
+  } else if (code == 5016) {
+    result.msg = '原密码错误'
+  } else if (code == 5017) {
+    result.msg = '账号未激活'
+  } else if (code == 5018) {
+    result.msg = '账号或密码为空'
+  } else if (code == 5019) {
+    result.msg = '必填参数不能为空'
+  } else if (code == 5020) {
+    result.msg = '操作失败'
+  } else if (code == 5021) {
+    result.msg = '请求超时'
+  } else if (code == 5022) {
+    result.msg = '登陆超时'
+  } else if (code == 5023) {
+    result.msg = '接口签名不匹配'
+  } else if (code == 5024) {
+    result.msg = '客户输入验证码为空'
+  } else if (code == 5025) {
+    result.msg = '身份证格式错误'
   }
   return result
 }
@@ -471,12 +501,6 @@ QK.reBirtyhday = (idNumber)=> {
  * @date: 2016.10.14
  */
 
-QK.messageCname = (parent, msg)=> {
-  $("#nameDiv").find(".checkName").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75");
-  $("#nameDiv").find(".message").css("color", "red").html(msg);
-  $("#btn_submit").attr("disabled", "true");
-}
-
 //清空对象的value值
 QK.cleanValue = (obj)=> {
   for (var i in obj) {
@@ -534,10 +558,10 @@ QK.cnameCheck = ()=> {
  * @author: tianym
  * @date: 2016.10.14
  */
-QK.messageIdNumber = (msg) => {
-  $(".checkId").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75");
-  $("#idMessage").css("color", "red").html(msg);
-  $("#btn_submit").attr("disabled", "true");
+QK.messageFun = (parent,msg) => {
+  parent.find(".message").css("color", "#a94442").html(msg)
+  parent.find("input").css("border-color","#a94442")
+  $("#btn_submit").attr("disabled", "true")
 }
 
 QK.formValidation = (args) => {
@@ -1031,7 +1055,7 @@ QK.idnumberCheck = () => {
   $(".idNumber").change(function () {
     var idNumber = $(this).val();
     var len = idNumber.length;
-    var url = "/" + idNumber + "/isHaveName";
+    var url = "/api/user/isIdCard";
     var msg1 = "身份证格式不正确！";
     var msg3 = "证件已经存在！";
     var msg4 = "证件可用";
@@ -1040,7 +1064,7 @@ QK.idnumberCheck = () => {
       QK.messageIdNumber(msg5);
     }
     else {
-      this.$http.get(url, true)
+      this.$http.post(url, idNumber,true)
         .then(function (res) {
           var data = JSON.parse(res.body)
           var idVerify = data.idVerify;
@@ -1054,7 +1078,6 @@ QK.idnumberCheck = () => {
             } else {
               $("#idMessage").css("color", "#32c5d2").html(msg4);
               $("#btn_submit").removeAttr("disabled");
-              $(".checkId").removeClass("fa-warning").addClass("fa-check").css("color", "#32c5d2");
             }
           }
 

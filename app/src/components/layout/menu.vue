@@ -3,7 +3,7 @@
   <ul class="nav nav-pills nav-stacked custom-nav"  id="leftNav" >
     <li v-for="menu in menuList" class="menu-list">
       <a href="${menu.menuUrl}">
-        <i class=""></i>
+        <i class="fa fa-home"></i>
         <span>${menu.menuNameZh}</span>
       </a>
       <ul v-if="menu.menuLists.length > 0" class="sub-menu-list">
@@ -23,6 +23,7 @@
 
 <script>
   import QK from '../../QK'
+  import nicescroll from 'jquery.nicescroll'
   export default{
     components: {
 
@@ -39,7 +40,7 @@
       init: function () {
         var that = this
         that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           console.log(data.data.menus)
           that.menuList = data.data.menus
         }).then(function(){
