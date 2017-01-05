@@ -1,464 +1,290 @@
+
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
-  <div class="treeBox">
-    <ul id="treeDemo" class="ztree"></ul>
+  <div class="row">
+    <div class="col-sm-4">
+      <section class="panel">
+        <header class="panel-heading">
+          机构列表
+        </header>
+        <div class="panel-body">
+
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-8">
+      <section class="panel">
+        <header class="panel-heading">
+          用户信息 <a class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+        </header>
+        <div class="panel-body">
+          <div class="row search">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>身份证：</span><input v-model="search.idCardNumber" type="text" name="idCardNumber" />
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>机&nbsp;&nbsp;&nbsp;&nbsp;构：</span><input v-model="search.orgId" type="text" name="orgId"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>用户名：</span><input v-model="search.username" type="text" name="username"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
+            </div>
+          </div>
+          <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
+            <thead>
+            <tr>
+              <th>编号</th>
+              <th>用户名</th>
+              <th>性别</th>
+              <th>手机号码</th>
+              <th colspan="2">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="info in infos">
+              <td>${info.id}</td>
+              <td>${info.userCname}</td>
+              <td>${info.sex | reSex}</td>
+              <td>${info.tel}</td>
+              <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
+                编辑 </a></td>
+              <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
+              </a></td>
+
+            </tr>
+            </tbody>
+          </table>
+          <div class="page-bar">
+            <ul>
+              <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
+              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+                <a v-on:click="pageChange(index)">${index}</a>
+              </li>
+              <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
+              <li><a>共<i>${totlepage}</i>页</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
+
+
 </template>
-<style>
-  .ztree * {
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-    font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif
+<style scoped>
+  #dtUsers,.search,.page-bar{
+    width: 95%;
+    margin-left: 2.5%;
+  }
+  .search{
+    background: #d9edf7;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #767676;
+    padding-bottom:10px;
+    padding-top:10px;
+  }
+  .search input{
+    display: inline-block;
+    padding:4px;
+    line-height: 20px;
+    width:120px;
+    border : 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .search div{
+    margin-bottom:10px;
+  }
+  .hide {
+    display: none;
   }
 
-  .ztree {
-    margin: 0;
-    padding: 5px;
-    color: #333
+  ul, li {
+    margin: 0px;
+    padding: 0px;
   }
 
-  .ztree li {
-    padding: 0;
-    margin: 0;
+  .page-bar li {
     list-style: none;
-    line-height: 14px;
-    text-align: left;
-    white-space: nowrap;
-    outline: 0
+    display: inline-block;
   }
 
-  .ztree li ul {
-    margin: 0;
-    padding: 0 0 0 18px
+  .page-bar li:first-child > a {
+    margin-left: 0px
   }
 
-  .ztree li ul.line {
-    background: url("../../../static/images/line_conn.gif") 0 0 repeat-y;
-  }
-
-  .ztree li a {
-    padding: 1px 3px 0 0;
-    margin: 0;
-    cursor: pointer;
-    height: 17px;
-    color: #333;
-    background-color: transparent;
+  .page-bar a {
+    border: 1px solid #ddd;
     text-decoration: none;
-    vertical-align: top;
-    display: inline-block
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer
   }
 
-  .ztree li a:hover {
-    text-decoration: underline
+  .page-bar a:hover {
+    background-color: #eee;
   }
 
-  .ztree li a.curSelectedNode {
-    padding-top: 0px;
-    background-color: #FFE6B0;
-    color: black;
-    height: 16px;
-    border: 1px #FFB951 solid;
-    opacity: 0.8;
+  .page-bar .active a {
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
   }
 
-  .ztree li a.curSelectedNode_Edit {
-    padding-top: 0px;
-    background-color: #FFE6B0;
-    color: black;
-    height: 16px;
-    border: 1px #FFB951 solid;
-    opacity: 0.8;
-  }
-
-  .ztree li a.tmpTargetNode_inner {
-    padding-top: 0px;
-    background-color: #316AC5;
-    color: white;
-    height: 16px;
-    border: 1px #316AC5 solid;
-    opacity: 0.8;
-    filter: alpha(opacity=80)
-  }
-
-  .ztree li a.tmpTargetNode_prev {
-  }
-
-  .ztree li a.tmpTargetNode_next {
-  }
-
-  .ztree li a input.rename {
-    height: 14px;
-    width: 80px;
-    padding: 0;
-    margin: 0;
+  .page-bar i {
+    font-style: normal;
+    color: #d44950;
+    margin: 0px 4px;
     font-size: 12px;
-    border: 1px #7EC4CC solid;
-    *border: 0px
   }
 
-  .ztree li span {
-    line-height: 16px;
-    margin-right: 2px
-  }
-
-  .ztree li span.button {
-    line-height: 0;
-    margin: 0;
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    border: 0 none;
-    cursor: pointer;
-    outline: none;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-image: url("../../../static/images/zTreeStandard.png");
-    *background-image: url("../../../static/images/zTreeStandard.gif")
-  }
-
-  .ztree li span.button.chk {
-    width: 13px;
-    height: 13px;
-    margin: 0 3px 0 0;
-    cursor: auto
-  }
-
-  .ztree li span.button.chk.checkbox_false_full {
-    background-position: 0 0
-  }
-
-  .ztree li span.button.chk.checkbox_false_full_focus {
-    background-position: 0 -14px
-  }
-
-  .ztree li span.button.chk.checkbox_false_part {
-    background-position: 0 -28px
-  }
-
-  .ztree li span.button.chk.checkbox_false_part_focus {
-    background-position: 0 -42px
-  }
-
-  .ztree li span.button.chk.checkbox_false_disable {
-    background-position: 0 -56px
-  }
-
-  .ztree li span.button.chk.checkbox_true_full {
-    background-position: -14px 0
-  }
-
-  .ztree li span.button.chk.checkbox_true_full_focus {
-    background-position: -14px -14px
-  }
-
-  .ztree li span.button.chk.checkbox_true_part {
-    background-position: -14px -28px
-  }
-
-  .ztree li span.button.chk.checkbox_true_part_focus {
-    background-position: -14px -42px
-  }
-
-  .ztree li span.button.chk.checkbox_true_disable {
-    background-position: -14px -56px
-  }
-
-  .ztree li span.button.chk.radio_false_full {
-    background-position: -28px 0
-  }
-
-  .ztree li span.button.chk.radio_false_full_focus {
-    background-position: -28px -14px
-  }
-
-  .ztree li span.button.chk.radio_false_part {
-    background-position: -28px -28px
-  }
-
-  .ztree li span.button.chk.radio_false_part_focus {
-    background-position: -28px -42px
-  }
-
-  .ztree li span.button.chk.radio_false_disable {
-    background-position: -28px -56px
-  }
-
-  .ztree li span.button.chk.radio_true_full {
-    background-position: -42px 0
-  }
-
-  .ztree li span.button.chk.radio_true_full_focus {
-    background-position: -42px -14px
-  }
-
-  .ztree li span.button.chk.radio_true_part {
-    background-position: -42px -28px
-  }
-
-  .ztree li span.button.chk.radio_true_part_focus {
-    background-position: -42px -42px
-  }
-
-  .ztree li span.button.chk.radio_true_disable {
-    background-position: -42px -56px
-  }
-
-  .ztree li span.button.switch {
-    width: 18px;
-    height: 18px
-  }
-
-  .ztree li span.button.root_open {
-    background-position: -92px -54px
-  }
-
-  .ztree li span.button.root_close {
-    background-position: -74px -54px
-  }
-
-  .ztree li span.button.roots_open {
-    background-position: -92px 0
-  }
-
-  .ztree li span.button.roots_close {
-    background-position: -74px 0
-  }
-
-  .ztree li span.button.center_open {
-    background-position: -92px -18px
-  }
-
-  .ztree li span.button.center_close {
-    background-position: -74px -18px
-  }
-
-  .ztree li span.button.bottom_open {
-    background-position: -92px -36px
-  }
-
-  .ztree li span.button.bottom_close {
-    background-position: -74px -36px
-  }
-
-  .ztree li span.button.noline_open {
-    background-position: -92px -72px
-  }
-
-  .ztree li span.button.noline_close {
-    background-position: -74px -72px
-  }
-
-  .ztree li span.button.root_docu {
-    background: none;
-  }
-
-  .ztree li span.button.roots_docu {
-    background-position: -56px 0
-  }
-
-  .ztree li span.button.center_docu {
-    background-position: -56px -18px
-  }
-
-  .ztree li span.button.bottom_docu {
-    background-position: -56px -36px
-  }
-
-  .ztree li span.button.noline_docu {
-    background: none;
-  }
-
-  .ztree li span.button.ico_open {
-    margin-right: 2px;
-    background-position: -110px -16px;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  .ztree li span.button.ico_close {
-    margin-right: 2px;
-    background-position: -110px 0;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  .ztree li span.button.ico_docu {
-    margin-right: 2px;
-    background-position: -110px -32px;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  .ztree li span.button.edit {
-    margin-right: 2px;
-    background-position: -110px -48px;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  .ztree li span.button.remove {
-    margin-right: 2px;
-    background-position: -110px -64px;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  .ztree li span.button.ico_loading {
-    margin-right: 2px;
-    background: url("../../../static/images/loading.gif") no-repeat scroll 0 0 transparent;
-    vertical-align: top;
-    *vertical-align: middle
-  }
-
-  ul.tmpTargetzTree {
-    background-color: #FFE6B0;
-    opacity: 0.8;
-    filter: alpha(opacity=80)
-  }
-
-  span.tmpzTreeMove_arrow {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    padding: 0;
-    margin: 2px 0 0 1px;
-    border: 0 none;
-    position: absolute;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: -110px -80px;
-    background-image: url("../../../static/images/zTreeStandard.png");
-    *background-image: url("../../../static/images/zTreeStandard.gif")
-  }
-
-  ul.ztree.zTreeDragUL {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    width: auto;
-    height: auto;
-    overflow: hidden;
-    background-color: #cfcfcf;
-    border: 1px #00B83F dotted;
-    opacity: 0.8;
-    filter: alpha(opacity=80)
-  }
-
-  .zTreeMask {
-    z-index: 10000;
-    background-color: #cfcfcf;
-    opacity: 0.0;
-    filter: alpha(opacity=0);
-    position: absolute
-  }
 </style>
 <script>
-  import QK from '../../QK'
-  import ztree from 'ztree'
-  export default {
-    data () {
-      return {
-        msg: 'Hello Vue-Ztree!'
-      }
-    },
-    ready: function () {
-      this.init()
-    },
-    methods: {
-      init: function () {
-        var urlMy = QK.SERVER_URL + '/api/organization'
-        var setting = {
-          data: {
-            simpleData: {
-              enable: false,
-              idKey: "id",
-              pIdKey: "orgParentId"
-            },
-            key: {
-              name: "orgName",
-              children: "organizationList",
+    import QK from '../../QK'
+    import swal from 'sweetalert'
+    export default{
+        data:function(){
+           return {
+                infos:{
+                  id: '',
+                  userCname: '',
+                  username: '',
+                  sex: '',
+                  age: '',
+                  tel: '',
+                  status: '',
+                  idCardNumber: '',
+                  roleId: '',
+                  email : '',
+                  orgId: '1',
+                },
+                currentpage: 1,//第几页
+                totlepage: '',//共几页
+                visiblepage: 10,//隐藏10页
+                search:{
+                  idCardNumber: '',
+                  orgId: '',
+                  username: '',
+                }
+           }
+        },
+        ready:function(){
+          this.init();
+        },
+        computed: {
+          pagenums: function () {
+            //初始化前后页边界
+            var lowPage = 1;
+            var highPage = this.totlepage;
+            var pageArr = [];
+            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
+              var subVisiblePage = Math.ceil(this.visiblepage / 2);
+              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
+                lowPage = this.currentpage - subVisiblePage;
+                highPage = this.currentpage + subVisiblePage - 1;
+              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
+                lowPage = 1;
+                highPage = this.visiblepage;
+              } else {//处理后几页的逻辑
+                lowPage = this.totlepage - this.visiblepage + 1;
+                highPage = this.totlepage;
+              }
+            }
+            //确定了上下page边界后，要准备压入数组中了
+            while (lowPage <= highPage) {
+              pageArr.push(lowPage);
+              lowPage++;
+            }
+            return pageArr;
+          },
+        },
+        watch: {
+          currentpage: function (oldValue, newValue) {
+            this.init()
+          }
+        },
+        methods:{
+          init : function(){
+            var that = this
+            var idCardNumber = that.search.idCardNumber
+            var orgId = that.search.orgId
+            var username = that.search.username
+            var search = 'start=' + that.currentpage+'&&length='+this.visiblepage+'&&idCardNumber='+idCardNumber+'&&orgId='+orgId+'&&username='+username
+            console.log(search)
+            that.$http.get(QK.SERVER_URL+'/api/user/pageList?'+search, true).then(function(res){
+              var data = jQuery.parseJSON(res.body)
+              var page = parseInt(data.recordsTotal / 10);
+              if (data.recordsTotal % 10) {
+                page = page + 1;
+              }
+              that.$set('totlepage', page)
+              that.$set('infos', data.data)
+            })
+          },
+          pageChange: function (page) {
+            page = page || 1
+            var that = this
+            if (that.currentpage != page) {
+              that.currentpage = page
             }
           },
-          view: {
-            showIcon: true,
-            showLine: false,
+          showInfo:function (id) {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path:'/system/user/edit/'+id})
           },
-          callback: {
-            onClick: onClick
-          }
+          deleteInfo: function (id) {
+            var that = this
+            swal({
+                title: "你确定要删除这条信息吗?",
+                text: "删除无法后将无法撤销！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#EF5350",
+                confirmButtonText: "确定!",
+                cancelButtonText: "取消",
+                closeOnConfirm: false,
+                closeOnCancel: false
+              },
+              function (isConfirm) {
+                if (isConfirm) {
+                  swal({
+                      title: "删除!",
+                      text: "您的文件已被删除！",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success"
+                    },
+                    function () {
+                      that.$http.delete(QK.SERVER_URL+'/api/user/'+id).then(function (data) {
+                        var data = jQuery.parseJSON(data.body)
+                        var result = QK.getStateCode(that,data.code)
+                        if (result.state) {
+                          that.infos.$remove(that.infos.find(t => t.id === id))
+                          //document.location.reload();
+                        }
+                      }, function (error) {
+                        console.log(error)
+                      })
+                    });
+                } else {
+                  swal({
+                    title: "取消",
+                    text: "您的文件是安全的！",
+                    confirmButtonColor: "#2196F3",
+                    type: "error"
+                  });
+                }
+              });
+          },
         }
-
-        function onClick(event, treeId, treeNode, clickFlag) {
-          console.log(treeNode.orgName)
-          $("#orgId").attr("value", treeNode.orgName);
-          $("#orgIdHidden").attr("value", treeNode.id);
-        }
-
-        this.baseTree(urlMy, setting)
-      },
-      baseTree: function (url, setting) {
-        var height = $(window).height()
-        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
-        $(".wdlb").css("height", (parseInt(height) - 176) + "px")
-        var zTreeObj
-        var zNodes =[
-          { name:"父节点1 - 展开", open:true,
-            children: [
-              { name:"父节点11 - 折叠",
-                children: [
-                  { name:"叶子节点111"},
-                  { name:"叶子节点112"},
-                  { name:"叶子节点113"},
-                  { name:"叶子节点114"}
-                ]},
-              { name:"父节点12 - 折叠",
-                children: [
-                  { name:"叶子节点121"},
-                  { name:"叶子节点122"},
-                  { name:"叶子节点123"},
-                  { name:"叶子节点124"}
-                ]},
-              { name:"父节点13 - 没有子节点", isParent:true}
-            ]},
-          { name:"父节点2 - 折叠",
-            children: [
-              { name:"父节点21 - 展开", open:true,
-                children: [
-                  { name:"叶子节点211"},
-                  { name:"叶子节点212"},
-                  { name:"叶子节点213"},
-                  { name:"叶子节点214"}
-                ]},
-              { name:"父节点22 - 折叠",
-                children: [
-                  { name:"叶子节点221"},
-                  { name:"叶子节点222"},
-                  { name:"叶子节点223"},
-                  { name:"叶子节点224"}
-                ]},
-              { name:"父节点23 - 折叠",
-                children: [
-                  { name:"叶子节点231"},
-                  { name:"叶子节点232"},
-                  { name:"叶子节点233"},
-                  { name:"叶子节点234"}
-                ]}
-            ]},
-          { name:"父节点3 - 没有子节点", isParent:true}
-
-        ]
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
-            zTreeObj.expandAll(true)
-          }
-        })
-      }
     }
-  }
+
 </script>

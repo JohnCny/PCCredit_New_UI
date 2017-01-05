@@ -33,8 +33,7 @@
                     <td>${info.tel}</td>
                     <td>${info.certificateNumber}</td>
                     <td>${info.createTime}</td>
-                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a>
-                    </td>
+                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
                     <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i
                       class="glyphicon glyphicon-trash"></i> 删除 </a></td>
                   </tr>
@@ -51,6 +50,7 @@
 <style>
 </style>
 <script>
+  import QK from '../../QK.js'
   export default{
     data: function () {
       return {
