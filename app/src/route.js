@@ -64,7 +64,7 @@ export default {
       '/admin': {
         component: System
       },
-      '/customer/index': {//客户列表
+      '/customer/list': {//客户列表
         component: Customer
       },
       '/customer/new': {
