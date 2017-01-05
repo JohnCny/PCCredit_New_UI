@@ -3,7 +3,7 @@
     <form class="form-signin"  id="loginForm">
       <div class="form-signin-heading text-center">
         <h1 class="sign-title">登  录</h1>
-        <img src="/static/images/login-logo1.png" alt=""/>
+        <img src="/static/images/login-logo.png" alt=""/>
       </div>
       <div class="login-wrap">
         <input id="user" name="userName" type="text" class="form-control login-input" placeholder="用户名" v-model="user.userName" autofocus>
@@ -39,14 +39,14 @@
               <h4 class="modal-title">忘记密码 ?</h4>
             </div>
             <div class="modal-body">
-              <p>Enter your e-mail address below to reset your password.</p>
+              <p>请输入你注册时使用的邮箱</p>
               <input type="text" name="email" placeholder="Email" autocomplete="off"
                      class="form-control placeholder-no-fix">
 
             </div>
             <div class="modal-footer">
-              <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
-              <button class="btn btn-primary" type="button">Submit</button>
+              <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+              <button class="btn btn-primary" type="button">提交</button>
             </div>
           </div>
         </div>
