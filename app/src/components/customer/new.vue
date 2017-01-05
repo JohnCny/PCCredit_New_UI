@@ -8,39 +8,41 @@
         <div class="panel-body">
           <div class="table-responsive">
             <form action="">
-              <template v-for="dropDown in dropDownList">
-                <div class="form-group">
-                  <label for="cname">姓名</label>
+              <!--<template v-for="dropDown in dropDownList">-->
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                  <label for="cname">客户名称</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <input id="cname" type="text" class="form-control" name="cname" v-model="customerBasicInfo.cname"
                            placeholder="请输入至少2-10位汉字">
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="sex">性别</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                      <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                      <option value="1">男</option>
-                      <option value="0">女</option>
+                      <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
+                      <option value="0" v-else>男</option>
+                      <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
+                      <option value="1" v-else>女</option>
                     </select>
                     <div class="message">${sexError}</div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="certificateType">证件类型</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="customerBasicInfo.certificateType">
-                        <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                        <option v-for="cert in certificate" value="${cert.id}">${cert.value}</option>
+                      <template v-for="cert in certificate">
+                        <option  value="${cert.id}" checked>${cert.value}</option>
+                      </template>
                     </select>
                     <div class="message">${certificateTypeError}</div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="certificateNumber">证件号码</label>
                   <div class="input-icon right">
                     <i class="fa checkId"></i>
@@ -49,15 +51,15 @@
                     <div class="message" id="idMessage"></div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="tel">手机号码</label>
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                  <label for="tel">联系方式</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <input data-error="${telError}" id="tel" type="text" class="form-control" name="tel" v-model="customerBasicInfo.tel" placeholder="请输入正确的手机号码">
                     <div class="message">${telError}</div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="homeAddress">家庭住址</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
@@ -65,24 +67,39 @@
                     <div class="message">${homeAddressError}</div>
                   </div>
                 </div>
-                <div class="form-group">
+              <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                <label for="belIndustry">所属行业</label>
+                <div class="input-icon right">
+                  <i class="fa"></i>
+                  <select id="belIndustry" type="text" name="belIndustry" v-model="customerBasicInfo.belIndustry" class="form-control">
+                    <template v-for="industry in customerIndustry">
+                      <option  value="${industry.id}" checked>${industry.industryName}</option>
+                    </template>
+                  </select>
+                  <div class="message">${belIndustryError}</div>
+                </div>
+              </div>
+
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="marriageStatus">婚姻状况</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <select id="marriageStatus" type="text" name="marriageStatus" v-model="customerBasicInfo.marriageStatus" class="form-control">
-                      <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                        <option v-for="marriageStatus in marriage" value="${marriageStatus.id}">${marriageStatus.value}</option>
+                        <template v-for="marriageStatus in marriage">
+                        <option  value="${marriageStatus.id}" checked>${marriageStatus.value}</option>
+                        </template>
                     </select>
                     <div class="message">${marriageError}</div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="educationDegree">教育情况</label>
+                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                  <label for="educationDegree">文化程度</label>
                   <div class="input-icon right">
                     <i class="fa"></i>
                     <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="customerBasicInfo.educationDegree">
-                      <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                      <option v-for="educationDegree in education" value="${educationDegree.id}">${educationDegree.value}</option>
+                      <template v-for="educationDegree in education">
+                      <option value="${educationDegree.id}" checked>${educationDegree.value}</option>
+                      </template>
                     </select>
                     <div class="message">${eductionError}</div>
                   </div>
@@ -91,7 +108,7 @@
                   <button id="btn_submit" class="btn btn-success">确定</button>
                   <a href="/customer/customer" type="reset" class="btn btn-default">取消</a>
                 </div>
-              </template>
+              <!--</template>-->
             </form>
           </div>
         </div>
@@ -102,6 +119,7 @@
 <style>
 </style>
 <script>
+   import QK from '../../QK'
     export default{
         data:function(){
              return {
@@ -112,8 +130,9 @@
                 certificateNumber: '',
                 tel: '',
                 homeAddress: '',
+                belIndustry: '',
                 marriageStatus: '',
-                educationDegree: '',
+                educationDegree: ''
               },
               certificate:[
               {
@@ -132,59 +151,56 @@
                  id: '',
                  value: ''
               }],
+              customerIndustry:[{
+                 id: '',
+                 industryName: ''
+              }],
               errors:{
                 sexError: '',
                 certificateTypeError: '',
                 telError: '',
                 homeAddressError: '',
                 marriageError: '',
-                eductionError: ''
+                eductionError: '',
+                belIndustryError: ''
               }
             }
         },
         ready:function(){
             this.searchId()
-            this.marCondition()
-            this.degree()
+            this.industry()
         },
         methods:{
               getInfos:function() {
                 var that = this;
                 that.$http.post(QK.SERVER_URL+'/api/customerBasic', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$set("infos", data.data)
+                    that.$set("customerBasicInfo", data.data)
                   }
                 })
               },
               searchId:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/customerBasic/cert', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/allStatus', true).then(function (data) {
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$set("certificate", data.data)
+                    that.$set("certificate", data.data.cert)
+                    that.$set("marriage", data.data.marriageStatus)
+                    that.$set("education", data.data.educationDegree)
                   }
                 })
               },
-              marCondition:function() {
+
+             industry:function() {
                 var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/customerBasic/marriageStatus', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$set("marriage", data.data)
-                  }
-                })
-              },
-              degree:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/customerBasic/educationDegree', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("education", data.data)
+                    that.$set("customerIndustry", data.data)
                   }
                 })
               }

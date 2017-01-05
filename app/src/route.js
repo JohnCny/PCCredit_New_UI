@@ -6,6 +6,7 @@
  * ***********************/
 import Login from './components/Login.vue'
 import System from './components/System.vue'
+import Error from './components/error.vue'
 
 /************************
  * 页面布局
@@ -55,6 +56,9 @@ export default {
   '/login': {
     component: Login
   },
+  '/error/:errcode':{
+    component: Error
+  },
   '/system': {
     component: System,
     subRoutes: {
@@ -73,9 +77,6 @@ export default {
       '/customer/edit': {
         component: CustomerEdit
       },
-
-
-
     }
   }
 }

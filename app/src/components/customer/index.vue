@@ -11,7 +11,7 @@
             <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
               <div class="row-fluid">
                 <div class="search">
-                  <span>客户名称：<input type="text" class="short" name="cname" id="cname" ></span>
+                  <span>客户名称：<input type="text" class="short" name="cname" id="cname"></span>
                   <span>客户证件号码：<input type="text" name="certificateNumber" id="certificateNumber"></span>
                   <input class="searchBtn" type="button" value="搜 索">
                 </div>
@@ -33,8 +33,10 @@
                     <td>${info.tel}</td>
                     <td>${info.certificateNumber}</td>
                     <td>${info.createTime}</td>
-                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
-                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i class="glyphicon glyphicon-trash"></i> 删除 </a></td>
+                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a>
+                    </td>
+                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i
+                      class="glyphicon glyphicon-trash"></i> 删除 </a></td>
                   </tr>
                   </tbody>
                 </table>
@@ -49,31 +51,33 @@
 <style>
 </style>
 <script>
-  import $ from 'jquery'
-    export default{
-        data:function(){
-             return {
-              infos: [{
-                id: '',
-                cname: '',
-                sex: '',
-                tel: '',
-                certificateNumber: '',
-                createTime: ''
-              }],
-            }
-        },
-        methods:{
-         getInfos:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/customerBasic/condition', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-        }
+  export default{
+    data: function () {
+      return {
+        infos: [{
+          id: '',
+          cname: '',
+          sex: '',
+          tel: '',
+          certificateNumber: '',
+          createTime: ''
+        }],
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition', true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
     }
+  }
 </script>
