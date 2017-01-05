@@ -12,16 +12,15 @@
               <div class="col-md-2"></div>
                 <div class="form-group col-md-3 col-sm-6 col-xs-12">
                   <label for="cname">客户名称</label>
-                  <div class="input-icon">
-                    <i class="fa"></i>
+                  <div class="input-icon right">
                     <input id="cname" type="text" class="form-control" name="cname" v-model="customerBasicInfo.cname"
                            placeholder="请输入至少2-10位汉字">
+                    <div class="message">${errors.cnameError}</div>
                   </div>
                 </div>
                 <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="sex">性别</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
                       <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
                       <option value="0" v-else>男</option>
@@ -29,37 +28,32 @@
                       <option value="1" v-else>女</option>
                     </select>
                     <div class="message">${errors.sexError}</div>
-                  </div>
+                    </div>
                 </div>
 
                 <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="certificateType">证件类型</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="customerBasicInfo.certificateType">
                       <template v-for="cert in certificate">
                         <option  value="${cert.id}" checked>${cert.value}</option>
                       </template>
                     </select>
                     <div class="message">${errors.certificateTypeError}</div>
-                  </div>
+                    </div>
                 </div>
               <div class="col-md-2"></div>
                 <div class="form-group col-md-3  col-sm-6 col-xs-12">
                   <label for="certificateNumber">证件号码</label>
-                  <div class="input-icon right">
-                    <i class="fa checkId"></i>
                     <input data-error="${idNumberError}" id="certificateNumber" type="text" class="form-control idNumber"
                            name="certificateNumber" v-model="customerBasicInfo.certificateNumber" placeholder="请输入有效证件号码">
                     <div class="message" id="idMessage"></div>
-                  </div>
                 </div>
 
 
                 <div class="form-group col-md-3  col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="tel">联系方式</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <input data-error="${telError}" id="tel" type="text" class="form-control" name="tel" v-model="customerBasicInfo.tel" placeholder="请输入正确的手机号码">
                     <div class="message">${errors.telError}</div>
                   </div>
@@ -68,25 +62,23 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="native">籍贯</label>
                 <div class="input-icon right">
-                  <i class="fa"></i>
                   <input id="native" type="text" class="form-control" name="native" v-model="customerBasicInfo.native" placeholder="请输入有效地址">
-                  <div class="message">${errors.homeAddressError}</div>
+                  <div class="message">${errors.nativeError}</div>
                 </div>
               </div>
-              
+
 
                 <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="homeAddress">家庭住址</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">
                     <div class="message">${errors.homeAddressError}</div>
                   </div>
                 </div>
+
               <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="belIndustry">所属行业</label>
                 <div class="input-icon right">
-                  <i class="fa"></i>
                   <select id="belIndustry" type="text" name="belIndustry" v-model="customerBasicInfo.belIndustry" class="form-control">
                     <template v-for="industry in customerIndustry">
                       <option  value="${industry.id}" checked>${industry.industryName}</option>
@@ -99,7 +91,6 @@
                 <div class="form-group col-md-3  col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="marriageStatus">婚姻状况</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <select id="marriageStatus" type="text" name="marriageStatus" v-model="customerBasicInfo.marriageStatus" class="form-control">
                         <template v-for="marriageStatus in marriage">
                         <option  value="${marriageStatus.id}" checked>${marriageStatus.value}</option>
@@ -111,7 +102,6 @@
                 <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="educationDegree">文化程度</label>
                   <div class="input-icon right">
-                    <i class="fa"></i>
                     <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="customerBasicInfo.educationDegree">
                       <template v-for="educationDegree in education">
                       <option value="${educationDegree.id}" checked>${educationDegree.value}</option>
@@ -132,7 +122,11 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+  .message{
+      color:#a94442;
+      height:20px;
+  }
 </style>
 <script>
     import QK from '../../QK'
@@ -149,7 +143,8 @@
                 homeAddress: '',
                 belIndustry: '',
                 marriageStatus: '',
-                educationDegree: ''
+                educationDegree: '',
+                native: ''
               },
               certificate:[
               {
@@ -179,7 +174,8 @@
                 homeAddressError: '',
                 marriageError: '',
                 eductionError: '',
-                belIndustryError: ''
+                belIndustryError: '',
+                nativeError: ''
               }
             }
         },
@@ -202,7 +198,8 @@
             tel: {required: !0, tel: !0},
             marriageStatus: {required: !0, downList: !0},
             educationDegree: {required: !0,downList: !0},
-            belIndustry: {required: !0}
+            belIndustry: {required: !0},
+            native: {required: !0}
           }
         })
           //验证结果  true  false
