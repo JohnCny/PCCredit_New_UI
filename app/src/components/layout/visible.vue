@@ -1,5 +1,10 @@
 <template>
   <div class="visible-xs hidden-sm hidden-md hidden-lg">
+    <!--顶部搜索 start-->
+    <div class="searchform">
+      <input type="text" class="form-control" name="keyword" placeholder="请输入···"/>
+    </div>
+    <!--顶部搜索 end-->
     <div class="media logged-user">
       <img alt="" src="/static/images/photos/user-avatar.png" class="media-object">
       <div class="media-body">
