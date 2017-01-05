@@ -8,10 +8,10 @@
       Index
     },
     ready: function () {
-      this.showMenuHight()
+      this.init()
     },
     methods: {
-      showMenuHight: function () {
+      init: function () {
         //console.log('当前地址：' + window.location.href)
       }
     }

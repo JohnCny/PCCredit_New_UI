@@ -10,10 +10,10 @@
 
         <div class="panel-body">
           <div class="table-responsive">
-            <table id="example" class="table table-bordered" >
+            <table id="example" class="table table-bordered">
               <thead>
               <tr>
-                <th>参数名称	</th>
+                <th>参数名称</th>
                 <th>参数值</th>
                 <th>参数中文名</th>
                 <th>参数描述</th>
@@ -33,7 +33,7 @@
                 <td>${info.createTime}</td>
                 <td>${info.modifyBy}</td>
                 <td>${info.modifyTime}</td>
-                <td> <a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
+                <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
               </tr>
             </table>
           </div>
@@ -45,34 +45,36 @@
 <style>
 </style>
 <script>
-  import $ from 'jquery'
-    export default{
-        data:function(){
-             return {
-              infos: [{
-                id: '',
-                parameterName: '',
-                parameterValue: '',
-                parameterNameZn: ''
-                parameterDescription: ''
-                createBy: ''
-                createTime: ''
-                modifyBy: ''
-                modifyTime: ''
-              }],
-            }
-        },
-        methods:{
-         getInfos:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("infos", data.data)
-                  }
-                })
-              }
-        }
+  export default{
+    data: function () {
+      return {
+        infos: [{
+          id: '',
+          parameterName: '',
+          parameterValue: '',
+          parameterNameZn: ''
+          parameterDescription: ''
+          createBy: ''
+          createTime: ''
+          modifyBy: ''
+          modifyTime: ''
+        }],
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        var that = this;
+        that.$http.get(QK.SERVER_URL + '', true).then(function (data) {
+          var data = jQuery.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      }
     }
+  }
 </script>
