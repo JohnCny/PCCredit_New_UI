@@ -1031,7 +1031,7 @@ QK.idnumberCheck = () => {
   $(".idNumber").change(function () {
     var idNumber = $(this).val();
     var len = idNumber.length;
-    var url = "/" + idNumber + "/isHaveName";
+    var url = "/api/user/isIdCard";
     var msg1 = "身份证格式不正确！";
     var msg3 = "证件已经存在！";
     var msg4 = "证件可用";
@@ -1040,7 +1040,7 @@ QK.idnumberCheck = () => {
       QK.messageIdNumber(msg5);
     }
     else {
-      this.$http.get(url, true)
+      this.$http.post(url,idNumber ,true)
         .then(function (res) {
           var data = JSON.parse(res.body)
           var idVerify = data.idVerify;

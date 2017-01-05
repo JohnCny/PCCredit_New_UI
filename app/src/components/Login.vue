@@ -126,10 +126,14 @@
     },
     ready: function () {
       this.focus()
+      this.loadBg()
     },
     methods: {
        focus: function () {
           $('input:text:first').focus()
+       },
+       loadBg: function () {
+        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
        },
        login:function(){
           var that = this
@@ -150,9 +154,6 @@
             }
           })
        },
-      loadBg: function () {
-        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
-      }
     }
   }
 </script>
