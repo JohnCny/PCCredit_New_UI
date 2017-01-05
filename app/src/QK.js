@@ -383,11 +383,31 @@ QK.getStateCode = (that, code) => {
   var result = {state: false, msg: ''}
   if (code == 200) {
     result.state = true
-    result.msg = '登录成功'
-  } else if (code == 500) {
-    result.msg = '服务器错误'
+    result.msg = '请求成功'
+  } else if (code == 400) {
+    // result.msg = '错误的请求'
+    that.$router.go({path: '/error/'+code})
+    return
+  } else if (code == 403) {
+    // result.msg = '禁止访问'
+    that.$router.go({path: '/error/'+code})
+    return
   } else if (code == 404) {
-    result.msg = '未找到'
+    // result.msg = '未找到页面'
+    that.$router.go({path: '/error/'+code})
+    return
+  } else if (code == 405) {
+    // result.msg = '方法不被允许'
+    that.$router.go({path: '/error/'+code})
+    return
+  } else if (code == 415) {
+    // result.msg = '不支持的媒体类型'
+    that.$router.go({path: '/error/'+code})
+    return
+  } else if (code == 500) {
+    // result.msg = '服务器错误'
+    that.$router.go({path: '/error/'+code})
+    return
   } else if (code == 5001) {
     result.msg = 'token失效'
   } else if (code == 5002) {
@@ -727,7 +747,7 @@ QK.addMethod = () => {
     return this.optional(element) || (tel.test(value));
   }, "请正确填写您的电话号码。");
 //授信额度验证
-  jQuery.validator.addMethod("applyQuota", function (value, element,params) {
+  jQuery.validator.addMethod("applyQuota", function (value, element, params) {
     var min = $("#applyQuota").data("min");
     // console.log(min);
     var max = $("#applyQuota").data("max");
@@ -756,7 +776,7 @@ QK.addMethod = () => {
     return $("#loanTerm").attr("placeholder")
   }));
   //数字区间验证
-  jQuery.validator.addMethod("numRange", function (value, element,params) {
+  jQuery.validator.addMethod("numRange", function (value, element, params) {
     if (value >= params[0] && value <= params[1] && isPositiveNum(value)) {
       return true;
     } else {
