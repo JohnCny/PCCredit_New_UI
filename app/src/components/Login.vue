@@ -144,7 +144,6 @@
             var result = QK.getStateCode(that,data.code)
             if(result.state){
               $(".errorMessage").addClass("isHidden")
-              console.log("登陆成功")
               localStorage.user = JSON.stringify(data.data)
               that.$router.go({path: '/system'})
             }else{

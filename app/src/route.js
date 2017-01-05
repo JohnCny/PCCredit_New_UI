@@ -74,7 +74,7 @@ export default {
       '/user/new': { //新建用户
         component: UserNew
       },
-      '/user/edit': { //编辑用户
+      '/user/edit/:id': { //编辑用户
         component: UserEdit
       },
       /*end---用户---end*/
