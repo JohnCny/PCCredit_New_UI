@@ -21,6 +21,7 @@ import CustomerEdit from './components/customer/edit.vue'//编辑客户
 import Maintenance from './components/customer/maintenance.vue'//客户维护列表
 import MainNew from './components/customer/mainNew.vue'//新增客户维护
 import MainRecord from './components/customer/mainRecord.vue'//客户维护记录
+import CusTransfer from './components/customer/cusTransfer.vue'//客户移交
 
 /************************
  * 客户经理管理
@@ -81,6 +82,8 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+
+      /*start---客户---start*/
       '/customer/list': {//客户列表
         component: Customer
       },
@@ -98,7 +101,11 @@ export default {
       },
       '/customer/mainRecord': {//客户维护记录
         component: MainRecord
+      },
+      '/customer/transfer': {//移交客户
+        component: CusTransfer
       }
+      /*end---客户---end*/
     }
   }
 }

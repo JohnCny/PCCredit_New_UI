@@ -19,8 +19,8 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="info in infos" >
-                      <td v-on:click="showInfo(info,$index)"><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
+                  <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
+                      <td ><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
                       <td>${info.maintenanceType}</td>
                       <td>${info.operationTime}</td>
                       <td>${info.operationName}</td>
@@ -103,7 +103,7 @@
         data:function(){
              return {
               infos: [{
-                  id: '2',
+                  id: '143',
                   maintenanceType: '',
                   operationTime: '',
                   operationName: ''
@@ -125,7 +125,6 @@
                 var id = that.$route.params.id
                 that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
                   var data = $.parseJSON(data.body)
-                    console.log(data)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                   that.$set("infos", data.data)
@@ -142,7 +141,10 @@
                     that.$set("temptCustomerMaintenance", data.data)
                     $("#message #infor").eq(index-1).show();
                     $("#message #infor").eq(index-1).siblings().hide();
-
+                    $(info).parent().find("").removeAttr("checked")
+                    $(info).parent().find("label").attr("class", "radio")
+                    $(info).find("input[type=radio]").attr("checked", "checked")
+                    $(info).find("label").attr("class", "radio radio_a")
                   }
                })
             }
