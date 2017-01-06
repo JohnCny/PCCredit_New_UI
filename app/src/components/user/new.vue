@@ -1,14 +1,7 @@
 <template>
   <div class="row">
     <div class="col-sm-4">
-      <section class="panel">
-        <header class="panel-heading">
-          选择机构
-        </header>
-        <div class="panel-body">
-
-        </div>
-      </section>
+      <org-tree></org-tree>
     </div>
     <div class="col-sm-8">
       <section class="panel">
@@ -145,6 +138,7 @@
 <script>
     import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
+    import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
            return {
