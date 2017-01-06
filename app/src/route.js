@@ -29,6 +29,8 @@ import MainRecord from './components/customer/mainRecord.vue'//客户维护记�
 /************************
  * 客户经理管理
  * ***********************/
+import ManagerBasic from './components/manager/basic/index.vue'//客户经理基本信息列表
+import ManagerBasicEdit from './components/manager/basic/edit.vue'//编辑客户经理基本信息
 
 /************************
  * 系统管理
@@ -94,6 +96,17 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+
+      /*start---客户经理基本信息---start*/
+      '/managerBasic/list': { //客户经理基本信息列表
+        component: ManagerBasic
+      },
+      '/managerBasic/edit/:id': { //编辑客户经理基本信息
+        component: ManagerBasicEdit
+      },
+      /*end---客户经理基本信息---end*/
+
+
       '/customer/list': {//客户列表
         component: Customer
       },
