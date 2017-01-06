@@ -33,7 +33,9 @@ import MainRecord from './components/customer/mainRecord.vue'//客户维护记�
 /************************
  * 系统管理
  * ***********************/
-import UserChangePass from './components/user/changePass.vue'//用户列表
+import UserChangePass from './components/user/changePass.vue'//修改密码
+import ForgetPass from './components/user/forgetPass.vue'//忘记密码
+
 
 /************************
  * 用户管理
@@ -66,8 +68,8 @@ export default {
   '/login': {
     component: Login
   },
-  '/test': {
-    component: Test
+  '/forgetPass': { //忘记密码
+    component: ForgetPass
   },
   '/error/:errcode':{
     component: Error

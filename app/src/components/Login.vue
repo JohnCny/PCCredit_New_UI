@@ -6,25 +6,21 @@
         <img src="/static/images/login-logo.png" alt=""/>
       </div>
       <div class="login-wrap">
+        <div class="registration isHidden">
+          <img v-bind:src="message.errorImg" /><span>${message.msg}</span>
+        </div>
         <input id="user" name="userName" type="text" class="form-control login-input" placeholder="用户名" v-model="user.userName" autofocus>
         <input id="password" name="password" type="password" class="form-control  login-input" placeholder="密码" v-model="user.password">
 
         <a class="btn btn-lg btn-login btn-block"  v-on:click="login">
           <i class="fa fa-check"></i>
         </a>
-        <!-- 注册 -->
-        <!--<div class="registration">-->
-          <!--Not a member yet?-->
-          <!--<a class="" href="registration.html">-->
-            <!--Signup-->
-          <!--</a>-->
-        <!--</div>-->
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> 记住我
           <span class="pull-right">
-                    <a data-toggle="modal" href="#myModal"> 忘记密码？</a>
+                    <a v-on:click="forgetPass"> 忘记密码？</a>
 
-                </span>
+           </span>
         </label>
 
       </div>
@@ -78,26 +74,11 @@
   }
 
   /*错误提示信息*/
-  .errorMessage {
-    width: 100%;
-    text-align: left;
-    color: #e4393c;
-    line-height: 30px;
-    height: 30px;
-    font-size: 14px;
-  }
-  .errorMessage img {
+  .registration img {
     vertical-align: text-bottom;
     width:16px;
     height:16px;
     margin-right:5px;
-  }
-  .forgetPwd {
-    margin-top: 50px;
-    text-align: right;
-    font-size: 12px;
-    color: #aaa;
-
   }
 </style>
 <script>
@@ -132,21 +113,37 @@
        },
        login:function(){
           var that = this
-          var userName = that.user.userName+''
-          var password = that.user.password+''
-          that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
-            var data = $.parseJSON(res.body)
-            var result = QK.getStateCode(that,data.code)
-            if(result.state){
-              $(".errorMessage").addClass("isHidden")
-              localStorage.user = JSON.stringify(data.data)
-              that.$router.go({path: '/system'})
-            }else{
-              that.message.msg = result.msg
+          var userName = that.user.userName
+          var password = that.user.password
+          if(userName.length<3){
+              that.message.msg = "用户名错误"
               that.message.errorImg = '/static/images/error1.png'
-              $(".errorMessage").removeClass("isHidden")
-            }
-          })
+              $(".registration").removeClass("isHidden")
+          }else if(password.length<3){
+              that.message.msg = "密码错误"
+              that.message.errorImg = '/static/images/error1.png'
+              $(".registration").removeClass("isHidden")
+          }else{
+              that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
+                var data = $.parseJSON(res.body)
+                var result = QK.getStateCode(that,data.code)
+                if(result.state){
+                  $(".registration").addClass("isHidden")
+                  console.log(data)
+                  that.$router.go({path: '/system'})
+                }else{
+                  that.message.msg = result.msg
+                  that.message.errorImg = '/static/images/error1.png'
+                  $(".registration").removeClass("isHidden")
+                }
+              })
+          }
+       },
+       forgetPass: function () {
+          //记录当前地址
+          QK.noteNowUrl()
+          //跳转地址
+          this.$router.go({path:'/forgetPass'})
        },
     }
   }
