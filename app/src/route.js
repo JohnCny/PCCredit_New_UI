@@ -2,6 +2,10 @@
  * Created by zhangzhan on 2017/1/3.
  */
 /************************
+ * 测试
+ * ***********************/
+import Test from './components/user/index.vue'
+/************************
  * 单独页面
  * ***********************/
 import Login from './components/Login.vue'
@@ -61,6 +65,9 @@ export default {
   // },
   '/login': {
     component: Login
+  },
+  '/test': {
+    component: Test
   },
   '/error/:errcode':{
     component: Error
