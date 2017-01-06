@@ -242,7 +242,7 @@
                   }
                 })
               },
-              messageCname(parent,msg){
+            messageCname(parent,msg){
             parent.find(".checkId").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75")
             parent.find(".message").css("color", "red").html(msg)
             $("#btn_submit").attr("disabled", "true")
