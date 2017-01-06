@@ -15,7 +15,7 @@
     <div class="col-sm-8">
       <section class="panel">
         <header class="panel-heading">
-          用户信息 <a class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+          用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
         </header>
         <div class="panel-body">
           <div class="row search">
@@ -32,30 +32,32 @@
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
-          <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
-            <thead>
-            <tr>
-              <th>编号</th>
-              <th>用户名</th>
-              <th>性别</th>
-              <th>手机号码</th>
-              <th colspan="2">操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="info in infos">
-              <td>${info.id}</td>
-              <td>${info.userCname}</td>
-              <td>${info.sex | reSex}</td>
-              <td>${info.tel}</td>
-              <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
-                编辑 </a></td>
-              <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
-              </a></td>
+          <div class="tableDiv">
+            <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
+              <thead>
+              <tr>
+                <th>编号</th>
+                <th>用户名</th>
+                <th>性别</th>
+                <th>手机号码</th>
+                <th colspan="2">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="info in infos">
+                <td>${info.id}</td>
+                <td>${info.userCname}</td>
+                <td>${info.sex | reSex}</td>
+                <td>${info.tel}</td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
+                  编辑 </a></td>
+                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
+                </a></td>
 
-            </tr>
-            </tbody>
-          </table>
+              </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="page-bar">
             <ul>
               <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
@@ -74,9 +76,15 @@
 
 </template>
 <style scoped>
-  #dtUsers,.search,.page-bar{
+  .tableDiv,.search,.page-bar{
     width: 95%;
     margin-left: 2.5%;
+  }
+  .tableDiv{
+    overflow: auto;
+  }
+  #dtUsers{
+    width:110%;
   }
   .search{
     background: #d9edf7;
@@ -240,6 +248,12 @@
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path:'/system/user/edit/'+id})
+          },
+          show: function () {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path:'/system/user/new'})
           },
           deleteInfo: function (id) {
             var that = this
