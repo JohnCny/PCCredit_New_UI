@@ -1,8 +1,13 @@
 <style src="../../../static/css/zTree/metroStyle/metroStyle.css"></style>
 <template>
-  <div class="treeBox">
-    <ul id="treeDemo" class="ztree"></ul>
-  </div>
+  <section class="panel">
+    <header class="panel-heading">
+      机构列表
+    </header>
+    <div class="panel-body treeBox">
+      <ul id="treeDemo" class="ztree"></ul>
+    </div>
+  </section>
 </template>
 <style scoped>
 </style>
@@ -31,6 +36,12 @@
             key: {
               name: "orgName",
               children: "organizationList",
+            }
+          },
+          edit: {
+            enable: true,
+            drag: {
+              autoExpandTrigger: true
             }
           },
           view: {

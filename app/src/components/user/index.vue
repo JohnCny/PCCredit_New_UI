@@ -3,14 +3,7 @@
 <template>
   <div class="row">
     <div class="col-sm-3">
-      <section class="panel">
-        <header class="panel-heading">
-          机构列表
-        </header>
-        <div class="panel-body">
-          <org-tree></org-tree>
-        </div>
-      </section>
+      <org-tree></org-tree>
     </div>
     <div class="col-sm-9">
       <section class="panel">
@@ -112,7 +105,6 @@
       OrgTree
     },
     ready: function () {
-//      this.showTree()
       this.init()
     },
     computed: {
@@ -148,51 +140,6 @@
       }
     },
     methods: {
-      showTree: function () {
-        var urlMy = QK.SERVER_URL + '/api/organization'
-        var setting = {
-          data: {
-            simpleData: {
-              enable: false,
-              idKey: "id",
-              pIdKey: "orgParentId"
-            },
-            key: {
-              name: "orgName",
-              children: "organizationList",
-            }
-          },
-          view: {
-            showIcon: true,
-            showLine: false,
-          },
-          callback: {
-            onClick: onClick
-          }
-        }
-
-        function onClick(event, treeId, treeNode, clickFlag) {
-          console.log(treeNode.orgName)
-          $("#orgId").attr("value", treeNode.orgName);
-          $("#orgIdHidden").attr("value", treeNode.id);
-        }
-
-        this.baseTree(urlMy, setting)
-      },
-      baseTree: function (url, setting) {
-        var height = $(window).height()
-        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
-        $(".wdlb").css("height", (parseInt(height) - 176) + "px")
-        var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
-            zTreeObj.expandAll(true)
-          }
-        })
-      },
       init: function () {
         var that = this
         var idCardNumber = that.search.idCardNumber
