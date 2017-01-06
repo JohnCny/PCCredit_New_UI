@@ -1,5 +1,6 @@
 
 <style src='../../../static/css/sweetalert.css'></style>
+<style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
     <div class="col-sm-4">
@@ -18,7 +19,7 @@
           用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
         </header>
         <div class="panel-body">
-          <div class="row search">
+          <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>身份证：</span><input v-model="search.idCardNumber" type="text" name="idCardNumber" />
             </div>
@@ -76,83 +77,6 @@
 
 </template>
 <style scoped>
-  .tableDiv,.search,.page-bar{
-    width: 95%;
-    margin-left: 2.5%;
-  }
-  .tableDiv{
-    overflow: auto;
-  }
-  #dtUsers{
-    width:110%;
-  }
-  .search{
-    background: #d9edf7;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    color: #767676;
-    padding-bottom:10px;
-    padding-top:10px;
-  }
-  .search input{
-    display: inline-block;
-    padding:4px;
-    line-height: 20px;
-    width:120px;
-    border : 1px solid #ccc;
-    border-radius: 4px;
-  }
-  .search div{
-    margin-bottom:10px;
-  }
-  .hide {
-    display: none;
-  }
-
-  ul, li {
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .page-bar li {
-    list-style: none;
-    display: inline-block;
-  }
-
-  .page-bar li:first-child > a {
-    margin-left: 0px
-  }
-
-  .page-bar a {
-    border: 1px solid #ddd;
-    text-decoration: none;
-    position: relative;
-    float: left;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #337ab7;
-    cursor: pointer
-  }
-
-  .page-bar a:hover {
-    background-color: #eee;
-  }
-
-  .page-bar .active a {
-    color: #fff;
-    cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
-  }
-
-  .page-bar i {
-    font-style: normal;
-    color: #d44950;
-    margin: 0px 4px;
-    font-size: 12px;
-  }
-
 </style>
 <script>
     import QK from '../../QK'
