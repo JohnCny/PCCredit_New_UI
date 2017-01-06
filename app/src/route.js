@@ -2,6 +2,10 @@
  * Created by zhangzhan on 2017/1/3.
  */
 /************************
+ * 测试
+ * ***********************/
+import Test from './components/user/index.vue'
+/************************
  * 单独页面
  * ***********************/
 import Login from './components/Login.vue'
@@ -32,7 +36,9 @@ import CusShow from './components/customer/show.vue'//客户信息展示
 /************************
  * 系统管理
  * ***********************/
-import UserChangePass from './components/user/changePass.vue'//用户列表
+import UserChangePass from './components/user/changePass.vue'//修改密码
+import ForgetPass from './components/user/forgetPass.vue'//忘记密码
+
 
 /************************
  * 用户管理
@@ -74,6 +80,9 @@ export default {
   // },
   '/login': {
     component: Login
+  },
+  '/forgetPass': { //忘记密码
+    component: ForgetPass
   },
   '/error/:errcode':{
     component: Error

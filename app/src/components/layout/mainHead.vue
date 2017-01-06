@@ -6,9 +6,9 @@
     <!--侧导航开关 end-->
 
     <!--顶部搜索 start-->
-    <!--<div class="searchform">-->
-      <!--<input type="text" class="form-control" name="keyword" placeholder="请输入···"/>-->
-    <!--</div>-->
+    <div class="searchform">
+      <input type="text" class="form-control" name="keyword" placeholder="请输入···"/>
+    </div>
     <!--顶部搜索 end-->
 
     <!--消息通知 menu start -->

@@ -201,7 +201,7 @@
             })
             //验证结果  true  false
             if(bool){
-              that.$http.put(QK.SERVER_URL+'/api/user', that.user, true).then(function (data) {
+              that.$http.post(QK.SERVER_URL+'/api/user', that.user, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
