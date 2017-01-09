@@ -143,13 +143,14 @@ export default {
       },
       /*end---客户经理级别信息---end*/
 
+      /*start---客户---start*/
       '/customer/list': {//客户列表
         component: Customer
       },
       '/customer/new': {//新建客户
         component: CustomerNew
       },
-      '/customer/edit': {//编辑客户
+      '/customer/edit/:id': {//编辑客户
         component: CustomerEdit
       },
       '/customer/mainList':{//客户维护列表
@@ -158,7 +159,7 @@ export default {
       '/customer/mainNew': {//新增客户维护
         component: MainNew
       },
-      '/customer/mainRecord': {//客户维护记录
+      '/customer/mainRecord/:id': {//客户维护记录
         component: MainRecord
       },
       '/customer/transfer': {//移交客户
