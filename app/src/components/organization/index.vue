@@ -167,7 +167,7 @@
                       type: "success"
                     },
                     function () {
-                      that.$http.delete(QK.SERVER_URL+'/api/organization'+id).then(function (data) {
+                      that.$http.delete(QK.SERVER_URL+'/api/organization/'+id).then(function (data) {
                         var data = jQuery.parseJSON(data.body)
                         var result = QK.getStateCode(that,data.code)
                         if (result.state) {
