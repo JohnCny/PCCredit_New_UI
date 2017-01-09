@@ -6,6 +6,7 @@
           客户维护
         </header>
         <form class="form-horizontal" role="form"  @submit.prevent="handleSubmit" id="form_customerMain_new">
+          <input type="hidden" name="id" id="id" v-model="tCustomerMaintenance.id" />
           <div class="form-group" style="margin-top:30px;">
             <label for="maintenanceType" class="col-sm-2 control-label">维护类型</label>
             <div class="col-sm-10" style="width:45%">
@@ -53,6 +54,7 @@
         data:function(){
              return {
                tCustomerMaintenance:{
+                id: '143',
                 maintenanceType: '',
                 maintennaceSummary: '',
              },
@@ -84,7 +86,11 @@
            if (bool) {
             //发送请求
                 var tCustomerMaintenance = that.tCustomerMaintenance
-                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance', tCustomerMaintenance, true).then(function (data) {
+                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',{
+                id: that.tCustomerMaintenance.id,
+                maintenanceType: that.tCustomerMaintenance.maintenanceType,
+                maintennaceSummary: that.tCustomerMaintenance.maintennaceSummary
+                }, tCustomerMaintenance, true).then(function (data) {
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
