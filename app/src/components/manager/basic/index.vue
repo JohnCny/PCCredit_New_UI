@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          客户经理列表 
+          客户经理列表
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -85,9 +85,9 @@
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
-          idCardNumber: '',
-          orgId: '',
-          username: '',
+          employeeNumber: '',
+          levelId: '',
+          userCname: '',
         }
       }
     },
@@ -135,9 +135,12 @@
         var employeeNumber = that.search.employeeNumber
         var levelId = that.search.levelId
         var userCname = that.search.userCname
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&employeeNumber=' + employeeNumber + '&&levelId=' + levelId + '&&userCname=' + userCname
-        console.log(search)
-        that.$http.get(QK.SERVER_URL + '/api/customerManager/pageList?' + search, true).then(function (res) {
+        var searchAll = {
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage,
+          pageSearch : JSON.stringify(that.search)
+        }
+        that.$http.post(QK.SERVER_URL + '/api/customerManager/pageList',searchAll, true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
