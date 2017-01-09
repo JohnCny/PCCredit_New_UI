@@ -31,7 +31,7 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.cname}</td>
+                <td><a href="javascript:;" v-on:click="show(info.id)">${info.cname}</a></td>
                 <td>${info.sex}</td>
                 <td>${info.tel}</td>
                 <td>${info.certificateNumber}</td>
@@ -150,6 +150,12 @@
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/customer/edit' + id})
+      },
+      show: function(id){
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/customer/show/' + id})
       },
       deleteInfo: function (id) {
         var that = this
