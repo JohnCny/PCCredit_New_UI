@@ -1,51 +1,48 @@
-<style src='../../../static/css/sweetalert.css'></style>
-<style src='../../../static/css/pageStyle.css'></style>
+<style src='../../../../static/css/sweetalert.css'></style>
+<style src='../../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-3">
-      <org-tree></org-tree>
-    </div>
-    <div class="col-sm-9">
+    <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
+          客户经理列表 
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>身份证：</span><input v-model="search.idCardNumber" type="text" name="idCardNumber"/>
+              <span>员工编号：</span><input v-model="search.employeeNumber" type="text" name="employeeNumber"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>机&nbsp;&nbsp;&nbsp;&nbsp;构：</span><input v-model="search.orgId" type="text" name="orgId"/>
+              <span>级别ID：</span><input v-model="search.levelId" type="text" name="levelId"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>用户名：</span><input v-model="search.username" type="text" name="username"/>
+              <span>用户姓名：</span><input v-model="search.userCname" type="text" name="userCname"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
-            <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
+            <table class="table table-striped table-bordered table-hover order-column" id="dtManager">
               <thead>
               <tr>
                 <th>编号</th>
-                <th>用户名</th>
-                <th>性别</th>
-                <th>手机号码</th>
+                <th>用户姓名</th>
+                <th>客户经理状态</th>
+                <th>级别</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.id}</td>
+                <td>${info.employeeNumber}</td>
                 <td>${info.userCname}</td>
-                <td>${info.sex | reSex}</td>
-                <td>${info.tel}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                <td>${info.managerStatus}</td>
+                <td>${info.levelName}</td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.userId)" class="btn btn-info btn-xs"><i
                   class="fa fa-edit"></i>
                   编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
+                <td><a v-on:click="deleteInfo(info.userId)" title="删除" class="btn btn-danger btn-xs"><i
                   class="fa fa-eraser"></i> 删除
                 </a></td>
 
@@ -54,15 +51,15 @@
             </table>
           </div>
           <div class="page-bar">
-          <ul>
-            <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-            <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
-              <a v-on:click="pageChange(index)">${index}</a>
-            </li>
-            <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
-            <li><a>共<i>${totlepage}</i>页</a></li>
-          </ul>
-        </div>
+            <ul>
+              <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
+              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+                <a v-on:click="pageChange(index)">${index}</a>
+              </li>
+              <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
+              <li><a>共<i>${totlepage}</i>页</a></li>
+            </ul>
+          </div>
         </div>
       </section>
     </div>
@@ -71,25 +68,18 @@
 <style scoped>
 </style>
 <script>
-  import QK from '../../QK'
+  import QK from '../../../QK'
   import swal from 'sweetalert'
-  import ztree from 'ztree'
-  import OrgTree from '../tree/orgTree.vue'
   export default{
     data: function () {
       return {
         infos: {
-          id: '',
+          userId: '',
           userCname: '',
-          username: '',
-          sex: '',
-          age: '',
-          tel: '',
-          status: '',
-          idCardNumber: '',
-          roleId: '',
-          email: '',
-          orgId: '1',
+          systemLevel: '',
+          employeeNumber: '',
+          levelName: '',
+          managerStatus: '',
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
@@ -102,7 +92,7 @@
       }
     },
     components: {
-      OrgTree
+
     },
     ready: function () {
       this.init()
@@ -142,12 +132,12 @@
     methods: {
       init: function () {
         var that = this
-        var idCardNumber = that.search.idCardNumber
-        var orgId = that.search.orgId
-        var username = that.search.username
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&idCardNumber=' + idCardNumber + '&&orgId=' + orgId + '&&username=' + username
+        var employeeNumber = that.search.employeeNumber
+        var levelId = that.search.levelId
+        var userCname = that.search.userCname
+        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&employeeNumber=' + employeeNumber + '&&levelId=' + levelId + '&&userCname=' + userCname
         console.log(search)
-        that.$http.post(QK.SERVER_URL + '/api/user/pageList?' + search, true).then(function (res) {
+        that.$http.get(QK.SERVER_URL + '/api/customerManager/pageList?' + search, true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -168,13 +158,7 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/user/edit/' + id})
-      },
-      show: function () {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/user/new'})
+        this.$router.go({path: '/system/managerBasic/edit/' + id})
       },
       deleteInfo: function (id) {
         var that = this
@@ -198,7 +182,7 @@
                   type: "success"
                 },
                 function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/user/' + id).then(function (data) {
+                  that.$http.delete(QK.SERVER_URL + '/api/customerManager/' + id).then(function (data) {
                     var data = jQuery.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {

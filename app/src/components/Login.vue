@@ -102,7 +102,6 @@
     ready: function () {
       this.loadBg()
       this.focus()
-      this.loadBg()
     },
     methods: {
        focus: function () {
@@ -128,8 +127,9 @@
                 var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
                 if(result.state){
+                  //设置缓存当前登录用户信息
+                  localStorage.user = JSON.stringify(data.data)
                   $(".registration").addClass("isHidden")
-                  console.log(data)
                   that.$router.go({path: '/system'})
                 }else{
                   that.message.msg = result.msg
