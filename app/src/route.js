@@ -65,6 +65,7 @@ import DictionaryEdit from './components/dictionary/edit.vue'//编辑数据字�
  * 系统参数
  * ***********************/
 import Parameter from './components/system/index.vue'//系统参数列表
+import ParaEdit from './components/system/edit.vue'//系统参数编辑
 
 
 /************************
@@ -191,11 +192,16 @@ export default {
       },
       /*end---角色权限管理---end*/
 
+
       /*start---系统参数---start*/
       '/parameter/list': {//系统参数列表
         component: Parameter
       },
+      '/parameter/edit/:id': {//系统参数编辑
+        component: ParaEdit
+      },
       /*end---系统参数---end*/
+
 
       /*start---数据字典---start*/
        '/dictionary/list': {//数据字典列表

@@ -27,22 +27,21 @@
         <header class="panel-heading">
           配置角色权限
         </header>
-        <div class="panel-body col-md-3">
+        <div class="panel-body">
             <div>
               <template v-for="group in authority">
-                <div>
+                <div class="col-md-3">
                ${group.groupName}:
                 <select class="form-control">
-                   <template v-for="auth in authorityList">
-                    <option  name="auth" id="auth" value="${auth.id}">${auth.authorityNameZh}</option>
+                   <template v-for="auth in group.authorityList">
+                    <option name="auth" id="auth" value="${auth.id}">${auth.authorityNameZh}</option>
                    </template>
                 </select>
                   </div>
               </template>
             </div>
-
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
                 <a type="reset" class="btn btn-default">取消</a>
               </div>
@@ -86,10 +85,8 @@
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("role", data.data.role)
-                console.log(data.data.role.roleName)
-                that.$set("authority", data.data.authority.groupName)
-                console.log(data.data.authority[0].groupName)
-                that.$set("authorityList", data.data.authority.authorityList)
+                that.$set("authority", data.data.authority)
+
               }
             })
          }
