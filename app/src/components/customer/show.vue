@@ -148,7 +148,12 @@
             <th>维护时间</th>
             <th>维护人</th>
           </tr>
-
+          <tr v-for="mainrecord in mainRecord">
+            <th><input type="radio"></th>
+            <th>${mainrecord.maintenanceType}</th>
+            <th>${mainrecord.operationTime}</th>
+            <th>${mainrecord.operationName}</th>
+          </tr>
         </table>
       </div>
     </div>
@@ -208,7 +213,13 @@
             <th>移交原因</th>
             <th>移交结果</th>
           </tr>
-
+          <tr>
+            <th>移交日期</th>
+            <th>原客户经理</th>
+            <th>移交后客户经理</th>
+            <th>移交原因</th>
+            <th>移交结果</th>
+          </tr>
         </table>
       </div>
     </div>
@@ -281,8 +292,14 @@
                 that.$set("tCustomerBasic", data.data)
               }
             })
+            that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("mainRecord", data.data)
+              }
+            })
            },
-
             setTab2:function(obj,id){
                   $(obj).parent().find("li").attr("class","")
                   $(obj).attr("class","active")
