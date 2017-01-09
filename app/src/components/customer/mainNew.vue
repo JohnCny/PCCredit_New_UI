@@ -11,8 +11,9 @@
             <div class="col-sm-10" style="width:45%">
               <div class="input-icon right">
                 <select class="form-control"  v-model="tCustomerMaintenance.maintenanceType" >
+                  <option value="">--请选择--</option>
                   <template v-for="type in maintenanceType">
-                    <option  name="maintenanceType" id="maintenanceType" value="${type.id}" checked>${type.value}</option>
+                    <option  name="maintenanceType" id="maintenanceType" value="${type.id}">${type.value}</option>
                   </template>
                 </select>
                 <div class="message">${errors.maintenanceError}</div>
@@ -30,7 +31,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10" style="margin-bottom:20px;">
-              <button id="btn_submit" class="btn btn-success">登录</button>
+              <button id="btn_submit" class="btn btn-success">确定</button>
               <a v-link={path:'/system/customer/mainList'} type="reset" class="btn btn-default">取消</a>
             </div>
           </div>
@@ -87,7 +88,7 @@
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$router.go({path:'/customer/mainList'})
+                    that.$router.go({path:'/system/customer/mainList'})
                   }
                 })
               }

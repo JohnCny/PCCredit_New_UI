@@ -124,7 +124,7 @@
 
               <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <a href="/system/customer/list" type="reset" class="btn btn-default">取消</a>
+                <a v-link={path:'/system/customer/list'}  type="reset" class="btn btn-default">取消</a>
               </div>
             </form>
           </div>
@@ -157,6 +157,10 @@
           educationDegree: '',
           native: ''
         },
+        customerIndustry:[{
+           id: '',
+           industryName: ''
+        }],
         errors: {
           sexError: '',
           certificateTypeError: '',
@@ -170,6 +174,8 @@
     },
     ready: function () {
         QK.addMethod()
+        this.init()
+        this.industry()
     },
     methods: {
        handleSubmit () {
@@ -203,6 +209,27 @@
               }
               return false
             },
+            init:function() {
+              var that = this
+              var id = that.$route.params.id
+              that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
+                var data = jQuery.parseJSON(data.body)
+                var result = QK.getStateCode(that, data.code)
+                if (result.state) {
+                  that.$set("customerBasicInfo", data.data)
+                 }
+              })
+           },
+           industry:function() {
+                var that = this;
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
+                  var data = $.parseJSON(data.body);
+                  var result = QK.getStateCode(that, data.code)
+                  if (result.state) {
+                    that.$set("customerIndustry", data.data)
+                  }
+                })
+              },
             messageCname(parent,msg){
             parent.find(".checkId").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75")
             parent.find(".message").css("color", "red").html(msg)
