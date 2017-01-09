@@ -274,7 +274,7 @@
            init:function() {
             var that = this
             var id = that.$route.params.id
-            that.$http.get(QK.SERVER_URL+' /customerBasic/'+id, true).then(function (data) {
+            that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
               var data = jQuery.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
