@@ -6,14 +6,14 @@
           填写角色信息
         </header>
         <div class="panel-body">
-          <div class="form-group" style="margin-top:30px;">
-            <label for="roleName" class="col-sm-2 control-label">角色名称</label>
-            <div class="col-sm-10" style="width:45%">
-              <div class="input-icon right">
-                <input v-model="role.roleName" id="roleName" type="text" class="form-control" name="roleName">
-              </div>
+        <div class="form-group" style="margin-top:30px;">
+          <label for="roleName" class="col-sm-2 control-label">角色名称</label>
+          <div class="col-sm-10" style="width:45%">
+            <div class="input-icon right">
+              <input v-model="role.roleName" id="roleName" type="text" class="form-control" name="roleName">
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>
@@ -28,24 +28,24 @@
           配置角色权限
         </header>
         <div class="panel-body">
-          <div>
-            <template v-for="group in authority">
-              <div class="col-md-3">
-                ${group.groupName}:
+            <div>
+              <template v-for="group in authority">
+                <div class="col-md-3">
+               ${group.groupName}:
                 <select class="form-control">
-                  <template v-for="auth in group.authorityList">
+                   <template v-for="auth in group.authorityList">
                     <option name="auth" id="auth" value="${auth.id}">${auth.authorityNameZh}</option>
-                  </template>
+                   </template>
                 </select>
-              </div>
-            </template>
-          </div>
-          <div class="row">
-            <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
-              <button id="btn_submit" class="btn btn-success">确定</button>
-              <a type="reset"  class="btn btn-default">取消</a>
+                  </div>
+              </template>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
+                <button id="btn_submit" class="btn btn-success">确定</button>
+                <a type="reset" class="btn btn-default">取消</a>
+              </div>
+            </div>
         </div>
       </section>
     </div>
@@ -86,6 +86,7 @@
               if (result.state) {
                 that.$set("role", data.data.role)
                 that.$set("authority", data.data.authority)
+
               }
             })
          }

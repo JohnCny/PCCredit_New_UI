@@ -1,10 +1,10 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-10 col-md-offset-1">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          系统参数配置浏览 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+          系统参数配置浏览
         </header>
         <div class="panel-body">
           <div class="tableDiv">
@@ -137,58 +137,9 @@
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/user/edit/'+id})
-          },
-          show: function () {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path:'/system/user/new'})
-          },
-          deleteInfo: function (id) {
-            var that = this
-            swal({
-                title: "你确定要删除这条信息吗?",
-                text: "删除无法后将无法撤销！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#EF5350",
-                confirmButtonText: "确定!",
-                cancelButtonText: "取消",
-                closeOnConfirm: false,
-                closeOnCancel: false
-              },
-              function (isConfirm) {
-                if (isConfirm) {
-                  swal({
-                      title: "删除!",
-                      text: "您的文件已被删除！",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success"
-                    },
-                    function () {
-                      that.$http.delete(QK.SERVER_URL+'/api/organization'+id).then(function (data) {
-                        var data = jQuery.parseJSON(data.body)
-                        var result = QK.getStateCode(that,data.code)
-                        if (result.state) {
-                          that.infos.$remove(that.infos.find(t => t.id === id))
-                          //document.location.reload();
-                        }
-                      }, function (error) {
-                        console.log(error)
-                      })
-                    });
-                } else {
-                  swal({
-                    title: "取消",
-                    text: "您的文件是安全的！",
-                    confirmButtonColor: "#2196F3",
-                    type: "error"
-                  });
-                }
-              });
-          },
-        }
+            this.$router.go({path:'/system/parameter/edit/'+id})
+          }
+       }
     }
 
 </script>

@@ -20,10 +20,10 @@
                   </thead>
                   <tbody>
                   <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
-                      <td ><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
+                      <td><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
                       <td>${info.maintenanceType}</td>
                       <td>${info.operationTime}</td>
-                      <td>${info.operationName}</td>
+                      <td>${info.operationName  | isEmpty}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -61,7 +61,7 @@
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4">维护人</div>
               <div class="col-md-9 col-sm-9 col-xs-8">
-                ${temptCustomerMaintenance.operationName}
+                ${temptCustomerMaintenance.operationName | isEmpty}
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
         data:function(){
              return {
               infos: [{
-                  id: '143',
+                  id: '',
                   maintenanceType: '',
                   operationTime: '',
                   operationName: ''
@@ -118,6 +118,7 @@
         },
         ready:function(){
             this.type()
+
         },
         methods:{
             type:function() {
@@ -138,13 +139,15 @@
                   var data = $.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$set("temptCustomerMaintenance", data.data)
-                    $("#message #infor").eq(index-1).show();
-                    $("#message #infor").eq(index-1).siblings().hide();
+                   console.log(data.data)
+                   that.$set("temptCustomerMaintenance", data.data[0])
+                    $("#message #infor").eq(index-1).show()
+                    $("#message #infor").eq(index-1).siblings().hide()
                     $(info).parent().find("").removeAttr("checked")
                     $(info).parent().find("label").attr("class", "radio")
                     $(info).find("input[type=radio]").attr("checked", "checked")
                     $(info).find("label").attr("class", "radio radio_a")
+
                   }
                })
             }
