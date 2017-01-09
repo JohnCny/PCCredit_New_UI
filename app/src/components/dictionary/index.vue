@@ -128,12 +128,12 @@
         methods:{
           init : function(){
             var that = this
-             var searchAll = {
-              "start" : that.currentpage,
-              "length" : that.visiblepage,
-              "search" : that.search
+            var searchAll = {
+              pageStart : that.currentpage,
+              pageLength : that.visiblepage,
+              pageSearch : JSON.stringify(that.search)
            }
-            that.$http.post(QK.SERVER_URL+'/api/dataDictionary/pageList',JSON.stringify(searchAll)).then(function(res){
+            that.$http.post(QK.SERVER_URL+'/api/dataDictionary/pageList',searchAll).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10);
               if (data.recordsTotal % 10) {

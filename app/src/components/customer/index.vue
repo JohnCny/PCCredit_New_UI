@@ -126,12 +126,11 @@
       init: function () {
         var that = this
          var searchAll = {
-          "start" : that.currentpage,
-          "length" : that.visiblepage,
-          "search" : that.search
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage,
+          pageSearch : JSON.stringify(that.search)
         }
-        var search = JSON.stringify(that.search)
-        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition',JSON.stringify(searchAll)).then(function (res) {
+        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
