@@ -212,7 +212,7 @@
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   alert("修改成功")
-                  //that.$router.go({path:"/system/user/list"})
+                  that.$router.go({path:"/system/user/list"})
                 }else{
                   alert("修改失败")
                 }

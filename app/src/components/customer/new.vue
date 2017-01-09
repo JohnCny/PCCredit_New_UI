@@ -71,7 +71,7 @@
               </div>
 
 
-                <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
+                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="homeAddress">家庭住址</label>
                   <div class="input-icon right">
                     <input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">
@@ -79,7 +79,7 @@
                   </div>
                 </div>
 
-              <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
+              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="belIndustry">所属行业</label>
                 <div class="input-icon right">
                   <select id="belIndustry" type="text" name="belIndustry" v-model="customerBasicInfo.belIndustry" class="form-control">
@@ -257,7 +257,7 @@
             if (len < 14) {
               that.messageCname($("#idNumberDiv"),msg5)
             }else {
-              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist'+certificateNumber, true).then(function (res) {
+              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist/'+certificateNumber, true).then(function (res) {
               var data = jQuery.parseJSON(res.body)
                     if (!data.data) {
                         that.messageCname($("#idNumberDiv"),msg3)

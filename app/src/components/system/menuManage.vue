@@ -1,13 +1,11 @@
 <template>
-    <div>
-        <header-component/>
-        <div>this is template body</div>
-        <other-component/>
-    </div>
+  <div class="col-sm-3">
+    <org-tree></org-tree>
+  </div>
 </template>
 <script>
-    import HeaderComponent from './components/header.vue'
-    import OtherComponent from './components/other.vue'
+     import ztree from 'ztree'
+     import OrgTree from '../tree/orgTree.vue'
     export default{
         data(){
             return{

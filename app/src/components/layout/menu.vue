@@ -41,16 +41,17 @@
         var that = this
         that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
           var data = $.parseJSON(res.body)
-          console.log(data.data.menus)
           that.menuList = data.data.menus
         }).then(function(){
           var locationUrl = window.location.href
-          var arr = locationUrl.split('#')
-          var partUrl = arr[1]
+          var partUrl = locationUrl.split('system/')[1]
           $('.sub-menu-list > li a').each(function(){
-            if($(this).data('url') == partUrl){
-              $(this).parent().addClass('active')
-              $(this).parents('.menu-list').addClass('nav-active')
+            var tempA = $(this).attr('href');
+            if(tempA.indexOf('system/')!=-1){
+              if(tempA.split('system/')[1] == partUrl){
+                $(this).parent().addClass('active')
+                $(this).parents('.menu-list').addClass('nav-active')
+              }
             }
           })
         })

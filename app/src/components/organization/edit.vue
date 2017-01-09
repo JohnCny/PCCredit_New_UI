@@ -77,7 +77,7 @@
     export default{
         data:function(){
            return {
-                user:{
+                tOrganization:{
                   orgName: '',
                   orgDirectorName: '',
                   orgLogisticsId: ''

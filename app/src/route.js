@@ -34,6 +34,9 @@ import CusShow from './components/customer/show.vue'//客户信息展示
  * ***********************/
 import ManagerBasic from './components/manager/basic/index.vue'//客户经理基本信息列表
 import ManagerBasicEdit from './components/manager/basic/edit.vue'//编辑客户经理基本信息
+import ManagerLevelNew from './components/manager/level/new.vue'//编辑客户经理级别信息
+import ManagerLevel from './components/manager/level/index.vue'//客户经理级别列表
+import ManagerLevelEdit from './components/manager/level/edit.vue'//编辑客户经理级别信息
 
 /************************
  * 系统管理
@@ -54,15 +57,25 @@ import UserEdit from './components/user/edit.vue'//新建用户
  * ***********************/
 import Permission from './components/role/index.vue'//权限列表
 import PerEdit from './components/role/edit.vue'//权限编辑
+
 /************************
  * 数据字典管理
  * ***********************/
 import Dictionary from './components/dictionary/index.vue'//数据字典列表
 import DictionaryEdit from './components/dictionary/edit.vue'//编辑数据字典
 /************************
+ *
  * 系统参数
  * ***********************/
 import Parameter from './components/system/index.vue'//系统参数列表
+import ParaEdit from './components/system/edit.vue'//系统参数编辑
+
+
+/************************
+ * 角色权限管理
+ * ***********************/
+import UserPer from './components/user/permission.vue'//角色权限管理
+import UserPerEdit from './components/user/perEdit.vue'//角色权限编辑
 
 
 /************************
@@ -118,7 +131,17 @@ export default {
         component: ManagerBasicEdit
       },
       /*end---客户经理基本信息---end*/
-
+      /*start---客户经理级别信息---start*/
+      '/managerLevel/list': { //客户经理级别列表
+        component: ManagerLevel
+      },
+      '/managerLevel/edit/:id': { //客户经理级别编辑
+        component: ManagerLevelEdit
+      },
+      '/managerLevel/new': { //客户经理级别编辑
+        component: ManagerLevelNew
+      },
+      /*end---客户经理级别信息---end*/
 
       '/customer/list': {//客户列表
         component: Customer
@@ -173,11 +196,25 @@ export default {
       /*end---权限---end*/
 
 
+      /*start---角色权限管理---start*/
+      '/user/perList': {//角色权限管理
+        component: UserPer
+      },
+      '/user/perEdit/:id': {//角色权限编辑
+        component: UserPerEdit
+      },
+      /*end---角色权限管理---end*/
+
+
       /*start---系统参数---start*/
       '/parameter/list': {//系统参数列表
         component: Parameter
       },
+      '/parameter/edit/:id': {//系统参数编辑
+        component: ParaEdit
+      },
       /*end---系统参数---end*/
+
 
       /*start---数据字典---start*/
        '/dictionary/list': {//数据字典列表
@@ -185,8 +222,10 @@ export default {
        },
        '/dictionary/edit/:id': {
          component: DictionaryEdit
-       }
+       },
       /*end---数据字典---end*/
+
+
     }
   }
 }

@@ -31,7 +31,7 @@
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10" style="margin-bottom:20px;">
               <button id="btn_submit" class="btn btn-success">登录</button>
-              <a href="/customer/mainList" type="reset" class="btn btn-default">取消</a>
+              <a v-link={path:'/system/customer/mainList'} type="reset" class="btn btn-default">取消</a>
             </div>
           </div>
         </form>
