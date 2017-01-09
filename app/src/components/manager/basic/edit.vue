@@ -21,7 +21,7 @@
                   <div class="input-icon right" style="display:inline-block;width:60%">
                     <select class="form-control" name="levelId" v-model="datas.levelId">
                       <template v-for="lever in levers">
-                        <option v-if="datas.value==infos.levelName" selected v-bind:value="lever.id">${lever.value}</option>
+                        <option v-if="infos.levelName==lever.value" selected v-bind:value="lever.id">${lever.value}</option>
                         <option v-else v-bind:value="lever.id">${lever.value}</option>
                       </template>
                     </select>

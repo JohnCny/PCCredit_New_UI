@@ -34,6 +34,9 @@ import CusShow from './components/customer/show.vue'//客户信息展示
  * ***********************/
 import ManagerBasic from './components/manager/basic/index.vue'//客户经理基本信息列表
 import ManagerBasicEdit from './components/manager/basic/edit.vue'//编辑客户经理基本信息
+import ManagerLevelNew from './components/manager/level/new.vue'//编辑客户经理级别信息
+import ManagerLevel from './components/manager/level/index.vue'//客户经理级别列表
+import ManagerLevelEdit from './components/manager/level/edit.vue'//编辑客户经理级别信息
 
 /************************
  * 系统管理
@@ -118,7 +121,17 @@ export default {
         component: ManagerBasicEdit
       },
       /*end---客户经理基本信息---end*/
-
+      /*start---客户经理级别信息---start*/
+      '/managerLevel/list': { //客户经理级别列表
+        component: ManagerLevel
+      },
+      '/managerLevel/edit/:id': { //客户经理级别编辑
+        component: ManagerLevelEdit
+      },
+      '/managerLevel/new': { //客户经理级别编辑
+        component: ManagerLevelNew
+      },
+      /*end---客户经理级别信息---end*/
 
       '/customer/list': {//客户列表
         component: Customer
