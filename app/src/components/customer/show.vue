@@ -205,7 +205,7 @@
     <div class="tabContent" id="yjjl" style="display:none;">
       <div class="report common">
         <h5>客户移交记录</h5>
-        <table class="center transferd">
+        <table class="center transferd table table-bordered">
           <tr>
             <th>移交日期</th>
             <th>原客户经理</th>
@@ -213,12 +213,12 @@
             <th>移交原因</th>
             <th>移交结果</th>
           </tr>
-          <tr>
-            <th>移交日期</th>
-            <th>原客户经理</th>
-            <th>移交后客户经理</th>
-            <th>移交原因</th>
-            <th>移交结果</th>
+          <tr v-for="transfer in transfers">
+            <th>${transfer.createTime}</th>
+            <th>${transfer.oldManager.username}</th>
+            <th>${transfer.newManager.username}</th>
+            <th>${transfer.transferReason}</th>
+            <th>${transfer.transferStatus}</th>
           </tr>
         </table>
       </div>
@@ -297,6 +297,13 @@
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("mainRecord", data.data)
+              }
+            })
+             that.$http.get(QK.SERVER_URL+'/api/customerTransfer/'+id, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("transfers", data.data)
               }
             })
            },
