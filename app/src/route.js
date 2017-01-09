@@ -157,7 +157,7 @@ export default {
       '/customer/accept': {//客户接收
         component: CusAccpet
       },
-      '/customer/show': {//客户信息展示
+      '/customer/show/:id': {//客户信息展示
         component: CusShow
       },
       /*end---客户---end*/

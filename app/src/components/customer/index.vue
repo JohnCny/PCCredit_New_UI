@@ -28,13 +28,13 @@
                   </thead>
                   <tbody>
                   <tr v-for="info in infos">
-                    <td>${info.cname}</td>
+                    <td><a v-on:click="showInfo(info.id)">${info.cname}</a></td>
                     <td>${info.sex}</td>
                     <td>${info.tel}</td>
                     <td>${info.certificateNumber}</td>
                     <td>${info.createTime}</td>
-                    <td><a class="btn btn-outline dark btn-xs blue"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
-                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete"><i
+                    <td><a class="btn btn-outline dark btn-xs btn-info"><i class="glyphicon glyphicon-pencil"></i> 编辑 </a></td>
+                    <td><a title="删除" class="btn btn-outline dark btn-xs red delete btn-warning"><i
                       class="glyphicon glyphicon-trash"></i> 删除 </a></td>
                   </tr>
                   </tbody>
@@ -77,6 +77,12 @@
             that.$set("infos", data.data)
           }
         })
+      },
+      showInfo : function(id){
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/customer/show/' + id})
       }
     }
   }
