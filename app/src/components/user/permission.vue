@@ -1,7 +1,7 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-10 col-md-offset-1">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
           角色列表 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
@@ -11,19 +11,13 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>角色名</th>
-                <th>中文名</th>
-                <th>角色状态</th>
-                <th>角色描述</th>
+                <th>角色名称</th>
                 <th>操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.roleName}</td>
-                <td>${info.roleNameZh}</td>
-                <td>${info.roleStatus}</td>
-                <td>${info.roleDescription}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
               </tr>
@@ -56,9 +50,7 @@
            return {
                 infos:{
                   id: '',
-                  orgName: '',
-                  orgDirectorName: '',
-                  orgLogisticsId: ''
+                  roleName: '',
                 },
                 currentpage: 1,//第几页
                 totlepage: '',//共几页
@@ -103,7 +95,7 @@
         methods:{
           init : function(){
             var that = this
-            that.$http.get(QK.SERVER_URL+'/api/role/pageList', true).then(function(res){
+            that.$http.post(QK.SERVER_URL+'/api/role/pageList', true).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10);
               if (data.recordsTotal % 10) {
@@ -124,58 +116,9 @@
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/user/edit/'+id})
-          },
-          show: function () {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path:'/system/user/new'})
-          },
-          deleteInfo: function (id) {
-            var that = this
-            swal({
-                title: "你确定要删除这条信息吗?",
-                text: "删除无法后将无法撤销！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#EF5350",
-                confirmButtonText: "确定!",
-                cancelButtonText: "取消",
-                closeOnConfirm: false,
-                closeOnCancel: false
-              },
-              function (isConfirm) {
-                if (isConfirm) {
-                  swal({
-                      title: "删除!",
-                      text: "您的文件已被删除！",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success"
-                    },
-                    function () {
-                      that.$http.delete(QK.SERVER_URL+'/api/organization'+id).then(function (data) {
-                        var data = jQuery.parseJSON(data.body)
-                        var result = QK.getStateCode(that,data.code)
-                        if (result.state) {
-                          that.infos.$remove(that.infos.find(t => t.id === id))
-                          //document.location.reload();
-                        }
-                      }, function (error) {
-                        console.log(error)
-                      })
-                    });
-                } else {
-                  swal({
-                    title: "取消",
-                    text: "您的文件是安全的！",
-                    confirmButtonColor: "#2196F3",
-                    type: "error"
-                  });
-                }
-              });
-          },
-        }
+            this.$router.go({path:'/system/user/perEdit/'+id})
+          }
+       }
     }
 
 </script>

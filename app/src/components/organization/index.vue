@@ -2,20 +2,21 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <section class="panel">
         <header class="panel-heading">
           机构列表
         </header>
         <div class="panel-body">
-
+          <org-tree></org-tree>
         </div>
       </section>
     </div>
-    <div class="col-sm-8">
+
+    <div class="col-sm-9">
       <section class="panel">
         <header class="panel-heading">
-          机构信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+          机构信息 <a v-on:click="show()" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
         </header>
         <div class="panel-body">
           <div class="tableDiv">
@@ -37,20 +38,9 @@
                   编辑 </a></td>
                 <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
                 </a></td>
-
               </tr>
               </tbody>
             </table>
-          </div>
-          <div class="page-bar">
-            <ul>
-              <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
-                <a v-on:click="pageChange(index)">${index}</a>
-              </li>
-              <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
-              <li><a>共<i>${totlepage}</i>页</a></li>
-            </ul>
           </div>
         </div>
       </section>
@@ -64,6 +54,8 @@
 <script>
     import QK from '../../QK'
     import swal from 'sweetalert'
+    import ztree from 'ztree'
+    import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
            return {
@@ -73,66 +65,70 @@
                   orgDirectorName: '',
                   orgLogisticsId: ''
                 },
-                currentpage: 1,//第几页
-                totlepage: '',//共几页
-                visiblepage: 10//隐藏10页
            }
+        },
+         components: {
+           OrgTree
         },
         ready:function(){
           this.init();
         },
-        computed: {
-          pagenums: function () {
-            //初始化前后页边界
-            var lowPage = 1;
-            var highPage = this.totlepage;
-            var pageArr = [];
-            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2);
-              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage;
-                highPage = this.currentpage + subVisiblePage - 1;
-              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1;
-                highPage = this.visiblepage;
-              } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1;
-                highPage = this.totlepage;
-              }
-            }
-            //确定了上下page边界后，要准备压入数组中了
-            while (lowPage <= highPage) {
-              pageArr.push(lowPage);
-              lowPage++;
-            }
-            return pageArr;
-          },
-        },
-        watch: {
-          currentpage: function (oldValue, newValue) {
-            this.init()
-          }
-        },
         methods:{
-          init : function(){
-            var that = this
-            that.$http.get(QK.SERVER_URL+'/api/organization', true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10);
-              if (data.recordsTotal % 10) {
-                page = page + 1;
+          showTree: function () {
+            var urlMy = QK.SERVER_URL + '/api/organization'
+            var setting = {
+              data: {
+                simpleData: {
+                  enable: false,
+                  idKey: "id",
+                  pIdKey: "orgParentId"
+                },
+                key: {
+                  name: "orgName",
+                  children: "organizationList",
+                }
+              },
+              view: {
+                showIcon: true,
+                showLine: false,
+              },
+              callback: {
+                onClick: onClick
               }
-              that.$set('totlepage', page)
-              that.$set('infos', data.data)
+            }
+
+            function onClick(event, treeId, treeNode, clickFlag) {
+              console.log(treeNode.orgName)
+              $("#orgId").attr("value", treeNode.orgName);
+              $("#orgIdHidden").attr("value", treeNode.id);
+            }
+
+            this.baseTree(urlMy, setting)
+          },
+          baseTree: function (url, setting) {
+            var height = $(window).height()
+            $(".treeBox").css("height", (parseInt(height) - 170) + "px")
+            $(".wdlb").css("height", (parseInt(height) - 176) + "px")
+            var zTreeObj
+            $.ajax({
+              type: 'GET',
+              url: url,
+              success: function (res) {
+                zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+                zTreeObj.expandAll(true)
+              }
             })
           },
-          pageChange: function (page) {
-            page = page || 1
+          init:function() {
             var that = this
-            if (that.currentpage != page) {
-              that.currentpage = page
-            }
-          },
+            that.$http.get(QK.SERVER_URL+'/api/organization', true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("infos", data.data)
+              }
+           })
+        },
           showInfo:function (id) {
             //记录当前地址
             QK.noteNowUrl()

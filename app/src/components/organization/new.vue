@@ -67,7 +67,7 @@
     export default{
         data:function(){
            return {
-                user:{
+                tOrganization:{
                   orgName: '',
                   orgDirectorName: '',
                   orgLogisticsId: ''
@@ -80,7 +80,6 @@
            }
         },
         ready:function(){
-          this.init()
           QK.addMethod()
         },
         methods:{
