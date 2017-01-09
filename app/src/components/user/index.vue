@@ -89,15 +89,15 @@
           idCardNumber: '',
           roleId: '',
           email: '',
-          orgId: '1',
+          orgId: '1'
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
           idCardNumber: '',
-          orgId: '',
-          username: '',
+          orgId: '1',
+          username: ''
         }
       }
     },
@@ -142,12 +142,13 @@
     methods: {
       init: function () {
         var that = this
-        var idCardNumber = that.search.idCardNumber
-        var orgId = that.search.orgId
-        var username = that.search.username
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&idCardNumber=' + idCardNumber + '&&orgId=' + orgId + '&&username=' + username
-        console.log(search)
-        that.$http.get(QK.SERVER_URL + '/api/user/pageList?' + search, true).then(function (res) {
+        var searchAll = {
+          "start" : that.currentpage,
+          "length" : that.visiblepage,
+          "search" : that.search
+        }
+        var search = JSON.stringify(that.search)
+        that.$http.post(QK.SERVER_URL + '/api/user/pageList',JSON.stringify(searchAll)).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {

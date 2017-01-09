@@ -257,7 +257,7 @@
             if (len < 14) {
               that.messageCname($("#idNumberDiv"),msg5)
             }else {
-              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist'+certificateNumber, true).then(function (res) {
+              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist/'+certificateNumber, true).then(function (res) {
               var data = jQuery.parseJSON(res.body)
                     if (!data.data) {
                         that.messageCname($("#idNumberDiv"),msg3)
