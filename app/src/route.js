@@ -52,15 +52,24 @@ import UserEdit from './components/user/edit.vue'//新建用户
  * ***********************/
 import Permission from './components/role/index.vue'//权限列表
 import PerEdit from './components/role/edit.vue'//权限编辑
+
 /************************
  * 数据字典管理
  * ***********************/
 import Dictionary from './components/dictionary/index.vue'//数据字典列表
 import DictionaryEdit from './components/dictionary/edit.vue'//编辑数据字典
 /************************
+ *
  * 系统参数
  * ***********************/
 import Parameter from './components/system/index.vue'//系统参数列表
+
+
+/************************
+ * 角色权限管理
+ * ***********************/
+import UserPer from './components/user/permission.vue'//角色权限管理
+import UserPerEdit from './components/user/perEdit.vue'//角色权限编辑
 
 
 /************************
@@ -162,6 +171,15 @@ export default {
       /*end---权限---end*/
 
 
+      /*start---角色权限管理---start*/
+      '/user/perList': {//角色权限管理
+        component: UserPer
+      },
+      '/user/perEdit/:id': {//角色权限编辑
+        component: UserPerEdit
+      },
+      /*end---角色权限管理---end*/
+
       /*start---系统参数---start*/
       '/parameter/list': {//系统参数列表
         component: Parameter
@@ -174,8 +192,10 @@ export default {
        },
        '/dictionary/edit/:id': {
          component: DictionaryEdit
-       }
+       },
       /*end---数据字典---end*/
+
+
     }
   }
 }

@@ -20,7 +20,7 @@
                   </thead>
                   <tbody>
                   <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
-                      <td ><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
+                      <td><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
                       <td>${info.maintenanceType}</td>
                       <td>${info.operationTime}</td>
                       <td>${info.operationName}</td>
@@ -103,7 +103,7 @@
         data:function(){
              return {
               infos: [{
-                  id: '143',
+                  id: '',
                   maintenanceType: '',
                   operationTime: '',
                   operationName: ''
@@ -118,12 +118,13 @@
         },
         ready:function(){
             this.type()
+
         },
         methods:{
             type:function() {
                 var that = this
-                var id = that.$route.params.id
-                that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
+                //var id = that.$route.params.id
+                that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+143, true).then(function (data) {
                   var data = $.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -133,11 +134,14 @@
             },
             showInfo:function(info,index){
                 var that = this
-                var id = info.id
-                that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
+                //var id = info.id
+                that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+143, true).then(function (data) {
+
                   var data = $.parseJSON(data.body)
+                  console.log(data.data.operationName)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
+
                     that.$set("temptCustomerMaintenance", data.data)
                     $("#message #infor").eq(index-1).show();
                     $("#message #infor").eq(index-1).siblings().hide();

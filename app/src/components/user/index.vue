@@ -61,15 +61,15 @@
             </table>
           </div>
           <div class="page-bar">
-            <ul>
-              <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
-                <a v-on:click="pageChange(index)">${index}</a>
-              </li>
-              <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
-              <li><a>共<i>${totlepage}</i>页</a></li>
-            </ul>
-          </div>
+          <ul>
+            <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
+            <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+              <a v-on:click="pageChange(index)">${index}</a>
+            </li>
+            <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
+            <li><a>共<i>${totlepage}</i>页</a></li>
+          </ul>
+        </div>
         </div>
       </section>
     </div>
@@ -200,7 +200,7 @@
         var username = that.search.username
         var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&idCardNumber=' + idCardNumber + '&&orgId=' + orgId + '&&username=' + username
         console.log(search)
-        that.$http.get(QK.SERVER_URL + '/api/user/pageList?' + search, true).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/user/pageList?' + search, true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
