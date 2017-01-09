@@ -116,10 +116,7 @@
         methods:{
           init : function(){
             var that = this
-            var cname = that.search.cname
-            var certificateNumber = that.search.certificateNumber
-            var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&cname=' + cname + '&&certificateNumber=' + certificateNumber
-            that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/condition?'+search, true).then(function(res){
+            that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/condition', true).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10);
               if (data.recordsTotal % 10) {

@@ -66,6 +66,7 @@
 </style>
 <script>
   import QK from '../../QK.js'
+  import swal from 'sweetalert'
   export default{
     data: function () {
       return {
@@ -124,11 +125,13 @@
     methods: {
       init: function () {
         var that = this
-        var cname = that.search.cname
-        var certificateNumber = that.search.certificateNumber
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&cname=' + cname + '&&certificateNumber=' + certificateNumber
-        console.log(search)
-        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition?' + search, true).then(function (res) {
+         var searchAll = {
+          "start" : that.currentpage,
+          "length" : that.visiblepage,
+          "search" : that.search
+        }
+        var search = JSON.stringify(that.search)
+        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition',JSON.stringify(searchAll)).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -149,7 +152,7 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/customer/edit' + id})
+        this.$router.go({path: '/system/customer/edit/' + id})
       },
       show: function(id){
         //记录当前地址
