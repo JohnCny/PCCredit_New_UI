@@ -214,7 +214,7 @@
             <th>移交结果</th>
           </tr>
           <tr v-for="transfer in transfers">
-            <th>${transfer.createTime}</th>
+            <th>${transfer.transferTime}</th>
             <th>${transfer.oldManager.username}</th>
             <th>${transfer.newManager.username}</th>
             <th>${transfer.transferReason}</th>
@@ -247,7 +247,6 @@
         .report table tr:nth-child(2n){background:#f7f7f7;}
         .report table tr th{border-bottom: 2px solid #ddd;color: #7a7676;font-size:14px;line-height:35px;}
         .report table tr td{border-bottom: 1px solid #ddd;color: #7a7676;text-align:center;font-size:14px;line-height:35px;}
-
         /*新增报销*/
         .common table{background: #f7f7f7;padding:0 20px;}
         .common table tr th{border-bottom:0;text-align:left;line-height:45px;}
