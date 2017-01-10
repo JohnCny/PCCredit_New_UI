@@ -1,10 +1,10 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-10 col-md-offset-1">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          角色列表 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+          角色列表
         </header>
         <div class="panel-body">
           <div class="tableDiv">

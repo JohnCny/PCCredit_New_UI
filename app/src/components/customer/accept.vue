@@ -1,7 +1,7 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
           客户接收

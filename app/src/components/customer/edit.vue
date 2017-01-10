@@ -184,8 +184,8 @@
           id: "#form_customer_edit",
           rulesMap: {
             cname: {required: !0, isChinese: !0},
-            sex: {required: !0, downList: !0},
-            certificateType: {required: !0},
+            sex: {required: !0},
+            certificateType: {required: !0, downList: !0},
             certificateNumber: {required: !0, isIdCardNo: !0},
             homeAddress: {required: !0, isHomeAddress: !0},
             tel: {required: !0, tel: !0},
@@ -245,9 +245,9 @@
             if (len < 14) {
               that.messageCname($("#idNumberDiv"),msg5)
             }else {
-              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist'+certificateNumber, true).then(function (res) {
+              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist?identityCard='+certificateNumber, true).then(function (res) {
               var data = jQuery.parseJSON(res.body)
-                    if (!data.data) {
+                    if (data.data) {
                         that.messageCname($("#idNumberDiv"),msg3)
                     } else {
                         $("#idNumberDiv").find("div.message").css("color", "#32c5d2").html(msg4)

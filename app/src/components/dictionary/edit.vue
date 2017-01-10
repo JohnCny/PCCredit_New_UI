@@ -100,10 +100,10 @@
             var bool = QK.formValidation({
               id: "#dict_edit",
               rulesMap:{
-                dataType:{required: !0,isRightfulString:!0},
-                dataCode:{required: !0,isChinese:!0},
+                dataType:{required: !0},
+                dataCode:{required: !0},
                 dataName:{required: !0},
-                bankCode:{required:!0,downList:!0}
+                bankCode:{required:!0}
                 }
             })
             //验证结果  true  false

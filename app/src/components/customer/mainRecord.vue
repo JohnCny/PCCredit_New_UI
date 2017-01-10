@@ -22,7 +22,7 @@
                   <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
                       <td><span class="hideInput"><input type="radio" name="radio0"><label class="radio"></label></span></td>
                       <td>${info.maintenanceType}</td>
-                      <td>${info.operationTime}</td>
+                      <td>${info.operationTime | formatDate}</td>
                       <td>${info.operationName  | isEmpty}</td>
                   </tr>
                   </tbody>
@@ -36,15 +36,16 @@
   </div>
 
   <div id="message">
-      <div class="report common" style="display:none" id="infor">
+      <div style="display:none" id="infor">
         <section class="panel">
           <header class="panel-heading">
             客户维护信息
           </header>
+          <div class="panel-body">
           <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4">维护类型</div>
-              <div class="col-md-9 col-sm-9 col-xs-8">
+              <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;">
                 ${temptCustomerMaintenance.maintenanceType}
               </div>
             </div>
@@ -52,15 +53,15 @@
           <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4">维护时间</div>
-              <div class="col-md-9 col-sm-9 col-xs-8">
-                ${temptCustomerMaintenance.operationTime}
+              <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;">
+                ${temptCustomerMaintenance.operationTime | formatDate}
               </div>
             </div>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4">维护人</div>
-              <div class="col-md-9 col-sm-9 col-xs-8">
+              <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;">
                 ${temptCustomerMaintenance.operationName | isEmpty}
               </div>
             </div>
@@ -68,10 +69,11 @@
           <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4">维护纪要</div>
-              <div class="col-md-9 col-sm-9 col-xs-8">
+              <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;">
                 ${temptCustomerMaintenance.maintennaceSummary}
               </div>
             </div>
+          </div>
           </div>
         </section>
       </div>
@@ -143,10 +145,6 @@
                    that.$set("temptCustomerMaintenance", data.data[0])
                     $("#message #infor").eq(index-1).show()
                     $("#message #infor").eq(index-1).siblings().hide()
-                    $(info).parent().find("").removeAttr("checked")
-                    $(info).parent().find("label").attr("class", "radio")
-                    $(info).find("input[type=radio]").attr("checked", "checked")
-                    $(info).find("label").attr("class", "radio radio_a")
 
                   }
                })

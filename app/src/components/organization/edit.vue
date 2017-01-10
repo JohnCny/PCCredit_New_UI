@@ -100,7 +100,7 @@
               id: "#org_edit",
               rulesMap:{
                 orgName:{required: !0,isRightfulString:!0},
-                orgDirectorName:{required: !0,isChinese:!0},
+                orgDirectorName:{required: !0},
                 orgLogisticsId:{required: !0}
               }
             })
