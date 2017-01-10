@@ -6,7 +6,7 @@
           编辑机构
         </header>
         <div class="panel-body">
-
+          <org-tree></org-tree>
         </div>
       </section>
     </div>
@@ -151,6 +151,8 @@
 <script>
     import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
+    import ztree from 'ztree'
+    import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
            return {
@@ -186,6 +188,9 @@
         ready:function(){
           this.init()
           QK.addMethod()
+        },
+        components: {
+          OrgTree
         },
         methods:{
         handleSubmit () {

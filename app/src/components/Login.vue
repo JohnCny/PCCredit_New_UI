@@ -131,6 +131,7 @@
                   localStorage.user = JSON.stringify(data.data)
                   $(".registration").addClass("isHidden")
                   that.$router.go({path: '/system'})
+                 // $('body').css({'background':'#424f63'})
                 }else{
                   that.message.msg = result.msg
                   that.message.errorImg = '/static/images/error1.png'

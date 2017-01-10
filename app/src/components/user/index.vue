@@ -2,10 +2,10 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <org-tree></org-tree>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <section class="panel">
         <header class="panel-heading">
           用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
@@ -147,6 +147,7 @@
           pageLength : that.visiblepage,
           pageSearch : JSON.stringify(that.search)
         }
+        //var searchAll = "pageStart="+that.currentpage+"&&pageLength="+that.visiblepage+"&&pageSearch="+JSON.stringify(that.search)
         that.$http.post(QK.SERVER_URL + '/api/user/pageList',searchAll,true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);

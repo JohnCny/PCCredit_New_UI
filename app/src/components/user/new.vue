@@ -138,6 +138,7 @@
 <script>
     import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
+    import ztree from 'ztree'
     import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
@@ -174,6 +175,9 @@
         ready:function(){
           this.init()
           QK.addMethod()
+        },
+        components: {
+          OrgTree
         },
         methods:{
         handleSubmit () {
