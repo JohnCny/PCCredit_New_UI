@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div id="message">
+  <div id="message" class="row">
       <div class="report common" style="display:none" id="infor">
         <section class="panel">
           <header class="panel-heading">
