@@ -8,7 +8,6 @@
         <div class="panel-body">
           <div class="table-responsive">
             <form id="para_edit" @submit.prevent="handleSubmit">
-
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="parameterName">参数名称</label>
                 <div class="input-icon right">
@@ -94,11 +93,15 @@
            if (bool) {
             //发送请求
                 var tSysParameter = that.tSysParameter
+                delete tSysParameter["createBy"]
+                delete tSysParameter["createTime"]
+                delete tSysParameter["modifyBy"]
+                delete tSysParameter["modifyTime"]
                 that.$http.put(QK.SERVER_URL+'/api/system', tSysParameter, true).then(function (data) {
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    that.$router.go({path:'/system/parameter/list'})
+                   that.$router.go({path:'/system/parameter/list'})
                   }
                 })
               }

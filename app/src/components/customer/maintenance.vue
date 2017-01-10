@@ -33,7 +33,7 @@
                 <td>${info.cname}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.tel}</td>
-                <td><a href="javascript:;" v-on:click="show()" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
+                <td><a href="javascript:;" v-on:click="show(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   新增维护记录 </a></td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
@@ -144,11 +144,11 @@
             //跳转地址
             this.$router.go({path:'/system/customer/mainRecord/'+id})
           },
-          show:function () {
+          show:function (id) {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/customer/mainNew'})
+            this.$router.go({path:'/system/customer/mainNew/'+id})
           }
     }
   }
