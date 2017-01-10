@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                   <button id="btn_submit" class="btn btn-success">确定</button>
-                  <a href="/system/customer/list" type="reset" class="btn btn-default">取消</a>
+                  <a v-link={path:'/system/customer/list'} type="reset" class="btn btn-default">取消</a>
                 </div>
               <!--</template>-->
             </form>
@@ -242,7 +242,7 @@
                   }
                 })
               },
-            messageCname(parent,msg){
+          messageCname(parent,msg){
             parent.find(".checkId").removeClass("fa-check").addClass("fa-warning").css("color", "#ed6b75")
             parent.find(".message").css("color", "red").html(msg)
             $("#btn_submit").attr("disabled", "true")
@@ -257,9 +257,9 @@
             if (len < 14) {
               that.messageCname($("#idNumberDiv"),msg5)
             }else {
-              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist'+certificateNumber, true).then(function (res) {
+              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist?identityCard='+certificateNumber, true).then(function (res) {
               var data = jQuery.parseJSON(res.body)
-                    if (!data.data) {
+                    if (data.data) {
                         that.messageCname($("#idNumberDiv"),msg3)
                     } else {
                         $("#idNumberDiv").find("div.message").css("color", "#32c5d2").html(msg4)

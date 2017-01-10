@@ -7,12 +7,17 @@
     components: {
       Index
     },
+    route: {
+      canReuse: function () {
+        return false
+      }
+    },
     ready: function () {
       this.init()
     },
     methods: {
       init: function () {
-        //console.log('当前地址：' + window.location.href)
+
       }
     }
   }

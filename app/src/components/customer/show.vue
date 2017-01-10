@@ -1,7 +1,5 @@
 <template>
   <form class="content">
-    <h1>查看客户信息</h1>
-    <h2>当前位置：客户管理 / 客户信息查询 / 客户1 / <span>查看客户信息</span></h2>
     <ul class="myTab">
       <li class="active" v-on:click="setTab2(this,'jbxx')">客户基本信息</li>
       <li v-on:click="setTab2(this,'dkqk')">客户贷款情况</li>
@@ -11,84 +9,107 @@
       <li v-on:click="setTab2(this,'yjjl')">客户移交记录</li>
     </ul>
     <!--*******************************************客户基本信息*******************************************************-->
+    <!--<div class="tabContent" id="jbxx">-->
+        <!--<div class="col-sm-12">-->
+          <!--<section class="panel">-->
+            <!--<header class="panel-heading">-->
+              <!--编辑客户-->
+            <!--</header>-->
+            <!--<div class="panel-body">-->
+              <!--<div class="row">-->
+              <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                <!--<div class="form-group">-->
+                  <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">客户名称</div>-->
+                  <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                    <!--${tCustomerBasic.cname}-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">性别</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.sex}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">证件类型</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--身份证-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">证件号码</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.certificateNumber}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">联系方式</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.tel}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">家庭住址</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.homeAddress}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">婚姻状况</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.marriageStatus}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
+                  <!--<div class="form-group">-->
+                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">${tCustomerBasic.文化程度}</div>-->
+                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
+                      <!--${tCustomerBasic.marriageStatus}-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+      <!--</div>-->
+            <!--</div>-->
+          <!--</section>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="tabContent" id="jbxx">
-        <div class="col-sm-12">
-          <section class="panel">
-            <header class="panel-heading">
-              编辑客户
-            </header>
-            <div class="panel-body">
-              <div class="row">
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <div class="control-label col-md-3 col-sm-3 col-xs-4">客户名称</div>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    ${tCustomerBasic.cname}
-                  </div>
-                </div>
-              </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">性别</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.sex}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">证件类型</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      身份证
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">证件号码</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.certificateNumber}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">联系方式</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.tel}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">家庭住址</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.homeAddress}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">婚姻状况</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.marriageStatus}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <div class="control-label col-md-3 col-sm-3 col-xs-4">${tCustomerBasic.文化程度}</div>
-                    <div class="col-md-9 col-sm-9 col-xs-8">
-                      ${tCustomerBasic.marriageStatus}
-                    </div>
-                  </div>
-                </div>
+      <div class="report common">
+        <h5>基本信息</h5>
+        <table class="bxd">
+          <tr>
+            <td>客户名称：<span>${tCustomerBasic.cname}</span></td>
+            <td>性别：<span>${tCustomerBasic.sex}</span></td>
+          </tr>
+          <tr>
+            <td>证件类型：<span>${tCustomerBasic.certificateType}</span></td>
+            <td>证件号码：<span>${tCustomerBasic.certificateNumber}</span></td>
+          </tr>
+          <tr>
+            <td>联系方式：<span>${tCustomerBasic.tel}</span></td>
+            <td>家庭住址：<span>${tCustomerBasic.homeAddress}</span></td>
+          </tr>
+          <tr>
+            <td>婚姻状况：<span>${tCustomerBasic.marriageStatus}</span></td>
+            <td>文化程度：<span>${tCustomerBasic.educationDegree}</span></td>
+          </tr>
+        </table>
       </div>
-            </div>
-          </section>
-        </div>
     </div>
     <!--*******************************************客户贷款情况*******************************************************-->
     <div class="tabContent" id="dkqk" style="display:none;">
@@ -127,7 +148,12 @@
             <th>维护时间</th>
             <th>维护人</th>
           </tr>
-
+          <tr v-for="mainrecord in mainRecord">
+            <th><input type="radio"></th>
+            <th>${mainrecord.maintenanceType}</th>
+            <th>${mainrecord.operationTime}</th>
+            <th>${mainrecord.operationName}</th>
+          </tr>
         </table>
       </div>
     </div>
@@ -179,7 +205,7 @@
     <div class="tabContent" id="yjjl" style="display:none;">
       <div class="report common">
         <h5>客户移交记录</h5>
-        <table class="center transferd">
+        <table class="center transferd table table-bordered">
           <tr>
             <th>移交日期</th>
             <th>原客户经理</th>
@@ -187,7 +213,13 @@
             <th>移交原因</th>
             <th>移交结果</th>
           </tr>
-
+          <tr v-for="transfer in transfers">
+            <th>${transfer.createTime}</th>
+            <th>${transfer.oldManager.username}</th>
+            <th>${transfer.newManager.username}</th>
+            <th>${transfer.transferReason}</th>
+            <th>${transfer.transferStatus}</th>
+          </tr>
         </table>
       </div>
     </div>
@@ -197,118 +229,89 @@
   </form>
 </template>
 <style scoped>
+.myTab {margin:0;}
+        .myTab li{display:inline-block;list-style:none;background:#fff;border:1px solid #eff0f4;color:#bbb;padding:7px 15px;border-radius:5px 5px 0 0;margin-right:1px;cursor:pointer;}
+        .myTab .active{color:#fff;background: #65cea7!important;border:1px solid #65cea7;}
+        .tabContent{border:1px solid #65cea7;width:98%;margin-bottom:20px;}
+        .tabPage{background:#fff;margin:0;padding-bottom:20px;}
+        .tabPage .report{width:100%;padding-bottom:30px;}
+        .tabContent .report{float:none;margin:0;padding:10px;}
+        .tabContent .report table{margin:10px;width:98%;}
+        .tabContent3{width:auto;overflow:hidden}
+        .content h1{color: #49586e;font-size: 25px;font-weight: normal;margin:5px 0;}
+        .content h2{color: #999999;font-size: 14px;font-weight: normal;margin-top:0;}
+        .content h2 span{color: #65CEA7;}
+        .report{float:left;background:#fff;border-radius:5px;width:98%;margin-bottom:20px;}
+        .report h5{border-bottom: 1px dotted #c0c0c0;border-bottom: 1px dotted rgba(0, 0, 0, 0.2);padding: 15px;text-transform: uppercase;color: #535351;font-size: 16px;font-weight: bold;}
+        .report table{width:95%;margin-top:20px;border-collapse: collapse;margin-bottom:20px;}
+        .report table tr:nth-child(2n){background:#f7f7f7;}
+        .report table tr th{border-bottom: 2px solid #ddd;color: #7a7676;font-size:14px;line-height:35px;}
+        .report table tr td{border-bottom: 1px solid #ddd;color: #7a7676;text-align:center;font-size:14px;line-height:35px;}
+
+        /*新增报销*/
+        .common table{background: #f7f7f7;padding:0 20px;}
+        .common table tr th{border-bottom:0;text-align:left;line-height:45px;}
+        .common table tr td{border-bottom:0;text-align:left;line-height:45px;}
+        .common .treeBox{margin-left:1em;}
+        .button{text-align:center;width:98%;}
+        .button input{width:90px;line-height:30px;font-family: 微软雅黑;margin:0 5px;border-radius: 5px;color: #fff;background-color: #5cb85c;border:1px solid #4cae4c;}
+        .button input:hover{background-color: #47a447;}
+        .button .del{background-color: #d9534f;border-color: #d43f3a;}
+        .button .del:hover{background-color: #d2322d;}
+        .button .back{background-color: #fff;border-color: #cccccc;color:#333359;}
+        .button .back:hover{background-color: #ebebeb;}
 </style>
 <script>
     import QK from '../../QK'
     export default{
         data:function(){
            return {
-                infos:{
-                  customerId: '',
+                tCustomerBasic:{
                   cname: '',
+                  sex: '',
+                  certificateType: '',
                   certificateNumber: '',
-                  transferReason: ''
-                },
-                currentpage: 1,//第几页
-                totlepage: '',//共几页
-                visiblepage: 10//隐藏10页
+                  tel:'',
+                  homeAddress:'',
+                  marriageStatus:'',
+                  educationDegree:''
+                }
            }
         },
         ready:function(){
           this.init()
         },
-        computed: {
-          pagenums: function () {
-            //初始化前后页边界
-            var lowPage = 1
-            var highPage = this.totlepage
-            var pageArr = []
-            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2)
-              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage
-                highPage = this.currentpage + subVisiblePage - 1
-              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1
-                highPage = this.visiblepage
-              } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1
-                highPage = this.totlepage
-              }
-            }
-            //确定了上下page边界后，要准备压入数组中了
-            while (lowPage <= highPage) {
-              pageArr.push(lowPage)
-              lowPage++
-            }
-            return pageArr
-          },
-        },
-        watch: {
-          currentpage: function (oldValue, newValue) {
-            this.init()
-          }
-        },
         methods:{
-          init : function(){
+           init:function() {
             var that = this
-            that.$http.get(QK.SERVER_URL+'/api/customerTransfer/queryTransfer', true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10);
-              if (data.recordsTotal % 10) {
-                page = page + 1
+            var id = that.$route.params.id
+            that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("tCustomerBasic", data.data)
               }
-              that.$set('totlepage', page)
-              that.$set('infos', data.data)
             })
-          },
-          pageChange: function (page) {
-            page = page || 1
-            var that = this
-            if (that.currentpage != page) {
-              that.currentpage = page
-            }
-          },
-           accept:function() {
-                var that = this
-                var ids = []
-                var userIds = []
-                var obj = {}
-                var keyobj = {}
-                $("input[name='checkbox']:checkbox:checked").each(function(){
-                  var id = $(this).val()
-                  ids.push(id)
-             })
-                  var tempid = ids.join(",")
-                  obj["customerIds"] = tempid
-                  obj["flag"] = 1
-                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                     this.$router.go({path: '/system/customer/list'})
-                  }
-                })
-              },
-           refuse:function() {
-                var ids = []
-                var userIds = []
-                var obj = {}
-                var keyobj = {}
-                $("input[name='checkbox']:checkbox:checked").each(function(){
-                var id = $(this).val()
-                userIds.push(id)
+            that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("mainRecord", data.data)
+              }
             })
-                var tempid = userIds.join(",")
-                keyobj["customerIds"] = tempid
-                keyobj["flag"] = 2
-                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    this.$router.go({path: '/system/customer/list'})
-                  }
-               })
+             that.$http.get(QK.SERVER_URL+'/api/customerTransfer/'+id, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body);
+              var result = QK.getStateCode(that, data.code)
+              if (result.state) {
+                that.$set("transfers", data.data)
+              }
+            })
+           },
+            setTab2:function(obj,id){
+                  $(obj).parent().find("li").attr("class","")
+                  $(obj).attr("class","active")
+                  $(".tabContent").hide();
+                  $("#"+id).show();
             }
         }
     }

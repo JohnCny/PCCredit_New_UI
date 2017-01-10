@@ -48,7 +48,7 @@
                 <p><input type="text" class="address" v-model="address" placeholder="请输入绑定的邮箱或手机号" ></p>
 
                 <div class="message">${message.codeErrorMsg}</div>
-                <p><input type="text" class="inpttext" v-model="checkedCode" ><input type="hidden" v-model="codeData.userId" ></p>
+                <p><input type="text" class="inpttext" v-model="checkCodeData.code" ><input type="hidden" v-model="checkCodeData.userId" ></p>
 
                 <button v-on:click="sendCode" type="button" class="get btn btn-info" style="background-color:rgb(17,148,229)">${message.sendCodeMsg}</button>
                 <p style="font-size: 14px;margin-top: 30px;color: rgb(153,153,153);">邮箱不可用?<a href="" style="text-decoration: none">请使用手机验证</a></p>
@@ -57,23 +57,26 @@
               <div class="usernameput passwordChange" style="display: none">
                 <form id="passwordReset" @submit.prevent="handleSubmit" >
                   <div class="row" style="margin-bottom:16px;margin-top:50px;">
-                    <div class="col-xs-12" style="text-align:center;">
-                      <label for="password" class="pwdText">新密码<font class="red">*</font>：</label>
-                      <div class="input-icon right" style="display:inline-block;width:60%">
-                        <input type="password" class="form-control" id="password" name="password" v-model="password" />
-                        <div class="message" style="float:left;">${errors.passwordError}</div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="password" class="pwdText">新密码<font class="red">*</font>：</label>
+                          <div class="input-icon right">
+                            <input type="password" class="form-control" id="password" name="password" v-model="password" />
+                            <div class="message" style="float:left;">${errors.passwordError}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="newPassword1" class="pwdText">确认新密码<font class="red">*</font>：</label>
+                          <div class="input-icon right">
+                            <input type="password" class="form-control" id="newPassword1" name="password1"/>
+                            <div class="message" style="float:left;">${errors.password1Error}</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row" style="margin-bottom:16px">
-                    <div class="col-xs-12" style="text-align:center;">
-                      <label for="newPassword1" class="pwdText">重复新密码<font class="red">*</font>：</label>
-                      <div class="input-icon right" style="display:inline-block;width:60%">
-                        <input type="password" class="form-control" id="newPassword1" name="password1"/>
-                        <div class="message" style="float:left;">${errors.password1Error}</div>
-                      </div>
-                    </div>
-                  </div>
                   <div class="row">
                     <div class="col-xs-12" style="text-align:center">
                       <button class="btn btn-info" style="background-color:rgb(17,148,229);width:250px">完      成</button>
@@ -201,9 +204,12 @@
           imgTwo : '../../../static/images/two.png',
           imgThree : '../../../static/images/three.png',
         },
-        userId : '',
-        checkedCode : '',
+        checkCodeData : {
+          userId : '',
+          code : '',
+        },
         password : '',
+        checkedCode : '',
         message:{
           userNameMsg : '',
           sendCodeMsg : '免费获取验证码',
@@ -236,7 +242,11 @@
         //验证结果  true  false
         if(bool){
           //发送请求
-          that.$http.post(QK.SERVER_URL+'/api/anon/resetPassword/'+that.checkedCode, that.password, true).then(function (data) {
+          var sendData = {
+            "checkedCode" : that.checkedCode,
+            "password" : that.password
+          }
+          that.$http.post(QK.SERVER_URL+'/api/anon/resetPassword?checkedCode='+that.checkedCode, sendData , true).then(function (data) {
             var data = jQuery.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
@@ -285,9 +295,10 @@
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
               $(".get").attr("disabled", "false")
+              that.$set('checkCodeData.userId', data.userId)
             } else {
               that.message.sendCodeMsg = "发送失败，再次发送？"
-              that.message.emailErrorMsg = result.msg
+              that.$set('message.emailErrorMsg', result.msg)
             }
           })
         }else{
@@ -296,17 +307,18 @@
       },
       checkCode: function(){
         var that = this
-        that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword?userId',that.codeData, true).then(function(res){
+        that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword?userId='+that.checkCodeData.userId, that.checkCodeData, true).then(function(res){
           var data = jQuery.parseJSON(res.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             $(".get").attr("disabled", "false")
             $(".passwordChange").show().siblings("div.usernameput").hide()
             $(".flow_index.three").addClass("checked").parent("li").siblings("li").find(".flow_index").removeClass("checked")
-            that.image.imgTwo = '../../../static/images/two.png'
-            that.image.imgThree = '../../../static/images/threecheck.png'
+            that.$set('image.imgTwo', '../../../static/images/two.png')
+            that.$set('image.imgThree', '../../../static/images/threecheck.png')
+            that.$set('checkedCode', data.data)
           } else {
-            that.message.codeErrorMsg = result.msg
+            that.$set('message.codeErrorMsg', result.msg)
           }
         })
       },

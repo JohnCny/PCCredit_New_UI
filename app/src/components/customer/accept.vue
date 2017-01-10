@@ -19,7 +19,7 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label class="checkbox"></label></span>${info.customerId}</td>
+                <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label class="checkbox"></label></span></td>
                 <td>${info.cname}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.transferReason}</td>
@@ -150,7 +150,7 @@
                 var tempid = userIds.join(",")
                 keyobj["customerIds"] = tempid
                 keyobj["flag"] = 2
-                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
