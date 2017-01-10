@@ -151,7 +151,7 @@
           <tr v-for="mainrecord in mainRecord">
             <th><input type="radio"></th>
             <th>${mainrecord.maintenanceType}</th>
-            <th>${mainrecord.operationTime}</th>
+            <th>${mainrecord.operationTime | formatDate}</th>
             <th>${mainrecord.operationName}</th>
           </tr>
         </table>

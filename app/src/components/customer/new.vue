@@ -80,14 +80,14 @@
                 </div>
 
               <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="belIndustry">所属行业</label>
+                <label for="industry">所属行业</label>
                 <div class="input-icon right">
-                  <select id="belIndustry" type="text" name="belIndustry" v-model="customerBasicInfo.belIndustry" class="form-control">
+                  <select id="industry" type="text" name="industry" v-model="customerBasicInfo.industry" class="form-control">
                     <template v-for="industry in customerIndustry">
                       <option  value="${industry.id}" checked>${industry.industryName}</option>
                     </template>
                   </select>
-                  <div class="message">${errors.belIndustryError}</div>
+                  <div class="message">${errors.industryError}</div>
                 </div>
               </div>
 
@@ -140,13 +140,13 @@
               customerBasicInfo: {
                 cname: '',
                 sex: '',
-                certificateType: '',
+                certificateType: '0',
                 certificateNumber: '',
                 tel: '',
                 homeAddress: '',
-                belIndustry: '',
-                marriageStatus: '',
-                educationDegree: '',
+                industry: '2',
+                marriageStatus: '0',
+                educationDegree: '0',
                 native: ''
               },
               certificate:[
@@ -178,7 +178,7 @@
                 homeAddressError: '',
                 marriageError: '',
                 eductionError: '',
-                belIndustryError: '',
+                industryError: '',
                 nativeError: ''
               }
             }
@@ -195,14 +195,14 @@
           id: "#form_customer_new",
           rulesMap: {
             cname: {required: !0, isChinese: !0},
-            sex: {required: !0, downList: !0},
-            certificateType: {required: !0},
+            sex: {required: !0},
+            certificateType: {required: !0,downList: !0},
             certificateNumber: {required: !0, isIdCardNo: !0},
             homeAddress: {required: !0, isHomeAddress: !0},
             tel: {required: !0, tel: !0},
             marriageStatus: {required: !0, downList: !0},
             educationDegree: {required: !0,downList: !0},
-            belIndustry: {required: !0},
+            industry: {required: !0},
             native: {required: !0}
           }
         })

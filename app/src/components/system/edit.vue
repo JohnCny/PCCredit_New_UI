@@ -84,9 +84,9 @@
         var bool = QK.formValidation({
           id: "#para_edit",
           rulesMap: {
-            parameterName: {required: !0, isChinese: !0},
+            parameterName: {required: !0},
             parameterValue: {required: !0},
-            parameterNameZn: {required: !0},
+            parameterNameZn: {required: !0, isChinese: !0},
             parameterDescription: {required: !0}
           }
         })
