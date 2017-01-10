@@ -102,7 +102,7 @@
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/customerTransfer/queryTransfer', true).then(function(res){
               var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10);
+              var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
                 page = page + 1
               }
@@ -139,6 +139,7 @@
                 })
               },
            refuse:function() {
+                var that = this
                 var ids = []
                 var userIds = []
                 var obj = {}
@@ -150,7 +151,7 @@
                 var tempid = userIds.join(",")
                 keyobj["customerIds"] = tempid
                 keyobj["flag"] = 2
-                that.$http.get(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
+                that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
