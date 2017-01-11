@@ -1,3 +1,4 @@
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
   <div class="row">
     <div class="col-sm-4">
@@ -10,7 +11,18 @@
         </header>
         <div class="panel-body">
             <form action="" id="userNew" @submit.prevent="handleSubmit">
-              <input type="hidden" name="orgId" v-model="user.orgId" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group ">
+                    <label for="userCname">机构</label>
+                    <div class="input-icon right orgNameDiv">
+                      <input v-model="user.orgName" type="text" class="form-control"  placeholder="请从机构列表选择" readonly>
+                      <i v-on:click="hideOrgName" class="fa fa-times closeI"></i>
+                      <div class="message">${errorOrg}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -134,10 +146,27 @@
     color:#a94442;
     height:20px;
   }
+  .orgNameDiv{
+    position:relative
+  }
+  .orgNameDiv .closeI{
+    position: absolute;
+    line-height: 30px;
+    font-size: 16px;
+    font-style: normal;
+    color: #d2322d;
+    right: 21%;
+    top:5%;
+    width: 16px;
+    text-algin: center;
+  }
+
 </style>
 <script>
     import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
+    import swal from 'sweetalert'
+    import ztree from 'ztree'
     import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
@@ -152,7 +181,8 @@
                   idCardNumber: '',
                   roleId: '',
                   email : '',
-                  orgId: '1',
+                  orgId: '',
+                  orgName: '',
                 },
                 roles:[],
                 message : {
@@ -168,12 +198,22 @@
                   idCardNumberError: '',
                   roleError: '',
                   emailError: '',
-                }
+                },
+                errorOrg: '',
            }
         },
         ready:function(){
           this.init()
           QK.addMethod()
+        },
+        components: {
+          OrgTree
+        },
+        created: function(){
+          QK.vector.$on('getfromchild',this.bindOrg)
+        },
+        beforeDestroy: function(){
+          QK.vector.$off('getfromchild',this.bindOrg)
         },
         methods:{
         handleSubmit () {
@@ -195,16 +235,38 @@
             })
             //验证结果  true  false
             if(bool){
-              that.$http.post(QK.SERVER_URL+'/api/user', that.user, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
-                var result = QK.getStateCode(that,data.code)
-                if (result.state) {
-                  alert("创建成功")
-                  that.$router.go({path:"/system/user/list"})
-                }else{
-                  alert("创建失败")
-                }
-              })
+            console.log(bool)
+              delete that.user['orgName']
+
+              if(that.user['orgId']){
+                that.$set("errorOrg", '')
+                that.$http.post(QK.SERVER_URL+'/api/user', that.user, true).then(function (data) {
+                  var data = jQuery.parseJSON(data.body)
+                  var result = QK.getStateCode(that,data.code)
+                  if (result.state) {
+                    swal({
+                        title: "创建成功!",
+                        text: "",
+                        confirmButtonColor: "#66BB6A",
+                        type: "success",
+                        confirmButtonText : '确定'
+                    },
+                    function(){
+                      that.$router.go({path:"/system/user/list"})
+                    })
+                  }else{
+                    swal({
+                        title: "创建失败!",
+                        text: result.msg+"！",
+                        confirmButtonColor: "#EF5350",
+                        type: "error",
+                        confirmButtonText : '确定'
+                    })
+                  }
+                })
+              }else{
+                that.$set("errorOrg", '该项不能为空')
+              }
             }
             return false
           },
@@ -217,6 +279,21 @@
                 that.$set("roles", data.data)
               }
             })
+          },
+          changeOrg : function(){
+            var that = this
+            if(!that.search.orgName){
+              that.$set('search.orgId', '')
+            }
+          },
+          bindOrg: function(org){
+            this.$set('user.orgId', org.orgId)
+            this.$set('user.orgName', org.orgName)
+          },
+          hideOrgName: function(){
+            var that = this
+            that.$set('user.orgId', '')
+            that.$set('user.orgName', '')
           },
           cnameCheck(){
             var that = this

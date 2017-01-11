@@ -39,6 +39,7 @@
     methods: {
       init: function () {
         var that = this
+        $('body').css({'background':'#424f63'})
         that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
           var data = $.parseJSON(res.body)
           that.menuList = data.data.menus
