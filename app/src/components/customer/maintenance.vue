@@ -36,7 +36,7 @@
                 <td><a href="javascript:;" v-on:click="show(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   新增维护记录 </a></td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
-                  编辑 </a></td>
+                  查看 </a></td>
               </tr>
               </tbody>
             </table>

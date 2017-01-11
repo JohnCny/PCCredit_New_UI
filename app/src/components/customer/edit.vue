@@ -152,7 +152,7 @@
           certificateNumber: '',
           tel: '',
           homeAddress: '',
-          industry: '',
+          //industry: '',
           marriageStatus: '',
           educationDegree: '',
           native: ''
@@ -192,7 +192,7 @@
             tel: {required: !0, tel: !0},
             marriageStatus: {required: !0, downList: !0},
             educationDegree: {required: !0,downList: !0},
-            industry: {required: !0},
+           // industry: {required: !0},
             native: {required: !0}
           }
         })
