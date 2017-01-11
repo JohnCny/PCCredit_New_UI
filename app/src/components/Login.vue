@@ -19,12 +19,9 @@
           <input type="checkbox" value="remember-me"> 记住我
           <span class="pull-right">
                     <a v-on:click="forgetPass"> 忘记密码？</a>
-
            </span>
         </label>
-
       </div>
-
       <!-- Modal -->
       <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
            class="modal fade">

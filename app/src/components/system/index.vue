@@ -29,9 +29,9 @@
                 <td>${info.parameterNameZn}</td>
                 <td>${info.parameterDescription}</td>
                 <td>${info.createBy}</td>
-                <td>${info.createTime}</td>
+                <td>${info.createTime | formatDate}</td>
                 <td>${info.modifyBy}</td>
-                <td>${info.modifyTime}</td>
+                <td>${info.modifyTime | formatDate}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
               </tr>

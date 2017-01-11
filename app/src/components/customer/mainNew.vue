@@ -54,9 +54,9 @@
         data:function(){
              return {
                tCustomerMaintenance:{
-                id: '143',
+                id: '',
                 maintenanceType: '',
-                maintennaceSummary: '',
+                maintennaceSummary: ''
              },
              maintenanceType:[{
                 id: '',
@@ -86,11 +86,9 @@
            if (bool) {
             //发送请求
                 var tCustomerMaintenance = that.tCustomerMaintenance
-                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',{
-                id: that.tCustomerMaintenance.id,
-                maintenanceType: that.tCustomerMaintenance.maintenanceType,
-                maintennaceSummary: that.tCustomerMaintenance.maintennaceSummary
-                }, tCustomerMaintenance, true).then(function (data) {
+                var id = that.$route.params.id
+                tCustomerMaintenance.id=id
+                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',tCustomerMaintenance, true).then(function (data) {
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -101,7 +99,7 @@
               return false
             },
             type:function() {
-                var that = this;
+                var that = this
                 that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/maintenanceType', true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)

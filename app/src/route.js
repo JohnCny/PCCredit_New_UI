@@ -163,7 +163,7 @@ export default {
       '/customer/mainList':{//客户维护列表
         component: Maintenance
       },
-      '/customer/mainNew': {//新增客户维护
+      '/customer/mainNew/:id': {//新增客户维护
         component: MainNew
       },
       '/customer/mainRecord/:id': {//客户维护记录

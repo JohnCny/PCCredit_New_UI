@@ -62,9 +62,6 @@
   </div>
 </template>
 <style scoped>
-  #userNew input,#userNew select{
-    width:80%
-  }
   .message{
     color:#a94442;
     height:20px;
@@ -100,15 +97,15 @@
             var bool = QK.formValidation({
               id: "#dict_edit",
               rulesMap:{
-                dataType:{required: !0,isRightfulString:!0},
-                dataCode:{required: !0,isChinese:!0},
+                dataType:{required: !0},
+                dataCode:{required: !0},
                 dataName:{required: !0},
-                bankCode:{required:!0,downList:!0}
+                bankCode:{required: !0}
                 }
             })
             //验证结果  true  false
             if(bool){
-              that.$http.put(QK.SERVER_URL+'/api/dataDictionary', that.user, true).then(function (data) {
+              that.$http.put(QK.SERVER_URL+'/api/dataDictionary', that.dataDictionary, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                  console.log(data)
                 var result = QK.getStateCode(that,data.code)
@@ -123,7 +120,7 @@
             var that = this
             var id = that.$route.params.id
             that.$http.get(QK.SERVER_URL+'/api/dataDictionary/'+id, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("dataDictionary", data.data)
