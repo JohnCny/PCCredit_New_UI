@@ -89,14 +89,14 @@
           idCardNumber: '',
           roleId: '',
           email: '',
-          orgId: '1'
+          orgId: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
           idCardNumber: '',
-          orgId: '1',
+          orgId: '',
           username: ''
         }
       }
