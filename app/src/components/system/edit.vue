@@ -54,7 +54,7 @@
   }
 </style>
 <script>
-  import QK from '../../QK.js'
+  import QK from '../../QK'
   import jQueryValidation from 'jquery-validation'
   export default{
     data: function () {
@@ -101,7 +101,24 @@
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                   that.$router.go({path:'/system/parameter/list'})
+                  swal({
+                      title: "修改成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  },
+                  function(){
+                    that.$router.go({path:"/system/parameter/list"})
+                  })
+                }else{
+                  swal({
+                      title: "修改失败！",
+                      text: result.msg+"！",
+                      confirmButtonColor: "#EF5350",
+                      type: "error",
+                      confirmButtonText : '确定'
+                   })
                   }
                 })
               }

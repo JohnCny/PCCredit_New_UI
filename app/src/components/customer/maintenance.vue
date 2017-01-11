@@ -59,7 +59,7 @@
 <style>
 </style>
 <script>
-  import QK from '../../QK.js'
+  import QK from '../../QK'
   export default{
     data: function () {
       return {

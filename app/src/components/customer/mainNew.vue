@@ -48,7 +48,7 @@
   }
 </style>
 <script>
-    import QK from '../../QK.js'
+    import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
     export default{
         data:function(){

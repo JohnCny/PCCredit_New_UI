@@ -165,10 +165,10 @@
               <div class="form-group col-md-6 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="certificateType">征信</label>
                 <div class="input-icon right">
-                  <span class="hideInput"><input type="checkbox" checked="checked"><label onclick="setCheckbox(this)" class="checkss checkbox_a">无信用记录</label></span>
-                  <span class="hideInput"><input type="checkbox" checked="checked"><label onclick="setCheckbox(this)" class="checkss checkbox_a">信用良好</label></span>
-                  <span class="hideInput"><input type="checkbox" checked="checked"><label onclick="setCheckbox(this)" class="checkss checkbox_a">有少量逾期</label></span>
-                  <span class="hideInput"><input type="checkbox" checked="checked"><label onclick="setCheckbox(this)" class="checkss checkbox_a">当前有逾期</label></span>
+                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">无信用记录</label></span>
+                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">信用良好</label></span>
+                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">有少量逾期</label></span>
+                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">当前有逾期</label></span>
                   <div class="message">${errors.certificateTypeError}</div>
                 </div>
               </div>
@@ -179,8 +179,8 @@
                 <label for="marriageStatus">非准入行业</label>
                 <div class="input-icon right">
                   <select id="marriageStatus" type="text" name="marriageStatus" v-model="customerBasicInfo.marriageStatus" class="form-control">
-                    <template v-for="marriageStatus in marriage">
-                      <option  value="${marriageStatus.id}" checked>${marriageStatus.value}</option>
+                    <template v-for="industryed in industryes">
+                      <option  value="${industryed.id}" checked>${industryed.name}</option>
                     </template>
                   </select>
                   <div class="message">${errors.marriageError}</div>
@@ -200,9 +200,16 @@
           <div class="table-responsive">
               <!--<template v-for="dropDown in dropDownList">-->
               <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
-                <label for="homeAddress">贷款周期</label>
+                <label for="homeAddress">准入最低客户经理级别:</label>
                 <div class="input-icon right">
                   <input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">
+                  <div class="message">${errors.homeAddressError}</div>
+                </div>
+              </div>
+              <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
+                <label for="homeAddress">准入机构</label>
+                <div class="input-icon right">
+                  <org-tree></org-tree>
                   <div class="message">${errors.homeAddressError}</div>
                 </div>
               </div>
@@ -218,7 +225,8 @@
         <div class="panel-body">
           <div class="table-responsive">
               <!--<template v-for="dropDown in dropDownList">-->
-              <div class="row adds">
+              <div id="addImg">
+              <div class="row adds" >
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
                 <label for="homeAddress">图片说明:</label>
                 <div class="input-icon right">
@@ -229,8 +237,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-2"></div>
-              <div class="form-group col-md-3  col-sm-6 col-xs-11">
+              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="sex">是否必选:</label>
                 <div class="input-icon right">
                   <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
@@ -246,11 +253,12 @@
                 </div>
               </div>
               </div>
+              </div>
+            </div>
               <!--</template>-->
           </div>
         </div>
       </div>
-    </div>
     <p class="button">
 
       <a href="javascript:void (0);" id="btn_submit" class="btn btn-success">保存</a>
@@ -265,6 +273,8 @@
 </style>
 <script>
 import QK from '../../QK'
+import ztree from 'ztree'
+import OrgTree from '../tree/orgTree.vue'
     export default{
         data:function(){
            return {
@@ -309,6 +319,9 @@ import QK from '../../QK'
         ready:function(){
             this.init()
             this.searchInfo()
+        },
+        components: {
+           OrgTree
         },
         methods:{
               handleSubmit () {
@@ -359,6 +372,7 @@ import QK from '../../QK'
              addTap:function(){
                   var html ='';
                   var len = $(".adds").length;
+                  console.log(len)
                   html += '<div class="row adds">';
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
                   html += '<label for="homeAddress">图片说明:</label>';
@@ -391,6 +405,7 @@ import QK from '../../QK'
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$set("proType", data.data.productTypes)
+                    that.$set("industryes", data.data.industry)
                   }
                 })
             }
