@@ -85,10 +85,18 @@ import OrgNew from './components/organization/new.vue'//新建机构
 
 
 /************************
+ * 产品管理
+ * ***********************/
+import ProNew1 from './components/product/new1.vue'//新建产品1
+import ProNew2 from './components/product/new2.vue'//新建产品2
+import ProNew3 from './components/product/new3.vue'//新建产品3
+import ProNew4 from './components/product/new4.vue'//新建产品3
+import ProNew5 from './components/product/new5.vue'//新建产品5
+import ProList from './components/product/index.vue'//产品列表
+/************************
  * 菜单管理
  * ***********************/
 import MenuManage from './components/system/menuManage.vue'//菜单管理
-
 
 export default {
   // '/index': {
@@ -220,6 +228,28 @@ export default {
        },
       /*end---数据字典---end*/
 
+
+      /*start---产品---start*/
+        '/product/new1':{//新建产品1
+          component:ProNew1
+        },
+        '/product/new2':{//新建产品2
+          component:ProNew2
+        },
+        '/product/new3':{//新建产品3
+          component:ProNew3
+        },
+        '/product/new4':{//新建产品4
+          component:ProNew4
+        },
+        '/product/new5':{//新建产品5
+          component:ProNew5
+        },
+        '/product/list':{//产品列表
+          component:ProList
+        }
+
+      /*end---产品---end*/
       /*start---菜单管理---start*/
       '/menu/manage': {
         component: MenuManage
