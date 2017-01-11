@@ -83,6 +83,13 @@ import OrgList from './components/organization/index.vue'//机构列表
 import OrgEdit from './components/organization/edit.vue'//编辑机构
 import OrgNew from './components/organization/new.vue'//新建机构
 
+
+/************************
+ * 菜单管理
+ * ***********************/
+import MenuManage from './components/system/menuManage.vue'//菜单管理
+
+
 export default {
   // '/index': {
   //   component: Login
@@ -213,7 +220,11 @@ export default {
        },
       /*end---数据字典---end*/
 
-
+      /*start---菜单管理---start*/
+      '/menu/manage': {
+        component: MenuManage
+      },
+      /*end---菜单管理---end*/
     }
   }
 }

@@ -1,7 +1,10 @@
 /**
  * Created by Phenix ZZ on 2016/10/13.
  */
+import Vue from 'vue'
 const QK = {}
+//组件之间通讯，数据载体
+QK.vector  = new Vue()
 /**
  * 服务端URL
  **/
@@ -1085,4 +1088,5 @@ QK.idnumberCheck = () => {
     }
   })
 }
+
 export default QK

@@ -17,14 +17,21 @@
   export default{
     data: function () {
       return{
-        msg:'hello vue'
+        org : {
+          orgId:'',
+          orgName:''
+        }
       }
     },
     ready: function () {
       this.init()
     },
     methods: {
+      getOrgData:function(){
+        return this.org
+      },
       init: function () {
+        var that = this
         var urlMy = QK.SERVER_URL + '/api/organization'
         var setting = {
           data: {
@@ -49,16 +56,13 @@
             showLine: false,
           },
           callback: {
-            onClick: onClick
+            onClick: function(event, treeId, treeNode, clickFlag){
+              that.$set('org.orgId', treeNode.id)
+              that.$set('org.orgName', treeNode.orgName)
+              QK.vector.$emit('getfromchild',that.getOrgData())
+            }
           }
         }
-
-        function onClick(event, treeId, treeNode, clickFlag) {
-          console.log(treeNode.orgName)
-          $("#orgId").attr("value", treeNode.orgName);
-          $("#orgIdHidden").attr("value", treeNode.id);
-        }
-
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
