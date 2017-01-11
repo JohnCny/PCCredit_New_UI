@@ -2,12 +2,15 @@
 <template>
   <form class="content">
     <ul class="myTab">
-      <li class="active" v-on:click="setTab2(this,'jbxx')">客户基本信息</li>
+      <!--<li class="active" v-on:click="setTab2(this,'jbxx')">客户基本信息</li>
       <li v-on:click="setTab2(this,'dkqk')">客户贷款情况</li>
       <li v-on:click="setTab2(this,'khwhjl')">客户维护记录</li>
       <li v-on:click="setTab2(this,'dhjkjl')">贷后监控记录</li>
       <li v-on:click="setTab2(this,'csjl')">逾期/不良催收记录</li>
-      <li v-on:click="setTab2(this,'yjjl')">客户移交记录</li>
+      <li v-on:click="setTab2(this,'yjjl')">客户移交记录</li>-->
+      <template v-for="todo in infoData">
+        <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
+      </template>
     </ul>
     <!--*******************************************客户基本信息*******************************************************-->
     <div class="tabContent" id="jbxx">
@@ -73,7 +76,7 @@
           <tr v-for="mainrecord in mainRecord">
             <th><input type="radio"></th>
             <th>${mainrecord.maintenanceType}</th>
-            <th>${mainrecord.operationTime}</th>
+            <th>${mainrecord.operationTime | formatDate}</th>
             <th>${mainrecord.operationName}</th>
           </tr>
         </table>
@@ -167,7 +170,15 @@
                   homeAddress:'',
                   marriageStatus:'',
                   educationDegree:''
-                }
+                },
+                 infoData : [
+                {id:'jbxx',text:'客户基本信息',classname:'active'},
+                {id:'dkqk',text:'客户贷款情况',classname:''},
+                {id:'khwhjl',text:'客户维护记录',classname:''},
+                {id:'dhjkjl',text:'贷后监控记录',classname:''},
+                {id:'csjl',text:'逾期/不良催收记录',classname:''},
+                {id:'yjjl',text:'客户移交记录',classname:''},
+              ]
            }
         },
         ready:function(){
@@ -199,11 +210,13 @@
               }
             })
            },
-            setTab2:function(obj,id){
-                  $(obj).parent().find("li").attr("class","")
-                  $(obj).attr("class","active")
-                  $(".tabContent").hide();
-                  $("#"+id).show();
+           setTab2:function(){
+                var that = this
+                  console.log(event.currentTarget)
+                  $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
+                  var id = $(event.currentTarget).data("id")
+                  console.log(id)
+                  $("#"+id).show().siblings("div.tabContent").hide()
             }
         }
     }

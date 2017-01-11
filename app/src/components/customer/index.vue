@@ -35,7 +35,7 @@
                 <td>${info.sex}</td>
                 <td>${info.tel}</td>
                 <td>${info.certificateNumber}</td>
-                <td>${info.createTime}</td>
+                <td>${info.createTime | formatDate}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                   class="fa fa-edit"></i>
                   编辑 </a></td>
@@ -125,7 +125,7 @@
     methods: {
       init: function () {
         var that = this
-        var searchAll = {
+         var searchAll = {
           pageStart : that.currentpage,
           pageLength : that.visiblepage,
           pageSearch : JSON.stringify(that.search)
