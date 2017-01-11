@@ -146,13 +146,19 @@
               }
            })
         },
-         pageChange: function (page) {
-        page = page || 1
-        var that = this
-        if (that.currentpage != page) {
-          that.currentpage = page
-        }
-      }
+             pageChange: function (page) {
+            page = page || 1
+            var that = this
+            if (that.currentpage != page) {
+              that.currentpage = page
+            }
+          },
+          show: function () {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path:'/system/product/newOne'})
+          }
         }
     }
 

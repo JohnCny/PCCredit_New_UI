@@ -112,6 +112,7 @@
         </div>
       </div>
 
+
     <!--*******************************************准入门槛*******************************************************-->
     <div class="tabContent" id="zrmk" style="display:none;">
       <div class="report common">
@@ -334,7 +335,7 @@ import QK from '../../QK'
                     //发送请求
                         var tProductInfo = that.tProductInfo
                         //tCustomerBasic.industry = $("#industry").val().join(",")
-                        that.$http.post(QK.SERVER_URL+' /api/product', tProductInfo, true).then(function (data) {
+                        that.$http.post(QK.SERVER_URL+'/api/product', tProductInfo, true).then(function (data) {
                           var data = jQuery.parseJSON(data.body)
                           var result = QK.getStateCode(that, data.code)
                           if (result.state) {
