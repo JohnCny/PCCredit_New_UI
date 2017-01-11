@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="form-group col-md-offset-4" style="height:150px;">
-            <label for="maintennaceSummary" class="col-sm-2 control-label">联系方式</label>
+            <label for="maintennaceSummary" class="col-sm-2 control-label">维护纪要内容</label>
             <div class="col-sm-10">
               <div class="input-icon right">
                 <textarea  name="maintennaceSummary" id="maintennaceSummary" v-model="tCustomerMaintenance.maintennaceSummary" class="form-control" style="width:45%;height:130px;"></textarea>

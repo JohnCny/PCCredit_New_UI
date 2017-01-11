@@ -3,14 +3,9 @@
 <template>
   <div class="row">
     <div class="col-sm-3">
-      <section class="panel">
-        <header class="panel-heading">
-          机构列表
-        </header>
         <div class="panel-body">
           <org-tree></org-tree>
         </div>
-      </section>
     </div>
 
     <div class="col-sm-9">

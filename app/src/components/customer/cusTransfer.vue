@@ -41,7 +41,7 @@
              </table>-->
             <div class="col-xs-12 col-md-3  col-md-offset-1 contain" style="margin-top: 50px;margin-left:200px;">
               <button id="btn_submit" class="btn btn-success">确定</button>
-              <a href="/system/customer/list" type="reset" class="btn btn-default">取消</a>
+              <a v-link={path:'/system/customer/list'} type="reset" class="btn btn-default">取消</a>
             </div>
 
           </div>

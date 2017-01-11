@@ -109,7 +109,7 @@
           idCardNumber: '',
           roleId: '',
           email: '',
-          orgId: '1'
+          orgId: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页

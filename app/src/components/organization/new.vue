@@ -7,6 +7,7 @@
         </header>
         <div class="panel-body">
           <form id="org_new" @submit.prevent="handleSubmit">
+            <input type="hidden" name="id" id="id" v-model="tOrganization.id" />
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -27,17 +28,17 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="orgLogisticsId">后勤</label>
-                  <div class="input-icon right">
-                    <input  v-model="tOrganization.orgLogisticsId" id="orgLogisticsId" type="text" class="form-control" name="orgLogisticsId" placeholder="请输入后勤">
-                    <div class="message">${errors.orgLogisticsIdError}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!--<div class="row">-->
+              <!--<div class="col-md-6">-->
+                <!--<div class="form-group">-->
+                  <!--<label for="orgLogisticsId">后勤</label>-->
+                  <!--<div class="input-icon right">-->
+                    <!--<input  v-model="tOrganization.orgLogisticsId" id="orgLogisticsId" type="text" class="form-control" name="orgLogisticsId" placeholder="请输入后勤">-->
+                    <!--<div class="message">${errors.orgLogisticsIdError}</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
 
             <div class="row">
               <div class="col-md-12">
@@ -70,12 +71,12 @@
                 tOrganization:{
                   orgName: '',
                   orgDirectorName: '',
-                  orgLogisticsId: ''
+                 // orgLogisticsId: ''
                 },
                 errors:{
                   orgNameError: '',
                   orgDirectorNameError: '',
-                  orgLogisticsIdError: ''
+                  //orgLogisticsIdError: ''
                 }
            }
         },
@@ -88,14 +89,14 @@
             var bool = QK.formValidation({
               id: "#org_new",
               rulesMap:{
-                orgName:{required: !0,isRightfulString:!0},
+                orgName:{required: !0},
                 orgDirectorName:{required: !0},
-                orgLogisticsId:{required: !0}
+                //orgLogisticsId:{required: !0}
               }
             })
             //验证结果  true  false
             if(bool){
-              that.$http.post(QK.SERVER_URL+'/organization', that.user, true).then(function (data) {
+              that.$http.post(QK.SERVER_URL+'/api/organization', that.tOrganization, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {

@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          角色列表
+          角色列表 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="tableDiv">
@@ -125,6 +125,12 @@
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path:'/system/role/edit/'+id})
+          },
+           show:function () {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path:'/system/role/new'})
           }
 
         }
