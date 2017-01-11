@@ -247,14 +247,13 @@ export default {
         },
         '/product/list':{//产品列表
           component:ProList
-        }
-
-      /*end---产品---end*/
-      /*start---菜单管理---start*/
-      '/menu/manage': {
-        component: MenuManage
-      },
-      /*end---菜单管理---end*/
+        },
+        /*end---产品---end*/
+        /*start---菜单管理---start*/
+        '/menu/manage': {
+          component: MenuManage
+        },
+        /*end---菜单管理---end*/
     }
   }
 }
