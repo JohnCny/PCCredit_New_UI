@@ -395,7 +395,7 @@
             }else {
               QK.messageFun($("#emailDiv"),msg5)
             }
-          }
+          },
           cancelMethod(){
            this.$router.go({path:localStorage.nowurl})
       }
