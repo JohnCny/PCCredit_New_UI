@@ -1,14 +1,8 @@
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
   <div class="row">
     <div class="col-sm-4">
-      <section class="panel">
-        <header class="panel-heading">
-          编辑机构
-        </header>
-        <div class="panel-body">
-          <org-tree></org-tree>
-        </div>
-      </section>
+      <org-tree></org-tree>
     </div>
     <div class="col-sm-8">
       <section class="panel">
@@ -16,8 +10,19 @@
           编辑用户信息
         </header>
         <div class="panel-body">
-          <form action="" id="userNew" @submit.prevent="handleSubmit">
-            <input type="hidden" name="orgId" v-model="user.orgId" />
+          <form action="" id="userEdit" @submit.prevent="handleSubmit">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="userCname">机构</label>
+                  <div class="input-icon right orgNameDiv">
+                    <input v-model="user.orgName" type="text" class="form-control"  placeholder="请从机构列表选择" readonly>
+                    <i v-on:click="hideOrgName" class="fa fa-times closeI"></i>
+                    <div class="message">${errors.orgIdError}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -113,7 +118,7 @@
             <div class=row>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="role">角色</label>
+                  <label for="roleId">角色</label>
                   <div class="input-icon right">
                     <select  v-model="user.roleId" id="roleId" type="text" name="roleId" class="form-control">
                       <option value="">&#45;&#45;请选择&#45;&#45;</option>
@@ -147,10 +152,25 @@
     color:#a94442;
     height:20px;
   }
+  .orgNameDiv{
+    position:relative
+  }
+  .orgNameDiv .closeI{
+    position: absolute;
+    line-height: 30px;
+    font-size: 16px;
+    font-style: normal;
+    color: #d2322d;
+    right: 1%;
+    top:5%;
+    width: 16px;
+    text-algin: center;
+  }
 </style>
 <script>
     import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
+    import swal from 'sweetalert'
     import ztree from 'ztree'
     import OrgTree from '../tree/orgTree.vue'
     export default{
@@ -166,7 +186,6 @@
                   idCardNumber: '',
                   roleId: '',
                   email : '',
-                  orgId: '1',
                 },
                 roles:[],
                 message : {
@@ -182,6 +201,10 @@
                   idCardNumberError: '',
                   roleError: '',
                   emailError: '',
+                },
+                oldId:{
+                  orgId: '',
+                  roleId: ''
                 }
            }
         },
@@ -192,15 +215,20 @@
         components: {
           OrgTree
         },
+        created: function(){
+          QK.vector.$on('getfromchild',this.bindOrg)
+        },
+        beforeDestroy: function(){
+          QK.vector.$off('getfromchild',this.bindOrg)
+        },
         methods:{
         handleSubmit () {
             var that = this
             var bool = QK.formValidation({
-              id: "#userNew",
+              id: "#userEdit",
               rulesMap:{
                 username:{required: !0,isRightfulString:!0},//登录名
                 userCname:{required: !0,isChinese:!0},//中文名
-                password:{required: !0},//密码
                 sex:{required:!0,downList:!0},//性别
                 age:{required:!0,age:!0},//年龄
                 tel:{required:! 0,tel:!0},//联系方式
@@ -212,14 +240,46 @@
             })
             //验证结果  true  false
             if(bool){
+              delete that.user["orgName"]
+              delete that.user["password"]
+              //机构ID和角色ID如果不更改就不传，更改的话以 "旧ID,新ID"的格式发送
+              var oldOrgId = that.oldId.orgId
+              var newOrgId = that.user.orgId
+              if(oldOrgId != newOrgId){
+                that.$set('user.orgId', oldOrgId+","+newOrgId)
+              }else{
+                delete that.user['orgId']
+              }
+              var oldRoleId = that.oldId.roleId
+              var newRoleId = that.user.roleId
+              if(oldRoleId != newRoleId){
+                that.$set('user.roleId', oldRoleId+","+newRoleId)
+              }else{
+                delete that.user['roleId']
+              }
+
               that.$http.put(QK.SERVER_URL+'/api/user', that.user, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
-                  alert("修改成功")
-                  //that.$router.go({path:"/system/user/list"})
+                  swal({
+                      title: "修改成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  },
+                  function(){
+                    that.$router.go({path:"/system/user/list"})
+                  })
                 }else{
-                  alert("修改失败")
+                  swal({
+                      title: "修改失败！",
+                      text: result.msg+"！",
+                      confirmButtonColor: "#EF5350",
+                      type: "error",
+                      confirmButtonText : '确定'
+                  })
                 }
               })
             }
@@ -240,8 +300,25 @@
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("user", data.data)
+                this.$set('oldId.roleId', data.data.roleId)
+                this.$set('oldId.orgId', data.data.orgId)
               }
             })
+          },
+          changeOrg : function(){
+            var that = this
+            if(!that.search.orgName){
+              that.$set('search.orgId', '')
+            }
+          },
+          bindOrg: function(org){
+            this.$set('user.orgId', org.orgId)
+            this.$set('user.orgName', org.orgName)
+          },
+          hideOrgName: function(){
+            var that = this
+            that.$set('user.orgId', '')
+            that.$set('user.orgName', '')
           },
           cnameCheck(){
             var that = this
