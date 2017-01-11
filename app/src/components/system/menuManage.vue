@@ -6,15 +6,14 @@
 <script>
      import ztree from 'ztree'
      import OrgTree from '../tree/orgTree.vue'
-    export default{
+     export default{
         data(){
             return{
                 msg:'hello vue'
             }
         },
         components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
+          OrgTree
         }
-    }
+     }
 </script>

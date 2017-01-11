@@ -2,10 +2,10 @@
 <style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <org-tree></org-tree>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <section class="panel">
         <header class="panel-heading">
           用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
@@ -15,8 +15,10 @@
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>身份证：</span><input v-model="search.idCardNumber" type="text" name="idCardNumber"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>机&nbsp;&nbsp;&nbsp;&nbsp;构：</span><input v-model="search.orgId" type="text" name="orgId"/>
+            <div class="orgNameDiv col-lg-3 col-md-3 col-xs-12">
+              <span>机&nbsp;&nbsp;&nbsp;&nbsp;构：</span>
+              <input id="orgName" v-on:change='changeOrg' v-model="search.orgName" type="text" placeholder="机构名称" readonly/>
+              <i v-on:click="hideOrgName" class="fa fa-times closeI"></i>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>用户名：</span><input v-model="search.username" type="text" name="username"/>
@@ -69,6 +71,24 @@
   </div>
 </template>
 <style scoped>
+  .orgNameDiv{
+    position:relative
+  }
+  .orgNameDiv .closeI{
+    position: absolute;
+    line-height: 30px;
+    font-size: 16px;
+    font-style: normal;
+    color: #d2322d;
+    right: 25%;
+    width: 16px;
+    text-algin: center;
+  }
+  #orgName{
+    cursor: not-allowed;
+    background-color: #eee;
+    opacity: 1;
+  }
 </style>
 <script>
   import QK from '../../QK'
@@ -89,20 +109,26 @@
           idCardNumber: '',
           roleId: '',
           email: '',
-          orgId: '1'
+          orgId: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
           idCardNumber: '',
-          orgId: '1',
+          orgId: '',
           username: ''
         }
       }
     },
     components: {
       OrgTree
+    },
+    created: function(){
+      QK.vector.$on('getfromchild',this.bindOrg)
+    },
+    beforeDestroy: function(){
+      QK.vector.$off('getfromchild',this.bindOrg)
     },
     ready: function () {
       this.init()
@@ -142,13 +168,14 @@
     methods: {
       init: function () {
         var that = this
+        delete that.search['orgName']
         var searchAll = {
-          "start" : that.currentpage,
-          "length" : that.visiblepage,
-          "search" : that.search
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage,
+          pageSearch : JSON.stringify(that.search)
         }
-        var search = JSON.stringify(that.search)
-        that.$http.post(QK.SERVER_URL + '/api/user/pageList',JSON.stringify(searchAll)).then(function (res) {
+        //var searchAll = "pageStart="+that.currentpage+"&&pageLength="+that.visiblepage+"&&pageSearch="+JSON.stringify(that.search)
+        that.$http.post(QK.SERVER_URL + '/api/user/pageList',searchAll,true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -157,6 +184,21 @@
           that.$set('totlepage', page)
           that.$set('infos', data.data)
         })
+      },
+      bindOrg: function(org){
+        this.$set('search.orgId', org.orgId)
+        this.$set('search.orgName', org.orgName)
+      },
+      changeOrg : function(){
+        var that = this
+        if(!that.search.orgName){
+          that.$set('search.orgId', '')
+        }
+      },
+      hideOrgName: function(){
+        var that = this
+        that.$set('search.orgId', '')
+        that.$set('search.orgName', '')
       },
       pageChange: function (page) {
         page = page || 1
@@ -222,5 +264,12 @@
       },
     }
   }
+
+
+
+
+
+
+
 
 </script>

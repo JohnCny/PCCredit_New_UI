@@ -118,6 +118,9 @@
     color:#a94442;
     height:20px;
   }
+  #managerLevelEdit input,#managerLevelEdit select{
+    width:80%
+  }
 </style>
 <script>
     import QK from '../../../QK'
