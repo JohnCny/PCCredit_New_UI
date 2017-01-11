@@ -82,10 +82,9 @@
          init:function() {
             var that = this
             that.$http.post(QK.SERVER_URL+'/api/role',{
-                roleName: that.role.roleName,
-                authorityId: authorit
-            }, true).then(function (data) {
+                roleName: that.role.roleName
 
+            }, true).then(function (data) {
               var data = jQuery.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
