@@ -111,7 +111,7 @@
   </div>
 </template>
 <style scoped>
-  #userNew input,#userNew select{
+  #managerLevelEdit input,#managerLevelEdit select{
     width:80%
   }
   .message{
@@ -125,6 +125,11 @@
     export default{
         data:function(){
            return {
+               crumbData: {
+                 currentLocal: '客户经理管理',
+                 currentLocalData: '客户经理级别定义',
+                 currentUser: ''
+               },
                 infos:{
                   badloanRateMin: '',
                   badloanTolerateRate: '',
@@ -175,14 +180,33 @@
             })
             //验证结果  true  false
             if(bool){
-              that.$http.put(QK.SERVER_URL+'/api/customerManagerLevel', that.user, true).then(function (data) {
+              delete that.infos['createTime']
+              delete that.infos['createBy']
+              delete that.infos['modifyTime']
+              delete that.infos['modifyBy']
+              that.$http.put(QK.SERVER_URL+'/api/customerManagerLevel', that.infos, true).then(function (data) {
+              console.dir(that.infos)
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
-                  alert("修改成功")
-                  that.$router.go({path:"/system/customerManagerLevel/list"})
+                  swal({
+                      title: "修改成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  },
+                  function(){
+                    that.$router.go({path:"/system/managerLevel/list"})
+                  })
                 }else{
-                  alert("修改失败")
+                  swal({
+                      title: "修改失败！",
+                      text: result.msg+"！",
+                      confirmButtonColor: "#EF5350",
+                      type: "error",
+                      confirmButtonText : '确定'
+                  })
                 }
               })
             }
@@ -196,6 +220,8 @@
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("infos", data.data)
+                that.$set("crumbData.currentUser", data.data.levelName)
+                QK.vector.$emit('getfromCrumb',that.crumbData)
               }
             })
           },

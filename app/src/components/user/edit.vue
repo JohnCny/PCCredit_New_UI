@@ -10,7 +10,7 @@
           编辑用户信息
         </header>
         <div class="panel-body">
-          <form action="" id="userEdit" @submit.prevent="handleSubmit">
+          <form id="userEdit" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -131,11 +131,20 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="file">图像</label>
+                  <div class="input-icon right">
+                    <input  v-model="user.file" id="file" type="file" class="form-control" name="file" placeholder="选择文件" accept="image/png, image/jpeg">
+                    <div class="message">${errors.fileError}</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <button id="btn_submit" class="btn btn-success">确定</button>
-                <a href="" type="reset" class="btn btn-default">取消</a>
+                <button class="btn btn-success">确定</button>
+                <button type="reset" class="btn btn-default">取消</button>
               </div>
             </div>
           </form>
@@ -176,6 +185,11 @@
     export default{
         data:function(){
            return {
+              crumbData: {
+                 currentLocal: '用户管理',
+                 currentLocalData: '编辑用户',
+                 currentUser: ''
+              },
                 user:{
                   userCname: '',
                   username: '',
@@ -186,6 +200,7 @@
                   idCardNumber: '',
                   roleId: '',
                   email : '',
+                  file : ''
                 },
                 roles:[],
                 message : {
@@ -262,24 +277,19 @@
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
-                  swal({
-                      title: "修改成功!",
-                      text: "",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success",
-                      confirmButtonText : '确定'
-                  },
-                  function(){
-                    that.$router.go({path:"/system/user/list"})
-                  })
+                  var optionObj = {
+                      'that' : that,
+                      'title' : '修改成功!',
+                      'listUrl' : '/system/user/list'
+                    }
+                    QK.successSwal(optionObj)
                 }else{
-                  swal({
-                      title: "修改失败！",
-                      text: result.msg+"！",
-                      confirmButtonColor: "#EF5350",
-                      type: "error",
-                      confirmButtonText : '确定'
-                  })
+                  var optionObj = {
+                      'that' : that,
+                      'title' : '修改失败!',
+                      'text' : result.msg+"！",
+                    }
+                    QK.errorSwal(optionObj)
                 }
               })
             }
@@ -300,10 +310,13 @@
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("user", data.data)
-                this.$set('oldId.roleId', data.data.roleId)
-                this.$set('oldId.orgId', data.data.orgId)
+                that.$set("crumbData.currentUser", data.data.userCname)
+                that.$set('oldId.roleId', data.data.roleId)
+                that.$set('oldId.orgId', data.data.orgId)
+                QK.vector.$emit('getfromCrumb',that.crumbData)
               }
             })
+
           },
           changeOrg : function(){
             var that = this

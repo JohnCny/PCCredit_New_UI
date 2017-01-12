@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          客户经理级别列表 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
+          客户经理级别列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="tableDiv">
@@ -18,17 +18,23 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="info in infos">
-                <td>${info.levelName}</td>
-                <td>${info.levelCredit}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i
-                  class="fa fa-edit"></i>
-                  调整 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
-                  class="fa fa-eraser"></i> 删除
-                </a></td>
-
-              </tr>
+              <template  v-if="infos.length" >
+                <tr v-for="info in infos">
+                  <td>${info.levelName}</td>
+                  <td>${info.levelCredit}</td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                    class="fa fa-edit"></i>
+                    调整 </a></td>
+                  <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
+                    class="fa fa-eraser"></i> 删除
+                  </a></td>
+                </tr>
+              </template>
+              <template  v-else>
+                <tr v-else>
+                  <td colspan="4">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -48,6 +54,7 @@
   </div>
 </template>
 <style scoped>
+
 </style>
 <script>
   import QK from '../../../QK'
@@ -55,6 +62,11 @@
   export default{
     data: function () {
       return {
+        crumbData: {
+           currentLocal: '客户经理管理',
+           currentLocalData: '客户经理级别定义',
+           currentUser: '客户经理级别定义'
+        },
         infos: {
           id: '',
           levelName: '',
@@ -106,8 +118,11 @@
     methods: {
       init: function () {
         var that = this
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage
-        that.$http.get(QK.SERVER_URL + '/api/customerManagerLevel/pageList?' + search, true).then(function (res) {
+        var searchAll = {
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage
+        }
+        that.$http.post(QK.SERVER_URL + '/api/customerManagerLevel/pageList',searchAll, true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -115,6 +130,7 @@
           }
           that.$set('totlepage', page)
           that.$set('infos', data.data)
+          QK.vector.$emit('getfromCrumb',that.crumbData)
         })
       },
       pageChange: function (page) {
@@ -130,7 +146,7 @@
         //跳转地址
         this.$router.go({path: '/system/managerLevel/edit/' + id})
       },
-      show: function () {
+      showNewPage: function () {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
@@ -138,46 +154,12 @@
       },
       deleteInfo: function (id) {
         var that = this
-        swal({
-            title: "你确定要删除这条信息吗?",
-            text: "删除无法后将无法撤销！",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "确定!",
-            cancelButtonText: "取消",
-            closeOnConfirm: false,
-            closeOnCancel: false
-          },
-          function (isConfirm) {
-            if (isConfirm) {
-              swal({
-                  title: "删除!",
-                  text: "您的文件已被删除！",
-                  confirmButtonColor: "#66BB6A",
-                  type: "success"
-                },
-                function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/customerManagerLevel/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
-                    var result = QK.getStateCode(that, data.code)
-                    if (result.state) {
-                      that.infos.$remove(that.infos.find(t => t.id === id))
-                      //document.location.reload();
-                    }
-                  }, function (error) {
-                    console.log(error)
-                  })
-                });
-            } else {
-              swal({
-                title: "取消",
-                text: "您的文件是安全的！",
-                confirmButtonColor: "#2196F3",
-                type: "error"
-              });
-            }
-          });
+        var optionObj = {
+          'that' : that,
+          'id' : id,
+          'deleteUrl' : '/api/customerManagerLevel/'+id,
+        }
+        QK.deleteSwal(optionObj)
       },
     }
   }

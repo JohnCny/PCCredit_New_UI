@@ -5,18 +5,24 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          客户经理列表 
+          客户经理列表
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>员工编号：</span><input v-model="search.employeeNumber" type="text" name="employeeNumber"/>
+              <span>客户经理名称：</span><input v-model="search.userCname" type="text" name="userCname"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>级别ID：</span><input v-model="search.levelId" type="text" name="levelId"/>
+              <span>工号：</span><input v-model="search.employeeNumber" type="text" name="employeeNumber"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>用户姓名：</span><input v-model="search.userCname" type="text" name="userCname"/>
+              <span>级别：</span>
+              <select name="levelId" v-model="search.levelId">
+                <option selected>--请选择--</option>
+                <template v-for="lever in levers">
+                  <option v-bind:value="lever.id">${lever.value}</option>
+                </template>
+              </select>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -26,27 +32,28 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtManager">
               <thead>
               <tr>
-                <th>编号</th>
-                <th>用户姓名</th>
-                <th>客户经理状态</th>
-                <th>级别</th>
-                <th colspan="2">操作</th>
+                <th>客户经理</th>
+                <th>工号</th>
+                <th>当前级别</th>
+                <th>操作</th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="info in infos">
-                <td>${info.employeeNumber}</td>
-                <td>${info.userCname}</td>
-                <td>${info.managerStatus}</td>
-                <td>${info.levelName}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.userId)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i>
-                  编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.userId)" title="删除" class="btn btn-danger btn-xs"><i
-                  class="fa fa-eraser"></i> 删除
-                </a></td>
-
-              </tr>
+              <template  v-if="infos.length" >
+                <tr v-for="info in infos">
+                  <td>${info.userCname}</td>
+                  <td>${info.employeeNumber}</td>
+                  <td>${info.levelName}</td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.userId)" class="btn btn-info btn-xs"><i
+                    class="fa fa-edit"></i>
+                    管理 </a></td>
+                </tr>
+              </template>
+              <template  v-else>
+                <tr v-else>
+                  <td colspan="4">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -85,9 +92,9 @@
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
-          idCardNumber: '',
-          orgId: '',
-          username: '',
+          employeeNumber: '',
+          levelId: '',
+          userCname: '',
         }
       }
     },
@@ -96,6 +103,7 @@
     },
     ready: function () {
       this.init()
+      this.getLevel()
     },
     computed: {
       pagenums: function () {
@@ -135,9 +143,12 @@
         var employeeNumber = that.search.employeeNumber
         var levelId = that.search.levelId
         var userCname = that.search.userCname
-        var search = 'start=' + that.currentpage + '&&length=' + this.visiblepage + '&&employeeNumber=' + employeeNumber + '&&levelId=' + levelId + '&&userCname=' + userCname
-        console.log(search)
-        that.$http.get(QK.SERVER_URL + '/api/customerManager/pageList?' + search, true).then(function (res) {
+        var searchAll = {
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage,
+          pageSearch : JSON.stringify(that.search)
+        }
+        that.$http.post(QK.SERVER_URL + '/api/customerManager/pageList',searchAll,true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -145,6 +156,13 @@
           }
           that.$set('totlepage', page)
           that.$set('infos', data.data)
+        })
+      },
+      getLevel: function(){
+        var that = this
+        that.$http.get(QK.SERVER_URL + '/api/customerManagerLevel/all', true).then(function (res) {
+          var data = jQuery.parseJSON(res.body)
+          that.$set('levers', data.data)
         })
       },
       pageChange: function (page) {
@@ -159,49 +177,6 @@
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/managerBasic/edit/' + id})
-      },
-      deleteInfo: function (id) {
-        var that = this
-        swal({
-            title: "你确定要删除这条信息吗?",
-            text: "删除无法后将无法撤销！",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "确定!",
-            cancelButtonText: "取消",
-            closeOnConfirm: false,
-            closeOnCancel: false
-          },
-          function (isConfirm) {
-            if (isConfirm) {
-              swal({
-                  title: "删除!",
-                  text: "您的文件已被删除！",
-                  confirmButtonColor: "#66BB6A",
-                  type: "success"
-                },
-                function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/customerManager/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
-                    var result = QK.getStateCode(that, data.code)
-                    if (result.state) {
-                      that.infos.$remove(that.infos.find(t => t.id === id))
-                      //document.location.reload();
-                    }
-                  }, function (error) {
-                    console.log(error)
-                  })
-                });
-            } else {
-              swal({
-                title: "取消",
-                text: "您的文件是安全的！",
-                confirmButtonColor: "#2196F3",
-                type: "error"
-              });
-            }
-          });
       },
     }
   }

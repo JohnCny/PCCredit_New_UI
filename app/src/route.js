@@ -103,6 +103,9 @@ export default {
   '/login': {
     component: Login
   },
+  '/api/logon/noLogin': {
+    component: Login
+  },
   '/forgetPass': { //忘记密码
     component: ForgetPass
   },
