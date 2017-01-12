@@ -257,7 +257,6 @@
                     QK.successSwal(optionObj)
                   }else{
                     var optionObj = {
-                      'that' : that,
                       'title' : '创建失败!',
                       'text' : result.msg+"！",
                     }

@@ -189,24 +189,18 @@
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
-                  swal({
-                      title: "修改成功!",
-                      text: "",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success",
-                      confirmButtonText : '确定'
-                  },
-                  function(){
-                    that.$router.go({path:"/system/managerLevel/list"})
-                  })
+                  var optionObj = {
+                      'that' : that,
+                      'title' : '修改成功!',
+                      'listUrl' : '/system/managerLevel/list'
+                    }
+                    QK.successSwal(optionObj)
                 }else{
-                  swal({
-                      title: "修改失败！",
-                      text: result.msg+"！",
-                      confirmButtonColor: "#EF5350",
-                      type: "error",
-                      confirmButtonText : '确定'
-                  })
+                  var optionObj = {
+                      'title' : '修改失败!',
+                      'text' : result.msg+"！",
+                    }
+                    QK.errorSwal(optionObj)
                 }
               })
             }
