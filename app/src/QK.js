@@ -2,6 +2,7 @@
  * Created by Phenix ZZ on 2016/10/13.
  */
 import Vue from 'vue'
+import swal from 'sweetalert'
 const QK = {}
 //组件之间通讯，数据载体
 QK.vector  = new Vue()
@@ -15,6 +16,130 @@ QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingb
 // QK.SERVER_URL = 'http://10.45.51.0:8081'
 // QK.SERVER_URL = 'https://192.168.1.204:8443'
 // QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://www.advisingbank.com:8081');
+
+/*用户列表删除弹出框*/
+QK.deleteSwal = (option) => {
+  swal({
+      title: "你确定要删除这条信息吗?",
+      text: "删除无法后将无法撤销！",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#EF5350",
+      confirmButtonText: "确定!",
+      cancelButtonText: "取消",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function (isConfirm) {
+      if (isConfirm) {
+        option['that'].$http.delete(QK.SERVER_URL + option['deleteUrl']).then(function (data) {
+          var data = jQuery.parseJSON(data.body)
+          var result = QK.getStateCode(option['that'], data.code)
+          if (result.state) {
+            swal({
+              title: "删除成功！",
+              text: "",
+              confirmButtonColor: "#66BB6A",
+              confirmButtonText: "确定",
+              type: "success"
+            },function(){
+              option['that'].infos.$remove(option['that'].infos.find(t => t.id === option['id']))
+            })
+          }else{
+            swal({
+              title: "删除失败！",
+              text: result.msg+'！',
+              confirmButtonColor: "#2196F3",
+              confirmButtonText: "确定",
+              type: "error"
+            })
+          }
+        });
+      } else {
+        swal({
+          title: "",
+          text: "您已取消！",
+          confirmButtonColor: "#2196F3",
+          confirmButtonText: "确定",
+          type: "error"
+        });
+      }
+    })
+}
+/*用户列表重置密码弹出框*/
+QK.resetPwdSwal = (option) => {
+  swal({
+      title: "",
+      text: "你确定要重置密码吗？",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#EF5350",
+      confirmButtonText: "确定!",
+      cancelButtonText: "取消",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function (isConfirm) {
+      if (isConfirm) {
+        option['that'].$http.put(QK.SERVER_URL + option['resetUrl'],option['sendData']).then(function (data) {
+          var data = jQuery.parseJSON(data.body)
+          var result = QK.getStateCode(option['that'], data.code)
+          if (result.state) {
+            swal({
+              title: "重置成功！",
+              text: "",
+              confirmButtonColor: "#66BB6A",
+              type: "success"
+            },function(){
+              option['that'].$router.go({path:option['listUrl']})
+            })
+          }else{
+            swal({
+              title: "重置失败！",
+              text: result.msg+'！',
+              confirmButtonColor: "#2196F3",
+              confirmButtonText: "确定",
+              type: "error"
+            })
+          }
+        });
+      } else {
+        swal({
+          title: "",
+          text: "您已取消！",
+          confirmButtonColor: "#2196F3",
+          confirmButtonText: "确定",
+          type: "error"
+        });
+      }
+    })
+}
+
+/*成功弹出框*/
+QK.successSwal = (option) => {
+  swal({
+      title: option['title'],
+      text: "",
+      confirmButtonColor: "#66BB6A",
+      type: "success",
+      confirmButtonText : '确定'
+    },
+    function(){
+      option['that'].$router.go({path:option['listUrl']})
+    })
+}
+
+/*失败弹出框*/
+QK.errorSwal = (option) => {
+  swal({
+    title: option['title'],
+    text: option['text'],
+    confirmButtonColor: "#EF5350",
+    type: "error",
+    confirmButtonText : '确定'
+  })
+}
+
 /**
  * 根据类名、标签名获取元素
  * @method getElementsByClassName
@@ -264,6 +389,9 @@ QK.isEmpty = (obj) => {
 QK.reSex = (num) => {
   return (num == 1 || num == true) ? '男' : '女';
 }
+
+
+
 
 /**
  * 学历参照

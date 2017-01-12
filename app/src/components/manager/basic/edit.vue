@@ -129,10 +129,18 @@
             var data = jQuery.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
-              alert("修改成功")
-              that.$router.go({path:"/system/managerBasic/list"})
+              var optionObj = {
+                  'that' : that,
+                  'title' : '修改成功!',
+                  'listUrl' : '/system/managerBasic/list"'
+              }
+              QK.successSwal(optionObj)
             }else{
-              alert("修改失败")
+              var optionObj = {
+                  'title' : '修改失败!',
+                  'text' : result.msg+"！",
+              }
+              QK.errorSwal(optionObj)
             }
           })
         }

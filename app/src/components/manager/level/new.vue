@@ -6,7 +6,7 @@
           客户经理级别信息
         </header>
         <div class="panel-body">
-          <form action="" id="managerLevelEdit" @submit.prevent="handleSubmit">
+          <form action="" id="managerLevelNew" @submit.prevent="handleSubmit">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -111,14 +111,11 @@
   </div>
 </template>
 <style scoped>
-  #userNew input,#userNew select{
-    width:80%
-  }
   .message{
     color:#a94442;
     height:20px;
   }
-  #managerLevelEdit input,#managerLevelEdit select{
+  #managerLevelNew input,#managerLevelNew select{
     width:80%
   }
 </style>
@@ -160,7 +157,7 @@
         handleSubmit () {
             var that = this
             var bool = QK.formValidation({
-              id: "#managerLevelEdit",
+              id: "#managerLevelNew",
               rulesMap:{
                   badloanRateMin:{required: !0,isIntGtZero: !0},
                   badloanTolerateRate:{required: !0,isIntGtZero: !0},
@@ -180,10 +177,18 @@
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
-                  alert("创建成功")
-                  that.$router.go({path:"/system/managerLevel/list"})
+                  var optionObj = {
+                      'that' : that,
+                      'title' : '创建成功!',
+                      'listUrl' : '/system/managerLevel/list'
+                    }
+                    QK.successSwal(optionObj)
                 }else{
-                  alert("创建失败")
+                  var optionObj = {
+                      'title' : '创建失败!',
+                      'text' : result.msg+"！",
+                    }
+                    QK.errorSwal(optionObj)
                 }
               })
             }

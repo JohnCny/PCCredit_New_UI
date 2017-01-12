@@ -88,7 +88,13 @@
     methods: {
       init: function () {
         var that = this
-        that.$set('errcode',that.$route.params.errcode)
+        console.log(that.$route.params.errcode)
+        if(that.$route.params.errcode){
+          that.$set('errcode',that.$route.params.errcode)
+        }else{
+          that.$set('errcode','404')
+        }
+
       }
     }
   }

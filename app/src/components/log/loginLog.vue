@@ -1,40 +1,41 @@
-<style src='../../../../static/css/sweetalert.css'></style>
-<style src='../../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          客户经理级别列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
+          客户管理
         </header>
         <div class="panel-body">
+          <div class="row searchDiv">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>登入名：</span><input v-model="search.loginAccount" type="text" name="loginAccount"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>操作：</span><input v-model="search.loginOperation" type="text" name="loginOperation"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+            </div>
+          </div>
           <div class="tableDiv">
-            <table class="table table-striped table-bordered table-hover order-column" id="dtManager">
+            <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>级别名称</th>
-                <th>对应额度</th>
-                <th colspan="2">操作</th>
+                <th>登入名</th>
+                <th>操作</th>
+                <th>操作时间</th>
+                <th>登入结果</th>
+                <th>IP地址</th>
               </tr>
               </thead>
               <tbody>
-              <template  v-if="infos.length" >
-                <tr v-for="info in infos">
-                  <td>${info.levelName}</td>
-                  <td>${info.levelCredit}</td>
-                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                    class="fa fa-edit"></i>
-                    调整 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
-                    class="fa fa-eraser"></i> 删除
-                  </a></td>
-                </tr>
-              </template>
-              <template  v-else>
-                <tr v-else>
-                  <td colspan="4">没有数据</td>
-                </tr>
-              </template>
+              <tr v-for="info in infos">
+                <td>${info.loginAccount}</td>
+                <td>${info.loginOperation | reLog}</td>
+                <td>${info.loginTime | formatDate}</td>
+                <td>${info.loginResult | changeLog}</td>
+                <td>${info.loginIp}</td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -53,32 +54,28 @@
     </div>
   </div>
 </template>
-<style scoped>
-
+<style>
 </style>
 <script>
-  import QK from '../../../QK'
-  import swal from 'sweetalert'
+  import QK from '../../QK'
   export default{
     data: function () {
       return {
-        crumbData: {
-           currentLocal: '客户经理管理',
-           currentLocalData: '客户经理级别定义',
-           currentUser: '客户经理级别定义'
-        },
-        infos: {
-          id: '',
-          levelName: '',
-          levelCredit: ''
-        },
+        infos: [{
+          loginAccount: '',
+          loginOperation: '',
+          loginTime: '',
+          loginResult: '',
+          loginIp: ''
+        }],
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
+        search:{
+           loginAccount: '',
+           loginOperation: ''
+        }
       }
-    },
-    components: {
-
     },
     ready: function () {
       this.init()
@@ -118,11 +115,12 @@
     methods: {
       init: function () {
         var that = this
-        var searchAll = {
-          pageStart : that.currentpage,
-          pageLength : that.visiblepage
+         var searchAll = {
+          "pageStart" : that.currentpage,
+          "pageLength" : that.visiblepage,
+          "pageSearch" : JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerManagerLevel/pageList',searchAll, true).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -130,7 +128,6 @@
           }
           that.$set('totlepage', page)
           that.$set('infos', data.data)
-          QK.vector.$emit('getfromCrumb',that.crumbData)
         })
       },
       pageChange: function (page) {
@@ -139,29 +136,7 @@
         if (that.currentpage != page) {
           that.currentpage = page
         }
-      },
-      showInfo: function (id) {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/managerLevel/edit/' + id})
-      },
-      showNewPage: function () {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/managerLevel/new'})
-      },
-      deleteInfo: function (id) {
-        var that = this
-        var optionObj = {
-          'that' : that,
-          'id' : id,
-          'deleteUrl' : '/api/customerManagerLevel/'+id,
-        }
-        QK.deleteSwal(optionObj)
-      },
+      }
     }
   }
-
 </script>
