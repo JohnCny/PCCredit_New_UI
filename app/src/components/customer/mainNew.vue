@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="form-group col-md-offset-4" style="height:150px;">
-            <label for="maintennaceSummary" class="col-sm-2 control-label">联系方式</label>
+            <label for="maintennaceSummary" class="col-sm-2 control-label">维护纪要内容</label>
             <div class="col-sm-10">
               <div class="input-icon right">
                 <textarea  name="maintennaceSummary" id="maintennaceSummary" v-model="tCustomerMaintenance.maintennaceSummary" class="form-control" style="width:45%;height:130px;"></textarea>
@@ -48,15 +48,15 @@
   }
 </style>
 <script>
-    import QK from '../../QK.js'
+    import QK from '../../QK'
     import jQueryValidation from 'jquery-validation'
     export default{
         data:function(){
              return {
                tCustomerMaintenance:{
-                id: '143',
+                id: '',
                 maintenanceType: '',
-                maintennaceSummary: '',
+                maintennaceSummary: ''
              },
              maintenanceType:[{
                 id: '',
@@ -86,11 +86,9 @@
            if (bool) {
             //发送请求
                 var tCustomerMaintenance = that.tCustomerMaintenance
-                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',{
-                id: that.tCustomerMaintenance.id,
-                maintenanceType: that.tCustomerMaintenance.maintenanceType,
-                maintennaceSummary: that.tCustomerMaintenance.maintennaceSummary
-                }, tCustomerMaintenance, true).then(function (data) {
+                var id = that.$route.params.id
+                tCustomerMaintenance.id=id
+                that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',tCustomerMaintenance, true).then(function (data) {
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
@@ -101,7 +99,7 @@
               return false
             },
             type:function() {
-                var that = this;
+                var that = this
                 that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/maintenanceType', true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)

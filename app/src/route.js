@@ -55,8 +55,9 @@ import UserEdit from './components/user/edit.vue'//新建用户
 /************************
  * 权限管理
  * ***********************/
-import Permission from './components/role/index.vue'//权限列表
-import PerEdit from './components/role/edit.vue'//权限编辑
+import Role from './components/role/index.vue'//权限列表
+import RoleNew from './components/role/new.vue'//权限新建
+import RoleEdit from './components/role/edit.vue'//权限编辑
 
 /************************
  * 数据字典管理
@@ -72,13 +73,6 @@ import ParaEdit from './components/system/edit.vue'//系统参数编辑
 
 
 /************************
- * 角色权限管理
- * ***********************/
-import UserPer from './components/user/permission.vue'//角色权限管理
-import UserPerEdit from './components/user/perEdit.vue'//角色权限编辑
-
-
-/************************
  * 日志管理
  * ***********************/
 
@@ -88,6 +82,21 @@ import UserPerEdit from './components/user/perEdit.vue'//角色权限编辑
 import OrgList from './components/organization/index.vue'//机构列表
 import OrgEdit from './components/organization/edit.vue'//编辑机构
 import OrgNew from './components/organization/new.vue'//新建机构
+
+
+/************************
+ * 产品管理
+ * ***********************/
+import ProNew1 from './components/product/new1.vue'//新建产品1
+import ProNew2 from './components/product/new2.vue'//新建产品2
+import ProNew3 from './components/product/new3.vue'//新建产品3
+import ProNew4 from './components/product/new4.vue'//新建产品3
+import ProNew5 from './components/product/new5.vue'//新建产品5
+import ProList from './components/product/index.vue'//产品列表
+/************************
+ * 菜单管理
+ * ***********************/
+import MenuManage from './components/system/menuManage.vue'//菜单管理
 
 export default {
   // '/index': {
@@ -156,7 +165,7 @@ export default {
       '/customer/mainList':{//客户维护列表
         component: Maintenance
       },
-      '/customer/mainNew': {//新增客户维护
+      '/customer/mainNew/:id': {//新增客户维护
         component: MainNew
       },
       '/customer/mainRecord/:id': {//客户维护记录
@@ -189,22 +198,15 @@ export default {
 
       /*start---权限---start*/
       '/role/list': {//权限列表
-        component: Permission
+        component: Role
+      },
+      '/role/new': {//权限新建
+        component: RoleNew
       },
       '/role/edit/:id': {//权限编辑
-        component: PerEdit
+        component: RoleEdit
       },
       /*end---权限---end*/
-
-
-      /*start---角色权限管理---start*/
-      '/user/perList': {//角色权限管理
-        component: UserPer
-      },
-      '/user/perEdit/:id': {//角色权限编辑
-        component: UserPerEdit
-      },
-      /*end---角色权限管理---end*/
 
 
       /*start---系统参数---start*/
@@ -227,6 +229,31 @@ export default {
       /*end---数据字典---end*/
 
 
+      /*start---产品---start*/
+        '/product/new1':{//新建产品1
+          component:ProNew1
+        },
+        '/product/new2':{//新建产品2
+          component:ProNew2
+        },
+        '/product/new3':{//新建产品3
+          component:ProNew3
+        },
+        '/product/new4':{//新建产品4
+          component:ProNew4
+        },
+        '/product/new5':{//新建产品5
+          component:ProNew5
+        },
+        '/product/list':{//产品列表
+          component:ProList
+        },
+        /*end---产品---end*/
+        /*start---菜单管理---start*/
+        '/menu/manage': {
+          component: MenuManage
+        },
+        /*end---菜单管理---end*/
     }
   }
 }

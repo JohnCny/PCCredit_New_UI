@@ -30,8 +30,8 @@
         <div class="panel-body">
           <div>
             <template v-for="group in authority">
-              <div class="col-md-3">
-                ${group.groupName}:
+              <div class="col-md-3" style="margin-top:20px;">
+                ${group.groupName}
                 <select class="form-control">
                   <template v-for="auth in group.authorityList">
                     <option name="auth" id="auth" value="${auth.id}">${auth.authorityNameZh}</option>
@@ -43,13 +43,12 @@
           <div class="row">
             <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
               <button id="btn_submit" class="btn btn-success">确定</button>
-              <a type="reset"  class="btn btn-default">取消</a>
+              <a v-on:click="cancelMethod()"  type="reset"  class="btn btn-default">取消</a>
             </div>
           </div>
         </div>
       </section>
     </div>
-
   </div>
 </template>
 <style scoped>
@@ -88,6 +87,9 @@
                 that.$set("authority", data.data.authority)
               }
             })
+         },
+          cancelMethod(){
+           this.$router.go({path:localStorage.nowurl})
          }
       }
   }

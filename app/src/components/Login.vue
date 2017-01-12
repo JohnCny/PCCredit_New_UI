@@ -19,12 +19,9 @@
           <input type="checkbox" value="remember-me"> 记住我
           <span class="pull-right">
                     <a v-on:click="forgetPass"> 忘记密码？</a>
-
            </span>
         </label>
-
       </div>
-
       <!-- Modal -->
       <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
            class="modal fade">
@@ -131,6 +128,7 @@
                   localStorage.user = JSON.stringify(data.data)
                   $(".registration").addClass("isHidden")
                   that.$router.go({path: '/system'})
+                 // $('body').css({'background':'#424f63'})
                 }else{
                   that.message.msg = result.msg
                   that.message.errorImg = '/static/images/error1.png'
