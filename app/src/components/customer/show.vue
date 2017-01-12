@@ -1,93 +1,18 @@
+<style src='../../../static/css/Tabs.css'></style>
 <template>
   <form class="content">
     <ul class="myTab">
-      <li class="active" v-on:click="setTab2(this,'jbxx')">客户基本信息</li>
+      <!--<li class="active" v-on:click="setTab2(this,'jbxx')">客户基本信息</li>
       <li v-on:click="setTab2(this,'dkqk')">客户贷款情况</li>
       <li v-on:click="setTab2(this,'khwhjl')">客户维护记录</li>
       <li v-on:click="setTab2(this,'dhjkjl')">贷后监控记录</li>
       <li v-on:click="setTab2(this,'csjl')">逾期/不良催收记录</li>
-      <li v-on:click="setTab2(this,'yjjl')">客户移交记录</li>
+      <li v-on:click="setTab2(this,'yjjl')">客户移交记录</li>-->
+      <template v-for="todo in infoData">
+        <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
+      </template>
     </ul>
     <!--*******************************************客户基本信息*******************************************************-->
-    <!--<div class="tabContent" id="jbxx">-->
-        <!--<div class="col-sm-12">-->
-          <!--<section class="panel">-->
-            <!--<header class="panel-heading">-->
-              <!--编辑客户-->
-            <!--</header>-->
-            <!--<div class="panel-body">-->
-              <!--<div class="row">-->
-              <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                <!--<div class="form-group">-->
-                  <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">客户名称</div>-->
-                  <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                    <!--${tCustomerBasic.cname}-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">性别</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.sex}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">证件类型</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--身份证-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">证件号码</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.certificateNumber}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">联系方式</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.tel}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">家庭住址</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.homeAddress}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">婚姻状况</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.marriageStatus}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-6 col-sm-12 col-xs-12">-->
-                  <!--<div class="form-group">-->
-                    <!--<div class="control-label col-md-3 col-sm-3 col-xs-4">${tCustomerBasic.文化程度}</div>-->
-                    <!--<div class="col-md-9 col-sm-9 col-xs-8">-->
-                      <!--${tCustomerBasic.marriageStatus}-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-      <!--</div>-->
-            <!--</div>-->
-          <!--</section>-->
-        <!--</div>-->
-    <!--</div>-->
     <div class="tabContent" id="jbxx">
       <div class="report common">
         <h5>基本信息</h5>
@@ -214,7 +139,7 @@
             <th>移交结果</th>
           </tr>
           <tr v-for="transfer in transfers">
-            <th>${transfer.createTime}</th>
+            <th>${transfer.transferTime}</th>
             <th>${transfer.oldManager.username}</th>
             <th>${transfer.newManager.username}</th>
             <th>${transfer.transferReason}</th>
@@ -229,37 +154,7 @@
   </form>
 </template>
 <style scoped>
-.myTab {margin:0;}
-        .myTab li{display:inline-block;list-style:none;background:#fff;border:1px solid #eff0f4;color:#bbb;padding:7px 15px;border-radius:5px 5px 0 0;margin-right:1px;cursor:pointer;}
-        .myTab .active{color:#fff;background: #65cea7!important;border:1px solid #65cea7;}
-        .tabContent{border:1px solid #65cea7;width:98%;margin-bottom:20px;}
-        .tabPage{background:#fff;margin:0;padding-bottom:20px;}
-        .tabPage .report{width:100%;padding-bottom:30px;}
-        .tabContent .report{float:none;margin:0;padding:10px;}
-        .tabContent .report table{margin:10px;width:98%;}
-        .tabContent3{width:auto;overflow:hidden}
-        .content h1{color: #49586e;font-size: 25px;font-weight: normal;margin:5px 0;}
-        .content h2{color: #999999;font-size: 14px;font-weight: normal;margin-top:0;}
-        .content h2 span{color: #65CEA7;}
-        .report{float:left;background:#fff;border-radius:5px;width:98%;margin-bottom:20px;}
-        .report h5{border-bottom: 1px dotted #c0c0c0;border-bottom: 1px dotted rgba(0, 0, 0, 0.2);padding: 15px;text-transform: uppercase;color: #535351;font-size: 16px;font-weight: bold;}
-        .report table{width:95%;margin-top:20px;border-collapse: collapse;margin-bottom:20px;}
-        .report table tr:nth-child(2n){background:#f7f7f7;}
-        .report table tr th{border-bottom: 2px solid #ddd;color: #7a7676;font-size:14px;line-height:35px;}
-        .report table tr td{border-bottom: 1px solid #ddd;color: #7a7676;text-align:center;font-size:14px;line-height:35px;}
 
-        /*新增报销*/
-        .common table{background: #f7f7f7;padding:0 20px;}
-        .common table tr th{border-bottom:0;text-align:left;line-height:45px;}
-        .common table tr td{border-bottom:0;text-align:left;line-height:45px;}
-        .common .treeBox{margin-left:1em;}
-        .button{text-align:center;width:98%;}
-        .button input{width:90px;line-height:30px;font-family: 微软雅黑;margin:0 5px;border-radius: 5px;color: #fff;background-color: #5cb85c;border:1px solid #4cae4c;}
-        .button input:hover{background-color: #47a447;}
-        .button .del{background-color: #d9534f;border-color: #d43f3a;}
-        .button .del:hover{background-color: #d2322d;}
-        .button .back{background-color: #fff;border-color: #cccccc;color:#333359;}
-        .button .back:hover{background-color: #ebebeb;}
 </style>
 <script>
     import QK from '../../QK'
@@ -275,7 +170,15 @@
                   homeAddress:'',
                   marriageStatus:'',
                   educationDegree:''
-                }
+                },
+                 infoData : [
+                {id:'jbxx',text:'客户基本信息',classname:'active'},
+                {id:'dkqk',text:'客户贷款情况',classname:''},
+                {id:'khwhjl',text:'客户维护记录',classname:''},
+                {id:'dhjkjl',text:'贷后监控记录',classname:''},
+                {id:'csjl',text:'逾期/不良催收记录',classname:''},
+                {id:'yjjl',text:'客户移交记录',classname:''},
+              ]
            }
         },
         ready:function(){
@@ -307,11 +210,13 @@
               }
             })
            },
-            setTab2:function(obj,id){
-                  $(obj).parent().find("li").attr("class","")
-                  $(obj).attr("class","active")
-                  $(".tabContent").hide();
-                  $("#"+id).show();
+           setTab2:function(){
+                var that = this
+                  console.log(event.currentTarget)
+                  $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
+                  var id = $(event.currentTarget).data("id")
+                  console.log(id)
+                  $("#"+id).show().siblings("div.tabContent").hide()
             }
         }
     }

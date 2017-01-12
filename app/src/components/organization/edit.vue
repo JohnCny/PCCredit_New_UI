@@ -1,16 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-sm-4">
-      <section class="panel">
-        <header class="panel-heading">
-          编辑机构
-        </header>
-        <div class="panel-body">
-
-        </div>
-      </section>
-    </div>
-    <div class="col-sm-8">
+    <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
           编辑用户信息
@@ -37,17 +27,17 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="orgLogisticsId">后勤</label>
-                  <div class="input-icon right">
-                    <input  v-model="tOrganization.orgLogisticsId" id="orgLogisticsId" type="text" class="form-control" name="orgLogisticsId">
-                    <div class="message">${errors.orgLogisticsIdError}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!--<div class="row">-->
+              <!--<div class="col-md-6">-->
+                <!--<div class="form-group">-->
+                  <!--<label for="orgLogisticsId">后勤</label>-->
+                  <!--<div class="input-icon right">-->
+                    <!--<input  v-model="tOrganization.orgLogisticsId" id="orgLogisticsId" type="text" class="form-control" name="orgLogisticsId">-->
+                    <!--<div class="message">${errors.orgLogisticsIdError}</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
 
             <div class="row">
               <div class="col-md-12">
@@ -63,9 +53,6 @@
   </div>
 </template>
 <style scoped>
-  #userNew input,#userNew select{
-    width:80%
-  }
   .message{
     color:#a94442;
     height:20px;
@@ -80,12 +67,12 @@
                 tOrganization:{
                   orgName: '',
                   orgDirectorName: '',
-                  orgLogisticsId: ''
+                  //orgLogisticsId: ''
                 },
                 errors:{
                   orgNameError: '',
                   orgDirectorNameError: '',
-                  orgLogisticsIdError: ''
+                  //orgLogisticsIdError: ''
                 }
            }
         },
@@ -99,19 +86,38 @@
             var bool = QK.formValidation({
               id: "#org_edit",
               rulesMap:{
-                orgName:{required: !0,isRightfulString:!0},
+                orgName:{required: !0},
                 orgDirectorName:{required: !0},
-                orgLogisticsId:{required: !0}
+                //orgLogisticsId:{required: !0}
               }
             })
             //验证结果  true  false
             if(bool){
-              that.$http.put(QK.SERVER_URL+'/organization', that.tOrganization, true).then(function (data) {
+              var tOrganization = that.tOrganization
+              delete tOrganization["createTime"]
+              that.$http.put(QK.SERVER_URL+'/api/organization', that.tOrganization, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
-                if (result.state) {
-                  that.$router.go({path:"/system/organization/list"})
-                }
+               if (result.state) {
+                  swal({
+                      title: "修改成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  },
+                  function(){
+                    that.$router.go({path:"/system/organization/list"})
+                  })
+                }else{
+                  swal({
+                      title: "修改失败！",
+                      text: result.msg+"！",
+                      confirmButtonColor: "#EF5350",
+                      type: "error",
+                      confirmButtonText : '确定'
+                   })
+                  }
               })
             }
             return false

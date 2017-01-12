@@ -269,7 +269,17 @@ export const expertChange = (num) => {
 export const reSex = (num) => {
   return (num == 1 || num == true) ? '男' : '女';
 }
-
+/**
+ * 性别转换
+ * @method reLog
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2016.10.13
+ */
+export const reLog = (num) => {
+  return (num == 1) ? '登陆' : '退出';
+}
 /**
  * 学历参照
  * @method reEdu
@@ -295,6 +305,38 @@ export const reEdu = (num) => {
       break;
     case 5:
       reStr = '初中及以下';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+
+/**
+ * 登入结果
+ * @method changeLog
+ * @param {number} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const changeLog = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 1:
+      reStr = '账号未知';
+      break;
+    case 2:
+      reStr = '密码错误';
+      break;
+    case 3:
+      reStr = '账号锁定';
+      break;
+    case 4:
+      reStr = '账号禁用';
+      break;
+    case 5:
+      reStr = '成功';
       break;
     default:
       reStr = '未填写'

@@ -32,7 +32,7 @@
               <tbody>
               <tr v-for="info in infos">
                 <td><a href="javascript:;" v-on:click="show(info.id)">${info.cname}</a></td>
-                <td>${info.sex}</td>
+                <td>${info.sex | reSex}</td>
                 <td>${info.tel}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.createTime | formatDate}</td>
@@ -65,7 +65,7 @@
 <style>
 </style>
 <script>
-  import QK from '../../QK.js'
+  import QK from '../../QK'
   import swal from 'sweetalert'
   export default{
     data: function () {
@@ -126,11 +126,11 @@
       init: function () {
         var that = this
          var searchAll = {
-          pageStart : that.currentpage,
-          pageLength : that.visiblepage,
-          pageSearch : JSON.stringify(that.search)
+          "pageStart" : that.currentpage,
+          "pageLength" : that.visiblepage,
+          "pageSearch" : JSON.stringify(that.search)
         }
-        that.$http.get(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -201,7 +201,7 @@
               });
             }
           });
-      },
+      }
     }
   }
 </script>

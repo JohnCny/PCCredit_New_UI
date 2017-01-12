@@ -43,7 +43,7 @@
           <div class="row">
             <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
               <button id="btn_submit" class="btn btn-success">确定</button>
-              <a  v-link={path:'/system/role/list'} type="reset"  class="btn btn-default">取消</a>
+              <a v-on:click="cancelMethod()"  type="reset"  class="btn btn-default">取消</a>
             </div>
           </div>
         </div>
@@ -87,6 +87,9 @@
                 that.$set("authority", data.data.authority)
               }
             })
+         },
+          cancelMethod(){
+           this.$router.go({path:localStorage.nowurl})
          }
       }
   }
