@@ -160,8 +160,7 @@
 
   </div>
   <p class="button">
-    <a class="btn btn-success">保存</a>
-    <a class="btn btn-success">保存保存并继续</a>
+    <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
     <a class="btn btn-default">返回</a>
   </p>
 

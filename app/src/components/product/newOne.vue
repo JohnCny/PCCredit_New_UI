@@ -23,7 +23,7 @@
               <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="productName">产品名称</label>
                 <div class="input-icon right">
-                  <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="请输入至少2-10位汉字">
+                  <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="">
                   <div class="message">${errors.productNameError}</div>
                 </div>
               </div>
@@ -42,7 +42,7 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productLoanPeriod">贷款周期</label>
                 <div class="input-icon right">
-                  <input id="productLoanPeriod" type="text" class="form-control" name="productLoanPeriod" v-model="tProductInfo.productLoanPeriod" placeholder="请输入有效地址">
+                  <input id="productLoanPeriod" type="text" class="form-control" name="productLoanPeriod" v-model="tProductInfo.productLoanPeriod" placeholder="">
                   <div class="message">${errors.productLoanPeriodError}</div>
                 </div>
               </div>
@@ -72,7 +72,7 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productLimit">产品额度区间</label>
                 <div class="input-icon right">
-                  <input id="productLimitMin" type="text" class="qujian" name="productLimitMin" v-model="tProductInfo.productLimitMin" placeholder="请输入有效地址">
+                  <input id="productLimitMin" type="text" class="qujian" name="productLimitMin" v-model="tProductInfo.productLimitMin" placeholder="">
                   <span>~</span>
                   <input type="text" name="productLimitMax" id="productLimit" value="" class="qujian" v-model="tProductInfo.productLimitMax"/>
                   <div class="message">${errors.productLimitMaxError}</div>
@@ -91,14 +91,14 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productSendProductNumber">对应下发数据产品编号</label>
                 <div class="input-icon right">
-                  <input id="productSendProductNumber" type="text" class="form-control" name="productSendProductNumber" v-model="tProductInfo.productSendProductNumber" placeholder="请输入有效地址">
+                  <input id="productSendProductNumber" type="text" class="form-control" name="productSendProductNumber" v-model="tProductInfo.productSendProductNumber" placeholder="">
                   <div class="message">${errors.productSendProductNumberError}</div>
                 </div>
               </div>
               <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productImg">产品图片</label>
                 <div class="input-icon right">
-                  <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="请输入有效地址">
+                  <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="">
                   <div class="message">${errors.productPictureUrlError}</div>
                 </div>
               </div>
@@ -235,12 +235,13 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
                 <label for="homeAddress">图片说明:</label>
                 <div class="input-icon right">
-                  <input id="homeAddress" type="text" class="form-control" name="productPictureUrl" v-model="tProductInfo.productPictureUrl" placeholder="请输入有效地址">
+                  <input id="homeAddress" type="text" class="form-control" name="productPictureUrl" v-model="tProductInfo.productPictureUrl" placeholder="">
                   <div style="position:absolute;left:100%; top:25%">
                     <img src="../../../static/images/add.png" v-on:click="addTap()">
                     <img src="../../../static/images/del.png" v-on:click="delTap()">
                   </div>
                 </div>
+                <div class="message">${errors.productPictureUrlError}</div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="sex">是否必选:</label>
@@ -251,7 +252,7 @@
                   <label onclick="setRadio(this)"class=" radio_a">
                     是
                   </label>
-                  <input id="roleId" type="radio" name="roleId" >
+                  <input id="roleId" type="radio" name="roleId" checked="checked">
                   <label onclick="setRadio(this)"class=" radio_a">
                     否
                   </label>
@@ -304,7 +305,7 @@ import selsect2 from 'select2'
                  productInterestMin:'',
                  productSendProductNumber:'',
                  productDescription:'',
-                 productImg:''
+                 productImg:'',
               },
               proType:[{
                  id:'',
@@ -330,7 +331,7 @@ import selsect2 from 'select2'
                  productMarriageLimitError:'',
                  productIndustryLimitError:'',
                  productCreditLevelLimitError:'',
-                 customerManagerLevelIdError:''
+                 customerManagerLevelIdError:'',
               },
               tLevel:{
                 productHouseholdLevelLimit:'',
@@ -357,21 +358,22 @@ import selsect2 from 'select2'
                 var bool = QK.formValidation({
                     id: "#pro_new",
                     rulesMap: {
-                      productName: {required: !0},
-                      productType: {required: !0},
+                      productName: {required: !0,isChinese: !0},
+                      productType: {required: !0,downList: !0},
                       productPictureUrl: {required: !0},
                       productLoanPeriod: {required: !0,digits: !0},
-                      productRepaymentMode: {required: !0},
+                      productRepaymentMode: {required: !0,downList: !0},
                       productApplyTemplateId: {required: !0},
                       productLimitMax: {required: !0,digits: !0},
                       productLimitMin: {required: !0,digits: !0},
-                      productInterestMax: {required: !0},
-                      productInterestMin: {required: !0},
+                      productInterestMax: {required: !0,},
+                      productInterestMin: {required: !0,},
                       productSendProductNumber: {required: !0},
                       productDescription: {required: !0},
                       productAgeMaxLimit:{required: !0,digits: !0},
                       productAgeMinLimit:{required: !0,digits: !0},
-                      customerManagerLevelId:{required: !0}
+                      customerManagerLevelId:{required: !0},
+                      productHouseholdLevelLimit:{required: !0,downList: !0}
                     }
                 })
                   //验证结果  true  false
@@ -403,6 +405,7 @@ import selsect2 from 'select2'
                           orgStr:'1'
                           }, true).then(function (data) {
                           var data = jQuery.parseJSON(data.body)
+                          var id = data.data
                           var result = QK.getStateCode(that, data.code)
                           if (result.state) {
                            swal({
@@ -413,12 +416,12 @@ import selsect2 from 'select2'
                               confirmButtonColor: "#2196F3",
                               confirmButtonText: "是",
                               cancelButtonText: "否",
-                              closeOnConfirm: false,
-                              closeOnCancel: false
+                              closeOnConfirm: true,
+                              closeOnCancel: true
                           },
                           function(isConfirm){
                               if (isConfirm) {
-                                  that.$router.go({path:"/system/product/newTwo"})
+                                  that.$router.go({path:"/system/product/newTwo/" + id})
                               }else {
                                   that.$router.go({path:"/system/product/list"})
                               }
