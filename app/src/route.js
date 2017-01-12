@@ -75,6 +75,7 @@ import ParaEdit from './components/system/edit.vue'//系统参数编辑
 /************************
  * 日志管理
  * ***********************/
+import LogList from './components/log/loginLog.vue'//登录日志管理列表
 
 /************************
  * 机构管理
@@ -254,6 +255,12 @@ export default {
           component: MenuManage
         },
         /*end---菜单管理---end*/
+
+      /*start---登录日志管理---start*/
+      '/log/list': {//登陆日志列表
+        component: LogList
+      },
+      /*end---登录日志管理---end*/
     }
   }
 }

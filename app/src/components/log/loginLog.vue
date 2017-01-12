@@ -8,10 +8,10 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户名称：</span><input v-model="search.cname" type="text" name="cname"/>
+              <span>登入名：</span><input v-model="search.loginAccount" type="text" name="loginAccount"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户证件号码：</span><input v-model="search.certificateNumber" type="text" name="certificateNumber"/>
+              <span>操作：</span><input v-model="search.loginOperation" type="text" name="loginOperation"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -21,28 +21,20 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>姓名</th>
-                <th>性别</th>
-                <th>联系方式</th>
-                <th>证件号码</th>
-                <th>创建时间</th>
-                <th colspan="2">操作</th>
+                <th>登入名</th>
+                <th>操作</th>
+                <th>操作时间</th>
+                <th>登入结果</th>
+                <th>IP地址</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td><a href="javascript:;" v-on:click="show(info.id)">${info.cname}</a></td>
-                <td>${info.sex | reSex}</td>
-                <td>${info.tel}</td>
-                <td>${info.certificateNumber}</td>
-                <td>${info.createTime | formatDate}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i>
-                  编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
-                  class="fa fa-eraser"></i> 删除
-                </a></td>
-
+                <td>${info.loginAccount}</td>
+                <td>${info.loginOperation | reLog}</td>
+                <td>${info.loginTime | formatDate}</td>
+                <td>${info.loginResult | changeLog}</td>
+                <td>${info.loginIp}</td>
               </tr>
               </tbody>
             </table>
@@ -66,24 +58,22 @@
 </style>
 <script>
   import QK from '../../QK'
-  import swal from 'sweetalert'
   export default{
     data: function () {
       return {
         infos: [{
-          id: '',
-          cname: '',
-          sex: '',
-          tel: '',
-          certificateNumber: '',
-          createTime: ''
+          loginAccount: '',
+          loginOperation: '',
+          loginTime: '',
+          loginResult: '',
+          loginIp: ''
         }],
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search:{
-           certificateNumber: '',
-           cname: ''
+           loginAccount: '',
+           loginOperation: ''
         }
       }
     },
@@ -130,7 +120,7 @@
           "pageLength" : that.visiblepage,
           "pageSearch" : JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -146,61 +136,6 @@
         if (that.currentpage != page) {
           that.currentpage = page
         }
-      },
-      showInfo: function (id) {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/customer/edit/' + id})
-      },
-      show: function(id){
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/customer/show/' + id})
-      },
-      deleteInfo: function (id) {
-        var that = this
-        swal({
-            title: "你确定要删除这条信息吗?",
-            text: "删除无法后将无法撤销！",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "确定!",
-            cancelButtonText: "取消",
-            closeOnConfirm: false,
-            closeOnCancel: false
-          },
-          function (isConfirm) {
-            if (isConfirm) {
-              swal({
-                  title: "删除!",
-                  text: "您的文件已被删除！",
-                  confirmButtonColor: "#66BB6A",
-                  type: "success"
-                },
-                function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/customerBasic/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
-                    var result = QK.getStateCode(that, data.code)
-                    if (result.state) {
-                      that.infos.$remove(that.infos.find(t => t.id === id))
-                      //document.location.reload();
-                    }
-                  }, function (error) {
-                    console.log(error)
-                  })
-                });
-            } else {
-              swal({
-                title: "取消",
-                text: "您的文件是安全的！",
-                confirmButtonColor: "#2196F3",
-                type: "error"
-              });
-            }
-          });
       }
     }
   }
