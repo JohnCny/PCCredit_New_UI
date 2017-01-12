@@ -33,8 +33,8 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.productName}</td>
-                <td>${info.productLimitMax}~${info.productLimitMin}</td>
-                <td>${info.productInterestMax}~${info.productInterestMin}</td>
+                <td>${info.productLimitMin}~${info.productLimitMax}</td>
+                <td>${info.productInterestMin}~${info.productInterestMax}</td>
                 <td v-if="info.productState == 0"><span class="label label-success">正常</span></td>
                 <td v-if="info.productState == 1"><span class="label label-default">关闭</span></td>
                 <td v-if="info.productState == 2"><span class="label label-info">创建中</span></td>

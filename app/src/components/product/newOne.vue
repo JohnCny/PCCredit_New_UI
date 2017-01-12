@@ -1,6 +1,7 @@
 <style src='../../../static/css/Tabs.css'></style>
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
-  <form id="pro_new" @submit.prevent="handleSubmit">
+
     <ul class="myTab">
       <template v-for="todo in infoData">
       <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
@@ -11,6 +12,7 @@
         </template>
     </ul>
     <!--*******************************************产品信息*******************************************************-->
+  <form id="pro_new" @submit.prevent="handleSubmit">
     <div class="tabContent" id="cpxx">
       <div class="report common">
         <h5>产品信息</h5>
@@ -21,8 +23,7 @@
               <div class="form-group col-md-3 col-sm-6 col-xs-12">
                 <label for="productName">产品名称</label>
                 <div class="input-icon right">
-                  <input v-modle="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"
-                         placeholder="请输入至少2-10位汉字">
+                  <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="请输入至少2-10位汉字">
                   <div class="message">${errors.productNameError}</div>
                 </div>
               </div>
@@ -30,8 +31,9 @@
                 <label for="productType">产品类型</label>
                 <div class="input-icon right">
                   <select id="productType" type="text" name="productType" class="form-control" v-model="tProductInfo.productType">
+                      <option value="-1" selected=selected>--请选择--</option>
                     <template v-for="types in proType">
-                      <option  value="${types.id}" checked>${types.name}</option>
+                      <option  value="${types.id}">${types.name}</option>
                     </template>
                   </select>
                   <div class="message">${errors.productTypeError}</div>
@@ -70,19 +72,19 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productLimit">产品额度区间</label>
                 <div class="input-icon right">
-                  <input id="productLimits" type="text" class="qujian" name="productLimitMax" v-model="tProductInfo.productLimitMax" placeholder="请输入有效地址">
+                  <input id="productLimitMin" type="text" class="qujian" name="productLimitMin" v-model="tProductInfo.productLimitMin" placeholder="请输入有效地址">
                   <span>~</span>
-                  <input type="text" name="productLimitMin" id="productLimit" value="" class="qujian" v-model="tProductInfo.productLimitMin"/>
+                  <input type="text" name="productLimitMax" id="productLimit" value="" class="qujian" v-model="tProductInfo.productLimitMax"/>
                   <div class="message">${errors.productLimitMaxError}</div>
                 </div>
               </div>
 
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="certificateType">产品利率区间</label>
+                <label for="productInterestMax">产品利率区间</label>
                 <div class="input-icon right">
-                  <input type="text" class="qujian" name="productInterestMax" v-model="tProductInfo.productInterestMax" id="productInterestMax"/>
-                  <span>~</span>
                   <input type="text" class="qujian" name="productInterestMin" v-model="tProductInfo.productInterestMin" id="productInterestMin"/>
+                  <span>~</span>
+                  <input type="text" class="qujian" name="productInterestMax" v-model="tProductInfo.productInterestMax" id="productInterestMax"/>
                   <div class="message">${errors.productInterestMaxError}</div>
                 </div>
               </div>
@@ -94,9 +96,9 @@
                 </div>
               </div>
               <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productPictureUrl">产品图片</label>
+                <label for="productImg">产品图片</label>
                 <div class="input-icon right">
-                  <input id="productPictureUrl" type="file" class="form-control" name="productPictureUrl" v-model="tProductInfo.productPictureUrl" placeholder="请输入有效地址">
+                  <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="请输入有效地址">
                   <div class="message">${errors.productPictureUrlError}</div>
                 </div>
               </div>
@@ -122,68 +124,66 @@
               <!--<template v-for="dropDown in dropDownList">-->
               <div class="row">
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="cname">户籍</label>
+                <label for="productHouseholdLevelLimit">户籍</label>
                 <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
+                  <select id="productHouseholdLevelLimit" type="text" name="productHouseholdLevelLimit" class="form-control" v-model="tLevel.productHouseholdLevelLimit">
+                    <option value="-1" selected="selected">--请选择--</option>
+                    <option value="0">本地</option>
+                    <option value="1">外地</option>
+                    <option value="2">无限制</option>
                   </select>
-                  <div class="message">${errors.cnameError}</div>
+                  <div class="message">${errors.productHouseholdLevelLimitError}</div>
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">是否必须已婚</label>
+                <label for="productMarriageLimit">是否必须已婚</label>
                 <div class="input-icon right">
                 <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
                   <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                  <input id="roleId" type="radio" name="roleId" value="${temp.id}">
+                  <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="1">
                   <label onclick="setRadio(this)"class=" radio_a">
                     是
                   </label>
-                  <input id="roleId" type="radio" name="roleId" value="${temp.id}">
+                  <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="0">
                   <label onclick="setRadio(this)"class=" radio_a">
                     否
                   </label>
-                  <div class="message">${errors.sexError}</div>
+                  <div class="message">${errors.productMarriageLimitError}</div>
                 </div>
               </div>
               </div>
               <div class="row">
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="certificateType">年龄区间</label>
+                <label for="productAgeMaxLimit">年龄区间</label>
                 <div class="input-icon right" style="    text-align: center;">
-                  <input data-error="${telError}" id="certificateType" type="text" class="form-control" name="tel" v-model="customerBasicInfo.tel" placeholder="请输入正确的手机号码">
+                  <input id="productAgeMinLimit" type="text" class="form-control" name="productAgeMinLimit" v-model="tLevel.productAgeMinLimit" placeholder="" v-model="tLevel.productAgeMinLimit">
                   ~
-                  <input data-error="${telError}" id="certificateType" type="text" class="form-control" name="tel" v-model="customerBasicInfo.tel" placeholder="请输入正确的手机号码">
-                  <div class="message">${errors.certificateTypeError}</div>
+                  <input id="productAgeMaxLimit" type="text" class="form-control" name="productAgeMaxLimit" v-model="tLevel.productAgeMaxLimit" placeholder="" v-model="tLevel.productAgeMaxLimit">
+                  <div class="message">${errors.productAgeMaxLimitError}</div>
                 </div>
               </div>
-
-
               <div class="form-group col-md-6 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="certificateType">征信</label>
+                <label >征信</label>
                 <div class="input-icon right">
-                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">无信用记录</label></span>
-                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">信用良好</label></span>
-                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">有少量逾期</label></span>
-                  <span class="hideInput"><input type="checkbox"><label onclick="setCheckbox(this)" class="checkss checkbox_a">当前有逾期</label></span>
-                  <div class="message">${errors.certificateTypeError}</div>
+                  <span class="hideInput"><input type="checkbox" value="1" name="productCreditLevelLimit"><label class="checkss checkbox_a">无信用记录</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">信用良好</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">有少量逾期</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">当前有逾期</label></span>
+                  <div class="message">${errors.productCreditLevelLimitError}</div>
                 </div>
               </div>
               </div>
 
               <div class="row">
               <div class="form-group col-md-6  col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="marriageStatus">非准入行业</label>
+                <label for="productIndustryLimit">非准入行业</label>
                 <div class="input-icon right">
-                  <select id="marriageStatus" type="text" name="marriageStatus" v-model="customerBasicInfo.marriageStatus" class="form-control">
+                  <select id="productIndustryLimit" type="text" name="productIndustryLimit" v-model="productIndustryLimit" class="form-control select2-multiple" multiple>
                     <template v-for="industryed in industryes">
-                      <option  value="${industryed.id}" checked>${industryed.name}</option>
+                      <option  value="${industryed.id}">${industryed.industryName}</option>
                     </template>
                   </select>
-                  <div class="message">${errors.marriageError}</div>
+                  <div class="message">${errors.productIndustryLimitError}</div>
                 </div>
               </div>
               </div>
@@ -200,17 +200,22 @@
           <div class="table-responsive">
               <!--<template v-for="dropDown in dropDownList">-->
               <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
-                <label for="homeAddress">准入最低客户经理级别:</label>
+                <label for="customerManagerLevelId">准入最低客户经理级别:</label>
                 <div class="input-icon right">
-                  <input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">
-                  <div class="message">${errors.homeAddressError}</div>
+                  <select id="customerManagerLevelId" type="text" name="customerManagerLevelId" class="form-control" v-model="tLevel.customerManagerLevelId">
+                    <option value="-1" selected="selected">--请选择--</option>
+                    <option value="0">本地</option>
+                    <option value="1">外地</option>
+                    <option value="2">无限制</option>
+                  </select>
+                  <div class="message">${errors.customerManagerLevelIdError}</div>
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
                 <label for="homeAddress">准入机构</label>
                 <div class="input-icon right">
                   <org-tree></org-tree>
-                  <div class="message">${errors.homeAddressError}</div>
+                  <div class="message"></div>
                 </div>
               </div>
               <!--</template>-->
@@ -230,7 +235,7 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
                 <label for="homeAddress">图片说明:</label>
                 <div class="input-icon right">
-                  <input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">
+                  <input id="homeAddress" type="text" class="form-control" name="productPictureUrl" v-model="tProductInfo.productPictureUrl" placeholder="请输入有效地址">
                   <div style="position:absolute;left:100%; top:25%">
                     <img src="../../../static/images/add.png" v-on:click="addTap()">
                     <img src="../../../static/images/del.png" v-on:click="delTap()">
@@ -242,11 +247,11 @@
                 <div class="input-icon right">
                   <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
                     <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                  <input id="roleId" type="radio" name="roleId" value="${temp.id}">
+                  <input id="roleId" type="radio" name="roleId">
                   <label onclick="setRadio(this)"class=" radio_a">
                     是
                   </label>
-                  <input id="roleId" type="radio" name="roleId" value="${temp.id}">
+                  <input id="roleId" type="radio" name="roleId" >
                   <label onclick="setRadio(this)"class=" radio_a">
                     否
                   </label>
@@ -260,10 +265,8 @@
         </div>
       </div>
     <p class="button">
-
-      <a href="javascript:void (0);" id="btn_submit" class="btn btn-success">保存</a>
-      <a href="javascript:void (0);"  class="btn btn-success">保存保存并继续</a>
-      <a href="javascript:void (0);"  class="btn btn-default">返回</a>
+      <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
+      <a href="javascript:void (0);" v-link={path:'/system/product/list'}  class="btn btn-default">返回</a>
     </p>
 </form>
 </template>
@@ -274,7 +277,10 @@
 <script>
 import QK from '../../QK'
 import ztree from 'ztree'
+import swal from 'sweetalert'
 import OrgTree from '../tree/orgTree.vue'
+import jQueryValidation from 'jquery-validation'
+import selsect2 from 'select2'
     export default{
         data:function(){
            return {
@@ -284,6 +290,7 @@ import OrgTree from '../tree/orgTree.vue'
                 {id:'zrkh',text:'准入客户经理级别以及机构',classname:''},
                 {id:'dctp',text:'调查图片',classname:''},
               ],
+
               tProductInfo:{
                  productName:'',
                  productType:'',
@@ -296,14 +303,20 @@ import OrgTree from '../tree/orgTree.vue'
                  productInterestMax:'',
                  productInterestMin:'',
                  productSendProductNumber:'',
-                 productDescription:''
+                 productDescription:'',
+                 productImg:''
               },
               proType:[{
                  id:'',
                  name:''
               }],
-              error:{
-                productNameError:'',
+              productIndustryLimit:['',''],
+              industryes:[{
+                 id:'',
+                 industryName:''
+              }],
+              errors:{
+                 productNameError:'',
                  productTypeError:'',
                  productPictureUrlError:'',
                  productLoanPeriodError:'',
@@ -312,13 +325,27 @@ import OrgTree from '../tree/orgTree.vue'
                  productLimitMaxError:'',
                  productInterestMaxError:'',
                  productSendProductNumberError:'',
-                 productDescriptionError:''
-              }
+                 productDescriptionError:'',
+                 productHouseholdLevelLimitError:'',
+                 productMarriageLimitError:'',
+                 productIndustryLimitError:'',
+                 productCreditLevelLimitError:'',
+                 customerManagerLevelIdError:''
+              },
+              tLevel:{
+                productHouseholdLevelLimit:'',
+                productAgeMaxLimit:'',
+                productAgeMinLimit:'',
+                customerManagerLevelId:''
+              },
+
            }
         },
         ready:function(){
+            QK.addMethod()
             this.init()
             this.searchInfo()
+            this.ComponentsSelect2()
         },
         components: {
            OrgTree
@@ -326,33 +353,76 @@ import OrgTree from '../tree/orgTree.vue'
         methods:{
               handleSubmit () {
                 var that = this
+                console.log(event.currentTarget)
                 var bool = QK.formValidation({
                     id: "#pro_new",
                     rulesMap: {
-                      productName: {required: !0, isChinese: !0},
+                      productName: {required: !0},
                       productType: {required: !0},
                       productPictureUrl: {required: !0},
-                      productLoanPeriod: {required: !0, isIdCardNo: !0},
+                      productLoanPeriod: {required: !0,digits: !0},
                       productRepaymentMode: {required: !0},
                       productApplyTemplateId: {required: !0},
-                      productLimitMax: {required: !0, downList: !0},
-                      productLimitMin: {required: !0,downList: !0},
+                      productLimitMax: {required: !0,digits: !0},
+                      productLimitMin: {required: !0,digits: !0},
                       productInterestMax: {required: !0},
                       productInterestMin: {required: !0},
                       productSendProductNumber: {required: !0},
-                      productDescription: {required: !0}
+                      productDescription: {required: !0},
+                      productAgeMaxLimit:{required: !0,digits: !0},
+                      productAgeMinLimit:{required: !0,digits: !0},
+                      customerManagerLevelId:{required: !0}
                     }
                 })
                   //验证结果  true  false
                    if (bool) {
                     //发送请求
                         var tProductInfo = that.tProductInfo
-                        //tCustomerBasic.industry = $("#industry").val().join(",")
-                        that.$http.post(QK.SERVER_URL+'/api/product', tProductInfo, true).then(function (data) {
+                        var tLevel = that.tLevel
+                         var productIndustryLimit = that.productIndustryLimit
+                         productIndustryLimit = $("#productIndustryLimit").val().join(",")
+                        that.$http.post(QK.SERVER_URL+'/api/product', {
+                          productName:that.tProductInfo.productName,
+                          productType:that.tProductInfo.productType,
+                          productPictureUrl:that.tProductInfo.productPictureUrl,
+                          productImg:that.tProductInfo.productImg,
+                          productLoanPeriod:that.tProductInfo.productLoanPeriod,
+                          productRepaymentMode:that.tProductInfo.productRepaymentMode,
+                          productApplyTemplateId:that.tProductInfo.productApplyTemplateId,
+                          productLimitMax:that.tProductInfo.productLimitMax,
+                          productLimitMin:that.tProductInfo.productLimitMin,
+                          productInterestMax:that.tProductInfo.productInterestMax,
+                          productInterestMin:that.tProductInfo.productInterestMin,
+                          productSendProductNumber:that.tProductInfo.productSendProductNumber,
+                          productDescription:that.tProductInfo.productDescription,
+                          productHouseholdLevelLimit:that.tLevel.productHouseholdLevelLimit,
+                          productAgeMaxLimit:that.tLevel.productAgeMaxLimit,
+                          productAgeMinLimit:that.tLevel.productAgeMinLimit,
+                          productIndustryLimit:productIndustryLimit,
+                          customerManagerLevelId:that.tLevel.customerManagerLevelId,
+                          orgStr:'1'
+                          }, true).then(function (data) {
                           var data = jQuery.parseJSON(data.body)
                           var result = QK.getStateCode(that, data.code)
                           if (result.state) {
-                            that.$router.go({path:'/system/product/list'})
+                           swal({
+                              title: "是否继续填写?",
+                              text: "",
+                              type: "info",
+                              showCancelButton: true,
+                              confirmButtonColor: "#2196F3",
+                              confirmButtonText: "是",
+                              cancelButtonText: "否",
+                              closeOnConfirm: false,
+                              closeOnCancel: false
+                          },
+                          function(isConfirm){
+                              if (isConfirm) {
+                                  that.$router.go({path:"/system/product/newTwo"})
+                              }else {
+                                  that.$router.go({path:"/system/product/list"})
+                              }
+                          })
                           }
                         })
                       }
@@ -363,10 +433,8 @@ import OrgTree from '../tree/orgTree.vue'
             },
             setTab2:function(){
                 var that = this
-                  console.log(event.currentTarget)
                   $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
                   var id = $(event.currentTarget).data("id")
-                  console.log(id)
                   $("#"+id).show().siblings("div.tabContent").hide()
             },
              addTap:function(){
@@ -377,7 +445,7 @@ import OrgTree from '../tree/orgTree.vue'
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
                   html += '<label for="homeAddress">图片说明:</label>';
                   html += '<div class="input-icon right">';
-                  html += '<input id="homeAddress" type="text" class="form-control" name="homeAddress" v-model="customerBasicInfo.homeAddress" placeholder="请输入有效地址">';
+                  html += '<input id="homeAddress" type="text" class="form-control" name="homeAddress" placeholder="请输入有效地址">';
                   html += '</div>';
                   html += '</div>';
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
@@ -407,6 +475,56 @@ import OrgTree from '../tree/orgTree.vue'
                     that.$set("proType", data.data.productTypes)
                     that.$set("industryes", data.data.industry)
                   }
+                })
+            },
+             ComponentsSelect2: function () {
+                function e(e) {
+                    if (e.loading)return e.text;
+                    var t = "<div class='select2-result-repository clearfix'><div class='select2-result-repository__avatar'><img src='" + e.owner.avatar_url + "' /></div><div class='select2-result-repository__meta'><div class='select2-result-repository__title'>" + e.full_name + "</div>";
+                    return e.description && (t += "<div class='select2-result-repository__description'>" + e.description + "</div>"), t += "<div class='select2-result-repository__statistics'><div class='select2-result-repository__forks'><span class='glyphicon glyphicon-flash'></span> " + e.forks_count + " Forks</div><div class='select2-result-repository__stargazers'><span class='glyphicon glyphicon-star'></span> " + e.stargazers_count + " Stars</div><div class='select2-result-repository__watchers'><span class='glyphicon glyphicon-eye-open'></span> " + e.watchers_count + " Watchers</div></div></div></div>"
+                }
+
+                function t(e) {
+                    return e.full_name || e.text
+                }
+
+                $.fn.select2.defaults.set("theme", "bootstrap");
+                var s = "请选择";
+                $(".select2, .select2-multiple").select2({
+                    placeholder: s,
+                    width: null
+                }), $(".select2-allow-clear").select2({
+                    allowClear: !0,
+                    placeholder: s,
+                    width: null
+                }), $(".js-data-example-ajax").select2({
+                    width: "off",
+                    ajax: {
+                        url: "https://api.github.com/search/repositories",
+                        dataType: "json",
+                        delay: 250,
+                        data: function (e) {
+                            return {q: e.term, page: e.page}
+                        },
+                        processResults: function (e, t) {
+                            return {results: e.items}
+                        },
+                        cache: !0
+                    },
+                    escapeMarkup: function (e) {
+                        return e
+                    },
+                    minimumInputLength: 1,
+                    templateResult: e,
+                    templateSelection: t
+                }), $("button[data-select2-open]").click(function () {
+                    $("#" + $(this).data("select2-open")).select2("open")
+                }), $(":checkbox").on("click", function () {
+                    $(this).parent().nextAll("select").prop("disabled", !this.checked)
+                }), $(".select2, .select2-multiple, .select2-allow-clear, .js-data-example-ajax").on("select2:open", function () {
+                    if ($(this).parents("[class*='has-']").length)for (var e = $(this).parents("[class*='has-']")[0].className.split(/\s+/), t = 0; t < e.length; ++t)e[t].match("has-") && $("body > .select2-container").addClass(e[t])
+                }), $(".js-btn-set-scaling-classes").on("click", function () {
+                    $("#select2-multiple-input-sm, #select2-single-input-sm").next(".select2-container--bootstrap").addClass("input-sm"), $("#select2-multiple-input-lg, #select2-single-input-lg").next(".select2-container--bootstrap").addClass("input-lg"), $(this).removeClass("btn-primary btn-outline").prop("disabled", !0)
                 })
             }
         }
