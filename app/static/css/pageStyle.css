@@ -1,7 +1,7 @@
 /*列表表格自适应滚动条*/
 .tableDiv,.searchDiv,.page-bar{
-  width: 95%;
-  margin-left: 2.5%;
+  width: 100%;
+  /*margin-left: 2.5%;*/
 }
 .tableDiv{
   overflow: auto;
