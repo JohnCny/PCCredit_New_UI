@@ -3,11 +3,11 @@
 
     <!--logo and iconic logo start-->
     <div class="logo">
-      <a href="index.html"><img src="/static/images/logo.png" alt=""></a>
+      <a href="#/system"><img src="/static/images/logo.png" alt=""></a>
     </div>
 
     <div class="logo-icon text-center">
-      <a href="index.html"><img src="/static/images/logo_icon.png" alt=""></a>
+      <a href="#/system"><img src="/static/images/logo_icon.png" alt=""></a>
     </div>
     <!--logo and iconic logo end-->
 

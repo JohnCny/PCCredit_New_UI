@@ -18,7 +18,7 @@
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>级别：</span>
               <select name="levelId" v-model="search.levelId">
-                <option selected>--请选择--</option>
+                <option selected value='-1'>--请选择--</option>
                 <template v-for="lever in levers">
                   <option v-bind:value="lever.id">${lever.value}</option>
                 </template>
@@ -43,7 +43,7 @@
                 <tr v-for="info in infos">
                   <td>${info.userCname}</td>
                   <td>${info.employeeNumber}</td>
-                  <td>${info.levelName}</td>
+                  <td>${info.levelName | isEmpty}</td>
                   <td><a href="javascript:;" v-on:click="showInfo(info.userId)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     管理 </a></td>

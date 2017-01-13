@@ -1,10 +1,11 @@
-<style src='../../../static/js/select2/css/select2.min.css'></style>
-<style src='../../../static/js/select2/css/select2-bootstrap.min.css'></style>
+<style scoped src='../../../static/js/select2/css/select2.min.css'></style>
+<style scoped src='../../../static/js/select2/css/select2-bootstrap.min.css'></style>
 <template>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
+          <i class="fa fa-th-list"></i>
           新建客户
         </header>
         <div class="panel-body">

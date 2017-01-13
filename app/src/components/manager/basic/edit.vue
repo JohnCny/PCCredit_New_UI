@@ -13,13 +13,15 @@
                 <div style="margin-bottom:10px">
                   <label class="pwdText">当前级别：</label>
                   <div class="input-icon right" style="display:inline-block;width:60%">
-                    <a>${infos.levelName}</a>
+                    <a>${infos.levelName | isEmpty}</a>
                   </div>
                 </div>
                 <div>
                   <label for="" class="pwdText">级别调整：</label>
                   <div class="input-icon right" style="display:inline-block;width:60%">
-                    <select class="form-control" name="levelId" v-model="datas.levelId">
+                    <select class="form-control" name="levelId" v-model="infos.levelId">
+                      <option v-if="infos.levelId == null"  value='-1'>--请选择--</option>
+                      <option v-else value="-1">--请选择--</option>
                       <template v-for="lever in levers">
                         <option v-if="infos.levelName==lever.value" selected v-bind:value="lever.id">${lever.value}</option>
                         <option v-else v-bind:value="lever.id">${lever.value}</option>
@@ -39,11 +41,13 @@
                 <div>
                   <label for="" class="pwdText">是否暂停进件：</label>
                   <div class="input-icon right" style="display:inline-block;width:60%">
-                    <select class="form-control" name="managerStatus" v-model="datas.managerStatus">
+                    <select class="form-control" name="managerStatus" v-model="infos.managerStatus">
+                      <option v-if="infos.managerStatus == null" value='-1'>--请选择--</option>
+                      <option v-else value="-1">--请选择--</option>
                       <option v-if="infos.managerStatus == 0" selected value="0">是</option>
                       <option v-else value="0">是</option>
-                      <option v-if="infos.managerStatus == 1" selected value="0">否</option>
-                      <option v-else value="0">否</option>
+                      <option v-if="infos.managerStatus == 9" selected value="9">否</option>
+                      <option v-else value="9">否</option>
                     </select>
                     <div class="message">${errors.managerStatusError}</div>
                   </div>
@@ -85,11 +89,10 @@
       return {
         infos: {
           userId: '',
-          userCname: '',
           systemLevel: '',
           employeeNumber: '',
           managerStatus: '',
-          levelName: '',
+          levelName: '无',
           managerStatus: '',
         },
         levers: {
@@ -99,10 +102,6 @@
         errors: {
           levelIdError: '',
           managerStatusError: ''
-        },
-        datas: {
-          levelId: '',
-          managerStatus: ''
         }
       }
     },
@@ -125,14 +124,14 @@
         })
         //验证结果  true  false
         if(bool){
-          that.$http.put(QK.SERVER_URL+'/api/customerManager', that.datas, true).then(function (data) {
+          that.$http.put(QK.SERVER_URL+'/api/customerManager', that.infos, true).then(function (data) {
             var data = jQuery.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
               var optionObj = {
                   'that' : that,
                   'title' : '修改成功!',
-                  'listUrl' : '/system/managerBasic/list"'
+                  'listUrl' : '/system/managerBasic/list'
               }
               QK.successSwal(optionObj)
             }else{
