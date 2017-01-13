@@ -106,6 +106,9 @@ export default {
   '/login': {
     component: Login
   },
+  '/api/logon/noLogin': {
+    component: Login
+  },
   '/forgetPass': { //忘记密码
     component: ForgetPass
   },
@@ -237,13 +240,13 @@ export default {
         '/product/newTwo/:id':{//新建产品2
           component:ProNew2
         },
-        '/product/newThree':{//新建产品3
+        '/product/newThree/:id':{//新建产品3
           component:ProNew3
         },
-        '/product/newFour':{//新建产品4
+        '/product/newFour/:id':{//新建产品4
           component:ProNew4
         },
-        '/product/newFive':{//新建产品5
+        '/product/newFive/:id':{//新建产品5
           component:ProNew5
         },
         '/product/list':{//产品列表

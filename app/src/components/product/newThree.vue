@@ -1,4 +1,5 @@
 <template>
+  <form id="monito_new" @submit.prevent="handleSubmit">
   <div class="row">
     <div class="col-md-12">
       <section class="panel">
@@ -6,48 +7,50 @@
           贷款状态正常
         </header>
         <div class="panel-body">
-          <form id="org_new" @submit.prevent="handleSubmit">
             <div class="row">
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">放款后首次贷后监控时间:</label>
-                <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
-                  </select>
-                  <div class="message">${errors.sexError}</div>
-                </div>
+              <div class = "col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                  <div class="form-ground">
+                    <label for="monitorTimeFirst">放款后首次贷后监控时间:</label>
+                    <div class="input-icon right">
+                      <select id="monitorTimeFirst" type="text" name="monitorTimeFirst" class="form-control" v-model="proMonitor.monitorTimeFirst">
+                        <option value="0">一周内</option>
+                        <option value="1">半月</option>
+                        <option value="2" selected>一月内</option>
+                      </select>
+                      <div class="message">${errors.monitorTimeFirstError}</div>
+                    </div>
+                  </div>
               </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">首次贷后监控后监控频率:</label>
+              <div class=" col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                <div class="form-ground">
+                <label for="monitorTimeRate">首次贷后监控后监控频率:</label>
                 <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
+                  <select id="monitorTimeRate" type="text" name="monitorTimeRate" class="form-control" v-model="proMonitor.monitorTimeRate">
+                    <option value="0">每周</option>
+                    <option value="1" selected>半月</option>
+                    <option value="2">每月</option>
+                    <option value="3" >三个月</option>
                   </select>
-                  <div class="message">${errors.sexError}</div>
+                  <div class="message">${errors.monitorTimeRateError}</div>
                 </div>
               </div>
             </div>
+            </div>
             <div class="row">
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">实地回访频率:</label>
-                <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
-                  </select>
-                  <div class="message">${errors.sexError}</div>
+              <div class = "col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                <div class="form-ground">
+                  <label for="sex">实时回访频率:</label>
+                  <div class="input-icon right">
+                    <select id="siteVisitsrate" type="text" name="siteVisitsrate" class="form-control" v-model="proMonitor.siteVisitsrate">
+                      <option value="0">每月</option>
+                      <option value="1" selected>三个月</option>
+                      <option value="2">六个月</option>
+                    </select>
+                    <div class="message">${errors.siteVisitsrateError}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </form>
         </div>
       </section>
     </div>
@@ -59,43 +62,45 @@
           逾期、不良
         </header>
         <div class="panel-body">
-          <form id="org_new" @submit.prevent="handleSubmit">
             <div class="row">
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">电话催收频率:</label>
-                <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
-                  </select>
-                  <div class="message">${errors.sexError}</div>
+              <div class = "col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                <div class="form-ground">
+                  <label for="phoneCollectionRate">电话催收频率:</label>
+                  <div class="input-icon right">
+                    <select id="phoneCollectionRate" type="text" name="phoneCollectionRate" class="form-control" v-model="proMonitor.phoneCollectionRate">
+                      <option value="0">每天</option>
+                      <option value="1">每周</option>
+                      <option value="2">每月</option>
+                    </select>
+                    <div class="message">${errors.phoneCollectionRateError}</div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">上门催收频率:</label>
-                <div class="input-icon right">
-                  <select id="sex" type="text" name="sex" class="form-control" v-model="customerBasicInfo.sex">
-                    <option value="0" v-if="customerBasicInfo.sex==0" selected>男</option>
-                    <option value="0" v-else>男</option>
-                    <option value="1" v-if="customerBasicInfo.sex==1" selected>女</option>
-                    <option value="1" v-else>女</option>
-                  </select>
-                  <div class="message">${errors.sexError}</div>
+              <div class = "col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                <div class="form-ground">
+                  <label for="sex">上门催收频率:</label>
+                  <div class="input-icon right">
+                    <select id="homeCollectionRate" type="text" name="homeCollectionRate" class="form-control" v-model="proMonitor.homeCollectionRate">
+                      <option value="0">每天</option>
+                      <option value="1">每周</option>
+                      <option value="2">每月</option>
+                    </select>
+                    <div class="message">${errors.homeCollectionRateError}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </form>
         </div>
       </section>
     </div>
   </div>
-  <p class="button">
-    <a class="btn btn-success">保存</a>
-    <a class="btn btn-success">保存保存并继续</a>
-    <a class="btn btn-default">返回</a>
-  </p>
+    <div class="row">
+      <div class="col-md-12 col-md-offset-5">
+        <button id="btn_submit" class="btn btn-success">确定</button>
+        <a href="" type="reset" class="btn btn-default">取消</a>
+      </div>
+    </div>
+  </form>
 </template>
 <style scoped>
   #userNew input,#userNew select{
@@ -112,16 +117,20 @@
     export default{
         data:function(){
            return {
-                tOrganization:{
-                  orgName: '',
-                  orgDirectorName: '',
-                  orgLogisticsId: ''
-                },
-                errors:{
-                  orgNameError: '',
-                  orgDirectorNameError: '',
-                  orgLogisticsIdError: ''
-                }
+               proMonitor:{
+                  monitorTimeFirst:'',
+                  monitorTimeRate:'',
+                  siteVisitsrate:'',
+                  phoneCollectionRate:'',
+                  homeCollectionRate:''
+               },
+               errors:{
+                  monitorTimeFirstError:'',
+                  monitorTimeRateError:'',
+                  siteVisitsrateError:'',
+                  phoneCollectionRateError:'',
+                  homeCollectionRateError:''
+               }
            }
         },
         ready:function(){
@@ -131,28 +140,54 @@
         handleSubmit () {
             var that = this
             var bool = QK.formValidation({
-              id: "#org_new",
+              id: "#monito_new",
               rulesMap:{
-                orgName:{required: !0,isRightfulString:!0},
-                orgDirectorName:{required: !0,isChinese:!0},
-                orgLogisticsId:{required: !0}
+                monitorTimeFirst:{required: !0,downList:!0},
+                monitorTimeRate:{required: !0,downList:!0},
+                siteVisitsrate:{required: !0,downList:!0},
               }
             })
             //验证结果  true  false
             if(bool){
-              that.$http.post(QK.SERVER_URL+'/organization', that.user, true).then(function (data) {
+              console.log(bool)
+              var productId = that.$route.params.id
+              var productInfo = that.proMonitor
+              that.$http.post(QK.SERVER_URL+'/api/productLoan',{
+                monitorTimeFirst:productInfo.monitorTimeFirst,
+                monitorTimeRate:productInfo.monitorTimeRate,
+                siteVisitsrate:productInfo.siteVisitsrate,
+                phoneCollectionRate:productInfo.phoneCollectionRate,
+                homeCollectionRate:productInfo.homeCollectionRate,
+                productId:productId
+              },true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
+                var id = that.$route.params.id
                 if (result.state) {
-                 that.$router.go({path:"/system/organization/list"})
+                    swal({
+                          title: "是否继续填写?",
+                          text: "",
+                          type: "info",
+                          showCancelButton: true,
+                          confirmButtonColor: "#2196F3",
+                          confirmButtonText: "是",
+                          cancelButtonText: "否",
+                          closeOnConfirm: true,
+                          closeOnCancel: true
+                      },
+                          function(isConfirm){
+                              if (isConfirm) {
+                                  that.$router.go({path:"/system/product/newFour/" + id})
+                              }else {
+                                  that.$router.go({path:"/system/product/list"})
+                              }
+                          })
                 }
               })
             }
             return false
           },
-            cancelMethod(){
-           this.$router.go({path:localStorage.nowurl})
-        }
+
      }
   }
 

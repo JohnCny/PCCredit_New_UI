@@ -17,10 +17,8 @@
       <div class="report common">
         <h5>产品信息</h5>
         <div class="panel-body">
-
-              <!--<template v-for="dropDown in dropDownList">-->
-              <div class="col-md-2"></div>
-              <div class="form-group col-md-3 col-sm-6 col-xs-12">
+          <!--<template v-for="dropDown in dropDownList">-->
+          <div class="form-group col-md-offset-2 col-md-3 col-sm-6 col-xs-12">
                 <label for="productName">产品名称</label>
                 <div class="input-icon right">
                   <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="">
@@ -180,7 +178,7 @@
                 <div class="input-icon right">
                   <select id="productIndustryLimit" type="text" name="productIndustryLimit" v-model="productIndustryLimit" class="form-control select2-multiple" multiple>
                     <template v-for="industryed in industryes">
-                      <option  value="${industryed.id}">${industryed.industryName}</option>
+                      <option  v-bind:value="industryed.id">${industryed.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.productIndustryLimitError}</div>
@@ -370,8 +368,8 @@ import selsect2 from 'select2'
                       productInterestMin: {required: !0,},
                       productSendProductNumber: {required: !0},
                       productDescription: {required: !0},
-                      productAgeMaxLimit:{required: !0,digits: !0},
-                      productAgeMinLimit:{required: !0,digits: !0},
+                      productAgeMaxLimit:{required: !0,age: !0,productAgeMaxLimit: !0},
+                      productAgeMinLimit:{required: !0,age: !0,productAgeMinLimit: !0},
                       customerManagerLevelId:{required: !0},
                       productHouseholdLevelLimit:{required: !0,downList: !0}
                     }
