@@ -4,15 +4,14 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          角色列表 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
+          角色列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>角色名</th>
-                <th>中文名</th>
+                <th>角色名称</th>
                 <th>角色状态</th>
                 <th>角色描述</th>
                 <th>操作</th>
@@ -20,7 +19,6 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.roleName}</td>
                 <td>${info.roleNameZh}</td>
                 <td>${info.roleStatus}</td>
                 <td>${info.roleDescription}</td>
@@ -66,7 +64,7 @@
            }
         },
         ready:function(){
-          this.init();
+          this.init()
         },
         computed: {
           pagenums: function () {
@@ -126,7 +124,7 @@
             //跳转地址
             this.$router.go({path:'/system/role/edit/'+id})
           },
-           show:function () {
+           showNewPage:function () {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
