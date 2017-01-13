@@ -293,6 +293,10 @@
                   }
                   }else{
                     that.$router.go({path:"/system/product/newThree/" + id})
+
+
+
+
                   }
 
 
