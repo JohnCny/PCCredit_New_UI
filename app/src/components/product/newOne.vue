@@ -265,7 +265,7 @@
       </div>
     <p class="button">
       <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
-      <a href="javascript:void (0);" v-link={path:'/system/product/list'}  class="btn btn-default">返回</a>
+      <a href="javascript:void (0);" v-link="{path:'/system/product/list'}"  class="btn btn-default">返回</a>
     </p>
 </form>
 </template>

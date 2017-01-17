@@ -14,7 +14,7 @@
                     <i class="fa fa-bolt"></i>
                   </span> ${msg.title} </span>
               </a>
-        <li class="new"><a v-link={path:'/system/message/list'}>查看全部</a></li>
+        <li class="new"><a v-link="{path:'/system/message/list'}">查看全部</a></li>
       </ul>
     </div>
   </li>
