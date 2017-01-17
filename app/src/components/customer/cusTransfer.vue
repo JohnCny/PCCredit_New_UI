@@ -146,8 +146,10 @@
                       confirmButtonColor: "#66BB6A",
                       type: "success",
                       confirmButtonText : '确定'
-                  })
+                  },
+                  function(){
                    document.location.reload()
+                  })
               }else{
                     swal({
                       title: "修改失败！",
@@ -155,8 +157,10 @@
                       confirmButtonColor: "#EF5350",
                       type: "error",
                       confirmButtonText : '确定'
+                   },
+                   function(){
+                     document.location.reload()
                    })
-                    document.location.reload()
               }
 
           })
