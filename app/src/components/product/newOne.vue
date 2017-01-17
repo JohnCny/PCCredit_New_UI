@@ -97,7 +97,7 @@
                 <label for="productImg">产品图片</label>
                 <div class="input-icon right">
                   <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="">
-                  <div class="message">${errors.productPictureUrlError}</div>
+                  <div class="message">${errors.productImgError}</div>
                 </div>
               </div>
               <div class="form-group col-md-8  col-md-offset-2 col-sm-6 col-xs-12">
@@ -210,7 +210,7 @@
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
-                <label for="homeAddress">准入机构</label>
+                <label for="">准入机构</label>
                 <div class="input-icon right">
                   <org-tree></org-tree>
                   <div class="message"></div>
@@ -231,27 +231,27 @@
               <div id="addImg">
               <div class="row adds" >
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
-                <label for="homeAddress">图片说明:</label>
+                <label for="pritureDescription">图片说明:</label>
                 <div class="input-icon right">
-                  <input id="homeAddress" type="text" class="form-control" name="productPictureUrl" v-model="tProductInfo.productPictureUrl" placeholder="">
+                  <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
                   <div style="position:absolute;left:100%; top:25%">
                     <img src="../../../static/images/add.png" v-on:click="addTap()">
                     <img src="../../../static/images/del.png" v-on:click="delTap()">
                   </div>
                 </div>
-                <div class="message">${errors.productPictureUrlError}</div>
+                <div class="message">${errors.pritureDescriptionError}</div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="sex">是否必选:</label>
+                <label for="isNeed">是否必选:</label>
                 <div class="input-icon right">
                   <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
                     <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                  <input id="roleId" type="radio" name="roleId">
-                  <label onclick="setRadio(this)"class=" radio_a">
+                  <input id="isNeed" type="radio" name="isNeed" v-model="tProductInfo.isNeed">
+                  <label class=" radio_a">
                     是
                   </label>
-                  <input id="roleId" type="radio" name="roleId" checked="checked">
-                  <label onclick="setRadio(this)"class=" radio_a">
+                  <input id="isNee" type="radio" name="isNeed" checked="checked" v-model="tProductInfo.isNeed">
+                  <label class=" radio_a">
                     否
                   </label>
                 </div>
@@ -277,7 +277,7 @@
 import QK from '../../QK'
 import ztree from 'ztree'
 import swal from 'sweetalert'
-import OrgTree from '../tree/orgTree.vue'
+import OrgTree from '../tree/orgTrees.vue'
 import jQueryValidation from 'jquery-validation'
 import selsect2 from 'select2'
     export default{
@@ -293,7 +293,6 @@ import selsect2 from 'select2'
               tProductInfo:{
                  productName:'',
                  productType:'',
-                 productPictureUrl:'',
                  productLoanPeriod:'',
                  productRepaymentMode:'',
                  productApplyTemplateId:'',
@@ -304,6 +303,8 @@ import selsect2 from 'select2'
                  productSendProductNumber:'',
                  productDescription:'',
                  productImg:'',
+                 pritureDescription:'',
+                 isNeed:''
               },
               proType:[{
                  id:'',
@@ -317,7 +318,6 @@ import selsect2 from 'select2'
               errors:{
                  productNameError:'',
                  productTypeError:'',
-                 productPictureUrlError:'',
                  productLoanPeriodError:'',
                  productRepaymentModeError:'',
                  productApplyTemplateIdError:'',
@@ -330,6 +330,8 @@ import selsect2 from 'select2'
                  productIndustryLimitError:'',
                  productCreditLevelLimitError:'',
                  customerManagerLevelIdError:'',
+                 productImgError:'',
+                 pritureDescriptionError:''
               },
               tLevel:{
                 productHouseholdLevelLimit:'',
@@ -358,7 +360,6 @@ import selsect2 from 'select2'
                     rulesMap: {
                       productName: {required: !0,isChinese: !0},
                       productType: {required: !0,downList: !0},
-                      productPictureUrl: {required: !0},
                       productLoanPeriod: {required: !0,digits: !0},
                       productRepaymentMode: {required: !0,downList: !0},
                       productApplyTemplateId: {required: !0},
@@ -379,12 +380,13 @@ import selsect2 from 'select2'
                     //发送请求
                         var tProductInfo = that.tProductInfo
                         var tLevel = that.tLevel
+
                          var productIndustryLimit = that.productIndustryLimit
                          productIndustryLimit = $("#productIndustryLimit").val().join(",")
                         that.$http.post(QK.SERVER_URL+'/api/product', {
                           productName:that.tProductInfo.productName,
                           productType:that.tProductInfo.productType,
-                          productPictureUrl:that.tProductInfo.productPictureUrl,
+                          productImg:that.tProductInfo.productImg,
                           productImg:that.tProductInfo.productImg,
                           productLoanPeriod:that.tProductInfo.productLoanPeriod,
                           productRepaymentMode:that.tProductInfo.productRepaymentMode,
@@ -452,9 +454,9 @@ import selsect2 from 'select2'
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
                   html += '<label for="sex">是否必选:</label>';
                   html += '<div class="input-icon right">';
-                  html += '<input id="roleId" type="radio" name="roleId '+len+'" value="${temp.id}">';
+                  html += '<input id="roleId" type="radio" name="roleId '+len+'">';
                   html += '<label onclick="setRadio(this)"class=" radio_a">是</label>';
-                  html += '<input id="roleId" type="radio" name="roleId '+len+'" value="${temp.id}">';
+                  html += '<input id="roleId" type="radio" name="roleId '+len+'">';
                   html += '<label onclick="setRadio(this)"class=" radio_a">否</label>';
                   html += '</div>';
                   html += '</div>';
