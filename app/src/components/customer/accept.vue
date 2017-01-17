@@ -19,7 +19,7 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td><span class="hideInput"><input type="checkbox"  name="checkbox" value="${info.customerId}"/><label class="checkbox"></label></span></td>
+                <td><span class="hideInput"><input type="checkbox"  name="checkbox" value="${info.customerId}"/></span></td>
                 <td>${info.cname}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.transferReason}</td>
