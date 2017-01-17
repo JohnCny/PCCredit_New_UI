@@ -169,36 +169,41 @@
                 closeOnConfirm: false,
                 closeOnCancel: false
               },
-              function (isConfirm) {
+               function (isConfirm) {
                 if (isConfirm) {
-                  swal({
-                      title: "删除!",
-                      text: "您的文件已被删除！",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success"
-                    },
-                    function () {
-                      that.$http.delete(QK.SERVER_URL+'/api/dataDictionary/'+id).then(function (data) {
-                        var data = jQuery.parseJSON(data.body)
-                        var result = QK.getStateCode(that,data.code)
-                        if (result.state) {
+                    that.$http.delete(QK.SERVER_URL + '/api/dataDictionary/' + id).then(function (data) {
+                      var data = jQuery.parseJSON(data.body)
+                      var result = QK.getStateCode(that, data.code)
+                      if (result.state) {
+                        swal({
+                          title: "",
+                          text: "删除成功！",
+                          confirmButtonColor: "#66BB6A",
+                          type: "success"
+                        },function(){
                           that.infos.$remove(that.infos.find(t => t.id === id))
-                          //document.location.reload();
-                        }
-                      }, function (error) {
-                        console.log(error)
+                        });
+                      }
+                    }, function (error) {
+                      swal({
+                        title: "",
+                        text: "删除失败！",
+                        confirmButtonColor: "#2196F3",
+                        confirmButtonText: "确定",
+                        type: "error"
                       })
-                    });
+                    })
                 } else {
                   swal({
-                    title: "取消",
-                    text: "您的文件是安全的！",
+                    title: "",
+                    text: "您已取消！",
                     confirmButtonColor: "#2196F3",
+                    confirmButtonText: "确定",
                     type: "error"
                   });
                 }
               });
-          },
+          }
         }
     }
 

@@ -21,7 +21,7 @@
                   <tbody>
                   <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
                       <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label class="checkbox"></label></span></td>
-                      <td>${info.maintenanceType}</td>
+                      <td>${info.maintenanceType | changeMain}</td>
                       <td>${info.operationTime | formatDate}</td>
                       <td>${info.operationName  | isEmpty}</td>
                   </tr>
@@ -46,7 +46,7 @@
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4" style="margin-top: 20px;">维护类型</div>
               <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;margin-top: 20px;">
-                ${temptCustomerMaintenance.maintenanceType}
+                ${temptCustomerMaintenance.maintenanceType | isEmpty}
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
             <div class="form-group">
               <div class="control-label col-md-3 col-sm-3 col-xs-4" style="margin-top: 20px;">维护纪要</div>
               <div class="col-md-9 col-sm-9 col-xs-8" style="color:#428bca;margin-top: 20px;">
-                ${temptCustomerMaintenance.maintennaceSummary}
+                ${temptCustomerMaintenance.maintennaceSummary | isEmpty}
               </div>
             </div>
           </div>
