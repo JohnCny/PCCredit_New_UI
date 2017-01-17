@@ -129,7 +129,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <button id="btn_submit" class="btn btn-success">确定</button>
-                    <a href="" type="reset" class="btn btn-default">取消</a>
+                    <button type="reset" class="btn btn-default">取消</button>
                   </div>
                 </div>
             </form>
@@ -171,6 +171,11 @@
     export default{
         data:function(){
            return {
+             crumbData: {
+               currentLocal: '用户管理',
+               currentLocalData: '新建用户',
+               currentUser: '新建用户'
+             },
                 user:{
                   userCname: '',
                   username: '',
@@ -244,24 +249,18 @@
                   var data = jQuery.parseJSON(data.body)
                   var result = QK.getStateCode(that,data.code)
                   if (result.state) {
-                    swal({
-                        title: "创建成功!",
-                        text: "",
-                        confirmButtonColor: "#66BB6A",
-                        type: "success",
-                        confirmButtonText : '确定'
-                    },
-                    function(){
-                      that.$router.go({path:"/system/user/list"})
-                    })
+                    var optionObj = {
+                      'that' : that,
+                      'title' : '创建成功!',
+                      'listUrl' : '/system/user/list'
+                    }
+                    QK.successSwal(optionObj)
                   }else{
-                    swal({
-                        title: "创建失败!",
-                        text: result.msg+"！",
-                        confirmButtonColor: "#EF5350",
-                        type: "error",
-                        confirmButtonText : '确定'
-                    })
+                    var optionObj = {
+                      'title' : '创建失败!',
+                      'text' : result.msg+"！",
+                    }
+                    QK.errorSwal(optionObj)
                   }
                 })
               }else{
@@ -279,6 +278,7 @@
                 that.$set("roles", data.data)
               }
             })
+            QK.vector.$emit('getfromCrumb',that.crumbData)
           },
           changeOrg : function(){
             var that = this

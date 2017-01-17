@@ -6,11 +6,31 @@
           填写角色信息
         </header>
         <div class="panel-body">
-          <div class="form-group" style="margin-top:30px;">
+          <div class="form-group row" style="margin-top:30px;">
             <label for="roleName" class="col-sm-2 control-label">角色名称</label>
             <div class="col-sm-10" style="width:45%">
               <div class="input-icon right">
-                <input v-model="role.roleName" id="roleName" type="text" class="form-control" name="roleName" placeholder="请输入角色名称">
+                <input v-model="role.roleNameZh" id="roleName" type="text" class="form-control" name="roleName">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" style="margin-top:30px;">
+            <label for="roleStatus" class="col-sm-2 control-label">角色状态</label>
+            <div class="col-sm-10" style="width:45%">
+              <div class="input-icon right">
+                <select v-model="role.roleStatus" id="roleStatus" class="form-control" name="roleStatus">
+                  <option value="-1">--请选择--</option>
+                  <option value="0">正常</option>
+                  <option value="1">停用</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" style="margin-top:30px;">
+            <label for="roleDescription" class="col-sm-2 control-label">角色描述</label>
+            <div class="col-sm-10" style="width:45%">
+              <div class="input-icon right">
+                <textarea id="roleDescription" type="text" class="form-control" name="roleDescription">${role.roleDescription}</textarea>
               </div>
             </div>
           </div>
@@ -28,18 +48,23 @@
           配置角色权限
         </header>
         <div class="panel-body">
-          <div>
           <template v-for="group in authority">
-              <div class="col-md-3" style="margin-top:25px;">
-                ${group.groupName}:
-                <select id="authorit" class="form-control">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">${group.groupName}</label>
+                <div class="col-sm-10 icheck ">
                   <template v-for="auth in group.authorityList">
-                    <option name="auth" id="auth" value="${auth.id}">${auth.authorityNameZh}</option>
+                    <div class="flat-grey">
+                      <div class="radio">
+                        <input v-bind:name="group.groupName" type="checkbox" v-bind:value="auth.id" v-model="auth.selected">
+                        <label>${auth.authorityNameZh}</label>
+                      </div>
+                    </div>
                   </template>
-                </select>
+                </div>
               </div>
-            </template>
-          </div>
+            </div>
+          </template>
           <div class="row">
             <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
               <button id="btn_submit" v-on:click="init()" class="btn btn-success">确定</button>
@@ -59,40 +84,46 @@
     export default{
         data:function(){
            return {
-                 group:{
-                  groupName: '',
-                },
-                authorityId:['',''],
                 role:{
                   id: '',
-                  roleName: ''
+                  roleName: '',
+                  roleDescription: '',
+                  roleStatus: '',
+                  roleNameZh: '',
                 },
-                authorityList:[{
-                  id: '',
-                  authorityNameZh: ''
-               }],
-                authority:[]
+                authority:[{
+                  groupName: '',
+                  authorityList: [],
+                }],
              }
         },
 
         ready:function(){
-          this.getSelect()
+          this.init()
         },
         methods:{
-         init:function() {
+         newRole:function() {
             var that = this
-            that.$http.post(QK.SERVER_URL+'/api/role',{
-                roleName: that.role.roleName
-
-            }, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+            that.setIdArr(that.authority)
+            that.$http.post(QK.SERVER_URL+'/api/role',that.role, true).then(function (data) {
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$router.go({path:'/system/role/list'})
               }
             })
          },
-        getSelect:function() {
+         setIdArr: function(arr){
+           var newArr = [],id;
+           $.each(arr,function(i,v){
+              $.each($(v)[0].authorityList,function(i,v){
+                id = $(v)[0].selected?jQuery(v)[0].id:-1
+                newArr.push(id)
+              })
+            })
+            return newArr
+         },
+        init:function() {
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/role/add', true).then(function (data) {
               var data = jQuery.parseJSON(data.body);

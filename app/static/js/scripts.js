@@ -65,6 +65,14 @@
       jQuery(this).removeClass('nav-hover');
    });
 
+//  class add mouse hover(动态绑定  同  静态 hover事件)
+  jQuery(document).on('mouseover mouseout','.custom-nav > li',function(event){
+    if(event.type == "mouseover"){
+      jQuery(this).addClass('nav-hover');
+    }else if(event.type == "mouseout"){
+      jQuery(this).removeClass('nav-hover');
+    }
+  })
 
    // Menu Toggle
   jQuery(document).on('click','.toggle-btn',function(){

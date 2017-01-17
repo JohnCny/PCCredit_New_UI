@@ -112,6 +112,7 @@ export const getApplicationState = (state) => {
   }
   return stateName;
 }
+
 export const getApplicationClass = (state) => {
   var stateCalss = "";
   switch (state) {
@@ -194,6 +195,53 @@ export const logColor = (num) => {
   }
   return stateCalss;
 }
+
+/**
+ * 显示状态
+ * @method reStatus
+ * @param {String} 用户状态代码
+ * @returns {string} 返回用户状态标签代码
+ * @author: Phenix ZZ
+ * @date: 2016.10.13
+ */
+
+export const reStatus = (state) => {
+  var stateName = ""
+  switch (state) {
+    case 0:
+      stateName = "正常";
+      break;
+    case 1:
+      stateName = "锁定";
+      break;
+    case 3:
+      stateName = "待激活";
+      break;
+    default :
+      stateName = "未填写";
+      break;
+  }
+  return stateName
+}
+export const reStatusClass = (state) => {
+  var stateCalss = "";
+  switch (state) {
+    case 0:
+      stateCalss = "label-success";
+      break;
+    case 1:
+      stateCalss = "label-important";
+      break;
+    case 3:
+      stateCalss = "label-warning";
+      break;
+    default :
+      stateCalss = "label-default";
+      break;
+  }
+  return stateCalss;
+}
+
 
 /**
  * 根据模型评估结果显示是否继续调查

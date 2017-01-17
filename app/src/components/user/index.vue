@@ -8,7 +8,7 @@
     <div class="col-sm-8">
       <section class="panel">
         <header class="panel-heading">
-          用户信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增</a>
+          用户信息 <a v-on:click="show" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -17,7 +17,8 @@
             </div>
             <div class="orgNameDiv col-lg-3 col-md-3 col-xs-12">
               <span>机&nbsp;&nbsp;&nbsp;&nbsp;构：</span>
-              <input id="orgName" v-on:change='changeOrg' v-model="search.orgName" type="text" placeholder="机构名称" readonly/>
+              <input id="orgName" v-on:change='changeOrg' v-model="search.orgName" type="text" placeholder="机构名称"
+                     readonly/>
               <i v-on:click="hideOrgName" class="fa fa-times closeI"></i>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
@@ -31,27 +32,31 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>编号</th>
-                <th>用户名</th>
+                <th>姓名</th>
                 <th>性别</th>
-                <th>手机号码</th>
+                <th>联系方式</th>
+                <th>创建时间</th>
+                <th>用户状态</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
+              <template  v-if="infos.length" >
               <tr v-for="info in infos">
-                <td>${info.id}</td>
                 <td>${info.userCname}</td>
                 <td>${info.sex | reSex}</td>
                 <td>${info.tel}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i>
-                  编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
-                  class="fa fa-eraser"></i> 删除
-                </a></td>
-
+                <td>${info.createTime | formatDate}</td>
+                <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>编辑 </a></td>
+                <td><a v-on:click="resetPwd(info.id)" class="btn btn-xs" style="background-color: #424F63;color:#fff"><i class="fa fa-lock"></i>密码重置</a></td>
               </tr>
+              </template>
+              <template  v-else>
+              <tr v-else>
+                <td colspan="7">没有数据</td>
+              </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -89,6 +94,7 @@
     background-color: #eee;
     opacity: 1;
   }
+
 </style>
 <script>
   import QK from '../../QK'
@@ -98,12 +104,15 @@
   export default{
     data: function () {
       return {
+        crumbData: {
+          currentLocal: '用户管理',
+          currentLocalData: '用户列表',
+          currentUser: '用户列表'
+        },
         infos: {
           id: '',
           userCname: '',
-          username: '',
           sex: '',
-          age: '',
           tel: '',
           status: '',
           idCardNumber: '',
@@ -174,7 +183,6 @@
           pageLength : that.visiblepage,
           pageSearch : JSON.stringify(that.search)
         }
-        //var searchAll = "pageStart="+that.currentpage+"&&pageLength="+that.visiblepage+"&&pageSearch="+JSON.stringify(that.search)
         that.$http.post(QK.SERVER_URL + '/api/user/pageList',searchAll,true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
@@ -184,6 +192,7 @@
           that.$set('totlepage', page)
           that.$set('infos', data.data)
         })
+        QK.vector.$emit('getfromCrumb',that.crumbData)
       },
       bindOrg: function(org){
         this.$set('search.orgId', org.orgId)
@@ -219,51 +228,19 @@
         //跳转地址
         this.$router.go({path: '/system/user/new'})
       },
-      deleteInfo: function (id) {
+      resetPwd: function(id){
         var that = this
-        swal({
-            title: "你确定要删除这条信息吗?",
-            text: "删除无法后将无法撤销！",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "确定!",
-            cancelButtonText: "取消",
-            closeOnConfirm: false,
-            closeOnCancel: false
-          },
-          function (isConfirm) {
-            if (isConfirm) {
-              swal({
-                  title: "删除!",
-                  text: "您的文件已被删除！",
-                  confirmButtonColor: "#66BB6A",
-                  type: "success"
-                },
-                function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/user/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
-                    var result = QK.getStateCode(that, data.code)
-                    if (result.state) {
-                      that.infos.$remove(that.infos.find(t => t.id === id))
-                      //document.location.reload();
-                    }
-                  }, function (error) {
-                    console.log(error)
-                  })
-                });
-            } else {
-              swal({
-                title: "取消",
-                text: "您的文件是安全的！",
-                confirmButtonColor: "#2196F3",
-                type: "error"
-              });
-            }
-          });
+        var optionObj = {
+          "that" : that,
+          "sendData" : id,
+          "resetUrl" : '/api/user/reset',
+          "listUrl" : '/system/user/list'
+        }
+        QK.resetPwdSwal(optionObj)
       },
     }
   }
+
 
 
 
