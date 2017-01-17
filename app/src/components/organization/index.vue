@@ -136,7 +136,7 @@
             //跳转地址
             this.$router.go({path:'/system/organization/new'})
           },
-          deleteInfo: function (id) {
+           deleteInfo: function (id) {
             var that = this
             swal({
                 title: "你确定要删除这条信息吗?",
@@ -158,9 +158,9 @@
                       type: "success"
                     },
                     function () {
-                      that.$http.delete(QK.SERVER_URL+'/api/organization/'+id).then(function (data) {
+                      that.$http.delete(QK.SERVER_URL + '/api/organization/' + id).then(function (data) {
                         var data = jQuery.parseJSON(data.body)
-                        var result = QK.getStateCode(that,data.code)
+                        var result = QK.getStateCode(that, data.code)
                         if (result.state) {
                           that.infos.$remove(that.infos.find(t => t.id === id))
                           //document.location.reload();
@@ -178,7 +178,7 @@
                   });
                 }
               });
-          },
+          }
         }
     }
 
