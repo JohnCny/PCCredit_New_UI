@@ -39,10 +39,8 @@
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                   class="fa fa-edit"></i>
                   编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
-                  class="fa fa-eraser"></i> 删除
-                </a></td>
-
+                <td><a v-on:click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
+                  <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
               </tr>
               </tbody>
             </table>
@@ -159,9 +157,12 @@
         //跳转地址
         this.$router.go({path: '/system/customer/show/' + id})
       },
-      deleteInfo: function (id) {
+      deleteInfo: function (id,ifDel) {
         var that = this
-        swal({
+        if(!(ifDel == '0')) {
+          return false
+        }else{
+         swal({
             title: "你确定要删除这条信息吗?",
             text: "删除无法后将无法撤销！",
             type: "warning",
@@ -201,6 +202,8 @@
               });
             }
           });
+        }
+
       }
     }
   }

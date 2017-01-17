@@ -64,15 +64,6 @@
                   </div>
                 </div>
 
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="native">籍贯</label>
-                <div class="input-icon right">
-                  <input id="native" type="text" class="form-control" name="native" v-model="tCustomerBasic.homeAddress" placeholder="请输入有效地址">
-                  <div class="message">${errors.nativeError}</div>
-                </div>
-              </div>
-
-
                 <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
                   <label for="homeAddress">家庭住址</label>
                   <div class="input-icon right">
@@ -185,7 +176,6 @@
                 marriageError: '',
                 eductionError: '',
                 industryError: '',
-                nativeError: '',
                 certificateNumberError: ''
               }
             }
@@ -210,8 +200,7 @@
             tel: {required: !0, tel: !0},
             marriageStatus: {required: !0, downList: !0},
             educationDegree: {required: !0,downList: !0},
-            industry: {required: !0},
-            native: {required: !0}
+            industry: {required: !0}
           }
         })
           //验证结果  true  false
@@ -229,7 +218,6 @@
                 homeAddress: that.tCustomerBasic.homeAddress,
                 marriageStatus: that.tCustomerBasic.marriageStatus,
                 educationDegree: that.tCustomerBasic.educationDegree,
-                native: that.tCustomerBasic.native,
                 industry:industry
                 },true).then(function (data) {
                   var data = jQuery.parseJSON(data.body)

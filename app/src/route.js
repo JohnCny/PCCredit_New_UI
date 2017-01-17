@@ -99,6 +99,12 @@ import ProList from './components/product/index.vue'//产品列表
  * ***********************/
 import MenuManage from './components/system/menuManage.vue'//菜单管理
 
+/************************
+ * 个人中心
+ * ***********************/
+import personal from './components/user/personal.vue'//个人中心
+import UserMessage from './components/user/message.vue'//消息列表
+
 export default {
   // '/index': {
   //   component: Login
@@ -260,7 +266,20 @@ export default {
       '/log/list': {//登陆日志列表
         component: LogList
       },
-      /*end---登录日志管理---end*/
-    }
+      /*start---登录日志管理---start*/
+
+      /*start---个人中心---start*/
+      '/user/personal': {
+        component: personal
+      },
+      /*start---个人中心---start*/
+
+        /*start---消息---start*/
+        '/message/list':{//消息列表
+          component: UserMessage
+        }
+
+        /*start---消息---start*/
+      }
   }
 }

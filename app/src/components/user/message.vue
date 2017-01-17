@@ -3,38 +3,27 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          客户管理
+          消息列表
         </header>
         <div class="panel-body">
-          <div class="row searchDiv">
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>登入名：</span><input v-model="search.loginAccount" type="text" name="loginAccount"/>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>操作：</span><input v-model="search.loginOperation" type="text" name="loginOperation"/>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
-            </div>
-          </div>
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>登入名</th>
-                <th>操作</th>
-                <th>操作时间</th>
-                <th>登入结果</th>
-                <th>IP地址</th>
+                <th>消息标题</th>
+                <th>消息内容</th>
+                <th>消息状态</th>
+                <th>消息类型</th>
+                <th>消息级别</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.loginAccount}</td>
-                <td><span class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
-                <td>${info.loginTime | formatDate}</td>
-                <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span></td>
-                <td>${info.loginIp}</td>
+                <td><a href="javascript:;" v-on:click="show(info.id)">${info.title}</a></td>
+                <td>${info.content}</td>
+                <td>${info.tel}</td>
+                <td>${info.type}</td>
+                <td>${info.level}</td>
               </tr>
               </tbody>
             </table>
@@ -58,23 +47,21 @@
 </style>
 <script>
   import QK from '../../QK'
+  import swal from 'sweetalert'
   export default{
     data: function () {
       return {
         infos: [{
-          loginAccount: '',
-          loginOperation: '',
-          loginTime: '',
-          loginResult: '',
-          loginIp: ''
+          title: '',
+          content: '',
+          sex: '',
+          type: '',
+          level: ''
         }],
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           loginAccount: '',
-           loginOperation: ''
-        }
+
       }
     },
     ready: function () {
@@ -115,12 +102,7 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
-        }
-        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
+        that.$http.get(QK.SERVER_URL + '/api/message', true).then(function (res) {
           var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -136,6 +118,12 @@
         if (that.currentpage != page) {
           that.currentpage = page
         }
+      },
+      show: function(id){
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/customer/show/' + id})
       }
     }
   }
