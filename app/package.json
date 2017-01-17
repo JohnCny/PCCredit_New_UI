@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
+    "icheck": "^1.0.2",
     "jquery": "^3.1.0",
     "jquery-validation": "^1.16.0",
     "jquery.nicescroll": "^3.6.8",
@@ -22,6 +23,7 @@
     "vue": "^1.0.21",
     "vue-datatable": "^1.0.4",
     "vue-router": "^0.7.13",
+    "ws": "^1.1.1",
     "ztree": "^3.5.24",
     "ztree-vue": "^1.0.3"
   },

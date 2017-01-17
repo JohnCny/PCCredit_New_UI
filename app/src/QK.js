@@ -11,7 +11,7 @@ QK.vector  = new Vue()
  **/
 // QK.SERVER_URL = ''
 // QK.SERVER_URL = 'http://114.55.225.130:8081'
-// QK.SERVER_URL = 'http://192.168.1.117:8090'
+// QK.SERVER_URL = 'http://192.168.1.53'
 QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 // QK.SERVER_URL = 'http://10.45.51.0:8081'
 // QK.SERVER_URL = 'https://192.168.1.204:8443'
@@ -1105,14 +1105,14 @@ QK.addMethod = () => {
    * @date:2016.8.25
    */
   //新建产品年龄最小验证方式
-  jQuery.validator.addMethod("ageMin", function (value, element) {
-    var value2 = parseInt($("#ageMax").val());
+  jQuery.validator.addMethod("productAgeMinLimit", function (value, element) {
+    var value2 = parseInt($("#productAgeMaxLimit").val());
     return this.optional(element) || /\d{2}/.test(value) && value > 0 && value2 > 0 && value < value2;
   }, "请输入比年龄上限小的值！");
 
   //新建产品年龄最大验证方式
-  jQuery.validator.addMethod("ageMax", function (value, element) {
-    var value1 = parseInt($("#ageMin").val());
+  jQuery.validator.addMethod("productAgeMaxLimit", function (value, element) {
+    var value1 = parseInt($("#productAgeMinLimit").val());
     return this.optional(element) || /\d{2}/.test(value) && value1 > 0 && value < 100 && value > value1;
   }, "请输入比年龄下限大的值！");
 

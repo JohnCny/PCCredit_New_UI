@@ -140,6 +140,62 @@ export const getApplicationClass = (state) => {
   }
   return stateCalss;
 }
+
+
+/**
+ * 登入结果
+ * @method changeLog
+ * @param {number} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const changeLog = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 1:
+      reStr = '账号未知';
+      break;
+    case 2:
+      reStr = '密码错误';
+      break;
+    case 3:
+      reStr = '账号锁定';
+      break;
+    case 4:
+      reStr = '账号禁用';
+      break;
+    case 5:
+      reStr = '成功';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+
+export const logColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 1:
+      stateCalss = "label-info";
+      break;
+    case 2:
+      stateCalss = "label-danger";
+      break;
+    case 3:
+      stateCalss = "label-primary";
+      break;
+    case 4:
+      stateCalss = "label-warning";
+      break;
+    case 5:
+      stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
+
 /**
  * 显示状态
  * @method reStatus
@@ -255,7 +311,6 @@ export const expertChange = (num) => {
   } else {
     return '无数据';
   }
-
 }
 
 /**
@@ -269,17 +324,110 @@ export const expertChange = (num) => {
 export const reSex = (num) => {
   return (num == 1 || num == true) ? '男' : '女';
 }
+
 /**
- * 性别转换
+ * 证件类型转换
+ * @method reId
+ * @param {number} num 证件类型转换
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.13
+ */
+export const reId = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '身份证';
+      break;
+    case 1:
+      reStr = '护照';
+      break;
+    case 2:
+      reStr = '驾驶证';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+
+/**
+ * 登陆登出
  * @method reLog
  * @param {number || bool} num
  * @returns {string}
  * @author: zx
- * @date: 2016.10.13
+ * @date: 2017.1.11
  */
 export const reLog = (num) => {
-  return (num == 1) ? '登陆' : '退出';
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '退出';
+      break;
+    case 1:
+      reStr = '登陆';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
 }
+export const reLogColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-info";
+      break;
+    case 1:
+      stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
+
+/**
+ * 删除
+ * @method getDelete
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const getDelete = (ifDel) => {
+  var bool = false;
+  if (!(ifDel == '0')) {
+    bool = 'disabled';
+  }
+  return bool;
+}
+
+/**
+ * 维护类型转换
+ * @method getDelete
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const changeMain = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '电话联系';
+      break;
+    case 1:
+      reStr = '上门拜访';
+      break;
+    case 2:
+      reStr = '其他渠道';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+
 /**
  * 学历参照
  * @method reEdu
@@ -291,20 +439,32 @@ export const reLog = (num) => {
 export const reEdu = (num) => {
   var reStr = '未填写';
   switch (parseInt(num)) {
+    case 0:
+      reStr = '文盲';
+      break;
     case 1:
-      reStr = '本科以上';
+      reStr = '小学';
       break;
     case 2:
-      reStr = '本科';
+      reStr = '初中';
       break;
     case 3:
-      reStr = '大专';
+      reStr = '中专';
       break;
     case 4:
-      reStr = '高中/中专';
+      reStr = '高中';
       break;
     case 5:
-      reStr = '初中及以下';
+      reStr = '大专';
+      break;
+    case 6:
+      reStr = '本科';
+      break;
+    case 7:
+      reStr = '硕士';
+      break;
+    case 8:
+      reStr = '博士';
       break;
     default:
       reStr = '未填写'
@@ -312,37 +472,6 @@ export const reEdu = (num) => {
   return reStr;
 }
 
-/**
- * 登入结果
- * @method changeLog
- * @param {number} num
- * @returns {string}
- * @author: zx
- * @date: 2017.1.11
- */
-export const changeLog = (num) => {
-  var reStr = '未填写';
-  switch (parseInt(num)) {
-    case 1:
-      reStr = '账号未知';
-      break;
-    case 2:
-      reStr = '密码错误';
-      break;
-    case 3:
-      reStr = '账号锁定';
-      break;
-    case 4:
-      reStr = '账号禁用';
-      break;
-    case 5:
-      reStr = '成功';
-      break;
-    default:
-      reStr = '未填写'
-  }
-  return reStr;
-}
 
 /**
  * 房屋信息
@@ -381,17 +510,17 @@ export const residenceType = (num) => {
 export const marriageCondition = (num) => {
   var state = '未填写';
   switch (parseInt(num)) {
-    case 1:
+    case 0:
       state = '未婚';
       break;
-    case 2:
+    case 1:
       state = '已婚';
       break;
-    case 3:
-      state = '离婚';
+    case 2:
+      state = '离异';
       break;
-    case 4:
-      state = '丧偶';
+    case 3:
+      state = '未知';
       break;
     default:
       state = '未填写'

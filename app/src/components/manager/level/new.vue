@@ -187,8 +187,8 @@
                   var optionObj = {
                       'title' : '创建失败!',
                       'text' : result.msg+"！",
-                    }
-                    QK.errorSwal(optionObj)
+                  }
+                  QK.errorSwal(optionObj)
                 }
               })
             }

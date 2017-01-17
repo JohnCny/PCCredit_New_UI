@@ -88,16 +88,22 @@ import OrgNew from './components/organization/new.vue'//新建机构
 /************************
  * 产品管理
  * ***********************/
-import ProNew1 from './components/product/new1.vue'//新建产品1
-import ProNew2 from './components/product/new2.vue'//新建产品2
-import ProNew3 from './components/product/new3.vue'//新建产品3
-import ProNew4 from './components/product/new4.vue'//新建产品3
-import ProNew5 from './components/product/new5.vue'//新建产品5
+import ProNew1 from './components/product/newOne.vue'//新建产品1
+import ProNew2 from './components/product/newTwo.vue'//新建产品2
+import ProNew3 from './components/product/newThree.vue'//新建产品3
+import ProNew4 from './components/product/newFour.vue'//新建产品3
+import ProNew5 from './components/product/newFive.vue'//新建产品5
 import ProList from './components/product/index.vue'//产品列表
 /************************
  * 菜单管理
  * ***********************/
 import MenuManage from './components/system/menuManage.vue'//菜单管理
+
+/************************
+ * 个人中心
+ * ***********************/
+import personal from './components/user/personal.vue'//个人中心
+import UserMessage from './components/user/message.vue'//消息列表
 
 export default {
   // '/index': {
@@ -234,19 +240,19 @@ export default {
 
 
       /*start---产品---start*/
-        '/product/new1':{//新建产品1
+        '/product/newOne':{//新建产品1
           component:ProNew1
         },
-        '/product/new2':{//新建产品2
+        '/product/newTwo/:id':{//新建产品2
           component:ProNew2
         },
-        '/product/new3':{//新建产品3
+        '/product/newThree/:id':{//新建产品3
           component:ProNew3
         },
-        '/product/new4':{//新建产品4
+        '/product/newFour/:id':{//新建产品4
           component:ProNew4
         },
-        '/product/new5':{//新建产品5
+        '/product/newFive/:id':{//新建产品5
           component:ProNew5
         },
         '/product/list':{//产品列表
@@ -263,7 +269,20 @@ export default {
       '/log/list': {//登陆日志列表
         component: LogList
       },
-      /*end---登录日志管理---end*/
-    }
+      /*start---登录日志管理---start*/
+
+      /*start---个人中心---start*/
+      '/user/personal': {
+        component: personal
+      },
+      /*start---个人中心---start*/
+
+        /*start---消息---start*/
+        '/message/list':{//消息列表
+          component: UserMessage
+        }
+
+        /*start---消息---start*/
+      }
   }
 }
