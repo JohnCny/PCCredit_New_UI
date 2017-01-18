@@ -388,6 +388,7 @@ import selsect2 from 'select2'
                    that.tProductInfo.productIndustryLimit = $("#productIndustryLimit").val().join(",")
                    that.tProductInfo.explainList = that.getObj($(".adds"))
                    that.tProductInfo.orgStr = orgid
+                   that.tProductInfo.createTime = ""
                    console.log(that.tProductInfo.productIndustryLimit)
                    console.log(that.tProductInfo.explainList)
                    console.log(that.tProductInfo.orgStr)
