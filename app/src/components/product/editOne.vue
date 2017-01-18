@@ -2,16 +2,16 @@
 <style src='../../../static/css/sweetalert.css'></style>
 <template>
 
-    <ul class="myTab">
-      <template v-for="todo in infoData">
+  <ul class="myTab">
+    <template v-for="todo in infoData">
       <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-     <!-- <li class="active" v-on:click="setTab2(${event},'cpxx')">产品信息</li>
-      <li v-on:click="setTab2(this,'zrmk')">准入门槛</li>
-      <li v-on:click="setTab2(this,'zrkhjljbyjjg')">准入客户经理级别以及机构</li>
-      <li v-on:click="setTab2(this,'dctp')">调查图片</li>-->
-        </template>
-    </ul>
-    <!--*******************************************产品信息*******************************************************-->
+      <!-- <li class="active" v-on:click="setTab2(${event},'cpxx')">产品信息</li>
+       <li v-on:click="setTab2(this,'zrmk')">准入门槛</li>
+       <li v-on:click="setTab2(this,'zrkhjljbyjjg')">准入客户经理级别以及机构</li>
+       <li v-on:click="setTab2(this,'dctp')">调查图片</li>-->
+    </template>
+  </ul>
+  <!--*******************************************产品信息*******************************************************-->
   <form id="pro_new" @submit.prevent="handleSubmit">
     <div class="tabContent" id="cpxx">
       <div class="report common">
@@ -19,98 +19,98 @@
         <div class="panel-body">
           <!--<template v-for="dropDown in dropDownList">-->
           <div class="form-group col-md-offset-2 col-md-3 col-sm-6 col-xs-12">
-                <label for="productName">产品名称</label>
-                <div class="input-icon right">
-                  <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="">
-                  <div class="message">${errors.productNameError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productType">产品类型</label>
-                <div class="input-icon right">
-                  <select id="productType" type="text" name="productType" class="form-control" v-model="tProductInfo.productType">
-                      <option value="-1" selected=selected>--请选择--</option>
-                    <template v-for="types in proType">
-                      <option  value="${types.id}">${types.name}</option>
-                    </template>
-                  </select>
-                  <div class="message">${errors.productTypeError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productLoanPeriod">贷款周期</label>
-                <div class="input-icon right">
-                  <input id="productLoanPeriod" type="text" class="form-control" name="productLoanPeriod" v-model="tProductInfo.productLoanPeriod" placeholder="">
-                  <div class="message">${errors.productLoanPeriodError}</div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productRepaymentMode">还款方式</label>
-                <div class="input-icon right">
-                  <select id="productRepaymentMode" type="text" name="productRepaymentMode" v-model="tProductInfo.productRepaymentMode" class="form-control">
-                      <option value="-1" selected = "selected">--请选择--</option>
-                      <option value="1" >等额本金</option>
-                      <option value="2">等额本息</option>
-                      <option value="3">到期还款</option>
-                  </select>
-                  <div class="message">${errors.productRepaymentModeError}</div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3  col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productApplyTemplateId">申请表模板</label>
-                <div class="input-icon right">
-                  <select id="productApplyTemplateId" type="text" name="productApplyTemplateId" v-model="tProductInfo.productApplyTemplateId" class="form-control">
-                   <option selected = "selected">1</option>
-                  </select>
-                  <div class="message">${errors.productApplyTemplateIdError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productLimit">产品额度区间</label>
-                <div class="input-icon right">
-                  <input id="productLimitMin" type="text" class="qujian" name="productLimitMin" v-model="tProductInfo.productLimitMin" placeholder="">
-                  <span>~</span>
-                  <input type="text" name="productLimitMax" id="productLimit" value="" class="qujian" v-model="tProductInfo.productLimitMax"/>
-                  <div class="message">${errors.productLimitMaxError}</div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productInterestMax">产品利率区间</label>
-                <div class="input-icon right">
-                  <input type="text" class="qujian" name="productInterestMin" v-model="tProductInfo.productInterestMin" id="productInterestMin"/>
-                  <span>~</span>
-                  <input type="text" class="qujian" name="productInterestMax" v-model="tProductInfo.productInterestMax" id="productInterestMax"/>
-                  <div class="message">${errors.productInterestMaxError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productSendProductNumber">对应下发数据产品编号</label>
-                <div class="input-icon right">
-                  <input id="productSendProductNumber" type="text" class="form-control" name="productSendProductNumber" v-model="tProductInfo.productSendProductNumber" placeholder="">
-                  <div class="message">${errors.productSendProductNumberError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productImg">产品图片</label>
-                <div class="input-icon right">
-                  <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="">
-                  <div class="message">${errors.productImgError}</div>
-                </div>
-              </div>
-              <div class="form-group col-md-8  col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="productDescription">产品介绍</label>
-                <div class="input-icon right">
-                  <textarea class="form-control" id="productDescription" v-model="tProductInfo.productDescription" name="productDescription"></textarea>
-                  <div class="message">${errors.productDescriptionError}</div>
-                </div>
-              </div>
-              <!--</template>-->
+            <label for="productName">产品名称</label>
+            <div class="input-icon right">
+              <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control" name="productName"placeholder="">
+              <div class="message">${errors.productNameError}</div>
+            </div>
           </div>
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productType">产品类型</label>
+            <div class="input-icon right">
+              <select id="productType" type="text" name="productType" class="form-control" v-model="tProductInfo.productType">
+                <option value="-1" selected=selected>--请选择--</option>
+                <template v-for="types in proType">
+                  <option  value="${types.id}">${types.name}</option>
+                </template>
+              </select>
+              <div class="message">${errors.productTypeError}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productLoanPeriod">贷款周期</label>
+            <div class="input-icon right">
+              <input id="productLoanPeriod" type="text" class="form-control" name="productLoanPeriod" v-model="tProductInfo.productLoanPeriod" placeholder="">
+              <div class="message">${errors.productLoanPeriodError}</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productRepaymentMode">还款方式</label>
+            <div class="input-icon right">
+              <select id="productRepaymentMode" type="text" name="productRepaymentMode" v-model="tProductInfo.productRepaymentMode" class="form-control">
+                <option value="-1" selected = "selected">--请选择--</option>
+                <option value="1" >等额本金</option>
+                <option value="2">等额本息</option>
+                <option value="3">到期还款</option>
+              </select>
+              <div class="message">${errors.productRepaymentModeError}</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3  col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productApplyTemplateId">申请表模板</label>
+            <div class="input-icon right">
+              <select id="productApplyTemplateId" type="text" name="productApplyTemplateId" v-model="tProductInfo.productApplyTemplateId" class="form-control">
+                <option selected = "selected">1</option>
+              </select>
+              <div class="message">${errors.productApplyTemplateIdError}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productLimit">产品额度区间</label>
+            <div class="input-icon right">
+              <input id="productLimitMin" type="text" class="qujian" name="productLimitMin" v-model="tProductInfo.productLimitMin" placeholder="">
+              <span>~</span>
+              <input type="text" name="productLimitMax" id="productLimit" value="" class="qujian" v-model="tProductInfo.productLimitMax"/>
+              <div class="message">${errors.productLimitMaxError}</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productInterestMax">产品利率区间</label>
+            <div class="input-icon right">
+              <input type="text" class="qujian" name="productInterestMin" v-model="tProductInfo.productInterestMin" id="productInterestMin"/>
+              <span>~</span>
+              <input type="text" class="qujian" name="productInterestMax" v-model="tProductInfo.productInterestMax" id="productInterestMax"/>
+              <div class="message">${errors.productInterestMaxError}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productSendProductNumber">对应下发数据产品编号</label>
+            <div class="input-icon right">
+              <input id="productSendProductNumber" type="text" class="form-control" name="productSendProductNumber" v-model="tProductInfo.productSendProductNumber" placeholder="">
+              <div class="message">${errors.productSendProductNumberError}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productImg">产品图片</label>
+            <div class="input-icon right">
+              <input id="productImg" type="file" class="form-control" name="productImg" v-model="tProductInfo.productImg" placeholder="">
+              <div class="message">${errors.productImgError}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-8  col-md-offset-2 col-sm-6 col-xs-12">
+            <label for="productDescription">产品介绍</label>
+            <div class="input-icon right">
+              <textarea class="form-control" id="productDescription" v-model="tProductInfo.productDescription" name="productDescription"></textarea>
+              <div class="message">${errors.productDescriptionError}</div>
+            </div>
+          </div>
+          <!--</template>-->
         </div>
       </div>
+    </div>
 
 
     <!--*******************************************准入门槛*******************************************************-->
@@ -119,8 +119,8 @@
         <h5>准入门槛</h5>
         <div class="panel-body">
           <div class="table-responsive">
-              <!--<template v-for="dropDown in dropDownList">-->
-              <div class="row">
+            <!--<template v-for="dropDown in dropDownList">-->
+            <div class="row">
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productHouseholdLevelLimit">户籍</label>
                 <div class="input-icon right">
@@ -136,8 +136,8 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productMarriageLimit">是否必须已婚</label>
                 <div class="input-icon right">
-                <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
-                  <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
+                  <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
+                    <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
                   <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="1" v-model="tProductInfo.productMarriageLimit">
                   <label onclick="setRadio(this)"class=" radio_a">
                     是
@@ -149,8 +149,8 @@
                   <div class="message">${errors.productMarriageLimitError}</div>
                 </div>
               </div>
-              </div>
-              <div class="row">
+            </div>
+            <div class="row">
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productAgeMaxLimit">年龄区间</label>
                 <div class="input-icon right" style="    text-align: center;">
@@ -170,9 +170,9 @@
                   <div class="message">${errors.productCreditLevelLimitError}</div>
                 </div>
               </div>
-              </div>
+            </div>
 
-              <div class="row">
+            <div class="row">
               <div class="form-group col-md-6  col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productIndustryLimit">非准入行业</label>
                 <div class="input-icon right">
@@ -184,8 +184,8 @@
                   <div class="message">${errors.productIndustryLimitError}</div>
                 </div>
               </div>
-              </div>
-              <!--</template>-->
+            </div>
+            <!--</template>-->
           </div>
         </div>
       </div>
@@ -196,27 +196,27 @@
         <h5>准入客户经理级别以及机构</h5>
         <div class="panel-body">
           <div class="table-responsive">
-              <!--<template v-for="dropDown in dropDownList">-->
-              <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
-                <label for="customerManagerLevelId">准入最低客户经理级别:</label>
-                <div class="input-icon right">
-                  <select id="customerManagerLevelId" type="text" name="customerManagerLevelId" class="form-control" v-model="tProductInfo.customerManagerLevelId">
-                    <option value="-1" selected="selected">--请选择--</option>
-                    <option value="0">本地</option>
-                    <option value="1">外地</option>
-                    <option value="2">无限制</option>
-                  </select>
-                  <div class="message">${errors.customerManagerLevelIdError}</div>
-                </div>
+            <!--<template v-for="dropDown in dropDownList">-->
+            <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
+              <label for="customerManagerLevelId">准入最低客户经理级别:</label>
+              <div class="input-icon right">
+                <select id="customerManagerLevelId" type="text" name="customerManagerLevelId" class="form-control" v-model="tProductInfo.customerManagerLevelId">
+                  <option value="-1" selected="selected">--请选择--</option>
+                  <option value="0">本地</option>
+                  <option value="1">外地</option>
+                  <option value="2">无限制</option>
+                </select>
+                <div class="message">${errors.customerManagerLevelIdError}</div>
               </div>
-              <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
-                <label for="">准入机构</label>
-                <div class="input-icon right">
-                  <org-tree></org-tree>
-                  <div class="message"></div>
-                </div>
+            </div>
+            <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
+              <label for="">准入机构</label>
+              <div class="input-icon right">
+                <org-tree></org-tree>
+                <div class="message"></div>
               </div>
-              <!--</template>-->
+            </div>
+            <!--</template>-->
           </div>
         </div>
       </div>
@@ -227,47 +227,47 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-              <!--<template v-for="dropDown in dropDownList">-->
-              <div id="addImg">
-                <div class="row adds count0" >
-                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
-                    <label for="pritureDescription">图片说明:</label>
-                    <div class="input-icon right">
-                      <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
-                      <div style="position:absolute;left:100%; top:25%">
-                        <img src="../../../static/images/add.png" v-on:click="addTap()">
-                        <img src="../../../static/images/del.png" v-on:click="delTap()">
-                      </div>
+            <!--<template v-for="dropDown in dropDownList">-->
+            <div id="addImg">
+              <div class="row adds count0" >
+                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                  <label for="pritureDescription">图片说明:</label>
+                  <div class="input-icon right">
+                    <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
+                    <div style="position:absolute;left:100%; top:25%">
+                      <img src="../../../static/images/add.png" v-on:click="addTap()">
+                      <img src="../../../static/images/del.png" v-on:click="delTap()">
                     </div>
-                    <div class="message">${errors.pritureDescriptionError}</div>
                   </div>
-                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                    <label for="isNeed">是否必选:</label>
-                    <div class="input-icon right">
-                      <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
-                        <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                      <input id="isNeed" type="radio" name="isNeed0" value="1">
-                      <label class=" radio_a">
-                        是
-                      </label>
-                      <input id="isNee" type="radio" name="isNeed0" checked="checked" value="0">
-                      <label class=" radio_a">
-                        否
-                      </label>
-                    </div>
+                  <div class="message">${errors.pritureDescriptionError}</div>
+                </div>
+                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                  <label for="isNeed">是否必选:</label>
+                  <div class="input-icon right">
+                    <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
+                      <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
+                    <input id="isNeed" type="radio" name="isNeed0" value="1">
+                    <label class=" radio_a">
+                      是
+                    </label>
+                    <input id="isNee" type="radio" name="isNeed0" checked="checked" value="0">
+                    <label class=" radio_a">
+                      否
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
-              <!--</template>-->
           </div>
+          <!--</template>-->
         </div>
       </div>
+    </div>
     <p class="button">
       <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
-      <a href="javascript:void (0);" v-link="{path:'/system/product/list'}"  class="btn btn-default">返回</a>
+      <a href="javascript:void (0);" v-link={path:'/system/product/list'}  class="btn btn-default">返回</a>
     </p>
-</form>
+  </form>
 </template>
 <style scoped>
         .checkss{padding-right:25px}
@@ -392,7 +392,7 @@ import selsect2 from 'select2'
                    console.log(that.tProductInfo.productIndustryLimit)
                    console.log(that.tProductInfo.explainList)
                    console.log(that.tProductInfo.orgStr)
-                    that.$http.post(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
+                    that.$http.put(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
                       var data = jQuery.parseJSON(data.body)
                       var id = data.data
                       var result = QK.getStateCode(that, data.code)
@@ -421,7 +421,15 @@ import selsect2 from 'select2'
                   return false
              },
             init:function(){
-
+                  var that = this
+                  var id = that.$route.params.id
+                  that.$http.get(QK.SERVER_URL+'/api/product?productId='+id, true).then(function (data) {
+                    var data = jQuery.parseJSON(data.body);
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                      that.$set("tProductInfo", data.data.product)
+                    }
+                  })
             },
             setTab2:function(){
                 var that = this
