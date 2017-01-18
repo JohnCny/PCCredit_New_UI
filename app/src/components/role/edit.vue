@@ -20,17 +20,24 @@
           <div class="form-group row" style="margin-top:30px;">
             <label for="roleNameZh" class="col-sm-2 control-label">角色名称</label>
             <div class="input-icon right col-sm-10">
-              <select v-model="role.roleNameZh" id="roleNameZh" class="form-control" name="roleNameZh">
-                <option v-if="role.roleNameZh==1" selected value="1">超级管理员</option>
+              <input v-model="role.roleNameZh" id="roleNameZh" type="text" class="form-control" name="roleNameZh">
+              <div class="message">${errors.roleNameZhError}</div>
+            </div>
+          </div>
+          <div class="form-group row" style="margin-top:30px;">
+            <label for="roleType" class="col-sm-2 control-label">角色类型</label>
+            <div class="input-icon right col-sm-10">
+              <select v-model="role.roleType" id="roleType" class="form-control" name="roleType">
+                <option v-if="role.roleType==1" selected value="1">超级管理员</option>
                 <option v-else value="1">超级管理员</option>
-                <option v-if="role.roleNameZh==2" selected value="2">管理员</option>
+                <option v-if="role.roleType==2" selected value="2">管理员</option>
                 <option v-else value="2">管理员</option>
-                <option v-if="role.roleNameZh==3" selected value="3">客户经理</option>
+                <option v-if="role.roleType==3" selected value="3">客户经理</option>
                 <option v-else value="3">客户经理</option>
-                <option v-if="role.roleNameZh==4" selected value="4">专家</option>
+                <option v-if="role.roleType==4" selected value="4">专家</option>
                 <option v-else value="4">专家</option>
               </select>
-              <div class="message">${errors.roleNameError}</div>
+              <div class="message">${errors.roleTypeError}</div>
             </div>
           </div>
           <div class="form-group row" style="margin-top:30px;">
@@ -83,8 +90,8 @@
           </template>
           <div class="row">
             <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
-              <button v-on:click="editRole" id="btn_submit" class="btn btn-success">确定</button>
-              <a type="reset" class="btn btn-default">取消</a>
+              <button class="btn btn-success">确定</button>
+              <a v-on:click="cancelMethod()" type="reset" class="btn btn-default">取消</a>
             </div>
           </div>
         </div>
@@ -108,6 +115,7 @@
                 role:{
                     id: '',
                     roleName: '',
+                    roleType: '',
                     roleDescription: '',
                     roleStatus: '',
                     roleNameZh: '',
@@ -217,10 +225,9 @@
             }
             return arr
            },
-         editRole:function(){
-          var that = this
-
-         }
+          cancelMethod(){
+           this.$router.go({path:localStorage.nowurl})
+          }
       }
   }
 
