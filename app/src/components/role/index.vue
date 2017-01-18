@@ -20,7 +20,7 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.roleNameZh}</td>
-                <td>${info.roleStatus}</td>
+                <td>${info.roleStatus | getRoleState}</td>
                 <td>${info.roleDescription}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
@@ -69,26 +69,26 @@
         computed: {
           pagenums: function () {
             //初始化前后页边界
-            var lowPage = 1;
-            var highPage = this.totlepage;
-            var pageArr = [];
+            var lowPage = 1
+            var highPage = this.totlepage
+            var pageArr = []
             if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2);
+              var subVisiblePage = Math.ceil(this.visiblepage / 2)
               if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage;
-                highPage = this.currentpage + subVisiblePage - 1;
+                lowPage = this.currentpage - subVisiblePage
+                highPage = this.currentpage + subVisiblePage - 1
               } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1;
+                lowPage = 1
                 highPage = this.visiblepage;
               } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1;
+                lowPage = this.totlepage - this.visiblepage + 1
                 highPage = this.totlepage;
               }
             }
             //确定了上下page边界后，要准备压入数组中了
             while (lowPage <= highPage) {
-              pageArr.push(lowPage);
-              lowPage++;
+              pageArr.push(lowPage)
+              lowPage++
             }
             return pageArr;
           },
@@ -103,9 +103,9 @@
             var that = this
             that.$http.post(QK.SERVER_URL+'/api/role/pageList', true).then(function(res){
               var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10);
+              var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
-                page = page + 1;
+                page = page + 1
               }
               that.$set('totlepage', page)
               that.$set('infos', data.data)

@@ -9,7 +9,7 @@ QK.vector  = new Vue()
 /**
  * 服务端URL
  **/
-// QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
+//QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
 QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 
 /*用户列表删除弹出框*/
@@ -97,7 +97,7 @@ QK.resetPwdSwal = (option) => {
               type: "error"
             })
           }
-        });
+        })
       } else {
         swal({
           title: "",
@@ -105,7 +105,7 @@ QK.resetPwdSwal = (option) => {
           confirmButtonColor: "#2196F3",
           confirmButtonText: "确定",
           type: "error"
-        });
+        })
       }
     })
 }
@@ -134,24 +134,7 @@ QK.errorSwal = (option) => {
     confirmButtonText : '确定'
   })
 }
-/**
- * 显示准入行业
- * @method getSelected
- * @param {num} 转入行业当前ID
- * @param {strs} 返回转入行业ID集合
- * @returns {boolean} 返回是否存在该选项ID
- * @author: lmm
- * @date: 2017.01.18
- */
-QK.getSelected = (num,strs) => {
-  var bool = false
-  if(strs.indexOf(num)!=-1){
-    bool = true
-  }else{
-    bool = false
-  }
-  return bool
-}
+
 /**
  * 根据类名、标签名获取元素
  * @method getElementsByClassName

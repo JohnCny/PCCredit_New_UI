@@ -34,17 +34,24 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="info in infos">
-                <td>${info.dataType}</td>
-                <td>${info.dataCode}</td>
-                <td>${info.dataName}</td>
-                <td>${info.bankCode}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.dataId)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
-                  编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
-                </a></td>
+              <template  v-if="infos.length" >
+                <tr v-for="info in infos">
+                  <td>${info.dataType}</td>
+                  <td>${info.dataCode}</td>
+                  <td>${info.dataName}</td>
+                  <td>${info.bankCode}</td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.dataId)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
+                    编辑 </a></td>
+                  <td><a v-on:click="deleteInfo(info.dataId)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除
+                  </a></td>
+                </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="6">没有数据</td>
+                </tr>
+              </template>
 
-              </tr>
               </tbody>
             </table>
           </div>
@@ -158,52 +165,13 @@
           },
           deleteInfo: function (id) {
             var that = this
-            swal({
-                title: "你确定要删除这条信息吗?",
-                text: "删除无法后将无法撤销！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#EF5350",
-                confirmButtonText: "确定!",
-                cancelButtonText: "取消",
-                closeOnConfirm: false,
-                closeOnCancel: false
-              },
-               function (isConfirm) {
-                if (isConfirm) {
-                    that.$http.delete(QK.SERVER_URL + '/api/dataDictionary/' + id).then(function (data) {
-                      var data = jQuery.parseJSON(data.body)
-                      var result = QK.getStateCode(that, data.code)
-                      if (result.state) {
-                        swal({
-                          title: "",
-                          text: "删除成功！",
-                          confirmButtonColor: "#66BB6A",
-                          type: "success"
-                        },function(){
-                          that.infos.$remove(that.infos.find(t => t.id === id))
-                        });
-                      }
-                    }, function (error) {
-                      swal({
-                        title: "",
-                        text: "删除失败！",
-                        confirmButtonColor: "#2196F3",
-                        confirmButtonText: "确定",
-                        type: "error"
-                      })
-                    })
-                } else {
-                  swal({
-                    title: "",
-                    text: "您已取消！",
-                    confirmButtonColor: "#2196F3",
-                    confirmButtonText: "确定",
-                    type: "error"
-                  });
-                }
-              });
-          }
+            var optionObj = {
+              'that' : that,
+              'id' : id,
+              'deleteUrl' : '/api/dataDictionary/'+id,
+            }
+            QK.deleteSwal(optionObj)
+          },
         }
     }
 

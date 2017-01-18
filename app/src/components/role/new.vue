@@ -17,13 +17,20 @@
           <div class="form-group row" style="margin-top:30px;">
             <label for="roleNameZh" class="col-sm-2 control-label">角色名称</label>
             <div class="input-icon right col-sm-10">
-              <select v-model="role.roleNameZh" id="roleNameZh" class="form-control" name="roleNameZh">
+              <input v-model="role.roleNameZh" id="roleNameZh" type="text" class="form-control" name="roleNameZh">
+              <div class="message">${errors.roleNameZhError}</div>
+            </div>
+          </div>
+          <div class="form-group row" style="margin-top:30px;">
+            <label for="roleType" class="col-sm-2 control-label">角色类型</label>
+            <div class="input-icon right col-sm-10">
+              <select v-model="role.roleType" id="roleType" class="form-control" name="roleType">
                 <option value="1">超级管理员</option>
                 <option value="2">管理员</option>
                 <option value="3" selected>客户经理</option>
                 <option value="4">专家</option>
               </select>
-              <div class="message">${errors.roleNameError}</div>
+              <div class="message">${errors.roleTypeError}</div>
             </div>
           </div>
           <div class="form-group row" style="margin-top:30px;">
@@ -74,7 +81,7 @@
           </template>
           <div class="row">
             <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
-              <button id="btn_submit" v-on:click="newRole()" class="btn btn-success">确定</button>
+              <button class="btn btn-success">确定</button>
               <a v-on:click="cancelMethod()" type="reset" class="btn btn-default">取消</a>
             </div>
           </div>
@@ -182,7 +189,7 @@
          },
          cancelMethod(){
            this.$router.go({path:localStorage.nowurl})
-       }
+        }
     }
 }
 
