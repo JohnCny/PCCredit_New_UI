@@ -47,7 +47,8 @@
             showLine: false,
           },
           check: {
-                enable: true
+                enable: true,
+                chkboxType: { "Y": "", "N": "" }
             },
           callback: {
             onClick: function(event, treeId, treeNode, clickFlag){

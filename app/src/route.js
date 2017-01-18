@@ -94,6 +94,7 @@ import ProNew3 from './components/product/newThree.vue'//新建产品3
 import ProNew4 from './components/product/newFour.vue'//新建产品3
 import ProNew5 from './components/product/newFive.vue'//新建产品5
 import ProList from './components/product/index.vue'//产品列表
+import ProEditOne from './components/product/editOne.vue'//产品列表
 /************************
  * 菜单管理
  * ***********************/
@@ -251,6 +252,9 @@ export default {
         },
         '/product/list':{//产品列表
           component:ProList
+        },
+        '/product/editOne/:id':{//产品列表
+          component:ProEditOne
         },
         /*end---产品---end*/
         /*start---菜单管理---start*/

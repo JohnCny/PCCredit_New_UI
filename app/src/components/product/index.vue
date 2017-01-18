@@ -158,7 +158,13 @@
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path:'/system/product/newOne'})
-          }
+          },
+           showInfo: function (id) {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path: '/system/product/editOne/' + id})
+         }
         }
     }
 
