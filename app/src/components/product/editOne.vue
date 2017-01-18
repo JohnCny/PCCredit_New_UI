@@ -178,7 +178,7 @@
                 <div class="input-icon right">
                   <select id="productIndustryLimit" type="text" name="productIndustryLimit" v-model="productIndustryLimit" class="form-control select2-multiple" multiple>
                     <template v-for="industryed in industryes">
-                      <option  v-bind:value="industryed.id">${industryed.industryName}</option>
+                      <option v-bind:value="industryed.id">${industryed.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.productIndustryLimitError}</div>
@@ -250,7 +250,7 @@
                     <label class=" radio_a">
                       是
                     </label>
-                    <input id="isNee" type="radio" name="isNeed0" checked="checked" value="0">
+                    <input id="isNee" type="radio" name="isNeed0"  value="0">
                     <label class=" radio_a">
                       否
                     </label>
@@ -303,7 +303,6 @@ import selsect2 from 'select2'
                  productSendProductNumber:'',
                  productDescription:'',
                  productImg:'',
-                 pritureDescription:'',
                  isNeed:'',
                  orgStr:'',
                  productHouseholdLevelLimit:'',
@@ -316,7 +315,7 @@ import selsect2 from 'select2'
                  id:'',
                  name:''
               }],
-              productIndustryLimit:['',''],
+              productIndustryLimit:[],
               industryes:[{
                  id:'',
                  industryName:''
@@ -397,24 +396,19 @@ import selsect2 from 'select2'
                       var id = data.data
                       var result = QK.getStateCode(that, data.code)
                       if (result.state) {
-                       swal({
-                          title: "是否继续填写?",
-                          text: "",
-                          type: "info",
-                          showCancelButton: true,
-                          confirmButtonColor: "#2196F3",
-                          confirmButtonText: "是",
-                          cancelButtonText: "否",
-                          closeOnConfirm: true,
-                          closeOnCancel: true
-                      },
-                      function(isConfirm){
-                          if (isConfirm) {
-                              that.$router.go({path:"/system/product/newTwo/" + id})
-                          }else {
-                              that.$router.go({path:"/system/product/list"})
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '修改成功!',
+                            'listUrl' : '/system/product/list'
                           }
-                      })
+                          QK.successSwal(optionObj)
+                      }else{
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '修改失败!',
+                            'text' : result.msg+"！",
+                          }
+                          QK.errorSwal(optionObj)
                       }
                     })
                   }
@@ -423,11 +417,30 @@ import selsect2 from 'select2'
             init:function(){
                   var that = this
                   var id = that.$route.params.id
-                  that.$http.get(QK.SERVER_URL+'/api/product?productId='+id, true).then(function (data) {
+                  that.$http.get(QK.SERVER_URL+'/api/product?productId='+id,true).then(function (data) {
                     var data = jQuery.parseJSON(data.body);
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
+                      that.$set("proType", data.data.productTypes)
+                      that.$set("industryes", data.data.industry)
                       that.$set("tProductInfo", data.data.product)
+                      that.$set("productIndustryLimit", data.data.product.productIndustryLimit.split(","))
+                      that.ComponentsSelect2()
+                       var a = data.data.productOrg
+                        console.log(a)
+                        var orgids = []
+                        for(var i = 0; i <= a.length-1;i++){
+                          orgids.push(a[i].oraganizationId)
+                        }
+                        console.log(orgids)
+                         var treeObj = $.fn.zTree.getZTreeObj("treeDemo")
+                          for(var i = 0; i <= orgids.length-1;i++){
+                         treeObj.selectNode(treeObj.getNodeByParam("id",orgids[i], null));
+                         var nodes = treeObj.getSelectedNodes();
+                         treeObj.checkNode(nodes[0], true, true);
+                         treeObj.cancelSelectedNode(nodes[0]);
+                         }
+
                     }
                   })
             },
@@ -465,15 +478,7 @@ import selsect2 from 'select2'
                   }
             },
             searchInfo:function(){
-                  var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/product', true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("proType", data.data.productTypes)
-                    that.$set("industryes", data.data.industry)
-                  }
-                })
+
             },
              ComponentsSelect2: function () {
                 function e(e) {

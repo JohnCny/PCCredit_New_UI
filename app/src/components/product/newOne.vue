@@ -250,7 +250,7 @@
                       <label class=" radio_a">
                         是
                       </label>
-                      <input id="isNee" type="radio" name="isNeed0" checked="checked" value="0">
+                      <input id="isNee" type="radio" name="isNeed0"  value="0">
                       <label class=" radio_a">
                         否
                       </label>
@@ -389,9 +389,7 @@ import selsect2 from 'select2'
                    that.tProductInfo.productIndustryLimit = $("#productIndustryLimit").val().join(",")
                    that.tProductInfo.explainList = that.getObj($(".adds"))
                    that.tProductInfo.orgStr = orgid
-                   console.log(that.tProductInfo.productIndustryLimit)
-                   console.log(that.tProductInfo.explainList)
-                   console.log(that.tProductInfo.orgStr)
+
                     that.$http.post(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
                       var data = jQuery.parseJSON(data.body)
                       var id = data.data

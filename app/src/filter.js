@@ -101,6 +101,27 @@ export const getThousands = (num) => {
 }
 
 /**
+ * 显示准入行业
+ * @method getSelected
+ * @param {num} 转入行业当前ID
+ * @param {strs} 返回转入行业ID集合
+ * @returns {boolean} 返回是否存在该选项ID
+ * @author: lmm
+ * @date: 2017.01.18
+ */
+
+export const getSelected = (num,strs) => {
+  console.log(num)
+  console.log(strs)
+  var bool = false
+  if(strs.length>0 && strs.indexOf(num)>0){
+      bool = true
+  }else{
+    bool = false
+  }
+  return bool
+}
+/**
  * 显示进件状态
  * @method getApplicationState
  * @param {String} 进件状态字符串
