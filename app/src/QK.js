@@ -9,13 +9,8 @@ QK.vector  = new Vue()
 /**
  * 服务端URL
  **/
-// QK.SERVER_URL = ''
-// QK.SERVER_URL = 'http://114.55.225.130:8081'
-// QK.SERVER_URL = 'http://192.168.1.117:8090'
-QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
-// QK.SERVER_URL = 'http://10.45.51.0:8081'
-// QK.SERVER_URL = 'https://192.168.1.204:8443'
-// QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://www.advisingbank.com:8081');
+QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
+// QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 
 /*用户列表删除弹出框*/
 QK.deleteSwal = (option) => {

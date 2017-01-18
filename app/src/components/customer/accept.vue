@@ -19,7 +19,7 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label class="checkbox"></label></span></td>
+                <td><span class="hideInput"><input type="checkbox"  name="checkbox" value="${info.customerId}"/></span></td>
                 <td>${info.cname}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.transferReason}</td>
@@ -55,7 +55,8 @@
                   customerId: '',
                   cname: '',
                   certificateNumber: '',
-                  transferReason: ''
+                  transferReason: '',
+                  flag: ''
                 },
                 currentpage: 1,//第几页
                 totlepage: '',//共几页
@@ -120,29 +121,23 @@
            accept:function() {
                 var that = this
                 var ids = []
-                var userIds = []
                 var obj = {}
-                var keyobj = {}
-                $("input[name='checkbox']:checkbox:checked").each(function(){
+                $("input[type='checkbox']:checked").each(function(){
                   var id = $(this).val()
                   ids.push(id)
              })
                   var tempid = ids.join(",")
-                  obj["customerIds"] = tempid
-                  obj["flag"] = 1
-                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
+                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:1,customerIds:tempid},true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                     this.$router.go({path: '/system/customer/list'})
+                    that.$router.go({path: '/system/customer/list'})
                   }
                 })
               },
            refuse:function() {
                 var that = this
-                var ids = []
                 var userIds = []
-                var obj = {}
                 var keyobj = {}
                 $("input[name='checkbox']:checkbox:checked").each(function(){
                 var id = $(this).val()
@@ -151,11 +146,13 @@
                 var tempid = userIds.join(",")
                 keyobj["customerIds"] = tempid
                 keyobj["flag"] = 2
-                that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept', true).then(function (data) {
+                 console.log(keyobj);
+                   console.log(tempid);
+                that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:2,customerIds:tempid} ,true).then(function (data) {
                   var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
-                    this.$router.go({path: '/system/customer/list'})
+                    that.$router.go({path: '/system/customer/list'})
                   }
                })
             }
