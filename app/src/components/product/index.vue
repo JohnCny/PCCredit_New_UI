@@ -40,10 +40,10 @@
                 <td v-if="info.productState == 2"><span class="label label-info">创建中</span></td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a>
-                <a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i> 配置审批流程
+                <a v-on:click="flow(info.id)" title="" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i> 配置审批流程
                 </a>
-                <a class="btn btn-warning btn-xs">配置贷后监控规则</a>
-                <a class="btn btn-warning btn-xs">配置风险属性</a></td>
+                <a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">配置贷后监控规则</a>
+                <a class="btn btn-warning btn-xs" v-on:click="editRisk(info.id)">配置风险属性</a></td>
               </tr>
               </tbody>
             </table>
@@ -164,6 +164,24 @@
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path: '/system/product/editOne/' + id})
+         },
+         editInfo:function(id){
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path: '/system/product/editThree/' + id})
+         },
+         editRisk:function(id){
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path: '/system/product/editFour/' + id})
+         },
+         flow:function(id){
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path: '/system/product/editTwo/' + id})
          }
         }
     }
