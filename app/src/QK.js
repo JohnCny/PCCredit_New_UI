@@ -102,7 +102,7 @@ QK.resetPwdSwal = (option) => {
               type: "error"
             })
           }
-        });
+        })
       } else {
         swal({
           title: "",
@@ -110,7 +110,7 @@ QK.resetPwdSwal = (option) => {
           confirmButtonColor: "#2196F3",
           confirmButtonText: "确定",
           type: "error"
-        });
+        })
       }
     })
 }

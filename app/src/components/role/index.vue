@@ -20,7 +20,7 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.roleNameZh}</td>
-                <td>${info.roleStatus}</td>
+                <td>${info.roleStatus | getRoleState}</td>
                 <td>${info.roleDescription}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
