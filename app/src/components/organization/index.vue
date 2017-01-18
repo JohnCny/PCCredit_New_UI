@@ -12,12 +12,13 @@
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
-            <div class="col-lg-3 col-md-3 col-xs-12 orgNameDiv">
+            <div class="col-lg-4 col-md-4 col-sm-12">
               <span>机构名称：</span>
               <input id="orgName" v-model="search.orgName" type="text" name="orgName"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+            <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="reset" class="btn btn-info btn-sm" type="button">查看所有机构</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -70,7 +71,7 @@
 <script>
     import QK from '../../QK'
     import ztree from 'ztree'
-    import OrgTree from '../tree/orgTree.vue'
+    import OrgTree from '../tree/orgTreesEdit.vue'
     export default{
         data:function(){
            return {
@@ -93,10 +94,10 @@
           this.init()
         },
         created: function(){
-          QK.vector.$on('getfromchild',this.bindOrg)
+          QK.vector.$on('getfromchild',this.bindTopId)
         },
         beforeDestroy: function(){
-          QK.vector.$off('getfromchild',this.bindOrg)
+          QK.vector.$off('getfromchild',this.bindTopId)
         },
         computed: {
           pagenums: function () {
@@ -163,7 +164,7 @@
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/role/organization/'+id})
+            this.$router.go({path:'/system/organization/edit/'+id})
           },
            showNewPage:function () {
             //记录当前地址
@@ -171,8 +172,12 @@
             //跳转地址
             this.$router.go({path:'/system/organization/new'})
           },
-          bindOrg: function(org){
-            this.$set('topId', org.orgId)
+          bindTopId: function(topId){
+            this.$set('topId', topId)
+            this.init()
+          },
+          reset: function(){
+            this.$set('topId', 0)
             this.init()
           },
           deleteInfo: function (id) {
