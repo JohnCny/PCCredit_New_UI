@@ -56,7 +56,7 @@
 
             <div class="col-md-5 col-md-offset-2 contain" style="margin-top: 50px;">
               <button id="btn_submit" class="btn btn-success" v-on:click="transfer">确定</button>
-              <a v-link={path:'/system/customer/list'}  type="reset" class="btn btn-default">取消</a>
+              <a v-link="{path:'/system/customer/list'}"  type="reset" class="btn btn-default">取消</a>
             </div>
 
           </div>
@@ -146,8 +146,10 @@
                       confirmButtonColor: "#66BB6A",
                       type: "success",
                       confirmButtonText : '确定'
-                  })
+                  },
+                  function(){
                    document.location.reload()
+                  })
               }else{
                     swal({
                       title: "修改失败！",
@@ -155,8 +157,10 @@
                       confirmButtonColor: "#EF5350",
                       type: "error",
                       confirmButtonText : '确定'
+                   },
+                   function(){
+                     document.location.reload()
                    })
-                    document.location.reload()
               }
 
           })
