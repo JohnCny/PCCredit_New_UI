@@ -18,7 +18,7 @@
   <div class="col-sm-12">
     <section class="panel">
       <header class="panel-heading">
-        机构列表
+        菜单列表
       </header>
       <div class="panel-body treeBox">
         <ul id="treeDemo" class="ztree"></ul>

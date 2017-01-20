@@ -153,7 +153,7 @@
               }
               return false
             },
-              cancelMethod(){
+          cancelMethod:function(){
              this.$router.go({path:localStorage.nowurl})
           },
           bindOrg: function(org){
