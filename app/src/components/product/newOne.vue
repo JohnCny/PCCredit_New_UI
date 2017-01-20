@@ -162,11 +162,11 @@
               </div>
               <div class="form-group col-md-6 col-md-offset-2 col-sm-6 col-xs-12">
                 <label >征信</label>
-                <div class="input-icon right">
-                  <span class="hideInput"><input type="checkbox" value="1" name="productCreditLevelLimit"><label class="checkss checkbox_a">无信用记录</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">信用良好</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">有少量逾期</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">当前有逾期</label></span>
+                <div class="input-icon right chedfd row">
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="1" name="productCreditLevelLimit"><label class="checkss c_x0 checkbox_a">无信用记录</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x1 checkbox_a">信用良好</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x2 checkbox_a">有少量逾期</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x3 checkbox_a">当前有逾期</label></span>
                   <div class="message">${errors.productCreditLevelLimitError}</div>
                 </div>
               </div>
@@ -227,7 +227,6 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-              <!--<template v-for="dropDown in dropDownList">-->
               <div id="addImg">
                 <div class="row adds count0" >
                   <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
@@ -244,8 +243,6 @@
                   <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                     <label for="isNeed">是否必选:</label>
                     <div class="input-icon right">
-                      <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
-                        <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
                       <input id="isNeed" type="radio" name="isNeed0" value="1">
                       <label class=" radio_a">
                         是
@@ -259,7 +256,6 @@
                 </div>
               </div>
             </div>
-              <!--</template>-->
           </div>
         </div>
       </div>
@@ -310,7 +306,9 @@ import selsect2 from 'select2'
                  productAgeMaxLimit:'',
                  productAgeMinLimit:'',
                  customerManagerLevelId:'',
-                 productMarriageLimit:''
+                 productMarriageLimit:'',
+                 explainJson:'',
+                 productCreditLevelLimit:''
               },
               proType:[{
                  id:'',
@@ -353,7 +351,6 @@ import selsect2 from 'select2'
         methods:{
               handleSubmit () {
                 var that = this
-                console.log(event.currentTarget)
                 var bool = QK.formValidation({
                     id: "#pro_new",
                     rulesMap: {
@@ -385,11 +382,9 @@ import selsect2 from 'select2'
                       ids[i] = nodes[i].id
                    }
                    var orgid = ids.join(",")
-
-                   that.tProductInfo.productIndustryLimit = $("#productIndustryLimit").val().join(",")
-                   that.tProductInfo.explainList = that.getObj($(".adds"))
-                   that.tProductInfo.orgStr = orgid
-
+                   that.$set("tProductInfo.productIndustryLimit", $("#productIndustryLimit").val().join(","))
+                   that.$set("tProductInfo.explainJson", that.getObj($(".adds")))
+                   that.$set("tProductInfo.orgStr", orgid)
                     that.$http.post(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
                       var data = jQuery.parseJSON(data.body)
                       var id = data.data
@@ -519,12 +514,13 @@ import selsect2 from 'select2'
               var arr = []
               obj.each(function(i,v){
                 var objList = {}
-                objList["pritureDescription"]=$(v).find("input[name=pritureDescription]").val()
-                objList["isNeed"]=$(v).find("input[name^=isNeed]").val()
+                objList.investPritureDescription=$(v).find("input[name=pritureDescription]").val()
+                objList.isNeed=Number($(v).find("input[name^=isNeed]:checked").val())
                 arr.push(objList)
               })
-              return arr
-            }
+               var stringarr = JSON.stringify(arr)
+              return stringarr
+            },
         }
     }
 </script>

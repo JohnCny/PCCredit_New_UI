@@ -229,34 +229,57 @@
           <div class="table-responsive">
             <!--<template v-for="dropDown in dropDownList">-->
             <div id="addImg">
-              <div class="row adds count0" >
-                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
-                  <label for="pritureDescription">图片说明:</label>
-                  <div class="input-icon right">
-                    <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
-                    <div style="position:absolute;left:100%; top:25%">
-                      <img src="../../../static/images/add.png" v-on:click="addTap()">
-                      <img src="../../../static/images/del.png" v-on:click="delTap()">
+              <template v-for="pic in picdec">
+                <div class="row adds count${$index}">
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                    <input type="hidden" value="${pic.id}" class="hiddenin" name="idss">
+                    <label for="pritureDescription">图片说明:</label>
+                    <div class="input-icon right">
+                      <input id="pritureDescription" type="text" class="form-control" name="pritureDescription"  placeholder="" value="${pic.investPritureDescription}">
+                      <div v-if="$index == 0"  style="position:absolute;left:100%; top:25%">
+                        <img src="../../../static/images/add.png" v-on:click="addTap()">
+                        <img src="../../../static/images/del.png" v-on:click="delTap()">
+                      </div>
                     </div>
+                    <div class="message">${errors.pritureDescriptionError}</div>
                   </div>
-                  <div class="message">${errors.pritureDescriptionError}</div>
-                </div>
-                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                  <label for="isNeed">是否必选:</label>
-                  <div class="input-icon right">
-                    <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
-                      <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                    <input id="isNeed" type="radio" name="isNeed0" value="1">
-                    <label class=" radio_a">
-                      是
-                    </label>
-                    <input id="isNee" type="radio" name="isNeed0"  value="0">
-                    <label class=" radio_a">
-                      否
-                    </label>
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                    <label for="isNeed">是否必选:</label>
+                    <div class="input-icon right" v-if="pic.isNeed == 1">
+                      <input id="isNeed" type="radio" name="isNeed${$index}" value="1" checked="checked">
+                      <label class=" radio_a">
+                        是
+                      </label>
+                      <input id="isNees" type="radio" name="isNeed${$index}" value="0">
+                      <label class=" radio_a">
+                        否
+                      </label>
+                    </div>
+                    <template v-else>
+                    <div class="input-icon right" v-if="pic.isNeed == 0">
+                      <input id="isNeed" type="radio" name="isNeed${$index}" value="1">
+                      <label class=" radio_a">
+                        是
+                      </label>
+                      <input id="isNees" type="radio" name="isNeed${$index}" value="0" checked="checked">
+                      <label class=" radio_a">
+                        否
+                      </label>
+                    </div>
+                    <div class="input-icon right" v-else>
+                      <input id="isNeed" type="radio" name="isNeed${$index}" value="1">
+                      <label class=" radio_a">
+                        是
+                      </label>
+                      <input id="isNees" type="radio" name="isNeed${$index}" value="0">
+                      <label class=" radio_a">
+                        否
+                      </label>
+                    </div>
+                    </template>
                   </div>
                 </div>
-              </div>
+              </template>
             </div>
           </div>
           <!--</template>-->
@@ -301,15 +324,14 @@ import selsect2 from 'select2'
                  productInterestMax:'',
                  productInterestMin:'',
                  productSendProductNumber:'',
-                 productDescription:'',
                  productImg:'',
-                 isNeed:'',
                  orgStr:'',
                  productHouseholdLevelLimit:'',
                  productAgeMaxLimit:'',
                  productAgeMinLimit:'',
                  customerManagerLevelId:'',
-                 productMarriageLimit:''
+                 productMarriageLimit:'',
+                 explainJson:''
               },
               proType:[{
                  id:'',
@@ -386,11 +408,12 @@ import selsect2 from 'select2'
                    var orgid = ids.join(",")
 
                    that.tProductInfo.productIndustryLimit = $("#productIndustryLimit").val().join(",")
-                   that.tProductInfo.explainList = that.getObj($(".adds"))
+                   that.tProductInfo.explainJson = that.getObj($(".adds"))
                    that.tProductInfo.orgStr = orgid
-                   console.log(that.tProductInfo.productIndustryLimit)
-                   console.log(that.tProductInfo.explainList)
-                   console.log(that.tProductInfo.orgStr)
+                   that.tProductInfo.createTime = ""
+                   //console.log(that.tProductInfo.productIndustryLimit)
+                   //console.log(that.tProductInfo.explainList)
+                   //console.log(that.tProductInfo.orgStr)
                     that.$http.put(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
                       var data = jQuery.parseJSON(data.body)
                       var id = data.data
@@ -425,6 +448,7 @@ import selsect2 from 'select2'
                       that.$set("industryes", data.data.industry)
                       that.$set("tProductInfo", data.data.product)
                       that.$set("productIndustryLimit", data.data.product.productIndustryLimit.split(","))
+                      that.$set("picdec", data.data.productDesc)
                       that.ComponentsSelect2()
                        var a = data.data.productOrg
                         console.log(a)
@@ -457,7 +481,7 @@ import selsect2 from 'select2'
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
                   html += '<label for="pritureDescription">图片说明:</label>'
                   html += '<div class="input-icon right">'
-                  html += '<input id="pritureDescription" type="text" class="form-control" name="pritureDescription" placeholder="请输入有效地址">'
+                  html += '<input id="pritureDescription" type="text" class="form-control" name="pritureDescription" placeholder="">'
                   html += '</div>'
                   html += '</div>'
                   html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
@@ -534,11 +558,15 @@ import selsect2 from 'select2'
               var arr = []
               obj.each(function(i,v){
                 var objList = {}
-                objList["pritureDescription"]=$(v).find("input[name=pritureDescription]").val()
-                objList["isNeed"]=$(v).find("input[name^=isNeed]").val()
+                 objList.investPritureDescription=$(v).find("input[name=pritureDescription]").val()
+                 objList.isNeed=Number($(v).find("input[name^=isNeed]:checked").val())
+                 objList.id=Number($(v).find("input[name^=idss]").val())
                 arr.push(objList)
               })
-              return arr
+               var stringarr = JSON.stringify(arr)
+               console.log(stringarr)
+               console.log("stringarr的類型為："+ (typeof stringarr))
+              return stringarr
             }
         }
     }
