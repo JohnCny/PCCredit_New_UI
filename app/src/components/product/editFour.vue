@@ -88,7 +88,7 @@
             <div class="row">
               <div class="col-md-12 col-md-offset-5">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <a href="" type="reset" class="btn btn-default">取消</a>
+                <a href="" v-link={path:'/system/product/list'} class="btn btn-default">取消</a>
               </div>
             </div>
           </form>
