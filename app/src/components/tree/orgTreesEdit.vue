@@ -1,6 +1,9 @@
 <style src="../../../static/css/zTree/metroStyle/metroStyle.css"></style>
 <template>
   <section class="panel">
+    <header class="panel-heading">
+      机构列表
+    </header>
     <div class="panel-body treeBox">
       <ul id="treeDemo" class="ztree"></ul>
     </div>
@@ -14,18 +17,16 @@
   export default{
     data: function () {
       return{
-        org : {
-          orgId:'',
-          orgName:''
-        }
+        topId:'',
+        sendData: []
       }
     },
     ready: function () {
       this.init()
     },
     methods: {
-      getOrgData:function(){
-        return this.org
+      getTopId:function(){
+        return this.topId
       },
       init: function () {
         var that = this
@@ -42,19 +43,38 @@
               children: "organizationList",
             }
           },
+          edit: {
+            enable: true,
+            drag: {
+              autoExpandTrigger: true,
+              isCopy: false,
+			        isMove: true
+            }
+          },
           view: {
             showIcon: true,
             showLine: false,
           },
-          check: {
-                enable: true,
-                chkboxType: { "Y": "", "N": "" }
-            },
           callback: {
             onClick: function(event, treeId, treeNode, clickFlag){
-              that.$set('org.orgId', treeNode.id)
-              that.$set('org.orgName', treeNode.orgName)
-              QK.vector.$emit('getfromchild',that.getOrgData())
+              that.$set('topId', treeNode.id)
+              QK.vector.$emit('getfromchild',that.getTopId())
+            },
+            onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy){
+              $(treeNodes).each(function(i){
+                var dataJson = {
+                    id:this.id,
+                    orgParentId:targetNode.id
+                }
+                that.sendData.push(dataJson)
+              })
+              that.$http.put(QK.SERVER_URL+'/api/organization/move',JSON.stringify(that.sendData), true).then(function(res){
+                var data = jQuery.parseJSON(res.body)
+                var result = QK.getStateCode(that,data.code)
+                if (result.state) {
+                  console.dir(data.data)
+                }
+              })
             }
           }
         }
@@ -62,7 +82,6 @@
       },
       baseTree: function (url, setting) {
         var height = $(window).height()
-//        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
         $.ajax({

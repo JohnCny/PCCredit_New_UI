@@ -94,6 +94,11 @@ import ProNew3 from './components/product/newThree.vue'//新建产品3
 import ProNew4 from './components/product/newFour.vue'//新建产品3
 import ProNew5 from './components/product/newFive.vue'//新建产品5
 import ProList from './components/product/index.vue'//产品列表
+import ProEditOne from './components/product/editOne.vue'//编辑产品1
+import ProEditTwo from './components/product/editTwo.vue'//编辑产品2
+import ProEditThree from './components/product/editThree.vue'//编辑产品3
+import ProEditFour from './components/product/editFour.vue'//编辑产品4
+import ProEditTwos from './components/product/editTwos.vue'//编辑产品2s
 /************************
  * 菜单管理
  * ***********************/
@@ -284,6 +289,21 @@ export default {
         },
         '/product/list':{//产品列表
           component:ProList
+        },
+        '/product/editOne/:id':{//编辑产品1
+          component:ProEditOne
+        },
+        '/product/editTwo/:id':{//编辑产品2
+          component:ProEditTwo
+        },
+        '/product/editThree/:id':{//编辑产品3
+          component:ProEditThree
+        },
+        '/product/editFour/:id':{//编辑产品4
+          component:ProEditFour
+        },
+        '/product/editTwos/:id/:pid':{//编辑产品2s
+          component:ProEditTwos
         },
         /*end---产品---end*/
         /*start---菜单管理---start*/

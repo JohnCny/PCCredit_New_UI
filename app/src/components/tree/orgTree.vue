@@ -45,12 +45,6 @@
               children: "organizationList",
             }
           },
-          edit: {
-            enable: true,
-            drag: {
-              autoExpandTrigger: true
-            }
-          },
           view: {
             showIcon: true,
             showLine: false,

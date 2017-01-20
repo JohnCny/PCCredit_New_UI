@@ -20,7 +20,7 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.roleNameZh}</td>
-                <td>${info.roleStatus}</td>
+                <td>${info.roleStatus | getRoleState}</td>
                 <td>${info.roleDescription}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a></td>
@@ -79,10 +79,10 @@
                 highPage = this.currentpage + subVisiblePage - 1
               } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
                 lowPage = 1
-                highPage = this.visiblepage
+                highPage = this.visiblepage;
               } else {//处理后几页的逻辑
                 lowPage = this.totlepage - this.visiblepage + 1
-                highPage = this.totlepage
+                highPage = this.totlepage;
               }
             }
             //确定了上下page边界后，要准备压入数组中了
@@ -90,7 +90,7 @@
               pageArr.push(lowPage)
               lowPage++
             }
-            return pageArr
+            return pageArr;
           },
         },
         watch: {

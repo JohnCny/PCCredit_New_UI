@@ -23,27 +23,33 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>产品名称</th>
-                <th>产品额度区间</th>
-                <th>利率区间</th>
-                <th>当前状态</th>
+                <th>节点名称</th>
+                <th>节点类型</th>
+                <th>是否进行额度判断</th>
+                <th>是否是审贷会节点</th>
+                <th>是否随机分件</th>
+                <th>是否复核节点</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.productName}</td>
-                <td>${info.productLimitMin}~${info.productLimitMax}</td>
-                <td>${info.productInterestMin}~${info.productInterestMax}</td>
-                <td v-if="info.productState == 0"><span class="label label-success">正常</span></td>
-                <td v-if="info.productState == 1"><span class="label label-default">关闭</span></td>
-                <td v-if="info.productState == 2"><span class="label label-info">创建中</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
+                <td>${info.nodeName}</td>
+                <td v-if="info.nodeType == 0"><span>起始节点</span></td>
+                <td v-if="info.nodeType == 1"><span>中间节点</span></td>
+                <td v-if="info.nodeType == 2"><span>结束节点</span></td>
+                <td v-if="info.isLoanLimit == 0"><span>否</span></td>
+                <td v-if="info.isLoanLimit == 1"><span>是</span></td>
+                <td v-if="info.isLoanMeeting == 0"><span>否</span></td>
+                <td v-if="info.isLoanMeeting == 1"><span>是</span></td>
+                <td v-if="info.isRandomDivision == 0"><span>否</span></td>
+                <td v-if="info.isRandomDivision == 1"><span>是</span></td>
+                <td v-if="info.isReviewNode == 0"><span>否</span></td>
+                <td v-if="info.isReviewNode == 1"><span>是</span></td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id,info.productId)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>
                   编辑 </a>
-                <a v-on:click="flow(info.id)" title="" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i> 配置审批流程
-                </a>
-                <a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">配置贷后监控规则</a>
-                <a class="btn btn-warning btn-xs" v-on:click="editRisk(info.id)">配置风险属性</a></td>
+                  <a v-on:click="flow(info.id)" title="" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i> 删除</a>
+                  </td>
               </tr>
               </tbody>
             </table>
@@ -74,12 +80,12 @@
         data:function(){
            return {
                 infos:{
-                  productName: '',
-                  productLimitMax: '',
-                  productLimitMin: '',
-                  productInterestMax: '',
-                  productInterestMin:'',
-                  productState:''
+                  nodeName: '',
+                  nodeType: '',
+                  isLoanLimit: '',
+                  isLoanMeeting: '',
+                  isRandomDivision:'',
+                  isReviewNode:''
                 },
                 currentpage: 1,//第几页
                 totlepage: '',//共几页
@@ -133,7 +139,8 @@
                   pageLength : that.visiblepage,
                   pageSearch : JSON.stringify(that.search)
                 }
-            that.$http.post(QK.SERVER_URL+'/api/product/pageList', searchAll , true).then(function (data) {
+            var id = that.$route.params.id
+            that.$http.post(QK.SERVER_URL+'/api/productApprove/pageList', {searchAll,productId:id}, true).then(function (data) {
               var data = jQuery.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
               var page = parseInt(data.recordsTotal / 10);
@@ -159,23 +166,11 @@
             //跳转地址
             this.$router.go({path:'/system/product/newOne'})
           },
-           showInfo: function (id) {
+           showInfo: function (id,pid) {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path: '/system/product/editOne/' + id})
-         },
-         editInfo:function(id){
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path: '/system/product/editThree/' + id})
-         },
-         editRisk:function(id){
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path: '/system/product/editFour/' + id})
+            this.$router.go({path: '/system/product/editTwos/' + id +'/'+pid})
          },
          flow:function(id){
             //记录当前地址

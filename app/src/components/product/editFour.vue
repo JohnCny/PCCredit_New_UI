@@ -87,8 +87,8 @@
             </div>
             <div class="row">
               <div class="col-md-12 col-md-offset-5">
-                <button id="btn_submit" class="btn btn-success">保存</button>
-                <a href="javascript:void (0);" v-link="{path:'/system/product/list'}"  class="btn btn-default">返回</a>
+                <button id="btn_submit" class="btn btn-success">确定</button>
+                <a href="" v-link={path:'/system/product/list'} class="btn btn-default">取消</a>
               </div>
             </div>
           </form>
@@ -134,6 +134,7 @@
         },
         ready:function(){
           QK.addMethod()
+          this.init()
         },
         methods:{
         handleSubmit () {
@@ -154,7 +155,7 @@
             if(bool){
             var overdue = that.overdue
             var productId = that.$route.params.id
-              that.$http.post(QK.SERVER_URL+'/api/productRisk',{
+              that.$http.put(QK.SERVER_URL+'/api/productRisk',{
                   overPeriodLimit:overdue.overPeriodLimit,
                   isLoanBadToBlack:overdue.isLoanBadToBlack,
                   industryOverdueWarningLimit:overdue.industryOverdueWarningLimit,
@@ -162,34 +163,41 @@
                   overdueWarningLimit:overdue.overdueWarningLimit,
                   badloanWarningLimit:overdue.badloanWarningLimit,
                   rejectionRate:overdue.rejectionRate,
-                  productId:productId
+                  productId:productId,
+                  id:overdue.id
               } , true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var id = that.$route.params.id
                 var result = QK.getStateCode(that,data.code)
-                if (result.state) {
-                        swal({
-                          title: "是否继续填写?",
-                          text: "",
-                          type: "info",
-                          showCancelButton: true,
-                          confirmButtonColor: "#2196F3",
-                          confirmButtonText: "是",
-                          cancelButtonText: "否",
-                          closeOnConfirm: true,
-                          closeOnCancel: true
-                      },
-                          function(isConfirm){
-                              if (isConfirm) {
-                                  that.$router.go({path:"/system/product/newFive/" + id})
-                              }else {
-                                  that.$router.go({path:"/system/product/list"})
-                              }
-                          })
-                }
+                 if (result.state) {
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '修改成功!',
+                            'listUrl' : '/system/product/list'
+                          }
+                          QK.successSwal(optionObj)
+                      }else{
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '修改失败!',
+                            'text' : result.msg+"！",
+                          }
+                          QK.errorSwal(optionObj)
+                      }
               })
             }
             return false
+          },
+          init:function(){
+                var that = this
+                  var id = that.$route.params.id
+                  that.$http.get(QK.SERVER_URL+'/api/productRisk?productId='+id,true).then(function (data) {
+                    var data = jQuery.parseJSON(data.body);
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                       that.$set("overdue", data.data)
+                    }
+                  })
           }
      }
   }

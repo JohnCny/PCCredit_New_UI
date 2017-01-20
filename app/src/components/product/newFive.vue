@@ -23,7 +23,7 @@
     </div>
   </div>
   <p class="button">
-    <a class="btn btn-default">返回</a>
+    <a class="btn btn-default" v-link="{path:'/system/product/list'}">返回</a>
   </p>
 </template>
 <style scoped>

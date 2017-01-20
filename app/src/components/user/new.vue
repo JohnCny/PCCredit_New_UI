@@ -118,7 +118,7 @@
                       <select  v-model="user.roleId" id="roleId" type="text" name="roleId" class="form-control">
                         <option value="">&#45;&#45;请选择&#45;&#45;</option>
                         <template v-for="role in roles">
-                          <option v-bind:value="role.id">${role.roleName}</option>
+                          <option v-bind:value="role.id">${role.roleNameZh}</option>
                         </template>
                       </select>
                       <div class="message">${errors.roleError}</div>
