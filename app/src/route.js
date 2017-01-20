@@ -50,7 +50,14 @@ import ForgetPass from './components/user/forgetPass.vue'//忘记密码
  * ***********************/
 import User from './components/user/index.vue'//用户列表
 import UserNew from './components/user/new.vue'//新建用户
-import UserEdit from './components/user/edit.vue'//新建用户
+import UserEdit from './components/user/edit.vue'//编辑用户
+
+/************************
+ * 团队管理
+ * ***********************/
+import Team from './components/team/index.vue'//团队列表
+import TeamNew from './components/team/new.vue'//新建团队
+import TeamNewUser from './components/team/newUser.vue'//团队新增成员
 
 /************************
  * 权限管理
@@ -142,6 +149,18 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+
+      /*start---团队---start*/
+      '/team/list': { //团队列表
+        component: Team
+      },
+      '/team/new': { //新建团队
+        component: TeamNew
+      },
+      '/team/newUser': { //团队新增成员
+        component: TeamNewUser
+      },
+      /*end---团队---end*/
 
       /*start---客户经理基本信息---start*/
       '/managerBasic/list': { //客户经理基本信息列表

@@ -1,6 +1,9 @@
 <style src="../../../static/css/zTree/metroStyle/metroStyle.css"></style>
 <template>
   <section class="panel">
+    <header class="panel-heading">
+      团队列表
+    </header>
     <div class="panel-body treeBox">
       <ul id="treeDemo" class="ztree"></ul>
     </div>
@@ -14,61 +17,54 @@
   export default{
     data: function () {
       return{
-        org : {
-          orgId:'',
-          orgName:''
-        }
+        team : {
+          teamParentId:'',
+          teamParentName:''
+        },
+
       }
     },
     ready: function () {
       this.init()
     },
     methods: {
-      getOrgData:function(){
-        return this.org
-      },
       init: function () {
         var that = this
-        var urlMy = QK.SERVER_URL + '/api/organization'
+        var urlMy = QK.SERVER_URL + '/api/team'
         var setting = {
           data: {
             simpleData: {
               enable: false,
               idKey: "id",
-              pIdKey: "orgParentId"
+              pIdKey: "teamParentId"
             },
             key: {
-              name: "orgName",
-              children: "organizationList",
+              name: "teamName",
+              children: "teamList",
             }
           },
           view: {
             showIcon: true,
             showLine: false,
           },
-          check: {
-                enable: true,
-                chkboxType: { "Y": "", "N": "" }
-            },
           callback: {
             onClick: function(event, treeId, treeNode, clickFlag){
-              that.$set('org.orgId', treeNode.id)
-              that.$set('org.orgName', treeNode.orgName)
-              QK.vector.$emit('getfromchild',that.getOrgData())
-            }
+              that.$set('team.teamParentId', treeNode.teamId)
+              that.$set('team.teamParentName', treeNode.teamName)
+              QK.vector.$emit('getfromchild',that.team)
+            },
           }
         }
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
         var height = $(window).height()
-//        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        this.$http.get(url,true).then(function(res){
-          var data = jQuery.parseJSON(res.body)
-          var result = QK.getStateCode(this,data.code)
-          if(result.state){
+        $.ajax({
+          type: 'GET',
+          url: url,
+          success: function (res) {
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
             zTreeObj.expandAll(true)
           }
