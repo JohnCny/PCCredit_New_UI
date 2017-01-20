@@ -105,6 +105,15 @@ import MenuManage from './components/system/menuManage.vue'//菜单管理
 import personal from './components/user/personal.vue'//个人中心
 import UserMessage from './components/user/message.vue'//消息列表
 
+/************************
+ * 进件
+ * ***********************/
+import ApplicationNew from './components/application/new.vue'//进件申请
+import selectCus from './components/application/selectCus.vue'//选择申请客户
+import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
+import appliCheck from './components/application/appliCheck.vue'//进件查询
+
 export default {
   // '/index': {
   //   component: Login
@@ -130,6 +139,24 @@ export default {
       '/user/changePass': { //修改密码
         component: UserChangePass
       },
+      /*start---进件---start*/
+      '/application/new': {//进件申请
+        component: ApplicationNew
+      },
+      '/application/select/:id':{//选择申请客户
+        component: selectCus
+      },
+      '/application/cusBasic/:customerId/:aId':{//填写申请表
+        component: cusBasic
+      },
+      '/application/ipc/:aId/:templateId':{//填写IPC调查报告
+        component: ipcSupply
+      },
+      '/application/list':{//进件查询
+        component: appliCheck
+      },
+      /*end---进件---end*/
+
       /*start---用户---start*/
       '/user/list': { //用户列表
         component: User
@@ -281,7 +308,6 @@ export default {
         '/message/list':{//消息列表
           component: UserMessage
         }
-
         /*start---消息---start*/
       }
   }

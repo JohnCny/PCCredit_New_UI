@@ -158,7 +158,7 @@
 
          },
          setIdArr: function(arr){
-           var newArr = [],id;
+           var newArr = [],id
            $.each(arr,function(i,v){
               $.each($(v)[0].authorityList,function(i,v){
                 id = $(v)[0].selected?jQuery(v)[0].id:-1
@@ -172,7 +172,7 @@
         init:function() {
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/role/add', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("authority", data.data)

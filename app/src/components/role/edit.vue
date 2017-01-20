@@ -179,7 +179,7 @@
               var that = this
               var id = that.$route.params.id
               that.$http.get(QK.SERVER_URL+'/api/role/'+id, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body);
+                var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   that.$set("role", data.data.role)
