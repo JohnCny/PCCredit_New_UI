@@ -96,8 +96,8 @@
   </div>
     <div class="row">
       <div class="col-md-12 col-md-offset-5">
-        <button id="btn_submit" class="btn btn-success">确定</button>
-        <a href="" type="reset" class="btn btn-default">取消</a>
+        <button id="btn_submit" class="btn btn-success">保存</button>
+        <a href="javascript:void (0);" v-link="{path:'/system/product/list'}"  class="btn btn-default">返回</a>
       </div>
     </div>
   </form>

@@ -98,6 +98,7 @@ import ProEditOne from './components/product/editOne.vue'//编辑产品1
 import ProEditTwo from './components/product/editTwo.vue'//编辑产品2
 import ProEditThree from './components/product/editThree.vue'//编辑产品3
 import ProEditFour from './components/product/editFour.vue'//编辑产品4
+import ProEditTwos from './components/product/editTwos.vue'//编辑产品2s
 /************************
  * 菜单管理
  * ***********************/
@@ -271,8 +272,11 @@ export default {
         '/product/editThree/:id':{//编辑产品3
           component:ProEditThree
         },
-        '/product/editFour/:id':{//编辑产品3
+        '/product/editFour/:id':{//编辑产品4
           component:ProEditFour
+        },
+        '/product/editTwos/:id/:pid':{//编辑产品2s
+          component:ProEditTwos
         },
         /*end---产品---end*/
         /*start---菜单管理---start*/
