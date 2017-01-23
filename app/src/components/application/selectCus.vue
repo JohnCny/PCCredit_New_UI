@@ -258,9 +258,7 @@
               var data = $.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
-                      console.log(data.data)
                       var aId = data.data
-                      console.log(aId)
                       that.$router.go({path:"/system/application/cusBasic/"+customerId+'/'+aId})
                   if(!data.data){
                    swal({

@@ -6,7 +6,7 @@
     </template>
   </ul>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 col-lg-12 col-md-12 col-sm-12">
       <ul class="myTab1" id="menu1">
         <template v-for="ipc in ipcMenu">
           <li v-on:click="setTab2" value="${ipc.menuId}" v-bind:data-id="ipc.menuId" v-bind:class="ipc.classname">${ipc.menuName}</li>
@@ -21,6 +21,10 @@
           </div>
         </div>
       </section>
+    </div>
+    <div class="col-xs-12 col-md-offset-5 contain" style="margin-bottom:10px;">
+      <button id="btn_submit" v-on:click="nextStep()" class="btn btn-success">下一步</button>
+      <a v-on:click="cancel()"  type="reset" class="btn btn-info">返回上一步</a>
     </div>
   </div>
 </template>
@@ -139,6 +143,17 @@
                   }else if(id == '6'){
                    $("#xjl").show().siblings("div.tabContent").hide()
                   }
+            },
+            nextStep: function(){
+               var that = this
+               var id = that.$route.params.aId
+              that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/ifFileNext/'+id, true).then(function (data) {
+                var data = $.parseJSON(data.body);
+                var result = QK.getStateCode(that, data.code)
+                if (result.state){
+                   that.$router.go({path:"/system/application/picture/"+id})
+                }
+              })
             },
             cancel :function(){
                window.history.back()

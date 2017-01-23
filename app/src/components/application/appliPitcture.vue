@@ -9,14 +9,14 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          征信报告列表
+          调查图片列表
         </header>
         <div class="panel-body">
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>名称</th>
+                <th>图片说明</th>
                 <th>是否已上传</th>
                 <th>操作</th>
               </tr>
@@ -103,7 +103,7 @@
                 {id:'sqb',text:'填写申请表',classname:'stepActive'},
                 {id:'ipc',text:'填写IPC调查报告',classname:'stepActive'},
                 {id:'dctp',text:'上传调查图片',classname:'stepActive'},
-                {id:'zxbg',text:'上传征信报告',classname:'stepActive'},
+                {id:'zxbg',text:'上传征信报告',classname:'stepNormal'},
                 {id:'xxzl',text:'信息总览',classname:'stepLast'}
                 ],
         infos: [{
@@ -119,7 +119,7 @@
       nextStep: function(){
            var that = this
            var id = that.$route.params.aId
-          that.$http.get(QK.SERVER_URL+'', true).then(function (data) {
+          that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/{productId}', true).then(function (data) {
             var data = $.parseJSON(data.body);
             var result = QK.getStateCode(that, data.code)
             if (result.state){

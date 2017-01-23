@@ -56,7 +56,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          客户维护
+          填写申请表
         </header>
         <form class="form-horizontal" role="form" id="cusBasic">
           <input type="hidden" id="applicationId" name="applicationId"/>

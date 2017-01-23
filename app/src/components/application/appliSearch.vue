@@ -36,8 +36,7 @@
                 <td>${info.product.productName}</td>
                 <td>${info.applyAmount | isEmpty}</td>
                 <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i> 编辑 </a></td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑 </a></td>
               </tr>
               </tbody>
             </table>
@@ -146,7 +145,7 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/customer/edit/' + id})
+        this.$router.go({path: '/system/application/searchEdit/' + id})
       }
     }
   }
