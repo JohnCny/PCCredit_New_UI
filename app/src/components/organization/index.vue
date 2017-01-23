@@ -8,7 +8,7 @@
     <div class="col-md-8">
       <section class="panel">
         <header class="panel-heading">
-          角色列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
+          机构列表 <a style="display:none" v-on:click="showNewPage" class="btn btn-success btn-xs newNormal"><i class="fa fa-plus"></i> 新增</a><a style="display:none" v-on:click="showNewPageTop" class="btn btn-success btn-xs newTop"><i class="fa fa-plus"></i> 新增顶级机构</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -84,7 +84,7 @@
                 currentpage: 1,//第几页
                 totlepage: '',//共几页
                 visiblepage: 10,//隐藏10页
-                topId: 0,
+                orgId: '',
                 search: {
                   orgName: '',
                 }
@@ -137,12 +137,23 @@
         methods:{
           init : function(){
             var that = this
+            if(JSON.parse(localStorage.user).roleType == 1){
+              $(".newTop").show()
+              this.$set("orgId",0)
+            }else{
+              $(".newNormal").show()
+              this.$set("orgId",JSON.parse(localStorage.user).org.id)
+            }
             var searchAll = {
               pageStart : that.currentpage,
               pageLength : that.visiblepage,
-              topId : that.topId,
+              orgId : that.orgId,
               pageSearch : that.search
             }
+            that.pageList(searchAll)
+          },
+          pageList: function(searchAll){
+            var that = this
             that.$http.post(QK.SERVER_URL+'/api/organization/pageList',searchAll, true).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10)
@@ -166,18 +177,30 @@
             //跳转地址
             this.$router.go({path:'/system/organization/edit/'+id})
           },
-           showNewPage:function () {
+          showNewPage:function () {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path:'/system/organization/new'})
           },
-          bindTopId: function(topId){
-            this.$set('topId', topId)
-            this.init()
+          showNewPageTop:function () {
+            //记录当前地址
+            QK.noteNowUrl()
+            //跳转地址
+            this.$router.go({path:'/system/organization/newTop'})
+          },
+          bindTopId: function(orgId){
+            //this.$set('orgId', orgId)
+            var searchAll = {
+              pageStart : this.currentpage,
+              pageLength : this.visiblepage,
+              orgId : orgId,
+              pageSearch : this.search
+            }
+            this.pageList(searchAll)
           },
           reset: function(){
-            this.$set('topId', 0)
+            this.$set('orgId', JSON.parse(localStorage.user).org.id)
             this.init()
           },
           deleteInfo: function (id) {
