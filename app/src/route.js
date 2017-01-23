@@ -128,6 +128,20 @@ import LoanAfterDo from './components/loanafter/loanafterdo.vue'//贷后监控�
 import LoanAfterMonitor from './components/loanafter/loanmonitor.vue'//贷后监控
 import LoanOverDue from './components/loanafter/overduecus.vue'//预期不良
 import Collections from './components/loanafter/collection.vue'//催收
+
+/************************
+ * 进件
+ * ***********************/
+import ApplicationNew from './components/application/new.vue'//进件申请
+import selectCus from './components/application/selectCus.vue'//选择申请客户
+import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
+import appliPicture from './components/application/appliPitcture.vue'//调查图片
+import appliApproval from './components/application/approval.vue'//征信报告
+import informationAll from './components/application/informationAll.vue'//进件信息总览
+import appliCheck from './components/application/appliSearch.vue'//进件查询
+import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
+
 export default {
   // '/index': {
   //   component: Login
@@ -164,6 +178,37 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+      /*start---进件---start*/
+      '/application/new': {//进件申请
+        component: ApplicationNew
+      },
+      '/application/select/:id':{//选择申请客户
+        component: selectCus
+      },
+      '/application/cusBasic/:customerId/:aId':{//填写申请表
+        component: cusBasic
+      },
+      '/application/ipc/:aId/:templateId':{//填写IPC调查报告
+        component: ipcSupply
+      },
+      '/application/list':{//进件查询
+        component: appliCheck
+      },
+      '/application/searchEdit/:id':{//进件查询编辑
+        component: searchEdit
+      },
+      '/application/picture/:id':{//调查图片
+        component:appliPicture
+      },
+      '/application/approval/:id':{//征信报告列表
+        component:appliApproval
+      },
+      '/application/informationAll/:id':{//进件信息总览
+        component:informationAll
+      },
+      /*end---进件---end*/
+
+
 
       /*start---团队---start*/
       '/team/list': { //团队列表

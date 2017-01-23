@@ -78,7 +78,7 @@
                 <div class="input-icon right">
                   <select id="industry" type="text" name="industry" v-model="industry" class="form-control select2-multiple" multiple>
                     <template v-for="industries in customerIndustry">
-                      <option  value="${industries.id}" checked>${industries.industryName}</option>
+                      <option  value="${industries.id}">${industries.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.industryError}</div>
