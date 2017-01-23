@@ -50,7 +50,14 @@ import ForgetPass from './components/user/forgetPass.vue'//忘记密码
  * ***********************/
 import User from './components/user/index.vue'//用户列表
 import UserNew from './components/user/new.vue'//新建用户
-import UserEdit from './components/user/edit.vue'//新建用户
+import UserEdit from './components/user/edit.vue'//编辑用户
+
+/************************
+ * 团队管理
+ * ***********************/
+import Team from './components/team/index.vue'//团队列表
+import TeamNew from './components/team/new.vue'//新建团队
+import TeamNewUser from './components/team/newUser.vue'//团队新增成员
 
 /************************
  * 权限管理
@@ -83,6 +90,7 @@ import LogList from './components/log/loginLog.vue'//登录日志管理列表
 import OrgList from './components/organization/index.vue'//机构列表
 import OrgEdit from './components/organization/edit.vue'//编辑机构
 import OrgNew from './components/organization/new.vue'//新建机构
+import OrgNewTop from './components/organization/newTop.vue'//新建机构
 
 
 /************************
@@ -108,6 +116,7 @@ import MenuManage from './components/system/menuManage.vue'//菜单管理
  * 个人中心
  * ***********************/
 import personal from './components/user/personal.vue'//个人中心
+import personalSet from './components/user/personalSet.vue'//个人设置
 import UserMessage from './components/user/message.vue'//消息列表
 
 
@@ -155,6 +164,18 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+
+      /*start---团队---start*/
+      '/team/list': { //团队列表
+        component: Team
+      },
+      '/team/new': { //新建团队
+        component: TeamNew
+      },
+      '/team/newUser': { //团队新增成员
+        component: TeamNewUser
+      },
+      /*end---团队---end*/
 
       /*start---客户经理基本信息---start*/
       '/managerBasic/list': { //客户经理基本信息列表
@@ -216,6 +237,9 @@ export default {
       },
       '/organization/new': {//新建机构
         component: OrgNew
+      },
+      '/organization/newTop': {//新建顶级机构
+        component: OrgNewTop
       },
       /*end---机构---end*/
 
@@ -300,11 +324,14 @@ export default {
       },
       /*start---登录日志管理---start*/
 
-      /*start---个人中心---start*/
-      '/user/personal': {
+      /*start---个人---start*/
+      '/user/personal': {//个人中心
         component: personal
       },
-      /*start---个人中心---start*/
+      '/user/personalSet': {//个人设置
+        component: personalSet
+      },
+      /*start---个人---start*/
 
         /*start---消息---start*/
       '/message/list':{//消息列表

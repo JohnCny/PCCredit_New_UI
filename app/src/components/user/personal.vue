@@ -1,111 +1,105 @@
 <template>
   <div class="row">
-    <div class="portlet light bordered">
-      <div class="portlet-body form">
-        <!-- BEGIN FORM-->
-        <form class="form-horizontal" role="form" >
-          <div class="form-body">
-            <h3 class="form-section">基本资料</h3>
-            <div class="row">
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">登录名</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static" >
-                      ${userSession.username | isEmpty}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <!--/span-->
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">姓名</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static">
-                      ${userSession.cname | isEmpty}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <!--/span-->
-            </div>
-            <!--/row-->
-            <div class="row">
-              <!--/span-->
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">性别</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static">
-                      ${userSession.sex}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <!--/span-->
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">证件号码</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static">
-                      ${userSession.idNumber | isEmpty}
-                    </p>
-                  </div>
+    <div class="col-md-12">
+      <section class="panel">
+        <header class="panel-heading">
+          个人信息
+        </header>
+        <div class="panel-body">
+          <div class="row" style="margin-top:20px;margin-bottom:20px">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-4">姓名</label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                  <p class="form-control-static">
+                    ${userSession.userCname | isEmpty}
+                  </p>
                 </div>
               </div>
             </div>
-            <!--/row-->
-            <div class="row">
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">联系方式</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static">
-                      ${userSession.age}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-4">出生日期</label>
-                  <div class="col-md-9 col-sm-9 col-xs-8">
-                    <p class="form-control-static birthday">
-                      ${userSession.tel}
-                    </p>
-                  </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-4">性别</label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                  <p class="form-control-static">
+                    ${userSession.sex | reSex}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </form>
-        <!-- END FORM-->
-      </div>
+          <div class="row" style="margin-bottom:20px">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-4">联系方式</label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                  <p class="form-control-static">
+                    ${userSession.tel}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-4">电子邮件</label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                  <p class="form-control-static">
+                    ${userSession.email | isEmpty}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom:20px">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-4">账号状态</label>
+                <div class="col-md-9 col-sm-9 col-xs-8">
+                  <p class="form-control-static birthday">
+                    <span class="label label-sm ${userSession.status | reStatusClass}">${userSession.status | reStatus}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
+  </div>
+  <div class="row">
+    <my-upload></my-upload>
   </div>
 </template>
 <script>
   import QK from '../../QK'
+  import myUpload from '../upload/uploadImg.vue'
     export default{
-        data(){
-            return{
-              userSession:{
-                username:'',
-                age:'',
-                cname:'',
-                sex: '',
-                idNumber:'',
-                tel:''
-              }
-            }
-        },
+       data(){
+        return{
+          userSession:{},
+          show: true,
+          params: {
+              token: '123456798',
+              name: 'avatar'
+          },
+          imgDataUrl: '', // the datebase64 url of created image
+        }
+      },
       ready: function () {
-
+        this.init()
+      },
+      components: {
+         'my-upload': myUpload
       },
       methods:{
-
-      }
+        init: function() {
+          this.$set("userSession",JSON.parse(localStorage.user).user)
+        }
+      },
     }
+
+
+
+
 
 </script>

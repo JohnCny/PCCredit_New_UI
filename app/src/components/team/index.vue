@@ -8,42 +8,45 @@
     <div class="col-md-8">
       <section class="panel">
         <header class="panel-heading">
-          机构列表 <a style="display:none" v-on:click="showNewPage" class="btn btn-success btn-xs newNormal"><i class="fa fa-plus"></i> 新增</a><a style="display:none" v-on:click="showNewPageTop" class="btn btn-success btn-xs newTop"><i class="fa fa-plus"></i> 新增顶级机构</a>
+          团队成员列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增成员</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-4 col-md-4 col-sm-12">
-              <span>机构名称：</span>
-              <input id="orgName" v-model="search.orgName" type="text" name="orgName"/>
+              <span>用户：</span>
+              <input id="userCname" v-model="search.userCname" type="text" name="userCname"/>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
-              <button v-on:click="reset" class="btn btn-info btn-sm" type="button">查看所有机构</button>
+              <button v-on:click="reset" class="btn btn-info btn-sm" type="button">查看所有团队用户</button>
             </div>
           </div>
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>机构名称</th>
-                <th>负责人</th>
-                <th>后勤</th>
-                <th colspan="2">操作</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>联系方式</th>
+                <th>创建时间</th>
+                <th>用户状态</th>
+                <th>操作</th>
               </tr>
               </thead>
               <tbody>
               <template  v-if="infos.length" >
-                <tr v-for="info in infos">
-                  <td>${info.orgName}</td>
-                  <td>${info.orgDirectorName}</td>
-                  <td>${info.orgLogisticsId}</td>
-                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>编辑 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 删除</a></td>
+                <tr v-for="info in infos" v-bind:id="info.id">
+                  <td>${info.userCname}</td>
+                  <td>${info.sex | reSex}</td>
+                  <td>${info.tel}</td>
+                  <td>${info.createTime | formatDate}</td>
+                  <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
+                  <td><a v-on:click="deleteInfo(info.id)" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i> 移除该成员</a></td>
                 </tr>
               </template>
               <template  v-else>
                 <tr>
-                  <td colspan="5">没有数据</td>
+                  <td colspan="6">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -71,33 +74,37 @@
 <script>
     import QK from '../../QK'
     import ztree from 'ztree'
-    import OrgTree from '../tree/orgTreesEdit.vue'
+    import OrgTree from '../tree/teamTreeEdit.vue'
     export default{
         data:function(){
            return {
-                infos:{
-                  id: '',
-                  orgName: '',
-                  orgDirectorName: '',
-                  orgLogisticsId: ''
-                },
-                currentpage: 1,//第几页
-                totlepage: '',//共几页
-                visiblepage: 10,//隐藏10页
-                orgId: '',
-                search: {
-                  orgName: '',
-                }
+            infos: {
+              id: '',
+              userCname: '',
+              sex: '',
+              tel: '',
+              status: '',
+              idCardNumber: '',
+              roleId: '',
+              email: '',
+            },
+            currentpage: 1,//第几页
+            totlepage: '',//共几页
+            visiblepage: 10,//隐藏10页
+            teamId: '',
+            search: {
+              userCname: '',
+            }
            }
         },
         ready:function(){
           this.init()
         },
         created: function(){
-          QK.vector.$on('getfromchild',this.bindTopId)
+          QK.vector.$on('getfromchild',this.bindTeamId)
         },
         beforeDestroy: function(){
-          QK.vector.$off('getfromchild',this.bindTopId)
+          QK.vector.$off('getfromchild',this.bindTeamId)
         },
         computed: {
           pagenums: function () {
@@ -137,24 +144,13 @@
         methods:{
           init : function(){
             var that = this
-            if(JSON.parse(localStorage.user).roleType == 1){
-              $(".newTop").show()
-              this.$set("orgId",0)
-            }else{
-              $(".newNormal").show()
-              this.$set("orgId",JSON.parse(localStorage.user).org.id)
-            }
             var searchAll = {
               pageStart : that.currentpage,
               pageLength : that.visiblepage,
-              orgId : that.orgId,
-              pageSearch : that.search
+              teamId : that.teamId,
+              pageSearch : JSON.stringify(that.search)
             }
-            that.pageList(searchAll)
-          },
-          pageList: function(searchAll){
-            var that = this
-            that.$http.post(QK.SERVER_URL+'/api/organization/pageList',searchAll, true).then(function(res){
+            that.$http.post(QK.SERVER_URL+'/api/team/pageList',searchAll, true).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
@@ -171,46 +167,51 @@
               that.currentpage = page
             }
           },
+          bindTeamId: function(teamId){
+            this.$set('teamId', teamId)
+            this.init()
+          },
+          reset: function(){
+            this.$set('teamId', 0)
+            this.init()
+          },
           showInfo:function (id) {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/organization/edit/'+id})
+            this.$router.go({path:'/system/team/edit/'+id})
           },
           showNewPage:function () {
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path:'/system/organization/new'})
-          },
-          showNewPageTop:function () {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path:'/system/organization/newTop'})
-          },
-          bindTopId: function(orgId){
-            //this.$set('orgId', orgId)
-            var searchAll = {
-              pageStart : this.currentpage,
-              pageLength : this.visiblepage,
-              orgId : orgId,
-              pageSearch : this.search
-            }
-            this.pageList(searchAll)
-          },
-          reset: function(){
-            this.$set('orgId', JSON.parse(localStorage.user).org.id)
-            this.init()
+            this.$router.go({path:'/system/team/newUser'})
           },
           deleteInfo: function (id) {
             var that = this
-            var optionObj = {
-              'that' : that,
-              'id' : id,
-              'deleteUrl' : '/api/organization/'+id,
+            if(that.teamId){
+              that.$http.delete(QK.SERVER_URL+'/api/userTeam?teamId='+that.teamId+'&userIds='+id,true).then(function(res){
+                var data = jQuery.parseJSON(res.body)
+                var result = QK.getStateCode(that, data.code)
+                  if (result.state) {
+                    var optionObj = {
+                      'that' : that,
+                      'title' : '移除成功!',
+                      'listUrl' : '/system/team/list'
+                    }
+                    QK.successSwal(optionObj)
+                    $('#'+id).remove()
+                  }else{
+                    var optionObj = {
+                      'title' : '移除失败!',
+                      'text' : result.msg+"！"
+                    }
+                    QK.errorSwal(optionObj)
+                  }
+              })
+            }else{
+              alert("请先在团队列表选择团队!")
             }
-            QK.deleteSwal(optionObj)
           },
         }
     }
