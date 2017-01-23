@@ -23,7 +23,7 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.productInvestPictureDesc}</td>
+                <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}</td>
                 <td>${info.investPictureUrl}</td>
                 <td><a href="javascript:;" v-on:click="goAdd()" class="btn btn-success btn-xs"><i class="fa fa-plus"></i>继续添加</a></td>
               </tr>
@@ -107,22 +107,65 @@
                 {id:'xxzl',text:'信息总览',classname:'stepLast'}
                 ],
         infos: [{
-          productInvestPictureDesc: '',
+          investPritureDescription: '',
           investPictureUrl: ''
-            }]
+            }],
+        tApplicationInvestPicture: []
          }
      },
     ready: function () {
-      //this.init()
+      this.init()
     },
     methods: {
-      nextStep: function(){
+      init: function(){
            var that = this
-           var id = that.$route.params.aId
-          that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/{productId}', true).then(function (data) {
-            var data = $.parseJSON(data.body);
+           var id = that.$route.params.id
+          that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/'+id, true).then(function (data) {
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state){
+               that.$set("infos",data.data)
+              }
+          })
+        },
+        goAdd: function(){
+		      	$(event.currentTarget).parent("td").prev("td").append("<tr><td>图片路径：<input type='file'/> <button id='upload'>上传</button></td></tr>")
+                var that = this
+                var applicationId = that.$route.params.id
+                var productInvestPictureDesc = $("#descript").val()
+                $("#upload").click(function(){
+                   that.$http.post(QK.SERVER_URL+'/api/applicationInvestPicture',{applicationId:applicationId,productInvestPictureDesc:productInvestPictureDesc},true).then(function (data) {
+                   console.log(id)
+                     var data = $.parseJSON(data.body);
+                     var result = QK.getStateCode(that, data.code)
+                     if (result.state){
+                         swal({
+                          title: "上传成功！",
+                          text: result.msg+"！",
+                          confirmButtonColor: "#66BB6A",
+                          type: "success",
+                          confirmButtonText : '确定'
+                       })
+                   }else{
+                         swal({
+                          title: "上传失败！",
+                          text: result.msg+"！",
+                          confirmButtonColor: "#EF5350",
+                          type: "error",
+                          confirmButtonText : '确定'
+                       })
+                   }
+              })
+          })
+      },
+        nextStep: function(){
+            var that = this
+            var id = that.$route.params.id
+          that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/'+id, true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state){
+               that.$set("infos",data.data)
                that.$router.go({path:"/system/application/approval/"+id})
             }
           })
