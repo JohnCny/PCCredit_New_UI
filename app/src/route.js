@@ -119,6 +119,15 @@ import personal from './components/user/personal.vue'//个人中心
 import personalSet from './components/user/personalSet.vue'//个人设置
 import UserMessage from './components/user/message.vue'//消息列表
 
+
+/************************
+ * 贷后管理
+ * ***********************/
+import LoanNew from './components/loanafter/new.vue'//新建贷后监控
+import LoanAfterDo from './components/loanafter/loanafterdo.vue'//贷后监控实施
+import LoanAfterMonitor from './components/loanafter/loanmonitor.vue'//贷后监控
+import LoanOverDue from './components/loanafter/overduecus.vue'//预期不良
+import Collections from './components/loanafter/collection.vue'//催收
 export default {
   // '/index': {
   //   component: Login
@@ -325,11 +334,32 @@ export default {
       /*start---个人---start*/
 
         /*start---消息---start*/
-        '/message/list':{//消息列表
-          component: UserMessage
-        }
+      '/message/list':{//消息列表
+        component: UserMessage
+      },
 
         /*start---消息---start*/
+
+      /*start---贷后管理---start*/
+      '/loanafter/new': {//新增贷后监控
+        component: LoanNew
+      },
+      '/loanafter/loanafterdo': {//新增贷后监控
+        component: LoanAfterDo
+      },
+      '/loanafter/loanmonitor/:id': {//新增贷后监控
+        component: LoanAfterMonitor
+      },
+      '/loanafter/overduecus': {//新增贷后监控
+        component: LoanOverDue
+      },
+      '/loanafter/collection': {//新增贷后监控
+        component: Collections
+      }
+      /*start---贷后管理---start*/
+
+
+
       }
   }
 }
