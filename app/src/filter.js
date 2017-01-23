@@ -360,7 +360,48 @@ export const expertChange = (num) => {
     return '无数据';
   }
 }
+/**
+ * 进件查询当前状态转换
+ * @method appliChange
+ * @date: 2016.11.30
+ */
+export const appliChange = (num) => {
+  if (num == '0') {
+    return '未完成';
+  } else if (num == '1') {
+    return '禁入';
+  } else if (num == '2') {
+    return '待审核';
+  } else if (num == '3') {
+    return '审核通过';
+  } else if (num == '4') {
+    return '审核不通过';
+  }else{
+    return '无数据';
+  }
+}
 
+export const appliColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-danger";
+      break;
+    case 1:
+      stateCalss = "label-info";
+      break;
+    case 2:
+      stateCalss = "label-primary";
+      break;
+    case 3:
+      stateCalss = "label-warning";
+      break;
+    case 4:
+      stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
 /**
  * 性别转换
  * @method reSex
@@ -370,7 +411,7 @@ export const expertChange = (num) => {
  * @date: 2016.10.13
  */
 export const reSex = (num) => {
-  return (num == 1 || num == true) ? '男' : '女';
+  return (num == 0 || num == true) ? '男' : '女';
 }
 
 /**
@@ -398,7 +439,34 @@ export const reId = (num) => {
   }
   return reStr;
 }
-
+/**
+ * 客户状态
+ * @method reCus
+ * @param {number} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2016.10.13
+ */
+export const reCus = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '正常';
+      break;
+    case 1:
+      reStr = '高风险用户';
+      break;
+    case 2:
+      reStr = '黑名单用户';
+      break;
+    case 3:
+      reStr = '禁用客户';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
 /**
  * 登陆登出
  * @method reLog
