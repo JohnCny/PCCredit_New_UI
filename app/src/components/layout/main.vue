@@ -25,6 +25,7 @@
 <script>
     import MainHead from './mainHead.vue'
     import MainCrumb from './mainCrumb.vue'
+    import routerView from './routerView.vue'
     export default{
         data(){
             return{
@@ -33,7 +34,8 @@
         },
         components:{
           MainHead,
-          MainCrumb
+          MainCrumb,
+          routerView
         }
     }
 </script>

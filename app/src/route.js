@@ -90,6 +90,7 @@ import LogList from './components/log/loginLog.vue'//登录日志管理列表
 import OrgList from './components/organization/index.vue'//机构列表
 import OrgEdit from './components/organization/edit.vue'//编辑机构
 import OrgNew from './components/organization/new.vue'//新建机构
+import OrgNewTop from './components/organization/newTop.vue'//新建机构
 
 
 /************************
@@ -115,6 +116,7 @@ import MenuManage from './components/system/menuManage.vue'//菜单管理
  * 个人中心
  * ***********************/
 import personal from './components/user/personal.vue'//个人中心
+import personalSet from './components/user/personalSet.vue'//个人设置
 import UserMessage from './components/user/message.vue'//消息列表
 
 export default {
@@ -227,6 +229,9 @@ export default {
       '/organization/new': {//新建机构
         component: OrgNew
       },
+      '/organization/newTop': {//新建顶级机构
+        component: OrgNewTop
+      },
       /*end---机构---end*/
 
 
@@ -310,11 +315,14 @@ export default {
       },
       /*start---登录日志管理---start*/
 
-      /*start---个人中心---start*/
-      '/user/personal': {
+      /*start---个人---start*/
+      '/user/personal': {//个人中心
         component: personal
       },
-      /*start---个人中心---start*/
+      '/user/personalSet': {//个人设置
+        component: personalSet
+      },
+      /*start---个人---start*/
 
         /*start---消息---start*/
         '/message/list':{//消息列表

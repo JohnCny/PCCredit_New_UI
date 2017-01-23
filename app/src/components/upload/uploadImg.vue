@@ -1,18 +1,9 @@
 <template>
-  <div class="col-md-12">
-    <section class="panel">
-      <header class="panel-heading">
-        图像上传
-      </header>
-      <div class="panel-body">
-        <div id="app">
-          <a class="btn" @click="toggleShow">设置头像</a>
-          <my-upload  v-model="show" field="files" :width="64" :height="64" url="/api/files" :params="params" :value.sync="show" img-format="png"></my-upload>
-          <img :src="imgDataUrl">
-        </div>
-      </div>
-    </section>
-  </div>
+    <div id="app">
+      <a class="btn" @click="toggleShow">设置头像</a>
+      <my-upload  v-model="show" field="files" :width="64" :height="64" url="/api/files" :params="params" :value.sync="show" img-format="png"></my-upload>
+      <img :src="imgDataUrl">
+    </div>
 </template>
 <script>
   import QK from '../../QK'
@@ -46,8 +37,8 @@
              * [param] field
              */
             cropSuccess(imgDataUrl, field){
-                console.log('-------- crop success --------');
-                this.imgDataUrl = imgDataUrl;
+                console.log('-------- crop success --------')
+                this.imgDataUrl = imgDataUrl
             },
             /**
              * upload success
@@ -55,9 +46,9 @@
              * [param] field
              */
             cropUploadSuccess(jsonData, field){
-                console.log('-------- upload success --------');
-                console.log(jsonData);
-                console.log('field: ' + field);
+                console.log('-------- upload success --------')
+                console.log(jsonData)
+                console.log('field: ' + field)
             },
             /**
              * upload fail
@@ -65,9 +56,9 @@
              * [param] field
              */
             cropUploadFail(status, field){
-                console.log('-------- upload fail --------');
-                console.log(status);
-                console.log('field: ' + field);
+                console.log('-------- upload fail --------')
+                console.log(status)
+                console.log('field: ' + field)
             }
         }
     }
