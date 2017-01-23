@@ -6,17 +6,17 @@
           贷后监控信息
         </header>
         <div class="panel-body">
-          <form  id="managerLevelNew" @submit.prevent="handleSubmit">
+          <form  id="LoanMonitor" @submit.prevent="handleSubmit">
             <div class="row">
               <div class="col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="nodeTyp">贷后监控方式：</label>
+                  <label for="tPostLoanMonitorType">贷后监控方式：</label>
                   <div class="input-icon right">
-                    <select id="nodeTyp" type="text" name="nodeTyp" v-model="infos.nodeType" class="form-control">
+                    <select id="tPostLoanMonitorType" type="text" name="tPostLoanMonitorType" v-model="infos.tPostLoanMonitorType" class="form-control">
                       <option value="-1" selected = "selected">--请选择--</option>
-                      <template v-for="node in nodes">
-                        <option v-bind:value="node.id">${node.nodeName}</option>
-                      </template>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
                     </select>
                     <div class="message">${errors.nodeTypeError}</div>
                   </div>
@@ -26,13 +26,13 @@
             <div class="row">
               <div class="col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="preNodeI">贷后监控结果：</label>
+                  <label for="taskStatus">贷后监控结果：</label>
                   <div class="input-icon right">
-                    <select id="preNodeI" type="text" name="preNodeI" v-model="infos.preNodeId" class="form-control">
+                    <select id="taskStatus" type="text" name="taskStatus" v-model="infos.taskStatus" class="form-control">
                       <option value="-1" selected = "selected">--请选择--</option>
-                      <template v-for="todos in nodeNames">
-                        <option v-bind:value="todos.id">${todos.nodeName}</option>
-                      </template>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
                     </select>
                     <div class="message">${errors.preNodeIdError}</div>
                   </div>
@@ -42,9 +42,9 @@
             <div class="row">
               <div class="col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="approveRoles">其它：</label>
+                  <label for="other">其它：</label>
                   <div class="input-icon right">
-                    <textarea class="form-control"></textarea>
+                    <textarea class="form-control" v-model="infos.other" name="other" id="other"></textarea>
                     <div class="message">${errors.approveRolesError}</div>
                   </div>
                 </div>
@@ -76,110 +76,59 @@
         data:function(){
            return {
                 infos:{
-                  nodeType: '',
-                  nodeName: '',
-                  preNodeId: '',
-                  nextNodeId: '',
-                  isRandomDivision: '',
-                  isLoanMeeting: '',
-                  loanMeetingType: '',
-                  isLoanLimit: '',
-                  loanLimit:'',
-                  isReviewNode:''
+                  tPostLoanMonitorType: '',
+                  taskStatus: '',
+                  other: ''
                 },
                 errors:{
-                  nodeTypeError: '',
-                  nodeNameError: '',
-                  preNodeIdError: '',
-                  nextNodeIdError: '',
-                  approveRolesErrors: '',
-                  isRandomDivisionErrors: '',
-                  isLoanMeetingError: '',
-                  loanMeetingTypeError: '',
-                  isLoanLimitError: '',
-                  loanLimitError: '',
-                  isReviewNodeError:''
+                  tPostLoanMonitorTypeError: '',
+                  taskStatusError: '',
+                  otherError: ''
                 },
                 approveRoles:[{
                   id:'',
                   roleNameZh:''
                 }],
-                 nodeNames:[{
-                 id:'',
-                 nodeName:''
-                }],
            }
         },
         ready:function(){
           QK.addMethod()
-          this.searchInfo()
         },
         methods:{
         handleSubmit () {
             var that = this
             var bool = QK.formValidation({
-              id: "#managerLevelNew",
+              id: "#LoanMonitor",
               rulesMap:{
-                  nodeTyp:{required: !0,downList: !0},
-                  nodeNam:{required: !0,isChinese: !0},
-                  preNodeI:{required: !0,downList: !0},
-                  nextNodeI:{required: !0,downList: !0},
-                  approveRoles:{required: !0},
-                  isRandomDivisio:{required: !0},
-                  isLoanMeetin:{required: !0},
-                  loanMeetingTyp:{required: !0,downList: !0},
-                  isLoanLimi:{required: !0},
-                  loanLimi:{required: !0,isIntGtZero: !0}
+                  tPostLoanMonitorType:{required: !0,downList: !0},
+                  taskStatus:{required: !0,downList: !0},
+                  other:{required: !0}
               }
             })
 
             //验证结果  true  false
             if(bool){
-              var infos = that.infos
-              var approveRoles = that.approveRoles
-              approveRoles = $("#approveRoles").val().join(",")
-              var vals = that.infos.nodeType
               var id = that.$route.params.id
-              console.log(vals)
-              that.$http.post(QK.SERVER_URL+'/api/productApprove', {
-                    nodeType:infos.nodeType,
-                    nodeName:infos.nodeName,
-                    preNodeId:infos.preNodeId,
-                    nextNodeId:infos.nextNodeId,
-                    isRandomDivision:infos.isRandomDivision,
-                    isLoanMeeting:infos.isLoanMeeting,
-                    isLoanLimit:infos.isLoanLimit,
-                    loanLimit:infos.loanLimit,
-                    isReviewNode:infos.isReviewNode,
-                    approveRoles:approveRoles,
-                    productId:id,
-                    loanMeetingType:infos.loanMeetingType,
-              }, true).then(function (data) {
+              console.log(id)
+              that.infos.id = id
+              that.$http.put(QK.SERVER_URL+'/api/loanMonitor',that.infos, true).then(function (data) {
                 var id = that.$route.params.id
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                   if (result.state) {
-                       swal({
-                          title: "是否继续填写?",
-                          text: "",
-                          type: "info",
-                          showCancelButton: true,
-                          confirmButtonColor: "#2196F3",
-                          confirmButtonText: "是",
-                          cancelButtonText: "否",
-                          closeOnConfirm: true,
-                          closeOnCancel: true
-                      },
-                      function(isConfirm){
-                          if (isConfirm && vals == 0 || vals == 1) {
-                              alert(11111111)
-                              location.reload()
-                          }else if(isConfirm && vals == 2){
-                              that.$router.go({path:"/system/product/newThree/" + id})
-                          }else {
-                              that.$router.go({path:"/system/product/list"})
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '成功!',
+                            'listUrl' : '/system/loanafter/loanafterdo'
                           }
-                      })
+                          QK.successSwal(optionObj)
+                      }else{
+                        var optionObj = {
+                            'that' : that,
+                            'title' : '失败!',
+                            'text' : result.msg+"！",
+                          }
+                          QK.errorSwal(optionObj)
                       }
               })
             }
