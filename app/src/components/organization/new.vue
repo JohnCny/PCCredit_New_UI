@@ -10,7 +10,6 @@
         </header>
         <div class="panel-body">
           <form id="org_new" @submit.prevent="handleSubmit">
-            <input type="hidden" name="id" id="id" v-model="tOrganization.id" />
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -153,7 +152,7 @@
               }
               return false
             },
-              cancelMethod(){
+          cancelMethod:function(){
              this.$router.go({path:localStorage.nowurl})
           },
           bindOrg: function(org){
