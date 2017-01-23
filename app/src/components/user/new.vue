@@ -295,7 +295,7 @@
             that.$set('user.orgId', '')
             that.$set('user.orgName', '')
           },
-          cnameCheck(){
+          cnameCheck: function(){
             var that = this
             var loginName = that.user.username
             var msg1 = "用户名可用!"
@@ -318,7 +318,7 @@
               QK.messageFun($("#nameDiv"),msg3)
             }
           },
-          idNumberCheck(){
+          idNumberCheck: function(){
             var that = this
             var idCard = that.user.idCardNumber+''
             var len = idCard.length
@@ -345,7 +345,7 @@
               })
             }
           },
-          emailCheck(){
+          emailCheck: function(){
             var that = this
             var email = that.user.email+''
             var msg3 = "该电子邮件已存在！"

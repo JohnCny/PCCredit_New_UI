@@ -54,6 +54,30 @@ export const getRoleState = (num) => {
   }
   return reStr;
 }
+
+/**
+ * 获取角色
+ * @method getRole
+ * @param {number} num
+ * @returns {string}
+ * @author: qwy
+ * @date: 2017.1.18
+ */
+export const getRole = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '正常';
+      break;
+    case 1:
+      reStr = '停用';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+
 /**
  * 千分位显示
  * @method getThousands
@@ -100,27 +124,7 @@ export const getThousands = (num) => {
   return (((sign) ? '' : '-') + num + '.' + cents);
 }
 
-/**
- * 显示准入行业
- * @method getSelected
- * @param {num} 转入行业当前ID
- * @param {strs} 返回转入行业ID集合
- * @returns {boolean} 返回是否存在该选项ID
- * @author: lmm
- * @date: 2017.01.18
- */
 
-export const getSelected = (num,strs) => {
-  console.log(num)
-  console.log(strs)
-  var bool = false
-  if(strs.length>0 && strs.indexOf(num)>0){
-      bool = true
-  }else{
-    bool = false
-  }
-  return bool
-}
 /**
  * 显示进件状态
  * @method getApplicationState

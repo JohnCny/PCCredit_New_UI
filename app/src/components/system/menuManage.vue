@@ -18,14 +18,22 @@
   <div class="col-sm-12">
     <section class="panel">
       <header class="panel-heading">
-        机构列表
+        菜单列表
       </header>
       <div class="panel-body treeBox">
         <ul id="treeDemo" class="ztree"></ul>
       </div>
     </section>
   </div>
+  <div class="loading" style="display:none"><img src="/static/images/loading.jpg"></div>
 </template>
+<style scoped>
+  .loading{
+    position:absolute;
+    top:50%;
+    left:50%
+  }
+</style>
 <script>
     import QK from '../../QK'
     import ztree from 'ztree'
@@ -173,10 +181,12 @@
             })
           },
           refreshMenu: function(){
+            $(".loading").show()
             this.$http.get(QK.SERVER_URL+'/api/menu/refresh',true).then(function(res){
               var data = jQuery.parseJSON(res.body)
               var result = QK.getStateCode(this,data.code)
               if(result.state){
+                $(".loading").hide()
                 location.reload()
               }else{
                 alert("更新菜单失败")
