@@ -60,17 +60,14 @@
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
-            zTreeObj.expandAll(true)
-          }
+        that.$http.get(url, true).then(function (data) {
+          zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+          zTreeObj.expandAll(true)
         })
       }
     }

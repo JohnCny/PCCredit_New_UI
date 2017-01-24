@@ -381,11 +381,9 @@ QK.isEmpty = (obj) => {
  * @author: Phoenix ZZ
  * @date: 2016.10.13
  */
-QK.reSex = (num) => {
-  return (num == 1 || num == true) ? '男' : '女';
+export const reSex = (num) => {
+  return (num == 0 || num == true) ? '男' : '女';
 }
-
-
 
 
 /**
@@ -419,6 +417,7 @@ QK.reEdu = (num) => {
   }
   return reStr;
 }
+
 
 /**
  * 房屋信息

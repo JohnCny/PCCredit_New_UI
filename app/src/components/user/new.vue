@@ -272,7 +272,7 @@
           init:function() {
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/user/add', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("roles", data.data)
@@ -297,10 +297,10 @@
           },
           cnameCheck: function(){
             var that = this
-            var loginName = that.user.username;
-            var msg1 = "用户名可用!";
-            var msg3 = "请输入正确的登录名!";
-            var msg4 = "用户名已存在!";
+            var loginName = that.user.username
+            var msg1 = "用户名可用!"
+            var msg3 = "请输入正确的登录名!"
+            var msg4 = "用户名已存在!"
             var login_name = "^[A-Za-z0-9_-]{4,12}$"
             if (loginName.length > 3 && loginName.match(login_name)) {
               this.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+loginName, true).then(function (res) {
