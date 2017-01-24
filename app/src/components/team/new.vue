@@ -18,8 +18,7 @@
                   <label>父团队</label>
                   <div class="input-icon right">
                     <input v-model="infos.teamParentId" type="hidden" name="teamParentId">
-                    <input v-model="infos.teamParentName" type="text" class="form-control" placeholder="请从团队列表选择"
-                           readonly>
+                    <input v-model="infos.teamParentName" type="text" class="form-control" placeholder="请从团队列表选择" readonly>
                     <div class="message">${errors.teamParentIdError}</div>
                   </div>
                 </div>
@@ -30,8 +29,7 @@
                 <div class="form-group">
                   <label for="teamName">团队名称</label>
                   <div class="input-icon right">
-                    <input v-model="infos.teamName" id="teamName" type="text" class="form-control" name="teamName"
-                           placeholder="请输入团队名称">
+                    <input v-model="infos.teamName" id="teamName" type="text" class="form-control" name="teamName" placeholder="请输入团队名称">
                     <div class="message">${errors.teamNameError}</div>
                   </div>
                 </div>
@@ -42,7 +40,7 @@
                   <div class="input-icon right">
                     <select id="teamLeaderId" v-model="infos.teamLeaderId" class="form-control" name="teamLeaderId">
                       <option selected value="-1">--请选择--</option>
-                      <template v-for="teamLeader in teamLeaders">
+                      <template v-for="teamLeader in teamLeaders" >
                         <option v-bind:value="teamLeader.userId">${teamLeader.userCname}</option>
                       </template>
                     </select>
@@ -68,8 +66,7 @@
                 <div class="form-group">
                   <label for="teamDescription">团队描述</label>
                   <div class="input-icon right">
-                    <input v-model="infos.teamDescription" id="teamDescription" type="text" class="form-control"
-                           name="teamDescription">
+                    <input v-model="infos.teamDescription" id="teamDescription" type="text" class="form-control" name="teamDescription">
                     <div class="message">${errors.teamDescriptionError}</div>
                   </div>
                 </div>
@@ -86,110 +83,110 @@
       </section>
     </div>
   </div>
-
-
 </template>
 <style scoped>
 </style>
 <script>
-  import QK from '../../QK'
-  import ztree from 'ztree'
-  import OrgTree from '../tree/teamTree.vue'
-  export default{
-    data: function () {
-      return {
-        infos: {
-          teamName: '',	//团队名称	string
-          teamLeaderId: '',	//团队负责人id	number
-          isMenuType: '',	//是否机构类团队	number
-          teamDescription: '',	//团队描述	strin
-          teamParentId: '',
-          teamParentName: ''
+    import QK from '../../QK'
+    import ztree from 'ztree'
+    import OrgTree from '../tree/teamTree.vue'
+    export default{
+        data:function(){
+           return {
+            infos:{
+              teamName: '',	//团队名称	string
+              teamLeaderId: 0,	//团队负责人id	number
+              isMenuType: '',	//是否机构类团队	number
+              teamDescription: '',	//团队描述	strin
+              teamParentId: '',
+              teamParentName: ''
+            },
+            teamLeaders: {
+              id: '',
+              roleName: '',
+              roleNameZh: '',
+              userCname: '',
+              userId: ''
+            },
+            errors:{
+              teamNameError: '',
+              teamLeaderIdError: '',
+              teamLeaderCnameError: '',
+              isMenuTypeError: '',
+              teamDescriptionError: '',
+              teamParentIdError: ''
+            },
+           }
         },
-        teamLeaders: {
-          id: '',
-          roleName: '',
-          roleNameZh: '',
-          userCname: '',
-          userId: ''
+        ready:function(){
+          QK.addMethod()
+          this.getTeamLeaderData()
         },
-        errors: {
-          teamNameError: '',
-          teamLeaderIdError: '',
-          teamLeaderCnameError: '',
-          isMenuTypeError: '',
-          teamDescriptionError: '',
-          teamParentIdError: ''
+        created: function(){
+          QK.vector.$on('getfromchild',this.bindTeam)
         },
-      }
-    },
-    ready: function () {
-      QK.addMethod()
-      this.getTeamLeaderData()
-    },
-    created: function () {
-      QK.vector.$on('getfromchild', this.bindTeam)
-    },
-    beforeDestroy: function () {
-      QK.vector.$off('getfromchild', this.bindTeam)
-    },
-    components: {
-      OrgTree
-    },
-    methods: {
-      bindTeam: function (team) {
-        this.infos.teamParentId = team.teamParentId
-        this.infos.teamParentName = team.teamParentName
-      },
-      handleSubmit () {
-        var that = this
-        var bool = QK.formValidation({
-          id: "#team_new",
-          rulesMap: {}
-        })
-        //验证结果  true  false
-        if (bool) {
-          delete that.infos['teamParentName']
-          delete that.infos['teamLeaderCname']
-          delete that.infos['url']
-          delete that.infos['method']
-          delete that.infos['emulateJSON']
-          that.$http.post(QK.SERVER_URL + '/api/team', that.infos, true).then(function (data) {
-            var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-              var optionObj = {
-                'that': that,
-                'title': '创建成功!',
-                'listUrl': '/system/team/list'
+        beforeDestroy: function(){
+          QK.vector.$off('getfromchild',this.bindTeam)
+        },
+        components: {
+          OrgTree
+        },
+        methods:{
+          bindTeam: function(team){
+            this.infos.teamParentId = team.teamParentId
+            this.infos.teamParentName = team.teamParentName
+          },
+          handleSubmit () {
+            var that = this
+            var bool = QK.formValidation({
+              id: "#team_new",
+              rulesMap:{
+
               }
-              QK.successSwal(optionObj)
-            } else {
-              var optionObj = {
-                'title': '创建失败!',
-                'text': result.msg + "！",
-              }
-              QK.errorSwal(optionObj)
+            })
+            //验证结果  true  false
+            if(bool){
+              delete that.infos['teamParentName']
+              delete that.infos['teamLeaderCname']
+              delete that.infos['url']
+              delete that.infos['method']
+              delete that.infos['emulateJSON']
+              that.$http.post(QK.SERVER_URL+'/api/team', that.infos, true).then(function (data) {
+                var data = jQuery.parseJSON(data.body)
+                var result = QK.getStateCode(that,data.code)
+                if (result.state) {
+                  var optionObj = {
+                    'that' : that,
+                    'title' : '创建成功!',
+                    'listUrl' : '/system/team/list'
+                  }
+                  QK.successSwal(optionObj)
+                }else{
+                  var optionObj = {
+                    'title' : '创建失败!',
+                    'text' : result.msg+"！",
+                  }
+                  QK.errorSwal(optionObj)
+                }
+              })
             }
-          })
+            return false
+          },
+          getTeamLeaderData: function(){
+            var that = this
+            that.$http.get(QK.SERVER_URL+'/api/team/teamAdmin', true).then(function (data) {
+              var data = jQuery.parseJSON(data.body)
+              var result = QK.getStateCode(that,data.code)
+              if (result.state) {
+               that.$set('teamLeaders', data.data)
+              }
+            })
+          },
+          cancelMethod:function(){
+             this.$router.go({path:localStorage.nowurl})
+          },
         }
-        return false
-      },
-      getTeamLeaderData: function () {
-        var that = this
-        that.$http.get(QK.SERVER_URL + '/api/user/role/' + JSON.parse(localStorage.user).roleType, that.infos, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            that.$set('teamLeaders', data.data)
-          }
-        })
-      },
-      cancelMethod: function () {
-        this.$router.go({path: localStorage.nowurl})
-      },
     }
-  }
 
 </script>
 

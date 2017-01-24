@@ -41,23 +41,21 @@
               </tr>
               </thead>
               <tbody>
-              <template v-if="infos.length">
+              <template  v-if="infos.length" >
                 <tr v-for="info in infos">
                   <td>${info.userCname}</td>
                   <td>${info.sex | reSex}</td>
                   <td>${info.tel}</td>
                   <td>${info.createTime | formatDate}</td>
                   <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
-                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                    class="fa fa-edit"></i>编辑 </a></td>
-                  <td><a v-on:click="resetPwd(info.id)" class="btn btn-xs" style="background-color: #424F63;color:#fff"><i
-                    class="fa fa-lock"></i>密码重置</a></td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>编辑 </a></td>
+                  <td><a v-on:click="resetPwd(info.id)" class="btn btn-xs" style="background-color: #424F63;color:#fff"><i class="fa fa-lock"></i>密码重置</a></td>
                 </tr>
               </template>
-              <template v-else>
-                <tr v-else>
-                  <td colspan="7">没有数据</td>
-                </tr>
+              <template  v-else>
+              <tr v-else>
+                <td colspan="7">没有数据</td>
+              </tr>
               </template>
               </tbody>
             </table>
@@ -78,11 +76,10 @@
   </div>
 </template>
 <style scoped>
-  .orgNameDiv {
-    position: relative
+  .orgNameDiv{
+    position:relative
   }
-
-  .orgNameDiv .closeI {
+  .orgNameDiv .closeI{
     position: absolute;
     line-height: 30px;
     font-size: 16px;
@@ -92,8 +89,7 @@
     width: 16px;
     text-algin: center;
   }
-
-  #orgName {
+  #orgName{
     cursor: not-allowed;
     background-color: #eee;
     opacity: 1;
@@ -137,11 +133,11 @@
     components: {
       OrgTree
     },
-    created: function () {
-      QK.vector.$on('getfromchild', this.bindOrg)
+    created: function(){
+      QK.vector.$on('getfromchild',this.bindOrg)
     },
-    beforeDestroy: function () {
-      QK.vector.$off('getfromchild', this.bindOrg)
+    beforeDestroy: function(){
+      QK.vector.$off('getfromchild',this.bindOrg)
     },
     ready: function () {
       this.init()
@@ -183,12 +179,12 @@
         var that = this
         delete that.search['orgName']
         var searchAll = {
-          pageStart: that.currentpage,
-          pageLength: that.visiblepage,
-          pageSearch: JSON.stringify(that.search)
+          pageStart : that.currentpage,
+          pageLength : that.visiblepage,
+          pageSearch : JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/user/pageList', searchAll, true).then(function (res) {
-          var data = $.parseJSON(res.body)
+        that.$http.post(QK.SERVER_URL + '/api/user/pageList',searchAll,true).then(function (res) {
+          var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -196,19 +192,19 @@
           that.$set('totlepage', page)
           that.$set('infos', data.data)
         })
-        QK.vector.$emit('getfromCrumb', that.crumbData)
+        QK.vector.$emit('getfromCrumb',that.crumbData)
       },
-      bindOrg: function (org) {
+      bindOrg: function(org){
         this.$set('search.orgId', org.orgId)
         this.$set('search.orgName', org.orgName)
       },
-      changeOrg: function () {
+      changeOrg : function(){
         var that = this
-        if (!that.search.orgName) {
+        if(!that.search.orgName){
           that.$set('search.orgId', '')
         }
       },
-      hideOrgName: function () {
+      hideOrgName: function(){
         var that = this
         that.$set('search.orgId', '')
         that.$set('search.orgName', '')
@@ -232,18 +228,25 @@
         //跳转地址
         this.$router.go({path: '/system/user/new'})
       },
-      resetPwd: function (id) {
+      resetPwd: function(id){
         var that = this
         var optionObj = {
-          "that": that,
-          "sendData": id,
-          "resetUrl": '/api/user/reset',
-          "listUrl": '/system/user/list'
+          "that" : that,
+          "sendData" : id,
+          "resetUrl" : '/api/user/reset',
+          "listUrl" : '/system/user/list'
         }
         QK.resetPwdSwal(optionObj)
       },
     }
   }
+
+
+
+
+
+
+
 
 
 </script>
