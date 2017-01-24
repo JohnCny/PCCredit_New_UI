@@ -85,7 +85,8 @@ module.exports = {
         loader: 'url',
         query: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath('img/[name].[ext]')
+          // name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
       {
@@ -93,7 +94,8 @@ module.exports = {
         loader: 'url',
         query: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[ext]')
+          // name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
     ]
@@ -106,7 +108,8 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('common.js'),
-    new ExtractTextPlugin('css/[name].[contenthash:8].css', {
+    //.[contenthash:8]
+    new ExtractTextPlugin('css/[name].css', {
       allChuck: true
     }),
     new webpack.ProvidePlugin({
