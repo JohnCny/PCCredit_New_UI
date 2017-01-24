@@ -17,7 +17,8 @@
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>客户类型：</span>
-              <select class="form-control" v-model="search.customerType" name="customerType">
+              <select class="form-control" v-model="search.
+              " name="customerType">
                 <option value="">--请选择--</option>
                 <option value="0">个人用户</option>
                 <option value="1">企业用户</option>

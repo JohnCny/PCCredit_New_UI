@@ -16,7 +16,21 @@
               <span>工号：</span><input v-model="search.badCustomerCardNum" type="text" name="productState"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>所属日期：</span><input v-model="search.cuatomerType" type="text" name="productState"/>
+              <span>所属日期：</span>
+              <input class="input" size="50" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
+              <calendar
+                :show.sync="calendar.show"
+                :type="calendar.type"
+                :value.sync="calendar.value"
+                :x="calendar.x"
+                :y="calendar.y"
+                :begin.sync="calendar.begin"
+                :end.sync="calendar.end"
+                :range.sync="calendar.range"
+                :weeks="calendar.weeks"
+                :months="calendar.months"
+                :sep="calendar.sep">
+              </calendar>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -72,7 +86,11 @@
 <script>
     import QK from '../../QK'
     import swal from 'sweetalert'
+    import calendar from "./calendar.vue"
     export default{
+        components:{
+        calendar
+        },
         data:function(){
            return {
                 infos:{
@@ -89,7 +107,53 @@
                      badCustomerCname: '',
                      badCustomerCardNum: '',
                      cuatomerType:''
-                   }
+                   },
+                    // 数据绑定
+                calendar:{
+                    show:false,
+                    x:0,
+                    y:0,
+                    picker:"",
+                    type:"date",
+                    value:"",
+                    begin:"",
+                    end:"",
+                    value:"",
+                    sep:"/",
+                    weeks:[],
+                    months:[],
+                    range:false,
+                    items:{
+                        // 单选模式
+                        picker1:{
+                            type:"date",
+                            begin:"2016-08-20",
+                            end:"2016-08-25",
+                            value:"2016-08-21",
+                            sep:"-",
+                            weeks:['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                            months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        },
+                        // 2个日期模式
+                        picker2:{
+                            type:"date",
+                            value:"",
+                            range:true,
+                            sep:".",
+                        },
+                        // 日期时间模式
+                        picker3:{
+                            type:"date",
+                            value:"",
+                            sep:"-",
+                        },
+                        // 日期时间模式
+                        picker4:{
+                            type:"time",
+                            value:"",
+                        },
+                    }
+                }
            }
         },
         ready:function(){
@@ -125,6 +189,9 @@
           watch: {
             currentpage: function (oldValue, newValue) {
               this.init()
+            },
+            'calendar.value': function (value) {
+            this.calendar.items[this.calendar.picker].value=value
             }
           },
         methods:{
@@ -160,7 +227,24 @@
             QK.noteNowUrl()
             //跳转地址
             this.$router.go({path: '/system/product/editThree/' + id})
-         }
+         },
+         open(e,type) {
+            // 设置类型
+            this.calendar.picker=type
+            this.calendar.type=this.calendar.items[type].type
+            this.calendar.range=this.calendar.items[type].range
+            this.calendar.begin=this.calendar.items[type].begin
+            this.calendar.end=this.calendar.items[type].end
+            this.calendar.value=this.calendar.items[type].value
+            // 可不用写
+            this.calendar.sep=this.calendar.items[type].sep
+            this.calendar.weeks=this.calendar.items[type].weeks
+            this.calendar.months=this.calendar.items[type].months
+
+            this.calendar.show=true
+            this.calendar.x=e.target.offsetLeft
+            this.calendar.y=e.target.offsetTop+e.target.offsetHeight+8
+        }
         }
     }
 

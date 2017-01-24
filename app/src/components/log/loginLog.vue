@@ -7,13 +7,18 @@
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
-            <div class="col-lg-3 col-md-3 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-xs-12">
               <span>登入名：</span><input v-model="search.loginAccount" type="text" name="loginAccount"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>操作：</span><input v-model="search.loginOperation" type="text" name="loginOperation"/>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+              <span>操作：</span>
+              <select class="form-control" v-model="search.loginOperation" name="loginOperation">
+                <option value="">--请选择--</option>
+                <option value="1">登录</option>
+                <option value="0">退出</option>
+              </select>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
