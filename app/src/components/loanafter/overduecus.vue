@@ -10,10 +10,18 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>产品名称：</span><input v-model="search.productName" type="text" name="productName"/>
+              <span>客户名称/企业名称：</span><input v-model="search.badCustomerCname" type="text" name="productName"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>证件号码：</span><input v-model="search.productState" type="text" name="productState"/>
+              <span>证件号码/企业工商号：</span><input v-model="search.badCustomerCardNum" type="text" name="productState"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>客户类型：</span>
+              <select class="form-control" v-model="search.customerType" name="customerType">
+                <option value="">--请选择--</option>
+                <option value="0">个人用户</option>
+                <option value="1">企业用户</option>
+              </select>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -24,23 +32,25 @@
               <thead>
               <tr>
                 <th>客户名称</th>
+                <th>客户类型</th>
                 <th>证件号码</th>
                 <th>产品名称</th>
-                <th>类型</th>
                 <th>逾期/不良金额</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
+                <td>${info.customerName}</td>
+                <td v-if="info.customerType == 0">个人用户</td>
+                <template v-else>
+                <td v-if="info.customerType == 1">企业用户</td>
+                <td v-else></td>
+                </template>
+                <td>${info.badCustomerCardNum}</td>
                 <td>${info.productName}</td>
-                <td>${info.productLimitMin}~${info.productLimitMax}</td>
-                <td>${info.productInterestMin}~${info.productInterestMax}</td>
-                <td v-if="info.productState == 0"><span class="label label-success">正常</span></td>
-                <td v-if="info.productState == 1"><span class="label label-default">关闭</span></td>
-                <td v-if="info.productState == 2"><span class="label label-info">创建中</span></td>
-                <td></td>
-                <td><a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">催收</a></td>
+                <td>${info.badDebtAmount}</td>
+                <td><a class="btn btn-warning btn-xs" v-on:click="editInfo(info.badCustomerId)">催收</a></td>
               </tr>
               </tbody>
             </table>
@@ -71,19 +81,19 @@
         data:function(){
            return {
                 infos:{
-                  productName: '',
-                  productLimitMax: '',
-                  productLimitMin: '',
-                  productInterestMax: '',
-                  productInterestMin:'',
-                  productState:''
+                  badCustomerCname: '',
+                  customerType: '',
+                  badCustomerCardNum: '',
+                  badCustomerProductName: '',
+                  badDebtAmount:'',
                 },
                 currentpage: 1,//第几页
                 totlepage: '',//共几页
                 visiblepage: 10,//隐藏10页
                 search:{
-                     productName: '',
-                     productState: ''
+                     badCustomerCname: '',
+                     badCustomerCardNum: '',
+                     customerType:''
                    }
            }
         },
@@ -130,7 +140,7 @@
                   pageLength : that.visiblepage,
                   pageSearch : JSON.stringify(that.search)
                 }
-            that.$http.post(QK.SERVER_URL+'/api/product/pageList', searchAll , true).then(function (data) {
+            that.$http.post(QK.SERVER_URL+'/api/BadDebtCustomer/pageList', searchAll , true).then(function (data) {
               var data = jQuery.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
               var page = parseInt(data.recordsTotal / 10);
@@ -150,35 +160,11 @@
               that.currentpage = page
             }
           },
-          show: function () {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path:'/system/product/newOne'})
-          },
-           showInfo: function (id) {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path: '/system/product/editOne/' + id})
-         },
          editInfo:function(id){
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path: '/system/product/editThree/' + id})
-         },
-         editRisk:function(id){
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path: '/system/product/editFour/' + id})
-         },
-         flow:function(id){
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path: '/system/product/editTwo/' + id})
+            this.$router.go({path: '/system/loanafter/collection/' + id})
          }
         }
     }
