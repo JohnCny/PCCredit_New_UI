@@ -70,7 +70,7 @@
           var data = $.parseJSON(res.body)
           var result = QK.getStateCode(this, data.code)
           if (result.state) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
             zTreeObj.expandAll(true)
           }
         })

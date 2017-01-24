@@ -86,10 +86,11 @@
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
         that.$http.get(url, true).then(function (res) {
+          console.dir(res)
           var data = $.parseJSON(res.body)
           var result = QK.getStateCode(this, data.code)
           if (result.state) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
             zTreeObj.expandAll(true)
           }
         })
