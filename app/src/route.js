@@ -17,8 +17,8 @@ import Error from './components/error.vue'
  * ***********************/
 
 /************************
-* 客户管理
-* ***********************/
+ * 客户管理
+ * ***********************/
 import Customer from './components/customer/index.vue'//客户列表
 import CustomerNew from './components/customer/new.vue'//新建客户
 import CustomerEdit from './components/customer/edit.vue'//编辑客户
@@ -161,7 +161,7 @@ export default {
   '/forgetPass': { //忘记密码
     component: ForgetPass
   },
-  '/error/:errcode':{
+  '/error/:errcode': {
     component: Error
   },
   '/system': {
@@ -188,29 +188,29 @@ export default {
       '/application/new': {//进件申请
         component: ApplicationNew
       },
-      '/application/select/:id':{//选择申请客户
+      '/application/select/:id': {//选择申请客户
         component: selectCus
       },
-      '/application/cusBasic/:customerId/:aId':{//填写申请表
+      '/application/cusBasic/:customerId/:aId': {//填写申请表
         component: cusBasic
       },
-      '/application/ipc/:aId/:templateId':{//填写IPC调查报告
+      '/application/ipc/:aId/:templateId': {//填写IPC调查报告
         component: ipcSupply
       },
-      '/application/list':{//进件查询
+      '/application/list': {//进件查询
         component: appliCheck
       },
-      '/application/searchEdit/:id':{//进件查询编辑
+      '/application/searchEdit/:id': {//进件查询编辑
         component: searchEdit
       },
-      '/application/picture/:id':{//调查图片
-        component:appliPicture
+      '/application/picture/:id': {//调查图片
+        component: appliPicture
       },
-      '/application/approval/:id':{//征信报告列表
-        component:appliApproval
+      '/application/approval/:id': {//征信报告列表
+        component: appliApproval
       },
-      '/application/informationAll/:id':{//进件信息总览
-        component:informationAll
+      '/application/informationAll/:id': {//进件信息总览
+        component: informationAll
       },
       /*end---进件---end*/
 
@@ -258,7 +258,7 @@ export default {
       '/customer/edit/:id': {//编辑客户
         component: CustomerEdit
       },
-      '/customer/mainList':{//客户维护列表
+      '/customer/mainList': {//客户维护列表
         component: Maintenance
       },
       '/customer/mainNew/:id': {//新增客户维护
@@ -319,55 +319,55 @@ export default {
 
 
       /*start---数据字典---start*/
-       '/dictionary/list': {//数据字典列表
-         component: Dictionary
-       },
-       '/dictionary/edit/:id': {
-         component: DictionaryEdit
-       },
+      '/dictionary/list': {//数据字典列表
+        component: Dictionary
+      },
+      '/dictionary/edit/:id': {
+        component: DictionaryEdit
+      },
       /*end---数据字典---end*/
 
 
       /*start---产品---start*/
-        '/product/newOne':{//新建产品1
-          component:ProNew1
-        },
-        '/product/newTwo/:id':{//新建产品2
-          component:ProNew2
-        },
-        '/product/newThree/:id':{//新建产品3
-          component:ProNew3
-        },
-        '/product/newFour/:id':{//新建产品4
-          component:ProNew4
-        },
-        '/product/newFive/:id':{//新建产品5
-          component:ProNew5
-        },
-        '/product/list':{//产品列表
-          component:ProList
-        },
-        '/product/editOne/:id':{//编辑产品1
-          component:ProEditOne
-        },
-        '/product/editTwo/:id':{//编辑产品2
-          component:ProEditTwo
-        },
-        '/product/editThree/:id':{//编辑产品3
-          component:ProEditThree
-        },
-        '/product/editFour/:id':{//编辑产品4
-          component:ProEditFour
-        },
-        '/product/editTwos/:id/:pid':{//编辑产品2s
-          component:ProEditTwos
-        },
-        /*end---产品---end*/
-        /*start---菜单管理---start*/
-        '/menu/manage': {
-          component: MenuManage
-        },
-        /*end---菜单管理---end*/
+      '/product/newOne': {//新建产品1
+        component: ProNew1
+      },
+      '/product/newTwo/:id': {//新建产品2
+        component: ProNew2
+      },
+      '/product/newThree/:id': {//新建产品3
+        component: ProNew3
+      },
+      '/product/newFour/:id': {//新建产品4
+        component: ProNew4
+      },
+      '/product/newFive/:id': {//新建产品5
+        component: ProNew5
+      },
+      '/product/list': {//产品列表
+        component: ProList
+      },
+      '/product/editOne/:id': {//编辑产品1
+        component: ProEditOne
+      },
+      '/product/editTwo/:id': {//编辑产品2
+        component: ProEditTwo
+      },
+      '/product/editThree/:id': {//编辑产品3
+        component: ProEditThree
+      },
+      '/product/editFour/:id': {//编辑产品4
+        component: ProEditFour
+      },
+      '/product/editTwos/:id/:pid': {//编辑产品2s
+        component: ProEditTwos
+      },
+      /*end---产品---end*/
+      /*start---菜单管理---start*/
+      '/menu/manage': {
+        component: MenuManage
+      },
+      /*end---菜单管理---end*/
 
       /*start---登录日志管理---start*/
       '/log/list': {//登陆日志列表
@@ -384,12 +384,12 @@ export default {
       },
       /*start---个人---start*/
 
-        /*start---消息---start*/
-      '/message/list':{//消息列表
+      /*start---消息---start*/
+      '/message/list': {//消息列表
         component: UserMessage
       },
 
-        /*start---消息---start*/
+      /*start---消息---start*/
 
       /*start---贷后管理---start*/
       '/loanafter/new': {//新增贷后监控
@@ -418,6 +418,6 @@ export default {
       },
       /*start---风险管理---start*/
 
-      }
+    }
   }
 }

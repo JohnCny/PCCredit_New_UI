@@ -56,7 +56,8 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-4">账号状态</label>
                 <div class="col-md-9 col-sm-9 col-xs-8">
                   <p class="form-control-static birthday">
-                    <span class="label label-sm ${userSession.status | reStatusClass}">${userSession.status | reStatus}</span>
+                    <span
+                      class="label label-sm ${userSession.status | reStatusClass}">${userSession.status | reStatus}</span>
                   </p>
                 </div>
               </div>
@@ -73,33 +74,30 @@
 <script>
   import QK from '../../QK'
   import myUpload from '../upload/uploadImg.vue'
-    export default{
-       data(){
-        return{
-          userSession:{},
-          show: true,
-          params: {
-              token: '123456798',
-              name: 'avatar'
-          },
-          imgDataUrl: '', // the datebase64 url of created image
-        }
-      },
-      ready: function () {
-        this.init()
-      },
-      components: {
-         'my-upload': myUpload
-      },
-      methods:{
-        init: function() {
-          this.$set("userSession",JSON.parse(localStorage.user).user)
-        }
-      },
-    }
-
-
-
+  export default{
+    data(){
+      return {
+        userSession: {},
+        show: true,
+        params: {
+          token: '123456798',
+          name: 'avatar'
+        },
+        imgDataUrl: '', // the datebase64 url of created image
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    components: {
+      'my-upload': myUpload
+    },
+    methods: {
+      init: function () {
+        this.$set("userSession", JSON.parse(localStorage.user).user)
+      }
+    },
+  }
 
 
 </script>

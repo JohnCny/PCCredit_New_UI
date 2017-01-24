@@ -16,10 +16,10 @@
   import ztree from 'ztree'
   export default{
     data: function () {
-      return{
-        org : {
-          orgId:'',
-          orgName:''
+      return {
+        org: {
+          orgId: '',
+          orgName: ''
         }
       }
     },
@@ -27,7 +27,7 @@
       this.init()
     },
     methods: {
-      getOrgData:function(){
+      getOrgData: function () {
         return this.org
       },
       init: function () {
@@ -50,10 +50,10 @@
             showLine: false,
           },
           callback: {
-            onClick: function(event, treeId, treeNode, clickFlag){
+            onClick: function (event, treeId, treeNode, clickFlag) {
               that.$set('org.orgId', treeNode.id)
               that.$set('org.orgName', treeNode.orgName)
-              QK.vector.$emit('getfromchild',that.getOrgData())
+              QK.vector.$emit('getfromchild', that.getOrgData())
             }
           }
         }
@@ -65,10 +65,10 @@
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        that.$http.get(url,true).then(function(res){
+        that.$http.get(url, true).then(function (res) {
           var data = $.parseJSON(res.body)
-          var result = QK.getStateCode(this,data.code)
-          if(result.state){
+          var result = QK.getStateCode(this, data.code)
+          if (result.state) {
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
             zTreeObj.expandAll(true)
           }

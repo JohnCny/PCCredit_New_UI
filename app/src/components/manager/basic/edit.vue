@@ -20,10 +20,11 @@
                   <label for="" class="pwdText">级别调整：</label>
                   <div class="input-icon right" style="display:inline-block;width:60%">
                     <select class="form-control" name="levelId" v-model="infos.levelId">
-                      <option v-if="infos.levelId == null"  value='-1'>--请选择--</option>
+                      <option v-if="infos.levelId == null" value='-1'>--请选择--</option>
                       <option v-else value="-1">--请选择--</option>
                       <template v-for="lever in levers">
-                        <option v-if="infos.levelName==lever.value" selected v-bind:value="lever.id">${lever.value}</option>
+                        <option v-if="infos.levelName==lever.value" selected v-bind:value="lever.id">${lever.value}
+                        </option>
                         <option v-else v-bind:value="lever.id">${lever.value}</option>
                       </template>
                     </select>
@@ -58,8 +59,8 @@
         </section>
         <div class="row">
           <div class="col-xs-12" style="text-align:center">
-            <button class="btn btn-success" type="submit">提  交</button>
-            <button class="btn btn-default">返  回</button>
+            <button class="btn btn-success" type="submit">提 交</button>
+            <button class="btn btn-default">返 回</button>
           </div>
         </div>
       </form>
@@ -68,15 +69,16 @@
 
 </template>
 <style scoped>
-  .message{
-    color:#a94442;
-    height:20px;
-    float:left
+  .message {
+    color: #a94442;
+    height: 20px;
+    float: left
   }
-  .pwdText{
-    color:#7a7676;
-    font-weight:normal;
-    text-align:right;
+
+  .pwdText {
+    color: #7a7676;
+    font-weight: normal;
+    text-align: right;
     width: 30%;
   }
 </style>
@@ -96,8 +98,8 @@
           managerStatus: '',
         },
         levers: {
-          id : '',
-          value : ''
+          id: '',
+          value: ''
         },
         errors: {
           levelIdError: '',
@@ -105,39 +107,37 @@
         }
       }
     },
-    components: {
-
-    },
+    components: {},
     ready: function () {
       this.init()
       QK.addMethod()
     },
     methods: {
-    handleSubmit () {
+      handleSubmit () {
         var that = this
         var bool = QK.formValidation({
           id: "#managerEdit",
-          rulesMap:{
-            levelId:{required:!0,downList:!0},
-            managerStatus:{required:!0,downList:!0},
+          rulesMap: {
+            levelId: {required: !0, downList: !0},
+            managerStatus: {required: !0, downList: !0},
           }
         })
         //验证结果  true  false
-        if(bool){
-          that.$http.put(QK.SERVER_URL+'/api/customerManager', that.infos, true).then(function (data) {
+        if (bool) {
+          that.$http.put(QK.SERVER_URL + '/api/customerManager', that.infos, true).then(function (data) {
             var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that,data.code)
+            var result = QK.getStateCode(that, data.code)
             if (result.state) {
               var optionObj = {
-                  'that' : that,
-                  'title' : '修改成功!',
-                  'listUrl' : '/system/managerBasic/list'
+                'that': that,
+                'title': '修改成功!',
+                'listUrl': '/system/managerBasic/list'
               }
               QK.successSwal(optionObj)
-            }else{
+            } else {
               var optionObj = {
-                  'title' : '修改失败!',
-                  'text' : result.msg+"！",
+                'title': '修改失败!',
+                'text': result.msg + "！",
               }
               QK.errorSwal(optionObj)
             }

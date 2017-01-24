@@ -37,7 +37,8 @@
                 <p> 请输入您需要找回的用户名</p>
                 <div class="message">${message.userNameMsg}</div>
                 <input type="text" placeholder="用户名" class="userName" v-model="userName">
-                <a v-on:click="forgetPass" class="button_a"><span class="btn btn-info button_next sure_btn" style="">下一步</span></a>
+                <a v-on:click="forgetPass" class="button_a"><span class="btn btn-info button_next sure_btn"
+                                                                  style="">下一步</span></a>
               </div>
 
               <div class="usernameput usernameputtwo" style="display: none">
@@ -45,24 +46,33 @@
                 <p style="font-size: 16px;margin: 30px 0 0 0;color: rgb(51,51,51);">手机号码或绑定邮箱号：</p>
 
                 <div class="message">${message.emailErrorMsg}</div>
-                <p><input type="text" class="address" v-model="address" placeholder="请输入绑定的邮箱或手机号" ></p>
+                <p><input type="text" class="address" v-model="address" placeholder="请输入绑定的邮箱或手机号"></p>
 
                 <div class="message">${message.codeErrorMsg}</div>
-                <p><input type="text" class="inpttext" v-model="checkCodeData.code" ><input type="hidden" v-model="checkCodeData.userId" ></p>
+                <p><input type="text" class="inpttext" v-model="checkCodeData.code"><input type="hidden"
+                                                                                           v-model="checkCodeData.userId">
+                </p>
 
-                <button v-on:click="sendCode" type="button" class="get btn btn-info" style="background-color:rgb(17,148,229)">${message.sendCodeMsg}</button>
-                <p style="font-size: 14px;margin-top: 30px;color: rgb(153,153,153);">邮箱不可用?<a href="" style="text-decoration: none">请使用手机验证</a></p>
-                <button v-on:click="checkCode" type="button" class="btn btn-info button_b" style="background-color:rgb(17,148,229);width:250px">下一步</button>
+                <button v-on:click="sendCode" type="button" class="get btn btn-info"
+                        style="background-color:rgb(17,148,229)">${message.sendCodeMsg}
+                </button>
+                <p style="font-size: 14px;margin-top: 30px;color: rgb(153,153,153);">邮箱不可用?<a href=""
+                                                                                              style="text-decoration: none">请使用手机验证</a>
+                </p>
+                <button v-on:click="checkCode" type="button" class="btn btn-info button_b"
+                        style="background-color:rgb(17,148,229);width:250px">下一步
+                </button>
               </div>
               <div class="usernameput passwordChange" style="display: none">
-                <form id="passwordReset" @submit.prevent="handleSubmit" >
+                <form id="passwordReset" @submit.prevent="handleSubmit">
                   <div class="row" style="margin-bottom:16px;margin-top:50px;">
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="form-group">
                           <label for="password" class="pwdText">新密码<font class="red">*</font>：</label>
                           <div class="input-icon right">
-                            <input type="password" class="form-control" id="password" name="password" v-model="password" />
+                            <input type="password" class="form-control" id="password" name="password"
+                                   v-model="password"/>
                             <div class="message" style="float:left;">${errors.passwordError}</div>
                           </div>
                         </div>
@@ -77,11 +87,11 @@
                         </div>
                       </div>
                     </div>
-                  <div class="row">
-                    <div class="col-xs-12" style="text-align:center">
-                      <button class="btn btn-info" style="background-color:rgb(17,148,229);width:250px">完      成</button>
+                    <div class="row">
+                      <div class="col-xs-12" style="text-align:center">
+                        <button class="btn btn-info" style="background-color:rgb(17,148,229);width:250px">完 成</button>
+                      </div>
                     </div>
-                  </div>
                 </form>
               </div>
             </div>
@@ -92,133 +102,150 @@
   </div>
 </template>
 <style scoped>
-    .message{
-      color:#a94442;
-      height:20px;
-    }
-    font.red {
-      color: #c7254e;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .pwdText{
-      color:#7a7676;
-      font-weight:normal;
-      text-align:right;
-      width: 30%;
-    }
-    input{
-        border-radius: 5px;
-    }
-    .flow{
-        padding: 30px 0 30px 30px;
-    }
-    .flow_index{
-        width: 200px;
-        height: 40px;
-        text-align: center;
-        line-height: 40px;
-        background-color: rgba(153,153,153,0.2);
-    }
-    .checked{
-        background-color:rgba(17,148,299,0.2);
+  .message {
+    color: #a94442;
+    height: 20px;
+  }
+
+  font.red {
+    color: #c7254e;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .pwdText {
+    color: #7a7676;
+    font-weight: normal;
+    text-align: right;
+    width: 30%;
+  }
+
+  input {
+    border-radius: 5px;
+  }
+
+  .flow {
+    padding: 30px 0 30px 30px;
+  }
+
+  .flow_index {
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    background-color: rgba(153, 153, 153, 0.2);
+  }
+
+  .checked {
+    background-color: rgba(17, 148, 299, 0.2);
+  }
+
+  .usernameput {
+    margin-top: 20px;
+  }
+
+  .usernameput input {
+    width: 250px;
+    height: 35px;
+    border: 1px solid rgba(153, 153, 153, 0.5);
+    padding: 5px;
+  }
+
+  .button_next {
+    width: 250px;
+    height: 30px;
+    background-color: rgb(17, 148, 229);
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+  }
+
+  .button_a {
+    text-decoration: none !important;
+  }
+
+  .line_flow li {
+    float: left;
+    list-style: none;
+  }
+
+  .editor-label label {
+    width: 300px;
+  }
+
+  #formUl li label {
+    float: left;
+    font-size: 14px;
+    font-weight: lighter;
+    font-family: 微软雅黑;
+    text-align: right;
+    width: 100px;
+    line-height: 35px;
+  }
+
+  #formUl li input {
+    height: 35px;
+  }
+
+  #formUl li {
+    list-style: none;
+  }
+
+  #formUl {
+    margin-top: 50px;
+  }
+
+  @media screen and (max-width: 920px) {
+    .line_flow li {
+      list-style: none;
+      margin-top: 20px;
+      float: none;
     }
 
-    .usernameput{
-        margin-top: 20px;
+    .inpttext {
+      margin-left: 0px;
     }
-    .usernameput input{
-        width: 250px;
-        height: 35px;
-        border:1px solid rgba(153,153,153,0.5);
-        padding: 5px;
+  }
+
+  .changepass {
+    margin-left: 100px;
+  }
+
+  @media screen and (max-width: 635px) {
+    .changepass {
+      margin-left: 0px;
     }
-    .button_next{
-        width: 250px;
-        height: 30px;
-        background-color: rgb(17,148,229);
-        display: block;
-        margin-top: 20px;
-        text-decoration: none;
-    }
-    .button_a{
-        text-decoration: none !important;
-    }
-    .line_flow li{
-        float: left;
-        list-style: none;
-    }
-    .editor-label label{
-        width: 300px;
-    }
-    #formUl li label{
-        float: left;
-        font-size: 14px;
-        font-weight: lighter;
-        font-family: 微软雅黑;
-        text-align: right;
-        width: 100px;
-        line-height: 35px;
-    }
-    #formUl li input{
-        height: 35px;
-    }
-    #formUl li{
-        list-style: none;
-    }
-    #formUl{
-        margin-top: 50px;
-    }
-    @media screen and (max-width: 920px) {
-        .line_flow li{
-            list-style: none;
-            margin-top: 20px;
-            float: none;
-        }
-        .inpttext{
-            margin-left: 0px;
-        }
-    }
-    .changepass{
-        margin-left: 100px;
-    }
-    @media screen and (max-width: 635px){
-        .changepass{
-            margin-left: 0px;
-        }
-    }
+  }
 </style>
 <script>
   import QK from '../../QK'
   import jQueryValidation from 'jquery-validation'
   export default{
-    components: {
-
-    },
+    components: {},
     data: function () {
       return {
         userName: '',
         address: '',
-        image : {
-          imgOne : '../../../static/images/onecheck.png',
-          imgTwo : '../../../static/images/two.png',
-          imgThree : '../../../static/images/three.png',
+        image: {
+          imgOne: '../../../static/images/onecheck.png',
+          imgTwo: '../../../static/images/two.png',
+          imgThree: '../../../static/images/three.png',
         },
-        checkCodeData : {
-          userId : '',
-          code : '',
+        checkCodeData: {
+          userId: '',
+          code: '',
         },
-        password : '',
-        checkedCode : '',
-        message:{
-          userNameMsg : '',
-          sendCodeMsg : '免费获取验证码',
-          emailErrorMsg : '',
-          codeErrorMsg : ''
+        password: '',
+        checkedCode: '',
+        message: {
+          userNameMsg: '',
+          sendCodeMsg: '免费获取验证码',
+          emailErrorMsg: '',
+          codeErrorMsg: ''
         },
-        errors : {
-          passwordError : '',
-          password1Error : ''
+        errors: {
+          passwordError: '',
+          password1Error: ''
         }
       }
     },
@@ -228,31 +255,36 @@
     },
     methods: {
       loadBg: function () {
-        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
+        $('body').css({
+          'background': 'url("../../static/css/img/login-bg.jpg") no-repeat fixed',
+          'background-size': 'cover',
+          'width': '100%',
+          'height': '100%'
+        })
       },
       handleSubmit () {
         var that = this
         var bool = QK.formValidation({
           id: "#passwordReset",
           rulesMap: {
-              password:{required: !0},
-              newPassword1:{required: !0, equalTo:"#password"},
+            password: {required: !0},
+            newPassword1: {required: !0, equalTo: "#password"},
           }
         })
         //验证结果  true  false
-        if(bool){
+        if (bool) {
           //发送请求
           var sendData = {
-            "checkedCode" : that.checkedCode,
-            "password" : that.password
+            "checkedCode": that.checkedCode,
+            "password": that.password
           }
-          that.$http.post(QK.SERVER_URL+'/api/anon/resetPassword?checkedCode='+that.checkedCode, sendData , true).then(function (data) {
+          that.$http.post(QK.SERVER_URL + '/api/anon/resetPassword?checkedCode=' + that.checkedCode, sendData, true).then(function (data) {
             var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that,data.code)
+            var result = QK.getStateCode(that, data.code)
             if (result.state) {
               $(".errorMessage").addClass("isHidden")
-              that.$router.go({path:"/system/login"})
-            }else{
+              that.$router.go({path: "/system/login"})
+            } else {
               that.message.msg = result.msg
               that.message.errorImg = '/static/images/error1.png'
               $(".errorMessage").removeClass("isHidden")
@@ -262,10 +294,10 @@
         return false
       },
       //验证用户名是否存在
-      forgetPass: function(){
+      forgetPass: function () {
         var that = this
-        if(that.userName.length>2){
-          that.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+that.userName, true).then(function(res){
+        if (that.userName.length > 2) {
+          that.$http.get(QK.SERVER_URL + '/api/user/anon/resetPassword/' + that.userName, true).then(function (res) {
             var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that, data.code)
             if (data.data) {
@@ -281,16 +313,16 @@
               that.message.userNameMsg = "不存在该用户"
             }
           })
-        }else{
+        } else {
           that.message.userNameMsg = "用户名长度不够"
         }
       },
       //输入邮箱地址，验证邮箱是否为改用户绑定邮箱，发送验证码
-      sendCode: function(){
+      sendCode: function () {
         var that = this
-        var address = that.address+''
-        if (that.address.length > 6 && that.address.indexOf("@")>-1) {
-          that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword/sendCode',{"address":address}, true).then(function(res){
+        var address = that.address + ''
+        if (that.address.length > 6 && that.address.indexOf("@") > -1) {
+          that.$http.post(QK.SERVER_URL + '/api/user/anon/resetPassword/sendCode', {"address": address}, true).then(function (res) {
             var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
@@ -301,13 +333,13 @@
               that.$set('message.emailErrorMsg', result.msg)
             }
           })
-        }else{
+        } else {
           that.message.emailErrorMsg = '邮箱错误'
         }
       },
-      checkCode: function(){
+      checkCode: function () {
         var that = this
-        that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword?userId='+that.checkCodeData.userId, that.checkCodeData, true).then(function(res){
+        that.$http.post(QK.SERVER_URL + '/api/user/anon/resetPassword?userId=' + that.checkCodeData.userId, that.checkCodeData, true).then(function (res) {
           var data = $.parseJSON(res.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {

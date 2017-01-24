@@ -119,7 +119,7 @@
           that.currentpage = page
         }
       },
-      show: function(id){
+      show: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址

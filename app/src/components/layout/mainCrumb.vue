@@ -23,17 +23,17 @@
         }
       }
     },
-    created: function(){
-      QK.vector.$on('getfromCrumb',this.bindCrumbData)
+    created: function () {
+      QK.vector.$on('getfromCrumb', this.bindCrumbData)
     },
-    beforeDestroy: function(){
-      QK.vector.$off('getfromCrumb',this.bindCrumbData)
+    beforeDestroy: function () {
+      QK.vector.$off('getfromCrumb', this.bindCrumbData)
     },
     ready: function () {
 
     },
     methods: {
-      bindCrumbData: function(data){
+      bindCrumbData: function (data) {
         this.$set('crumbData.currentLocal', data.currentLocal)
         this.$set('crumbData.currentLocalData', data.currentLocalData)
         this.$set('crumbData.currentUser', data.currentUser)

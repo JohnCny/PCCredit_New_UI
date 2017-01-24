@@ -18,7 +18,7 @@
               </tr>
               </thead>
               <tbody>
-              <template  v-if="infos.length" >
+              <template v-if="infos.length">
                 <tr v-for="info in infos">
                   <td>${info.levelName}</td>
                   <td>${info.levelCredit}</td>
@@ -30,7 +30,7 @@
                   </a></td>
                 </tr>
               </template>
-              <template  v-else>
+              <template v-else>
                 <tr v-else>
                   <td colspan="4">没有数据</td>
                 </tr>
@@ -63,9 +63,9 @@
     data: function () {
       return {
         crumbData: {
-           currentLocal: '客户经理管理',
-           currentLocalData: '客户经理级别定义',
-           currentUser: '客户经理级别定义'
+          currentLocal: '客户经理管理',
+          currentLocalData: '客户经理级别定义',
+          currentUser: '客户经理级别定义'
         },
         infos: {
           id: '',
@@ -77,9 +77,7 @@
         visiblepage: 10,//隐藏10页
       }
     },
-    components: {
-
-    },
+    components: {},
     ready: function () {
       this.init()
     },
@@ -119,10 +117,10 @@
       init: function () {
         var that = this
         var searchAll = {
-          pageStart : that.currentpage,
-          pageLength : that.visiblepage
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerManagerLevel/pageList',searchAll, true).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/customerManagerLevel/pageList', searchAll, true).then(function (res) {
           var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -130,7 +128,7 @@
           }
           that.$set('totlepage', page)
           that.$set('infos', data.data)
-          QK.vector.$emit('getfromCrumb',that.crumbData)
+          QK.vector.$emit('getfromCrumb', that.crumbData)
         })
       },
       pageChange: function (page) {
@@ -155,9 +153,9 @@
       deleteInfo: function (id) {
         var that = this
         var optionObj = {
-          'that' : that,
-          'id' : id,
-          'deleteUrl' : '/api/customerManagerLevel/'+id,
+          'that': that,
+          'id': id,
+          'deleteUrl': '/api/customerManagerLevel/' + id,
         }
         QK.deleteSwal(optionObj)
       },

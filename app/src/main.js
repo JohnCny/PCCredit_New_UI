@@ -20,7 +20,7 @@ Vue.config.debug = true
 // 把默认的{{ }} 改成ES6的模板字符串 ${ }
 Vue.config.delimiters = ['${', '}']
 Vue.config.devtools = true
-Vue.prototype.show = function (){
+Vue.prototype.show = function () {
   return '这是一个公用的函数！0000000'
 }
 //拦截器
