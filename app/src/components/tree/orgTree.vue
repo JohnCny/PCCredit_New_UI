@@ -65,9 +65,13 @@
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        that.$http.get(url, true).then(function (data) {
-          zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
-          zTreeObj.expandAll(true)
+        that.$http.get(url,true).then(function(res){
+          var data = $.parseJSON(res.body)
+          var result = QK.getStateCode(this,data.code)
+          if(result.state){
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+            zTreeObj.expandAll(true)
+          }
         })
       }
     }

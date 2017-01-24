@@ -61,11 +61,12 @@
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        this.$http.get(url,true).then(function(res){
+        that.$http.get(url,true).then(function(res){
           var data = $.parseJSON(res.body)
           var result = QK.getStateCode(this,data.code)
           if(result.state){
