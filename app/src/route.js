@@ -130,6 +130,12 @@ import LoanOverDue from './components/loanafter/overduecus.vue'//预期不良
 import Collections from './components/loanafter/collection.vue'//催收
 
 /************************
+ * 风险管理
+ * ***********************/
+import RiskList from './components/riskmanagement/risklist.vue'//风险名单
+import RiskDoctor from './components/riskmanagement/riskcusdoc.vue'//风险客户操作
+
+/************************
  * 进件
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
@@ -389,21 +395,28 @@ export default {
       '/loanafter/new': {//新增贷后监控
         component: LoanNew
       },
-      '/loanafter/loanafterdo': {//新增贷后监控
+      '/loanafter/loanafterdo': {//贷后监控实施
         component: LoanAfterDo
       },
-      '/loanafter/loanmonitor/:id': {//新增贷后监控
+      '/loanafter/loanmonitor/:id': {//贷后监控
         component: LoanAfterMonitor
       },
-      '/loanafter/overduecus': {//新增贷后监控
+      '/loanafter/overduecus': {//逾期不良客户催收
         component: LoanOverDue
       },
-      '/loanafter/collection': {//新增贷后监控
+      '/loanafter/collection/:id': {//催收
         component: Collections
-      }
+      },
       /*start---贷后管理---start*/
 
-
+      /*start---风险管理---start*/
+      '/riskmanagement/risklist': {//风险名单
+        component: RiskList
+      },
+      '/riskmanagement/riskcusdoc': {//风险客户操作
+        component: RiskDoctor
+      },
+      /*start---风险管理---start*/
 
       }
   }

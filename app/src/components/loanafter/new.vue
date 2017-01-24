@@ -10,10 +10,10 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户名称：</span><input v-model="search.customerName" type="text" name="customerName"/>
+              <span>客户名称/企业名称：</span><input v-model="search.customerName" type="text" name="customerName"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>证件号码：</span><input v-model="search.customerNum" type="text" name="customerNum"/>
+              <span>证件号码/企业工商号：</span><input v-model="search.customerCardId" type="text" name="customerCardId"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -78,7 +78,7 @@
                 visiblepage: 10,//隐藏10页
                 search:{
                      customerName: '',
-                     customerNum: ''
+                     customerCardId: ''
                    }
            }
         },
