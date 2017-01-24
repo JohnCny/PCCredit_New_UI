@@ -50,7 +50,14 @@ import ForgetPass from './components/user/forgetPass.vue'//忘记密码
  * ***********************/
 import User from './components/user/index.vue'//用户列表
 import UserNew from './components/user/new.vue'//新建用户
-import UserEdit from './components/user/edit.vue'//新建用户
+import UserEdit from './components/user/edit.vue'//编辑用户
+
+/************************
+ * 团队管理
+ * ***********************/
+import Team from './components/team/index.vue'//团队列表
+import TeamNew from './components/team/new.vue'//新建团队
+import TeamNewUser from './components/team/newUser.vue'//团队新增成员
 
 /************************
  * 权限管理
@@ -83,6 +90,7 @@ import LogList from './components/log/loginLog.vue'//登录日志管理列表
 import OrgList from './components/organization/index.vue'//机构列表
 import OrgEdit from './components/organization/edit.vue'//编辑机构
 import OrgNew from './components/organization/new.vue'//新建机构
+import OrgNewTop from './components/organization/newTop.vue'//新建机构
 
 
 /************************
@@ -94,6 +102,11 @@ import ProNew3 from './components/product/newThree.vue'//新建产品3
 import ProNew4 from './components/product/newFour.vue'//新建产品3
 import ProNew5 from './components/product/newFive.vue'//新建产品5
 import ProList from './components/product/index.vue'//产品列表
+import ProEditOne from './components/product/editOne.vue'//编辑产品1
+import ProEditTwo from './components/product/editTwo.vue'//编辑产品2
+import ProEditThree from './components/product/editThree.vue'//编辑产品3
+import ProEditFour from './components/product/editFour.vue'//编辑产品4
+import ProEditTwos from './components/product/editTwos.vue'//编辑产品2s
 /************************
  * 菜单管理
  * ***********************/
@@ -103,7 +116,31 @@ import MenuManage from './components/system/menuManage.vue'//菜单管理
  * 个人中心
  * ***********************/
 import personal from './components/user/personal.vue'//个人中心
+import personalSet from './components/user/personalSet.vue'//个人设置
 import UserMessage from './components/user/message.vue'//消息列表
+
+
+/************************
+ * 贷后管理
+ * ***********************/
+import LoanNew from './components/loanafter/new.vue'//新建贷后监控
+import LoanAfterDo from './components/loanafter/loanafterdo.vue'//贷后监控实施
+import LoanAfterMonitor from './components/loanafter/loanmonitor.vue'//贷后监控
+import LoanOverDue from './components/loanafter/overduecus.vue'//预期不良
+import Collections from './components/loanafter/collection.vue'//催收
+
+/************************
+ * 进件
+ * ***********************/
+import ApplicationNew from './components/application/new.vue'//进件申请
+import selectCus from './components/application/selectCus.vue'//选择申请客户
+import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
+import appliPicture from './components/application/appliPitcture.vue'//调查图片
+import appliApproval from './components/application/approval.vue'//征信报告
+import informationAll from './components/application/informationAll.vue'//进件信息总览
+import appliCheck from './components/application/appliSearch.vue'//进件查询
+import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
 
 export default {
   // '/index': {
@@ -141,6 +178,49 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+      /*start---进件---start*/
+      '/application/new': {//进件申请
+        component: ApplicationNew
+      },
+      '/application/select/:id':{//选择申请客户
+        component: selectCus
+      },
+      '/application/cusBasic/:customerId/:aId':{//填写申请表
+        component: cusBasic
+      },
+      '/application/ipc/:aId/:templateId':{//填写IPC调查报告
+        component: ipcSupply
+      },
+      '/application/list':{//进件查询
+        component: appliCheck
+      },
+      '/application/searchEdit/:id':{//进件查询编辑
+        component: searchEdit
+      },
+      '/application/picture/:id':{//调查图片
+        component:appliPicture
+      },
+      '/application/approval/:id':{//征信报告列表
+        component:appliApproval
+      },
+      '/application/informationAll/:id':{//进件信息总览
+        component:informationAll
+      },
+      /*end---进件---end*/
+
+
+
+      /*start---团队---start*/
+      '/team/list': { //团队列表
+        component: Team
+      },
+      '/team/new': { //新建团队
+        component: TeamNew
+      },
+      '/team/newUser': { //团队新增成员
+        component: TeamNewUser
+      },
+      /*end---团队---end*/
 
       /*start---客户经理基本信息---start*/
       '/managerBasic/list': { //客户经理基本信息列表
@@ -203,6 +283,9 @@ export default {
       '/organization/new': {//新建机构
         component: OrgNew
       },
+      '/organization/newTop': {//新建顶级机构
+        component: OrgNewTop
+      },
       /*end---机构---end*/
 
 
@@ -258,6 +341,21 @@ export default {
         '/product/list':{//产品列表
           component:ProList
         },
+        '/product/editOne/:id':{//编辑产品1
+          component:ProEditOne
+        },
+        '/product/editTwo/:id':{//编辑产品2
+          component:ProEditTwo
+        },
+        '/product/editThree/:id':{//编辑产品3
+          component:ProEditThree
+        },
+        '/product/editFour/:id':{//编辑产品4
+          component:ProEditFour
+        },
+        '/product/editTwos/:id/:pid':{//编辑产品2s
+          component:ProEditTwos
+        },
         /*end---产品---end*/
         /*start---菜单管理---start*/
         '/menu/manage': {
@@ -271,18 +369,42 @@ export default {
       },
       /*start---登录日志管理---start*/
 
-      /*start---个人中心---start*/
-      '/user/personal': {
+      /*start---个人---start*/
+      '/user/personal': {//个人中心
         component: personal
       },
-      /*start---个人中心---start*/
+      '/user/personalSet': {//个人设置
+        component: personalSet
+      },
+      /*start---个人---start*/
 
         /*start---消息---start*/
-        '/message/list':{//消息列表
-          component: UserMessage
-        }
+      '/message/list':{//消息列表
+        component: UserMessage
+      },
 
         /*start---消息---start*/
+
+      /*start---贷后管理---start*/
+      '/loanafter/new': {//新增贷后监控
+        component: LoanNew
+      },
+      '/loanafter/loanafterdo': {//新增贷后监控
+        component: LoanAfterDo
+      },
+      '/loanafter/loanmonitor/:id': {//新增贷后监控
+        component: LoanAfterMonitor
+      },
+      '/loanafter/overduecus': {//新增贷后监控
+        component: LoanOverDue
+      },
+      '/loanafter/collection': {//新增贷后监控
+        component: Collections
+      }
+      /*start---贷后管理---start*/
+
+
+
       }
   }
 }

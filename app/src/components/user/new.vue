@@ -118,7 +118,7 @@
                       <select  v-model="user.roleId" id="roleId" type="text" name="roleId" class="form-control">
                         <option value="">&#45;&#45;请选择&#45;&#45;</option>
                         <template v-for="role in roles">
-                          <option v-bind:value="role.id">${role.roleName}</option>
+                          <option v-bind:value="role.id">${role.roleNameZh}</option>
                         </template>
                       </select>
                       <div class="message">${errors.roleError}</div>
@@ -272,7 +272,7 @@
           init:function() {
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/user/add', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("roles", data.data)
@@ -295,12 +295,12 @@
             that.$set('user.orgId', '')
             that.$set('user.orgName', '')
           },
-          cnameCheck(){
+          cnameCheck: function(){
             var that = this
-            var loginName = that.user.username;
-            var msg1 = "用户名可用!";
-            var msg3 = "请输入正确的登录名!";
-            var msg4 = "用户名已存在!";
+            var loginName = that.user.username
+            var msg1 = "用户名可用!"
+            var msg3 = "请输入正确的登录名!"
+            var msg4 = "用户名已存在!"
             var login_name = "^[A-Za-z0-9_-]{4,12}$"
             if (loginName.length > 3 && loginName.match(login_name)) {
               this.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+loginName, true).then(function (res) {
@@ -318,7 +318,7 @@
               QK.messageFun($("#nameDiv"),msg3)
             }
           },
-          idNumberCheck(){
+          idNumberCheck: function(){
             var that = this
             var idCard = that.user.idCardNumber+''
             var len = idCard.length
@@ -345,7 +345,7 @@
               })
             }
           },
-          emailCheck(){
+          emailCheck: function(){
             var that = this
             var email = that.user.email+''
             var msg3 = "该电子邮件已存在！"

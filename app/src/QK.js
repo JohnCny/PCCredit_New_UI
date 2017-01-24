@@ -9,8 +9,8 @@ QK.vector  = new Vue()
 /**
  * 服务端URL
  **/
-QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
-// QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
+//QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
+QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 
 /*用户列表删除弹出框*/
 QK.deleteSwal = (option) => {
@@ -97,7 +97,7 @@ QK.resetPwdSwal = (option) => {
               type: "error"
             })
           }
-        });
+        })
       } else {
         swal({
           title: "",
@@ -105,7 +105,7 @@ QK.resetPwdSwal = (option) => {
           confirmButtonColor: "#2196F3",
           confirmButtonText: "确定",
           type: "error"
-        });
+        })
       }
     })
 }
@@ -381,11 +381,9 @@ QK.isEmpty = (obj) => {
  * @author: Phoenix ZZ
  * @date: 2016.10.13
  */
-QK.reSex = (num) => {
-  return (num == 1 || num == true) ? '男' : '女';
+export const reSex = (num) => {
+  return (num == 0 || num == true) ? '男' : '女';
 }
-
-
 
 
 /**
@@ -419,6 +417,7 @@ QK.reEdu = (num) => {
   }
   return reStr;
 }
+
 
 /**
  * 房屋信息

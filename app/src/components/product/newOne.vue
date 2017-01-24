@@ -124,7 +124,7 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productHouseholdLevelLimit">户籍</label>
                 <div class="input-icon right">
-                  <select id="productHouseholdLevelLimit" type="text" name="productHouseholdLevelLimit" class="form-control" v-model="tLevel.productHouseholdLevelLimit">
+                  <select id="productHouseholdLevelLimit" type="text" name="productHouseholdLevelLimit" class="form-control" v-model="tProductInfo.productHouseholdLevelLimit">
                     <option value="-1" selected="selected">--请选择--</option>
                     <option value="0">本地</option>
                     <option value="1">外地</option>
@@ -138,11 +138,11 @@
                 <div class="input-icon right">
                 <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
                   <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                  <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="1">
+                  <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="1" v-model="tProductInfo.productMarriageLimit">
                   <label onclick="setRadio(this)"class=" radio_a">
                     是
                   </label>
-                  <input id="productMarriageLimit" type="radio" name="productMarriageLimit" value="0">
+                  <input id="productMarriageLimi" type="radio" name="productMarriageLimit" value="0" v-model="tProductInfo.productMarriageLimit">
                   <label onclick="setRadio(this)"class=" radio_a">
                     否
                   </label>
@@ -154,19 +154,19 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="productAgeMaxLimit">年龄区间</label>
                 <div class="input-icon right" style="    text-align: center;">
-                  <input id="productAgeMinLimit" type="text" class="form-control" name="productAgeMinLimit" v-model="tLevel.productAgeMinLimit" placeholder="" v-model="tLevel.productAgeMinLimit">
+                  <input id="productAgeMinLimit" type="text" class="form-control" name="productAgeMinLimit" v-model="tProductInfo.productAgeMinLimit" placeholder="">
                   ~
-                  <input id="productAgeMaxLimit" type="text" class="form-control" name="productAgeMaxLimit" v-model="tLevel.productAgeMaxLimit" placeholder="" v-model="tLevel.productAgeMaxLimit">
+                  <input id="productAgeMaxLimit" type="text" class="form-control" name="productAgeMaxLimit" v-model="tProductInfo.productAgeMaxLimit" placeholder="">
                   <div class="message">${errors.productAgeMaxLimitError}</div>
                 </div>
               </div>
               <div class="form-group col-md-6 col-md-offset-2 col-sm-6 col-xs-12">
                 <label >征信</label>
-                <div class="input-icon right">
-                  <span class="hideInput"><input type="checkbox" value="1" name="productCreditLevelLimit"><label class="checkss checkbox_a">无信用记录</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">信用良好</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">有少量逾期</label></span>
-                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss checkbox_a">当前有逾期</label></span>
+                <div class="input-icon right chedfd row">
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="1" name="productCreditLevelLimit"><label class="checkss c_x0 checkbox_a">无信用记录</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x1 checkbox_a">信用良好</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x2 checkbox_a">有少量逾期</label></span>
+                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2" name="productCreditLevelLimit"><label class="checkss c_x3 checkbox_a">当前有逾期</label></span>
                   <div class="message">${errors.productCreditLevelLimitError}</div>
                 </div>
               </div>
@@ -200,7 +200,7 @@
               <div class="form-group col-md-3 col-md-offset-4 col-sm-6 col-xs-12">
                 <label for="customerManagerLevelId">准入最低客户经理级别:</label>
                 <div class="input-icon right">
-                  <select id="customerManagerLevelId" type="text" name="customerManagerLevelId" class="form-control" v-model="tLevel.customerManagerLevelId">
+                  <select id="customerManagerLevelId" type="text" name="customerManagerLevelId" class="form-control" v-model="tProductInfo.customerManagerLevelId">
                     <option value="-1" selected="selected">--请选择--</option>
                     <option value="0">本地</option>
                     <option value="1">外地</option>
@@ -227,39 +227,35 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-              <!--<template v-for="dropDown in dropDownList">-->
               <div id="addImg">
-              <div class="row adds" >
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
-                <label for="pritureDescription">图片说明:</label>
-                <div class="input-icon right">
-                  <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
-                  <div style="position:absolute;left:100%; top:25%">
-                    <img src="../../../static/images/add.png" v-on:click="addTap()">
-                    <img src="../../../static/images/del.png" v-on:click="delTap()">
+                <div class="row adds count0" >
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                    <label for="pritureDescription">图片说明:</label>
+                    <div class="input-icon right">
+                      <input id="pritureDescription" type="text" class="form-control" name="pritureDescription" v-model="tProductInfo.pritureDescription" placeholder="">
+                      <div style="position:absolute;left:100%; top:25%">
+                        <img src="../../../static/images/add.png" v-on:click="addTap()">
+                        <img src="../../../static/images/del.png" v-on:click="delTap()">
+                      </div>
+                    </div>
+                    <div class="message">${errors.pritureDescriptionError}</div>
+                  </div>
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                    <label for="isNeed">是否必选:</label>
+                    <div class="input-icon right">
+                      <input id="isNeed" type="radio" name="isNeed0" value="1">
+                      <label class=" radio_a">
+                        是
+                      </label>
+                      <input id="isNee" type="radio" name="isNeed0"  value="0">
+                      <label class=" radio_a">
+                        否
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div class="message">${errors.pritureDescriptionError}</div>
-              </div>
-              <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <label for="isNeed">是否必选:</label>
-                <div class="input-icon right">
-                  <!--  <label><input name="Fruit" type="radio" value="" class="form-control"/>是</label>
-                    <label><input name="Fruit" type="radio" value="" class="form-control"/>否</label>-->
-                  <input id="isNeed" type="radio" name="isNeed" v-model="tProductInfo.isNeed">
-                  <label class=" radio_a">
-                    是
-                  </label>
-                  <input id="isNee" type="radio" name="isNeed" checked="checked" v-model="tProductInfo.isNeed">
-                  <label class=" radio_a">
-                    否
-                  </label>
-                </div>
-              </div>
-              </div>
               </div>
             </div>
-              <!--</template>-->
           </div>
         </div>
       </div>
@@ -304,7 +300,15 @@ import selsect2 from 'select2'
                  productDescription:'',
                  productImg:'',
                  pritureDescription:'',
-                 isNeed:''
+                 isNeed:'',
+                 orgStr:'',
+                 productHouseholdLevelLimit:'',
+                 productAgeMaxLimit:'',
+                 productAgeMinLimit:'',
+                 customerManagerLevelId:'',
+                 productMarriageLimit:'',
+                 explainJson:'',
+                 productCreditLevelLimit:''
               },
               proType:[{
                  id:'',
@@ -333,13 +337,6 @@ import selsect2 from 'select2'
                  productImgError:'',
                  pritureDescriptionError:''
               },
-              tLevel:{
-                productHouseholdLevelLimit:'',
-                productAgeMaxLimit:'',
-                productAgeMinLimit:'',
-                customerManagerLevelId:''
-              },
-
            }
         },
         ready:function(){
@@ -354,7 +351,6 @@ import selsect2 from 'select2'
         methods:{
               handleSubmit () {
                 var that = this
-                console.log(event.currentTarget)
                 var bool = QK.formValidation({
                     id: "#pro_new",
                     rulesMap: {
@@ -365,8 +361,8 @@ import selsect2 from 'select2'
                       productApplyTemplateId: {required: !0},
                       productLimitMax: {required: !0,digits: !0},
                       productLimitMin: {required: !0,digits: !0},
-                      productInterestMax: {required: !0,},
-                      productInterestMin: {required: !0,},
+                      productInterestMax: {required: !0,digits: !0},
+                      productInterestMin: {required: !0,digits: !0},
                       productSendProductNumber: {required: !0},
                       productDescription: {required: !0},
                       productAgeMaxLimit:{required: !0,age: !0,productAgeMaxLimit: !0},
@@ -376,60 +372,46 @@ import selsect2 from 'select2'
                     }
                 })
                   //验证结果  true  false
-                   if (bool) {
-                    //发送请求
-                        var tProductInfo = that.tProductInfo
-                        var tLevel = that.tLevel
-
-                         var productIndustryLimit = that.productIndustryLimit
-                         productIndustryLimit = $("#productIndustryLimit").val().join(",")
-                        that.$http.post(QK.SERVER_URL+'/api/product', {
-                          productName:that.tProductInfo.productName,
-                          productType:that.tProductInfo.productType,
-                          productImg:that.tProductInfo.productImg,
-                          productImg:that.tProductInfo.productImg,
-                          productLoanPeriod:that.tProductInfo.productLoanPeriod,
-                          productRepaymentMode:that.tProductInfo.productRepaymentMode,
-                          productApplyTemplateId:that.tProductInfo.productApplyTemplateId,
-                          productLimitMax:that.tProductInfo.productLimitMax,
-                          productLimitMin:that.tProductInfo.productLimitMin,
-                          productInterestMax:that.tProductInfo.productInterestMax,
-                          productInterestMin:that.tProductInfo.productInterestMin,
-                          productSendProductNumber:that.tProductInfo.productSendProductNumber,
-                          productDescription:that.tProductInfo.productDescription,
-                          productHouseholdLevelLimit:that.tLevel.productHouseholdLevelLimit,
-                          productAgeMaxLimit:that.tLevel.productAgeMaxLimit,
-                          productAgeMinLimit:that.tLevel.productAgeMinLimit,
-                          productIndustryLimit:productIndustryLimit,
-                          customerManagerLevelId:that.tLevel.customerManagerLevelId,
-                          orgStr:'1'
-                          }, true).then(function (data) {
-                          var data = jQuery.parseJSON(data.body)
-                          var id = data.data
-                          var result = QK.getStateCode(that, data.code)
-                          if (result.state) {
-                           swal({
-                              title: "是否继续填写?",
-                              text: "",
-                              type: "info",
-                              showCancelButton: true,
-                              confirmButtonColor: "#2196F3",
-                              confirmButtonText: "是",
-                              cancelButtonText: "否",
-                              closeOnConfirm: true,
-                              closeOnCancel: true
-                          },
-                          function(isConfirm){
-                              if (isConfirm) {
-                                  that.$router.go({path:"/system/product/newTwo/" + id})
-                              }else {
-                                  that.$router.go({path:"/system/product/list"})
-                              }
-                          })
+               if (bool) {
+                //发送请求
+                   var productIndustryLimit = that.productIndustryLimit
+                   var treeObj = $.fn.zTree.getZTreeObj("treeDemo")
+                   var nodes = treeObj.getCheckedNodes(true)
+                   var ids = []
+                   for(var i = 0; i <= nodes.length - 1; i ++){
+                      ids[i] = nodes[i].id
+                   }
+                   var orgid = ids.join(",")
+                   that.$set("tProductInfo.productIndustryLimit", $("#productIndustryLimit").val().join(","))
+                   that.$set("tProductInfo.explainJson", that.getObj($(".adds")))
+                   that.$set("tProductInfo.orgStr", orgid)
+                    that.$http.post(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
+                      var data = jQuery.parseJSON(data.body)
+                      var id = data.data
+                      var result = QK.getStateCode(that, data.code)
+                      if (result.state) {
+                       swal({
+                          title: "是否继续填写?",
+                          text: "",
+                          type: "info",
+                          showCancelButton: true,
+                          confirmButtonColor: "#2196F3",
+                          confirmButtonText: "是",
+                          cancelButtonText: "否",
+                          closeOnConfirm: true,
+                          closeOnCancel: true
+                      },
+                      function(isConfirm){
+                          if (isConfirm) {
+                              that.$router.go({path:"/system/product/newTwo/" + id})
+                          }else {
+                              that.$router.go({path:"/system/product/list"})
                           }
-                        })
+                      })
                       }
-                      return false
+                    })
+                  }
+                  return false
              },
             init:function(){
 
@@ -441,32 +423,30 @@ import selsect2 from 'select2'
                   $("#"+id).show().siblings("div.tabContent").hide()
             },
              addTap:function(){
-                  var html ='';
-                  var len = $(".adds").length;
-                  console.log(len)
-                  html += '<div class="row adds">';
-                  html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
-                  html += '<label for="homeAddress">图片说明:</label>';
-                  html += '<div class="input-icon right">';
-                  html += '<input id="homeAddress" type="text" class="form-control" name="homeAddress" placeholder="请输入有效地址">';
-                  html += '</div>';
-                  html += '</div>';
-                  html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">';
-                  html += '<label for="sex">是否必选:</label>';
-                  html += '<div class="input-icon right">';
-                  html += '<input id="roleId" type="radio" name="roleId '+len+'">';
-                  html += '<label onclick="setRadio(this)"class=" radio_a">是</label>';
-                  html += '<input id="roleId" type="radio" name="roleId '+len+'">';
-                  html += '<label onclick="setRadio(this)"class=" radio_a">否</label>';
-                  html += '</div>';
-                  html += '</div>';
+                  var html =''
+                  var len = $(".adds").length
+                  $("#addImg").append('<div class="row adds count'+len+'"></div>')
+                  html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
+                  html += '<label for="pritureDescription">图片说明:</label>'
+                  html += '<div class="input-icon right">'
+                  html += '<input id="pritureDescription" type="text" class="form-control" name="pritureDescription" placeholder="请输入有效地址">'
                   html += '</div>'
-                  $("#addImg").append(html);
+                  html += '</div>'
+                  html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
+                  html += '<label>是否必选:</label>'
+                  html += '<div class="input-icon right">'
+                  html += '<input id="roleIdA'+len+'" type="radio" value="1" name="isNeed'+len+'">'
+                  html += '<label for=roleIdA'+len+'>是</label>'
+                  html += '<input id="roleIdB'+len+'" type="radio" value="0" name="isNeed'+len+'">'
+                  html += '<label for=roleIdB'+len+'>否</label>'
+                  html += '</div>'
+                  html += '</div>'
+                  $(".count"+len).append(html)
             },
             delTap:function(){
-                  var len = $(".adds").length;
+                  var len = $(".adds").length
                   if(len>1){
-                    $(".adds:last-child").remove();
+                    $(".adds:last-child").remove()
                   }
             },
             searchInfo:function(){
@@ -529,7 +509,18 @@ import selsect2 from 'select2'
                 }), $(".js-btn-set-scaling-classes").on("click", function () {
                     $("#select2-multiple-input-sm, #select2-single-input-sm").next(".select2-container--bootstrap").addClass("input-sm"), $("#select2-multiple-input-lg, #select2-single-input-lg").next(".select2-container--bootstrap").addClass("input-lg"), $(this).removeClass("btn-primary btn-outline").prop("disabled", !0)
                 })
-            }
+            },
+            getObj: function(obj){
+              var arr = []
+              obj.each(function(i,v){
+                var objList = {}
+                objList.investPritureDescription=$(v).find("input[name=pritureDescription]").val()
+                objList.isNeed=Number($(v).find("input[name^=isNeed]:checked").val())
+                arr.push(objList)
+              })
+               var stringarr = JSON.stringify(arr)
+              return stringarr
+            },
         }
     }
 </script>

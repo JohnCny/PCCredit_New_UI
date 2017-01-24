@@ -123,8 +123,8 @@
                     <select  v-model="user.roleId" id="roleId" type="text" name="roleId" class="form-control">
                       <option value="">&#45;&#45;请选择&#45;&#45;</option>
                       <template v-for="role in roles">
-                        <option v-bind:value="role.id" v-if="user.roleId==role.id" selected>${role.roleName}</option>
-                        <option v-bind:value="role.id" v-else>${role.roleName}</option>
+                        <option v-bind:value="role.id" v-if="user.roleId==role.id" selected>${role.roleNameZh}</option>
+                        <option v-bind:value="role.id" v-else>${role.roleNameZh}</option>
                       </template>
                     </select>
                     <div class="message">${errors.roleError}</div>
@@ -299,14 +299,14 @@
             var that = this
             var id = that.$route.params.id
             that.$http.get(QK.SERVER_URL+'/api/user/add', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("roles", data.data)
               }
             })
             that.$http.get(QK.SERVER_URL+'/api/user/'+id+'/updateUser', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("user", data.data)
@@ -333,7 +333,7 @@
             that.$set('user.orgId', '')
             that.$set('user.orgName', '')
           },
-          cnameCheck(){
+          cnameCheck: function(){
             var that = this
             var loginName = that.user.username;
             var msg1 = "用户名可用!";
@@ -356,7 +356,7 @@
               QK.messageFun($("#nameDiv"),msg3)
             }
           },
-          idNumberCheck(){
+          idNumberCheck: function(){
             var that = this
             var idCard = that.user.idCardNumber+''
             var len = idCard.length
@@ -383,7 +383,7 @@
               })
             }
           },
-          emailCheck(){
+          emailCheck: function(){
             var that = this
             var email = that.user.email+''
             var msg3 = "该电子邮件已存在！"

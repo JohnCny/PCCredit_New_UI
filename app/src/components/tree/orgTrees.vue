@@ -47,7 +47,8 @@
             showLine: false,
           },
           check: {
-                enable: true
+                enable: true,
+                chkboxType: { "Y": "", "N": "" }
             },
           callback: {
             onClick: function(event, treeId, treeNode, clickFlag){
@@ -64,10 +65,10 @@
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
+        this.$http.get(url,true).then(function(res){
+          var data = jQuery.parseJSON(res.body)
+          var result = QK.getStateCode(this,data.code)
+          if(result.state){
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
             zTreeObj.expandAll(true)
           }
