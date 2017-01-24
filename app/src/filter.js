@@ -376,7 +376,7 @@ export const appliChange = (num) => {
     return '审核通过';
   } else if (num == '4') {
     return '审核不通过';
-  }else{
+  } else {
     return '无数据';
   }
 }
@@ -785,7 +785,7 @@ export const expertLevel = (num) => {
  * 转义符转换
  * */
 export const escape2Html = (str) => {
-  var arrEntities = {'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"','middot':'·'};
+  var arrEntities = {'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"', 'middot': '·'};
   return str.replace(/&(lt|gt|nbsp|amp|quot|middot);/ig, function (all, t) {
     return arrEntities[t];
   });

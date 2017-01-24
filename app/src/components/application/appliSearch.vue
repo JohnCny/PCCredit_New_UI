@@ -35,8 +35,10 @@
                 <td>${info.customer.certificateNumber | isEmpty}</td>
                 <td>${info.product.productName}</td>
                 <td>${info.applyAmount | isEmpty}</td>
-                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑 </a></td>
+                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span>
+                </td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                  class="fa fa-edit"></i> 编辑 </a></td>
               </tr>
               </tbody>
             </table>
@@ -75,9 +77,9 @@
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           cname: '',
-           productName: ''
+        search: {
+          cname: '',
+          productName: ''
         }
       }
     },
@@ -87,28 +89,28 @@
     computed: {
       pagenums: function () {
         //初始化前后页边界
-        var lowPage = 1;
-        var highPage = this.totlepage;
-        var pageArr = [];
+        var lowPage = 1
+        var highPage = this.totlepage
+        var pageArr = []
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-          var subVisiblePage = Math.ceil(this.visiblepage / 2);
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-            lowPage = this.currentpage - subVisiblePage;
-            highPage = this.currentpage + subVisiblePage - 1;
+            lowPage = this.currentpage - subVisiblePage
+            highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-            lowPage = 1;
-            highPage = this.visiblepage;
+            lowPage = 1
+            highPage = this.visiblepage
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
-            highPage = this.totlepage;
+            lowPage = this.totlepage - this.visiblepage + 1
+            highPage = this.totlepage
           }
         }
         //确定了上下page边界后，要准备压入数组中了
         while (lowPage <= highPage) {
-          pageArr.push(lowPage);
-          lowPage++;
+          pageArr.push(lowPage)
+          lowPage++
         }
-        return pageArr;
+        return pageArr
       },
     },
     watch: {
@@ -119,14 +121,14 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          "pageStart": that.currentpage,
+          "pageLength": that.visiblepage,
+          "pageSearch": JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/application/pageList',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
-          var page = parseInt(data.recordsTotal / 10);
+        that.$http.post(QK.SERVER_URL + '/api/application/pageList', searchAll).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {
             page = page + 1;
           }

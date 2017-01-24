@@ -19,7 +19,8 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td><span class="hideInput"><input type="checkbox"  name="checkbox" value="${info.customerId}"/></span></td>
+                <td><span class="hideInput"><input type="checkbox" name="checkbox" value="${info.customerId}"/></span>
+                </td>
                 <td>${info.cname}</td>
                 <td>${info.certificateNumber}</td>
                 <td>${info.transferReason}</td>
@@ -35,8 +36,10 @@
               </li>
               <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
               <li><a>共<i>${totlepage}</i>页</a></li>
-              <input type="submit" v-on:click="accept()" class="btn btn-info col-md-offset-4" style="margin-bottom: 25px;" value="接收" id="btn_submit"/>
-              <input type="reset"  v-on:click="refuse()" class="btn btn-danger" style="margin-bottom: 25px;" value="拒绝" id="btn_submit2"/>
+              <input type="submit" v-on:click="accept()" class="btn btn-info col-md-offset-4"
+                     style="margin-bottom: 25px;" value="接收" id="btn_submit"/>
+              <input type="reset" v-on:click="refuse()" class="btn btn-danger" style="margin-bottom: 25px;" value="拒绝"
+                     id="btn_submit2"/>
             </ul>
           </div>
         </div>
@@ -47,116 +50,122 @@
 <style scoped>
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data:function(){
-           return {
-                infos:{
-                  customerId: '',
-                  cname: '',
-                  certificateNumber: '',
-                  transferReason: '',
-                  flag: ''
-                },
-                currentpage: 1,//第几页
-                totlepage: '',//共几页
-                visiblepage: 10//隐藏10页
-           }
+  import QK from '../../QK'
+  export default{
+    data: function () {
+      return {
+        infos: {
+          customerId: '',
+          cname: '',
+          certificateNumber: '',
+          transferReason: '',
+          flag: ''
         },
-        ready:function(){
-          this.init()
-        },
-        computed: {
-          pagenums: function () {
-            //初始化前后页边界
-            var lowPage = 1
-            var highPage = this.totlepage
-            var pageArr = []
-            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2)
-              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage
-                highPage = this.currentpage + subVisiblePage - 1
-              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1
-                highPage = this.visiblepage
-              } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1
-                highPage = this.totlepage
-              }
-            }
-            //确定了上下page边界后，要准备压入数组中了
-            while (lowPage <= highPage) {
-              pageArr.push(lowPage)
-              lowPage++
-            }
-            return pageArr
-          },
-        },
-        watch: {
-          currentpage: function (oldValue, newValue) {
-            this.init()
+        currentpage: 1,//第几页
+        totlepage: '',//共几页
+        visiblepage: 10//隐藏10页
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    computed: {
+      pagenums: function () {
+        //初始化前后页边界
+        var lowPage = 1
+        var highPage = this.totlepage
+        var pageArr = []
+        if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
+          if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
+            lowPage = this.currentpage - subVisiblePage
+            highPage = this.currentpage + subVisiblePage - 1
+          } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
+            lowPage = 1
+            highPage = this.visiblepage
+          } else {//处理后几页的逻辑
+            lowPage = this.totlepage - this.visiblepage + 1
+            highPage = this.totlepage
           }
-        },
-        methods:{
-          init : function(){
-            var that = this
-            that.$http.get(QK.SERVER_URL+'/api/customerTransfer/queryTransfer', true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10)
-              if (data.recordsTotal % 10) {
-                page = page + 1
-              }
-              that.$set('totlepage', page)
-              that.$set('infos', data.data)
-            })
-          },
-          pageChange: function (page) {
-            page = page || 1
-            var that = this
-            if (that.currentpage != page) {
-              that.currentpage = page
-            }
-          },
-           accept:function() {
-                var that = this
-                var ids = []
-                var obj = {}
-                $("input[type='checkbox']:checked").each(function(){
-                  var id = $(this).val()
-                  ids.push(id)
-             })
-                  var tempid = ids.join(",")
-                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:1,customerIds:tempid},true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$router.go({path: '/system/customer/list'})
-                  }
-                })
-              },
-           refuse:function() {
-                var that = this
-                var userIds = []
-                var keyobj = {}
-                $("input[name='checkbox']:checkbox:checked").each(function(){
-                var id = $(this).val()
-                userIds.push(id)
-            })
-                var tempid = userIds.join(",")
-                keyobj["customerIds"] = tempid
-                keyobj["flag"] = 2
-                 console.log(keyobj);
-                   console.log(tempid);
-                that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:2,customerIds:tempid} ,true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$router.go({path: '/system/customer/list'})
-                  }
-               })
-            }
         }
+        //确定了上下page边界后，要准备压入数组中了
+        while (lowPage <= highPage) {
+          pageArr.push(lowPage)
+          lowPage++
+        }
+        return pageArr
+      },
+    },
+    watch: {
+      currentpage: function (oldValue, newValue) {
+        this.init()
+      }
+    },
+    methods: {
+      init: function () {
+        var that = this
+        that.$http.get(QK.SERVER_URL + '/api/customerTransfer/queryTransfer', true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var page = parseInt(data.recordsTotal / 10)
+          if (data.recordsTotal % 10) {
+            page = page + 1
+          }
+          that.$set('totlepage', page)
+          that.$set('infos', data.data)
+        })
+      },
+      pageChange: function (page) {
+        page = page || 1
+        var that = this
+        if (that.currentpage != page) {
+          that.currentpage = page
+        }
+      },
+      accept: function () {
+        var that = this
+        var ids = []
+        var obj = {}
+        $("input[type='checkbox']:checked").each(function () {
+          var id = $(this).val()
+          ids.push(id)
+        })
+        var tempid = ids.join(",")
+        that.$http.put(QK.SERVER_URL + '/api/customerTransfer/accept', {
+          flag: 1,
+          customerIds: tempid
+        }, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$router.go({path: '/system/customer/list'})
+          }
+        })
+      },
+      refuse: function () {
+        var that = this
+        var userIds = []
+        var keyobj = {}
+        $("input[name='checkbox']:checkbox:checked").each(function () {
+          var id = $(this).val()
+          userIds.push(id)
+        })
+        var tempid = userIds.join(",")
+        keyobj["customerIds"] = tempid
+        keyobj["flag"] = 2
+        console.log(keyobj);
+        console.log(tempid);
+        that.$http.put(QK.SERVER_URL + '/api/customerTransfer/accept', {
+          flag: 2,
+          customerIds: tempid
+        }, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$router.go({path: '/system/customer/list'})
+          }
+        })
+      }
     }
+  }
 
 </script>

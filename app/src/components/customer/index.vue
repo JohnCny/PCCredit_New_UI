@@ -39,7 +39,8 @@
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                   class="fa fa-edit"></i>
                   编辑 </a></td>
-                <td><a v-on:click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
+                <td><a v-on:click="deleteInfo(info.id,info.ifDel)" href="javascript:;"
+                       disabled="${info.ifDel | getDelete}" class="btn btn-danger btn-xs">
                   <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
               </tr>
               </tbody>
@@ -79,9 +80,9 @@
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           certificateNumber: '',
-           cname: ''
+        search: {
+          certificateNumber: '',
+          cname: ''
         }
       }
     },
@@ -91,20 +92,20 @@
     computed: {
       pagenums: function () {
         //初始化前后页边界
-        var lowPage = 1;
-        var highPage = this.totlepage;
-        var pageArr = [];
+        var lowPage = 1
+        var highPage = this.totlepage
+        var pageArr = []
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
           var subVisiblePage = Math.ceil(this.visiblepage / 2);
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-            lowPage = this.currentpage - subVisiblePage;
-            highPage = this.currentpage + subVisiblePage - 1;
+            lowPage = this.currentpage - subVisiblePage
+            highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-            lowPage = 1;
-            highPage = this.visiblepage;
+            lowPage = 1
+            highPage = this.visiblepage
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
-            highPage = this.totlepage;
+            lowPage = this.totlepage - this.visiblepage + 1
+            highPage = this.totlepage
           }
         }
         //确定了上下page边界后，要准备压入数组中了
@@ -123,14 +124,14 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          "pageStart": that.currentpage,
+          "pageLength": that.visiblepage,
+          "pageSearch": JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
-          var page = parseInt(data.recordsTotal / 10);
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition', searchAll).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {
             page = page + 1;
           }
@@ -151,57 +152,57 @@
         //跳转地址
         this.$router.go({path: '/system/customer/edit/' + id})
       },
-      show: function(id){
+      show: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/customer/show/' + id})
       },
-      deleteInfo: function (id,ifDel) {
+      deleteInfo: function (id, ifDel) {
         var that = this
-        if(!(ifDel == '0')) {
+        if (!(ifDel == '0')) {
           return false
-        }else{
-         swal({
-            title: "你确定要删除这条信息吗?",
-            text: "删除无法后将无法撤销！",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "确定!",
-            cancelButtonText: "取消",
-            closeOnConfirm: false,
-            closeOnCancel: false
-          },
-          function (isConfirm) {
-            if (isConfirm) {
-              swal({
-                  title: "删除!",
-                  text: "您的文件已被删除！",
-                  confirmButtonColor: "#66BB6A",
-                  type: "success"
-                },
-                function () {
-                  that.$http.delete(QK.SERVER_URL + '/api/customerBasic/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
-                    var result = QK.getStateCode(that, data.code)
-                    if (result.state) {
-                      that.infos.$remove(that.infos.find(t => t.id === id))
-                      //document.location.reload();
-                    }
-                  }, function (error) {
-                    console.log(error)
-                  })
+        } else {
+          swal({
+              title: "你确定要删除这条信息吗?",
+              text: "删除无法后将无法撤销！",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#EF5350",
+              confirmButtonText: "确定!",
+              cancelButtonText: "取消",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function (isConfirm) {
+              if (isConfirm) {
+                swal({
+                    title: "删除!",
+                    text: "您的文件已被删除！",
+                    confirmButtonColor: "#66BB6A",
+                    type: "success"
+                  },
+                  function () {
+                    that.$http.delete(QK.SERVER_URL + '/api/customerBasic/' + id).then(function (data) {
+                      var data = $.parseJSON(data.body)
+                      var result = QK.getStateCode(that, data.code)
+                      if (result.state) {
+                        that.infos.$remove(that.infos.find(t => t.id === id))
+                        //document.location.reload();
+                      }
+                    }, function (error) {
+                      console.log(error)
+                    })
+                  });
+              } else {
+                swal({
+                  title: "取消",
+                  text: "您的文件是安全的！",
+                  confirmButtonColor: "#2196F3",
+                  type: "error"
                 });
-            } else {
-              swal({
-                title: "取消",
-                text: "您的文件是安全的！",
-                confirmButtonColor: "#2196F3",
-                type: "error"
-              });
-            }
-          });
+              }
+            });
         }
 
       }
