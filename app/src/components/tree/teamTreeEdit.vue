@@ -67,7 +67,7 @@
                 that.sendData.push(dataJson)
               })
               that.$http.put(QK.SERVER_URL+'/api/team/move',JSON.stringify(that.sendData), true).then(function(res){
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   console.dir(data.data)
@@ -81,7 +81,7 @@
               }
               that.sendDataName.push(dataJson)
               that.$http.put(QK.SERVER_URL+'/api/team',JSON.stringify(that.sendDataName), true).then(function(res){
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
                 if (!result.state) {
                   var optionObj = {
@@ -94,7 +94,7 @@
             },
             beforeRemove: function(treeId, treeNode){
                that.$http.delete(QK.SERVER_URL+'/api/team/'+treeNode.teamId, true).then(function(res){
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
                 if (!result.state) {
                   var optionObj = {
@@ -116,16 +116,13 @@
         this.$router.go({path:'/system/team/new'})
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
-            zTreeObj.expandAll(true)
-          }
+        that.$http.get(url, true).then(function (data) {
+          zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
+          zTreeObj.expandAll(true)
         })
       }
     }

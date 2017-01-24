@@ -66,7 +66,7 @@
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
         that.$http.get(url, true).then(function (data) {
-          zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+          zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
           zTreeObj.expandAll(true)
         })
       }
