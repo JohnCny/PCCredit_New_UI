@@ -5,11 +5,11 @@ import Vue from 'vue'
 import swal from 'sweetalert'
 const QK = {}
 //组件之间通讯，数据载体
-QK.vector  = new Vue()
+QK.vector = new Vue()
 /**
  * 服务端URL
  **/
-//QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
+// QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
 QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 
 /*用户列表删除弹出框*/
@@ -28,7 +28,7 @@ QK.deleteSwal = (option) => {
     function (isConfirm) {
       if (isConfirm) {
         option['that'].$http.delete(QK.SERVER_URL + option['deleteUrl']).then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(option['that'], data.code)
           if (result.state) {
             swal({
@@ -37,13 +37,13 @@ QK.deleteSwal = (option) => {
               confirmButtonColor: "#66BB6A",
               confirmButtonText: "确定",
               type: "success"
-            },function(){
+            }, function () {
               option['that'].infos.$remove(option['that'].infos.find(t => t.id === option['id']))
             })
-          }else{
+          } else {
             swal({
               title: "删除失败！",
-              text: result.msg+'！',
+              text: result.msg + '！',
               confirmButtonColor: "#2196F3",
               confirmButtonText: "确定",
               type: "error"
@@ -76,8 +76,8 @@ QK.resetPwdSwal = (option) => {
     },
     function (isConfirm) {
       if (isConfirm) {
-        option['that'].$http.put(QK.SERVER_URL + option['resetUrl'],option['sendData']).then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+        option['that'].$http.put(QK.SERVER_URL + option['resetUrl'], option['sendData']).then(function (data) {
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(option['that'], data.code)
           if (result.state) {
             swal({
@@ -85,13 +85,13 @@ QK.resetPwdSwal = (option) => {
               text: "",
               confirmButtonColor: "#66BB6A",
               type: "success"
-            },function(){
-              option['that'].$router.go({path:option['listUrl']})
+            }, function () {
+              option['that'].$router.go({path: option['listUrl']})
             })
-          }else{
+          } else {
             swal({
               title: "重置失败！",
-              text: result.msg+'！',
+              text: result.msg + '！',
               confirmButtonColor: "#2196F3",
               confirmButtonText: "确定",
               type: "error"
@@ -117,10 +117,10 @@ QK.successSwal = (option) => {
       text: "",
       confirmButtonColor: "#66BB6A",
       type: "success",
-      confirmButtonText : '确定'
+      confirmButtonText: '确定'
     },
-    function(){
-      option['that'].$router.go({path:option['listUrl']})
+    function () {
+      option['that'].$router.go({path: option['listUrl']})
     })
 }
 
@@ -131,7 +131,7 @@ QK.errorSwal = (option) => {
     text: option['text'],
     confirmButtonColor: "#EF5350",
     type: "error",
-    confirmButtonText : '确定'
+    confirmButtonText: '确定'
   })
 }
 
@@ -683,9 +683,9 @@ QK.cnameCheck = ()=> {
  * @author: tianym
  * @date: 2016.10.14
  */
-QK.messageFun = (parent,msg) => {
+QK.messageFun = (parent, msg) => {
   parent.find(".message").css("color", "#a94442").html(msg)
-  parent.find("input").css("border-color","#a94442")
+  parent.find("input").css("border-color", "#a94442")
   $("#btn_submit").attr("disabled", "true")
 }
 
@@ -876,7 +876,7 @@ QK.addMethod = () => {
     return this.optional(element) || (tel.test(value));
   }, "请正确填写您的电话号码。");
 //授信额度验证
-  jQuery.validator.addMethod("applyQuota", function (value, element,params) {
+  jQuery.validator.addMethod("applyQuota", function (value, element, params) {
     var min = $("#applyQuota").data("min");
     // console.log(min);
     var max = $("#applyQuota").data("max");
@@ -905,7 +905,7 @@ QK.addMethod = () => {
     return $("#loanTerm").attr("placeholder")
   }));
   //数字区间验证
-  jQuery.validator.addMethod("numRange", function (value, element,params) {
+  jQuery.validator.addMethod("numRange", function (value, element, params) {
     if (value >= params[0] && value <= params[1] && isPositiveNum(value)) {
       return true;
     } else {
@@ -1189,7 +1189,7 @@ QK.idnumberCheck = () => {
       QK.messageIdNumber(msg5);
     }
     else {
-      this.$http.post(url, idNumber,true)
+      this.$http.post(url, idNumber, true)
         .then(function (res) {
           var data = JSON.parse(res.body)
           var idVerify = data.idVerify;

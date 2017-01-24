@@ -3,28 +3,52 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          消息列表
+          客户管理
         </header>
         <div class="panel-body">
+          <div class="row searchDiv">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>名称：</span><input v-model="search.cname" type="text" name="cname"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>工商注册号：</span><input v-model="search.certificateNumber" type="text" name="certificateNumber"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+            </div>
+          </div>
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>消息标题</th>
-                <th>消息内容</th>
-                <th>消息状态</th>
-                <th>消息类型</th>
-                <th>消息级别</th>
+                <th>名称</th>
+                <th>工商注册号</th>
+                <th>电话</th>
+                <th>地址</th>
+                <th>法人</th>
+                <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="info in infos">
-                <td><a href="javascript:;" v-on:click="show(info.id)">${info.title}</a></td>
-                <td>${info.content}</td>
-                <td>${info.tel}</td>
-                <td>${info.type}</td>
-                <td>${info.level}</td>
-              </tr>
+              <template  v-if="infos.length" >
+                <tr v-for="info in infos">
+                  <td><a href="javascript:;" v-on:click="show(info.id)">${info.cname}</a></td>
+                  <td>${info.certificateNumber}</td>
+                  <td>${info.tel}</td>
+                  <td>${info.homeAddress}</td>
+                  <td>${info.enterpriseCname}</td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                    class="fa fa-edit"></i>
+                    编辑 </a></td>
+                  <td><a v-on:click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
+                    <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
+                </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="7">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -51,17 +75,23 @@
   export default{
     data: function () {
       return {
-        infos: [{
-          title: '',
-          content: '',
-          sex: '',
-          type: '',
-          level: ''
-        }],
+        infos: {
+          id:'',
+          cname: '',
+          certificateNumber: '',
+          tel: '0',
+          homeAddress: '',
+          enterpriseCname: '',
+          enterpriseIdCard: '',
+          industry: ''
+        },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-
+        search:{
+           certificateNumber: '',
+           cname: ''
+        }
       }
     },
     ready: function () {
@@ -102,8 +132,13 @@
     methods: {
       init: function () {
         var that = this
-        that.$http.get(QK.SERVER_URL + '/api/message', true).then(function (res) {
-          var data = $.parseJSON(res.body)
+         var searchAll = {
+          "pageStart" : that.currentpage,
+          "pageLength" : that.visiblepage,
+          "pageSearch" : JSON.stringify(that.search)
+        }
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/1',searchAll).then(function (res) {
+          var data = jQuery.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -119,7 +154,13 @@
           that.currentpage = page
         }
       },
-      show: function (id) {
+      showInfo: function (id) {
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/customer/editEnterPrise/' + id})
+      },
+      show: function(id){
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址

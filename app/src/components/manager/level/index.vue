@@ -25,7 +25,7 @@
                   <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     调整 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
+                  <td><a v-on:click="deleteInfo(info)" title="删除" class="btn btn-danger btn-xs"><i
                     class="fa fa-eraser"></i> 删除
                   </a></td>
                 </tr>
@@ -67,11 +67,7 @@
            currentLocalData: '客户经理级别定义',
            currentUser: '客户经理级别定义'
         },
-        infos: {
-          id: '',
-          levelName: '',
-          levelCredit: ''
-        },
+        infos: [],
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
@@ -152,14 +148,15 @@
         //跳转地址
         this.$router.go({path: '/system/managerLevel/new'})
       },
-      deleteInfo: function (id) {
+      deleteInfo: function (info) {
         var that = this
         var optionObj = {
           'that' : that,
-          'id' : id,
-          'deleteUrl' : '/api/customerManagerLevel/'+id,
+          'id' : info.id,
+          'deleteUrl' : '/api/customerManagerLevel/'+info.id,
         }
         QK.deleteSwal(optionObj)
+        that.infos.$remove(info)
       },
     }
   }

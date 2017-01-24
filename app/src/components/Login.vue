@@ -1,18 +1,20 @@
 <template>
   <div class="container">
-    <form class="form-signin"  id="loginForm">
+    <form class="form-signin" id="loginForm">
       <div class="form-signin-heading text-center">
-        <h1 class="sign-title">登  录</h1>
+        <h1 class="sign-title">登 录</h1>
         <img src="/static/images/login-logo.png" alt=""/>
       </div>
       <div class="login-wrap">
         <div class="registration isHidden">
-          <img v-bind:src="message.errorImg" /><span>${message.msg}</span>
+          <img v-bind:src="message.errorImg"/><span>${message.msg}</span>
         </div>
-        <input id="user" name="userName" type="text" class="form-control login-input" placeholder="用户名" v-model="user.userName" autofocus>
-        <input id="password" name="password" type="password" class="form-control  login-input" placeholder="密码" v-model="user.password">
+        <input id="user" name="userName" type="text" class="form-control login-input" placeholder="用户名"
+               v-model="user.userName" autofocus>
+        <input id="password" name="password" type="password" class="form-control  login-input" placeholder="密码"
+               v-model="user.password">
 
-        <a class="btn btn-lg btn-login btn-block"  v-on:click="login">
+        <a class="btn btn-lg btn-login btn-block" v-on:click="login">
           <i class="fa fa-check"></i>
         </a>
         <label class="checkbox">
@@ -50,9 +52,10 @@
   </div>
 </template>
 <style scoped>
-  .isHidden{
-    visibility:hidden
+  .isHidden {
+    visibility: hidden
   }
+
   .login-input {
     display: block;
     width: 100%;
@@ -73,26 +76,24 @@
   /*错误提示信息*/
   .registration img {
     vertical-align: text-bottom;
-    width:16px;
-    height:16px;
-    margin-right:5px;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
   }
 </style>
 <script>
   import QK from '../QK'
   export default{
-    components: {
-
-    },
+    components: {},
     data: function () {
       return {
         user: {
           userName: '',
           password: ''
         },
-        message:{
-          msg : '',
-          errorImg : ''
+        message: {
+          msg: '',
+          errorImg: ''
         }
       }
     },
@@ -101,48 +102,53 @@
       this.focus()
     },
     methods: {
-       focus: function () {
-          $('input:text:first').focus()
-       },
-       loadBg: function () {
-        $('body').css({'background':'url("../../static/css/img/login-bg.jpg") no-repeat fixed','background-size':'cover','width':'100%','height':'100%'})
-       },
-       login:function(){
-          var that = this
-          var userName = that.user.userName
-          var password = that.user.password
-          if(userName.length<3){
-              that.message.msg = "用户名错误"
+      focus: function () {
+        $('input:text:first').focus()
+      },
+      loadBg: function () {
+        $('body').css({
+          'background': 'url("../../static/css/img/login-bg.jpg") no-repeat fixed',
+          'background-size': 'cover',
+          'width': '100%',
+          'height': '100%'
+        })
+      },
+      login: function () {
+        var that = this
+        var userName = that.user.userName
+        var password = that.user.password
+        if (userName.length < 3) {
+          that.message.msg = "用户名错误"
+          that.message.errorImg = '/static/images/error1.png'
+          $(".registration").removeClass("isHidden")
+        } else if (password.length < 3) {
+          that.message.msg = "密码错误"
+          that.message.errorImg = '/static/images/error1.png'
+          $(".registration").removeClass("isHidden")
+        } else {
+          that.$http.post(QK.SERVER_URL + '/api/logon/login', that.user, true).then(function (res) {
+            var data = $.parseJSON(res.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              //设置缓存当前登录用户信息
+              localStorage.user = JSON.stringify(data.data)
+              $(".registration").addClass("isHidden")
+              that.$router.go({path: '/system'})
+              // $('body').css({'background':'#424f63'})
+            } else {
+              that.message.msg = result.msg
               that.message.errorImg = '/static/images/error1.png'
               $(".registration").removeClass("isHidden")
-          }else if(password.length<3){
-              that.message.msg = "密码错误"
-              that.message.errorImg = '/static/images/error1.png'
-              $(".registration").removeClass("isHidden")
-          }else{
-              that.$http.post(QK.SERVER_URL+'/api/logon/login',that.user,true).then(function(res){
-                var data = $.parseJSON(res.body)
-                var result = QK.getStateCode(that,data.code)
-                if(result.state){
-                  //设置缓存当前登录用户信息
-                  localStorage.user = JSON.stringify(data.data)
-                  $(".registration").addClass("isHidden")
-                  that.$router.go({path: '/system'})
-                 // $('body').css({'background':'#424f63'})
-                }else{
-                  that.message.msg = result.msg
-                  that.message.errorImg = '/static/images/error1.png'
-                  $(".registration").removeClass("isHidden")
-                }
-              })
-          }
-       },
-       forgetPass: function () {
-          //记录当前地址
-          QK.noteNowUrl()
-          //跳转地址
-          this.$router.go({path:'/forgetPass'})
-       },
+            }
+          })
+        }
+      },
+      forgetPass: function () {
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/forgetPass'})
+      },
     }
   }
 </script>

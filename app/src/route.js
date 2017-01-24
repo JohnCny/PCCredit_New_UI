@@ -21,11 +21,12 @@ import Error from './components/error.vue'
 * ***********************/
 import Customer from './components/customer/index.vue'//客户列表
 import CustomerNew from './components/customer/new.vue'//新建客户
-import CustomerEdit from './components/customer/edit.vue'//编辑客户
+import CustomerEdit from './components/customer/editCus.vue'//编辑个人客户
+import EnterPriseEdit from './components/customer/editEnterprise.vue'//编辑企业客户
 import Maintenance from './components/customer/maintenance.vue'//客户维护列表
 import MainNew from './components/customer/mainNew.vue'//新增客户维护
 import MainRecord from './components/customer/mainRecord.vue'//客户维护记录
-import CusTransfer from './components/customer/cusTransfer.vue'//客户移交
+import CusTransfer from './components/customer/transfer.vue'//客户移交
 import CusAccpet from './components/customer/accept.vue'//客户接收
 import CusShow from './components/customer/show.vue'//客户信息展示
 
@@ -257,8 +258,11 @@ export default {
       '/customer/new': {//新建客户
         component: CustomerNew
       },
-      '/customer/edit/:id': {//编辑客户
+      '/customer/editCus/:id': {//编辑个人客户
         component: CustomerEdit
+      },
+      '/customer/editEnterPrise/:id': {//编辑企业客户
+        component: EnterPriseEdit
       },
       '/customer/mainList':{//客户维护列表
         component: Maintenance

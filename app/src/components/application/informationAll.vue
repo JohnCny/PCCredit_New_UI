@@ -142,96 +142,101 @@
   </div>
 
 
-
 </template>
 <style scoped>
-  .myTab li{
+  .myTab li {
     width: 150px;
     float: left;
     text-align: center;
     list-style: none;
     line-height: 50px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
-  .activePro{
-     background-color: #dff0d8 !important;
-     border:1px solid
+
+  .activePro {
+    background-color: #dff0d8 !important;
+    border: 1px solid
   }
-   .stepActive{
-     color:#fff;
-     background:url(../../../static/images/stepActive.png) no-repeat left center;
-   }
-  .stepActiveL{
-     color:#fff;
-     background:url(../../../static/images/stepActiveL.png) no-repeat left center;
+
+  .stepActive {
+    color: #fff;
+    background: url(../../../static/images/stepActive.png) no-repeat left center;
   }
-  .stepActiveR{
-     color:#fff;
-     background:url(../../../static/images/stepActiveR.png) no-repeat left center;
+
+  .stepActiveL {
+    color: #fff;
+    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
   }
-  .stepLast{
-     background:url(../../../static/images/stepLast.png) no-repeat left center;
+
+  .stepActiveR {
+    color: #fff;
+    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
   }
-  .stepNormal{
-     background:url(../../../static/images/stepNormal.png) no-repeat left center;
+
+  .stepLast {
+    background: url(../../../static/images/stepLast.png) no-repeat left center;
+  }
+
+  .stepNormal {
+    background: url(../../../static/images/stepNormal.png) no-repeat left center;
   }
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data(){
-            return{
-              infoData:[
-                {id:'sqcp',text:'选择申请产品',classname:'stepActiveL'},
-                {id:'xzkh',text:'选择申请客户',classname:'stepActive'},
-                {id:'sqb',text:'填写申请表',classname:'stepActive'},
-                {id:'ipc',text:'填写IPC调查报告',classname:'stepActive'},
-                {id:'dctp',text:'上传调查图片',classname:'stepActive'},
-                {id:'zxbg',text:'上传征信报告',classname:'stepActive'},
-                {id:'xxzl',text:'信息总览',classname:'stepActiveR'}
-            ],
-              tCustomerBasic:{
-                cname: '',
-                certificateNumber: '',
-                homeAddress: '',
-                tel: ''
-            },
-            infos:[{
-                investPritureDescription: '',
-                investPictureUrl: ''
-            }]
+  import QK from '../../QK'
+  export default{
+    data(){
+      return {
+        infoData: [
+          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
+          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
+          {id: 'sqb', text: '填写申请表', classname: 'stepActive'},
+          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepActive'},
+          {id: 'dctp', text: '上传调查图片', classname: 'stepActive'},
+          {id: 'zxbg', text: '上传征信报告', classname: 'stepActive'},
+          {id: 'xxzl', text: '信息总览', classname: 'stepActiveR'}
+        ],
+        tCustomerBasic: {
+          cname: '',
+          certificateNumber: '',
+          homeAddress: '',
+          tel: ''
+        },
+        infos: [{
+          investPritureDescription: '',
+          investPictureUrl: ''
+        }]
+      }
+    },
+    ready: function () {
+      this.init()
+      this.searchPic()
+    },
+    methods: {
+      init: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tCustomerBasic", data.data.customer)
           }
-        },
-         ready:function(){
-          this.init()
-          this.searchPic()
-        },
-      methods:{
-          init:function() {
-              var that = this
-               var id = that.$route.params.id
-              that.$http.get(QK.SERVER_URL+'/api/application/'+id, true).then(function (data) {
-                var data = $.parseJSON(data.body);
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  that.$set("tCustomerBasic", data.data.customer)
-                }
-              })
-            },
-          searchPic:function() {
-            var that = this
-             var id = that.$route.params.id
-            that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/'+id, true).then(function (data) {
-              var data = $.parseJSON(data.body);
-              var result = QK.getStateCode(that, data.code)
-              if (result.state) {
-                that.$set("infos", data.data)
-              }
-            })
-          },
-            cancel :function(){
-               window.history.back()
-            }
-       }
-   }
+        })
+      },
+      searchPic: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/applicationInvestPicture/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
+      cancel: function () {
+        window.history.back()
+      }
+    }
+  }
 </script>
