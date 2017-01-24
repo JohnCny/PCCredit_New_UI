@@ -55,7 +55,7 @@ import QK from '../../QK'
         var that = this
         //发送请求
         that.$http.get(QK.SERVER_URL+'/api/logon/logout', true).then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that,data.code)
           if (result.state) {
             this.$router.go({path:'/login'})

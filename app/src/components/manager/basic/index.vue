@@ -149,7 +149,7 @@
           pageSearch : JSON.stringify(that.search)
         }
         that.$http.post(QK.SERVER_URL + '/api/customerManager/pageList',searchAll,true).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -161,7 +161,7 @@
       getLevel: function(){
         var that = this
         that.$http.get(QK.SERVER_URL + '/api/customerManagerLevel/all', true).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           that.$set('levers', data.data)
         })
       },

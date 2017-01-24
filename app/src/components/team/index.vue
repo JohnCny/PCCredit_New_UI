@@ -151,7 +151,7 @@
               pageSearch : JSON.stringify(that.search)
             }
             that.$http.post(QK.SERVER_URL+'/api/team/pageList',searchAll, true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
+              var data = $.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
                 page = page + 1
@@ -191,7 +191,7 @@
             var that = this
             if(that.teamId){
               that.$http.delete(QK.SERVER_URL+'/api/userTeam?teamId='+that.teamId+'&userIds='+id,true).then(function(res){
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     var optionObj = {

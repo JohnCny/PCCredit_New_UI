@@ -126,7 +126,7 @@
                       pageSearch : JSON.stringify(that.search)
                     }
                 that.$http.post(QK.SERVER_URL+'/api/loanMonitor/add/pageList', searchAll , true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body);
+                  var data = $.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   var page = parseInt(data.recordsTotal / 10);
                   if (data.recordsTotal % 10) {
@@ -149,7 +149,7 @@
             var that = this
               console.log(id)
              that.$http.get(QK.SERVER_URL+'/api/loanMonitor/'+id, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = $.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
                if (result.state) {
                         var optionObj = {

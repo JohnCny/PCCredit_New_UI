@@ -163,7 +163,7 @@
               //得到新旧数组authorityIds
               that.role.authorityIds = that.mergeNewOldIdArr(oldIdsArr,newIdsArr)
               that.$http.put(QK.SERVER_URL+'/api/role', that.role,true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   var optionObj = {
@@ -187,7 +187,7 @@
               var that = this
               var id = that.$route.params.id
               that.$http.get(QK.SERVER_URL+'/api/role/'+id, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   that.$set("role", data.data.role)
@@ -199,7 +199,7 @@
             var that = this
              var id = that.$route.params.id
               that.$http.get(QK.SERVER_URL+'/api/role/'+id, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                  if (result.state) {
                  that.$set("oldAuthority", data.data.authority)

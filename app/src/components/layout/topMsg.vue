@@ -38,7 +38,7 @@ import QK from '../../QK'
       getMsg: function () {
         var that = this
         that.$http.get(QK.SERVER_URL+'/api/message').then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           that.$set('unreadMessages', data.data)
             }, function (error) {
           console.log(error)
@@ -47,7 +47,7 @@ import QK from '../../QK'
       message: function () {
         var that = this
         that.$http.get(QK.SERVER_URL+'/api/message?flag=0').then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           that.$set('unreadMessages', data.data)
             }, function (error) {
           console.log(error)

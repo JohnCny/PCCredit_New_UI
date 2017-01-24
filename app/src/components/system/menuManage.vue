@@ -61,7 +61,7 @@
               this.$set('roleId', JSON.parse(localStorage.user).roleType)
             }
             that.$http.get(QK.SERVER_URL+'/api/role', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body)
+              var data = $.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("roles", data.data)
@@ -106,7 +106,7 @@
                   var oldId = !treeNode.seeAuth?treeNode.seeAuthId:-1
                   var newId = oldId==-1?treeNode.seeAuthId:-1
                   that.$http.get(QK.SERVER_URL+'/api/role?roleId='+that.roleId+"&old="+oldId+"&new="+newId, true).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.refreshMenu()
@@ -128,7 +128,7 @@
                     that.sendData.push(dataJson)
                   })
                   that.$http.put(QK.SERVER_URL+'/api/menu',JSON.stringify(that.sendData), true).then(function(res){
-                    var data = jQuery.parseJSON(res.body)
+                    var data = $.parseJSON(res.body)
                     var result = QK.getStateCode(that,data.code)
                     if (result.state) {
                       that.refreshMenu()
@@ -148,7 +148,7 @@
                   }
                   that.sendDataName.push(dataJson)
                   that.$http.put(QK.SERVER_URL+'/api/menu',JSON.stringify(that.sendDataName), true).then(function(res){
-                    var data = jQuery.parseJSON(res.body)
+                    var data = $.parseJSON(res.body)
                     var result = QK.getStateCode(that,data.code)
                     if (result.state) {
                       that.refreshMenu()
@@ -183,7 +183,7 @@
           refreshMenu: function(){
             $(".loading").show()
             this.$http.get(QK.SERVER_URL+'/api/menu/refresh',true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
+              var data = $.parseJSON(res.body)
               var result = QK.getStateCode(this,data.code)
               if(result.state){
                 $(".loading").hide()

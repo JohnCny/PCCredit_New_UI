@@ -125,7 +125,7 @@
         //验证结果  true  false
         if(bool){
           that.$http.put(QK.SERVER_URL+'/api/customerManager', that.infos, true).then(function (data) {
-            var data = jQuery.parseJSON(data.body)
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
               var optionObj = {
@@ -149,7 +149,7 @@
         var that = this
         var id = that.$route.params.id
         that.$http.get(QK.SERVER_URL + '/api/customerManager/' + id, true).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           that.$set('infos', data.data.customerManager)
           that.$set('levers', data.data.customerManagerLevel)
         })

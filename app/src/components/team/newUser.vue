@@ -114,7 +114,7 @@
             if(bool){
               console.log($("#userIds").val())
               that.$http.post(QK.SERVER_URL+'/api/userTeam', {teamId: that.team.teamId,userIds: $("#userIds").val().join(",")}, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   var optionObj = {
@@ -146,7 +146,7 @@
           },
           getTeamData: function(){
              this.$http.get(QK.SERVER_URL+'/api/team/newMember/'+this.team.teamId,  true).then(function (data) {
-              var data = jQuery.parseJSON(data.body)
+              var data = $.parseJSON(data.body)
               var result = QK.getStateCode(this,data.code)
               if (result.state) {
                this.$set('teamLeaders', data.data)

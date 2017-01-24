@@ -121,7 +121,7 @@
           "pageSearch" : JSON.stringify(that.search)
         }
         that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {
             page = page + 1

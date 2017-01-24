@@ -69,7 +69,7 @@
                 that.sendData.push(dataJson)
               })
               that.$http.put(QK.SERVER_URL+'/api/organization/move',JSON.stringify(that.sendData), true).then(function(res){
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   console.dir(data.data)

@@ -254,7 +254,7 @@
                that.infos.proId = that.ids.proId
               that.$http.put(QK.SERVER_URL+'/api/productApprove',that.infos, true).then(function (data) {
                 var id = that.$route.params.id
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                    if (result.state) {
                         var optionObj = {
@@ -330,7 +330,7 @@
                   var proId = that.ids.proId
                   var flowId = that.ids.flowId
                   that.$http.get(QK.SERVER_URL+'/api/productApprove/'+proId+'?approveId='+flowId,true).then(function (data) {
-                    var data = jQuery.parseJSON(data.body);
+                    var data = $.parseJSON(data.body);
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                        that.$set("infos", data.data.productApprove)

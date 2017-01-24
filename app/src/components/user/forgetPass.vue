@@ -247,7 +247,7 @@
             "password" : that.password
           }
           that.$http.post(QK.SERVER_URL+'/api/anon/resetPassword?checkedCode='+that.checkedCode, sendData , true).then(function (data) {
-            var data = jQuery.parseJSON(data.body)
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
               $(".errorMessage").addClass("isHidden")
@@ -266,7 +266,7 @@
         var that = this
         if(that.userName.length>2){
           that.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+that.userName, true).then(function(res){
-            var data = jQuery.parseJSON(res.body)
+            var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that, data.code)
             if (data.data) {
               that.message.userNameMsg = "存在该用户"
@@ -291,7 +291,7 @@
         var address = that.address+''
         if (that.address.length > 6 && that.address.indexOf("@")>-1) {
           that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword/sendCode',{"address":address}, true).then(function(res){
-            var data = jQuery.parseJSON(res.body)
+            var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
               $(".get").attr("disabled", "false")
@@ -308,7 +308,7 @@
       checkCode: function(){
         var that = this
         that.$http.post(QK.SERVER_URL+'/api/user/anon/resetPassword?userId='+that.checkCodeData.userId, that.checkCodeData, true).then(function(res){
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             $(".get").attr("disabled", "false")
