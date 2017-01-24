@@ -42,15 +42,15 @@
               </thead>
               <tbody>
               <template  v-if="infos.length" >
-              <tr v-for="info in infos">
-                <td>${info.userCname}</td>
-                <td>${info.sex | reSex}</td>
-                <td>${info.tel}</td>
-                <td>${info.createTime | formatDate}</td>
-                <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>编辑 </a></td>
-                <td><a v-on:click="resetPwd(info.id)" class="btn btn-xs" style="background-color: #424F63;color:#fff"><i class="fa fa-lock"></i>密码重置</a></td>
-              </tr>
+                <tr v-for="info in infos">
+                  <td>${info.userCname}</td>
+                  <td>${info.sex | reSex}</td>
+                  <td>${info.tel}</td>
+                  <td>${info.createTime | formatDate}</td>
+                  <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
+                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>编辑 </a></td>
+                  <td><a v-on:click="resetPwd(info.id)" class="btn btn-xs" style="background-color: #424F63;color:#fff"><i class="fa fa-lock"></i>密码重置</a></td>
+                </tr>
               </template>
               <template  v-else>
               <tr v-else>

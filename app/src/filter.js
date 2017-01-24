@@ -370,7 +370,7 @@ export const expertChange = (num) => {
  * @date: 2016.10.13
  */
 export const reSex = (num) => {
-  return (num == 1 || num == true) ? '男' : '女';
+  return (num == 1 || num == true) ? '女' : '男';
 }
 
 /**

@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          编辑客户
+          编辑个人客户
         </header>
         <div class="panel-body">
           <div class="table-responsive">
@@ -73,7 +73,7 @@
                 <div class="input-icon right">
                   <select id="industry" type="text" name="industry" v-model="industry" class="form-control select2-multiple" multiple>
                     <template v-for="industries in customerIndustry">
-                      <option  value="${industries.industryId}" selected>${industries.industryName}</option>
+                      <option  value="${industries.id}" selected>${industries.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.industryError}</div>
@@ -85,7 +85,8 @@
                 <div class="input-icon right">
                   <select id="marriageStatus" type="text" name="marriageStatus" v-model="tCustomerBasic.marriageStatus" class="form-control">
                     <template v-for="marriageStatus in marriage">
-                      <option  value="${marriageStatus.id}" checked>${marriageStatus.value}</option>
+                      <option v-if="tCustomerBasic.marriageStatus==marriageStatus.id" selected value="${marriageStatus.id}">${marriageStatus.value}</option>
+                      <option v-else value="${marriageStatus.id}">${marriageStatus.value}</option>
                     </template>
                   </select>
                   <div class="message">${errors.marriageError}</div>
@@ -96,7 +97,8 @@
                 <div class="input-icon right">
                   <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="tCustomerBasic.educationDegree">
                     <template v-for="educationDegree in education">
-                      <option value="${educationDegree.id}" checked>${educationDegree.value}</option>
+                      <option v-if="tCustomerBasic.educationDegree==educationDegree.id" selected value="${educationDegree.id}">${educationDegree.value}</option>
+                      <option v-else value="${educationDegree.id}">${educationDegree.value}</option>
                     </template>
                   </select>
                   <div class="message">${errors.eductionError}</div>
@@ -120,134 +122,117 @@
   }
 </style>
 <script>
-  import QK from '../../QK'
-  import select2 from 'select2'
-   import swal from 'sweetalert'
-  import jQueryValidation from 'jquery-validation'
-  export default{
-    data: function () {
-      return {
-          industry: ['',''],
-        tCustomerBasic: {
-          id: '',
-          cname: '',
-          sex: '',
-          certificateType: '',
-          certificateNumber: '',
-          tel: '',
-          homeAddress: '',
-          marriageStatus: '',
-          educationDegree: ''
+    import QK from '../../QK'
+    import select2 from 'select2'
+    import swal from 'sweetalert'
+    import jQueryValidation from 'jquery-validation'
+    export default{
+        data: function () {
+            return {
+                industry: ['',''],
+                tCustomerBasic: {
+                    id: '',
+                    cname: '',
+                    sex: '',
+                    certificateType: '',
+                    certificateNumber: '',
+                    tel: '',
+                    homeAddress: '',
+                    marriageStatus: '',
+                    educationDegree: ''
+                },
+                certificate:[],
+                marriage:[],
+                education:[],
+                customerIndustry:[],
+                errors: {
+                    sexError: '',
+                    certificateTypeError: '',
+                    telError: '',
+                    homeAddressError: '',
+                    marriageError: '',
+                    eductionError: '',
+                    cnameError: '',
+                    certificateNumberError: ''
+                }
+            }
         },
-       certificate:[
-            {
-               id: '',
-               value: ''
-            },
-            {
-               id: '',
-               value: ''
-            }],
-            marriage:[{
-               id: '',
-               value: ''
-            }],
-            education:[{
-               id: '',
-               value: ''
-            }],
-            customerIndustry:[{
-               industryId: '',
-               industryName: ''
-            }],
-        errors: {
-          sexError: '',
-          certificateTypeError: '',
-          telError: '',
-          homeAddressError: '',
-          marriageError: '',
-          eductionError: '',
-          cnameError: '',
-          certificateNumberError: ''
-        }
-      }
-    },
-    ready: function () {
-        QK.addMethod()
-        this.ComponentsSelect2()
-        this.init()
-        this.industries()
-        this.searchId()
-    },
-    methods: {
-       handleSubmit () {
-        var that = this
-        var bool = QK.formValidation({
-          id: "#form_customer_edit",
-          rulesMap: {
-            cname: {required: !0, isChinese: !0},
-            sex: {required: !0},
-            certificateType: {required: !0, downList: !0},
-            certificateNumber: {required: !0, isIdCardNo: !0},
-            homeAddress: {required: !0, isHomeAddress: !0},
-            tel: {required: !0, tel: !0},
-            marriageStatus: {required: !0, downList: !0},
-            educationDegree: {required: !0,downList: !0},
-           industry: {required: !0}
-          }
-        })
-          //验证结果  true  false
-           if (bool) {
-            //发送请求
-                var tCustomerBasic = that.tCustomerBasic
-                delete tCustomerBasic["createBy"]
-                delete tCustomerBasic["createTime"]
-                delete tCustomerBasic["modifyBy"]
-                delete tCustomerBasic["modifyTime"]
-                delete tCustomerBasic["userId"]
-                var industry = that.industry
-                industry = $("#industry").val().join(',')
-                that.$http.put(QK.SERVER_URL+'/api/customerBasic', {
-                id: that.tCustomerBasic.id,
-                cname: that.tCustomerBasic.cname,
-                sex: that.tCustomerBasic.sex,
-                certificateType: that.tCustomerBasic.certificateType,
-                certificateNumber: that.tCustomerBasic.certificateNumber,
-                tel: that.tCustomerBasic.tel,
-                homeAddress: that.tCustomerBasic.homeAddress,
-                marriageStatus: that.tCustomerBasic.marriageStatus,
-                educationDegree: that.tCustomerBasic.educationDegree,
-                industry:industry
-                }, true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body)
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                  swal({
-                      title: "修改成功!",
-                      text: "",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success",
-                      confirmButtonText : '确定'
-                  },
-                  function(){
-                    that.$router.go({path:"/system/customer/list"})
-                  })
-                }else{
-                  swal({
-                      title: "修改失败！",
-                      text: result.msg+"！",
-                      confirmButtonColor: "#EF5350",
-                      type: "error",
-                      confirmButtonText : '确定'
-                   })
-                  }
+        ready: function () {
+            QK.addMethod()
+            this.ComponentsSelect2()
+            this.init()
+            this.industries()
+            this.searchId()
+        },
+        methods: {
+            handleSubmit () {
+                var that = this
+                var bool = QK.formValidation({
+                    id: "#form_customer_edit",
+                    rulesMap: {
+                        cname: {required: !0, isChinese: !0},
+                        sex: {required: !0},
+                        certificateType: {required: !0, downList: !0},
+                        certificateNumber: {required: !0, isIdCardNo: !0},
+                        homeAddress: {required: !0, isHomeAddress: !0},
+                        tel: {required: !0, tel: !0},
+                        marriageStatus: {required: !0, downList: !0},
+                        educationDegree: {required: !0,downList: !0},
+                        industry: {required: !0}
+                    }
                 })
-              }
-              return false
+                //验证结果  true  false
+                if (bool) {
+                    //发送请求
+                    var tCustomerBasic = that.tCustomerBasic
+                    delete tCustomerBasic["createBy"]
+                    delete tCustomerBasic["createTime"]
+                    delete tCustomerBasic["modifyBy"]
+                    delete tCustomerBasic["modifyTime"]
+                    delete tCustomerBasic["userId"]
+                    var industry = that.industry
+                    industry = $("#industry").val().join(',')
+                    that.$http.put(QK.SERVER_URL+'/api/customerBasic', {
+                        id: that.tCustomerBasic.id,
+                        cname: that.tCustomerBasic.cname,
+                        sex: that.tCustomerBasic.sex,
+                        certificateType: that.tCustomerBasic.certificateType,
+                        certificateNumber: that.tCustomerBasic.certificateNumber,
+                        tel: that.tCustomerBasic.tel,
+                        homeAddress: that.tCustomerBasic.homeAddress,
+                        marriageStatus: that.tCustomerBasic.marriageStatus,
+                        educationDegree: that.tCustomerBasic.educationDegree,
+                        industry:industry
+                    }, true).then(function (data) {
+                        var data = jQuery.parseJSON(data.body)
+                        var result = QK.getStateCode(that, data.code)
+                        if (result.state) {
+                            swal({
+                                title: "修改成功!",
+                                text: "",
+                                confirmButtonColor: "#66BB6A",
+                                type: "success",
+                                confirmButtonText : '确定'
+                            },
+                            function(){
+                              that.$router.go({path:"/system/customer/list"})
+                            })
+                        }else{
+                            swal({
+                                title: "修改失败！",
+                                text: result.msg+"！",
+                                confirmButtonColor: "#EF5350",
+                                type: "error",
+                                confirmButtonText : '确定'
+                             })
+                        }
+                    })
+                }
+                return false
             },
-             ComponentsSelect2: function () {
+            ComponentsSelect2: function () {
                 function e(e) {
-                    if (e.loading)return e.text;
+                    if (e.loading)return e.text
                     var t = "<div class='select2-result-repository clearfix'><div class='select2-result-repository__avatar'><img src='" + e.owner.avatar_url + "' /></div><div class='select2-result-repository__meta'><div class='select2-result-repository__title'>" + e.full_name + "</div>";
                     return e.description && (t += "<div class='select2-result-repository__description'>" + e.description + "</div>"), t += "<div class='select2-result-repository__statistics'><div class='select2-result-repository__forks'><span class='glyphicon glyphicon-flash'></span> " + e.forks_count + " Forks</div><div class='select2-result-repository__stargazers'><span class='glyphicon glyphicon-star'></span> " + e.stargazers_count + " Stars</div><div class='select2-result-repository__watchers'><span class='glyphicon glyphicon-eye-open'></span> " + e.watchers_count + " Watchers</div></div></div></div>"
                 }
@@ -296,66 +281,66 @@
                 })
             },
             init:function() {
-              var that = this
-              var id = that.$route.params.id
-              that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  that.$set("tCustomerBasic", data.data)
-                 }
-              })
-           },
-           searchId:function() {
-                var that = this;
-                that.$http.get(QK.SERVER_URL+'/api/customerBasic/allStatus', true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("certificate", data.data.cert)
-                    that.$set("marriage", data.data.marriageStatus)
-                    that.$set("education", data.data.educationDegree)
-                  }
-                })
-              },
-           industries:function() {
                 var that = this
                 var id = that.$route.params.id
-                that.$http.get(QK.SERVER_URL+'/api/customerIndustry/industries?customerId='+id, true).then(function (data) {
-                  var data = $.parseJSON(data.body);
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                    that.$set("customerIndustry", data.data)
-                  }
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
+                    var data = jQuery.parseJSON(data.body)
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                        that.$set("tCustomerBasic", data.data)
+                    }
                 })
-              },
-            idNumberCheck(){
-            var that = this
-            var idCard = that.customerBasicInfo.certificateNumber+''
-            var len = idCard.length
-            var msg3 = "该证件号码已存在！"
-            var msg4 = "证件可用"
-            var msg5 = "身份证长度不够！"
-            if (len < 14) {
-              QK.messageFun($("#idNumberDiv"),msg5)
-            }else {
-              this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist?identityCard='+idCard,true).then(function (res) {
-                var data = jQuery.parseJSON(res.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  if(data.data){
-                     QK.messageFun($("#idNumberDiv"),msg3)
-                  }else{
-                     $("#idNumberDiv").find("div.message").css("color", "#3c763d").html(msg4)
-                     $("#idNumberDiv").find("input").css("border-color","#3c763d")
-                     $("#btn_submit").removeAttr("disabled")
-                  }
-                }else{
-                  QK.messageFun($("#idNumberDiv"),result.msg)
+            },
+            searchId:function() {
+                var that = this
+                that.$http.get(QK.SERVER_URL+'/api/customerBasic/allStatus', true).then(function (data) {
+                    var data = $.parseJSON(data.body)
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                        that.$set("certificate", data.data.cert)
+                        that.$set("marriage", data.data.marriageStatus)
+                        that.$set("education", data.data.educationDegree)
+                    }
+                })
+            },
+            industries:function() {
+                var that = this
+                var id = that.$route.params.id
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry?customerId='+id, true).then(function (data) {
+                    var data = $.parseJSON(data.body)
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                      that.$set("customerIndustry", data.data)
+                    }
+                })
+            },
+            idNumberCheck:function() {
+                var that = this
+                var idCard = that.customerBasicInfo.certificateNumber+''
+                var len = idCard.length
+                var msg3 = "该证件号码已存在！"
+                var msg4 = "证件可用"
+                var msg5 = "身份证长度不够！"
+                if (len < 14) {
+                    QK.messageFun($("#idNumberDiv"),msg5)
+                }else {
+                    this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist?identityCard='+idCard,true).then(function (res) {
+                        var data = jQuery.parseJSON(res.body)
+                        var result = QK.getStateCode(that, data.code)
+                        if (result.state) {
+                          if(data.data){
+                             QK.messageFun($("#idNumberDiv"),msg3)
+                          }else{
+                             $("#idNumberDiv").find("div.message").css("color", "#3c763d").html(msg4)
+                             $("#idNumberDiv").find("input").css("border-color","#3c763d")
+                             $("#btn_submit").removeAttr("disabled")
+                          }
+                        }else{
+                          QK.messageFun($("#idNumberDiv"),result.msg)
+                        }
+                    })
                 }
-              })
             }
-          }
-     }
-  }
+        }
+    }
 </script>

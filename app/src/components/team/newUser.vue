@@ -27,19 +27,20 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                  <a class="btn btn-default" v-on:click="getTeam()">获取成员列表</a>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 teamuserCname" style="display:none">
+                <div class="form-group">
                   <label for="userIds">成员</label>
                     <select v-bind:disabled="disabled" id="userIds" v-model="userIds" class="form-control select2-multiple" name="userIds" multiple>
                       <template v-for="teamLeader in teamLeaders">
-                        <option  v-bind:value="teamLeader.id">${teamLeader.userCname}</option>
+                        <option  v-bind:value="teamLeader.userId">${teamLeader.userCname}</option>
                       </template>
                     </select>
                     <div class="message">${errors.userIdsError}</div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label style="height:40px"></label>
-                  <a class="btn btn-default" v-on:click="getTeam()">获取成员列表</a>
                 </div>
               </div>
             </div>
@@ -74,7 +75,7 @@
             disabled:false,
             userIds: [],
             teamLeaders: {
-              id: '',
+              userId: '',
               userCname: '',
             },
             errors:{
@@ -136,20 +137,19 @@
           },
           getTeam: function(){
             if(this.team.teamId){
-              that.disabled = false
               this.getTeamData()
-              return
             }else{
+              $(".teamuserCname").hide()
               alert("请先在团队列表选择团队")
-              return false
             }
           },
           getTeamData: function(){
-             this.$http.get(QK.SERVER_URL+'/api/team/newMember/'+this.team.teamId,  true).then(function (data) {
+             this.$http.get(QK.SERVER_URL+'/api/team/teamAdmin',  true).then(function (data) {
               var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(this,data.code)
               if (result.state) {
                this.$set('teamLeaders', data.data)
+               $(".teamuserCname").slideDown(500)
               }
             })
           },

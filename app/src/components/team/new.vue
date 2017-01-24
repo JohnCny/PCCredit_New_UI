@@ -83,8 +83,6 @@
       </section>
     </div>
   </div>
-
-
 </template>
 <style scoped>
 </style>
@@ -97,7 +95,7 @@
            return {
             infos:{
               teamName: '',	//团队名称	string
-              teamLeaderId: '',	//团队负责人id	number
+              teamLeaderId: 0,	//团队负责人id	number
               isMenuType: '',	//是否机构类团队	number
               teamDescription: '',	//团队描述	strin
               teamParentId: '',
@@ -176,7 +174,7 @@
           },
           getTeamLeaderData: function(){
             var that = this
-            that.$http.get(QK.SERVER_URL+'/api/user/role/'+JSON.parse(localStorage.user).roleType, that.infos, true).then(function (data) {
+            that.$http.get(QK.SERVER_URL+'/api/team/teamAdmin', true).then(function (data) {
               var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that,data.code)
               if (result.state) {

@@ -9,7 +9,7 @@
       <ul v-if="menu.menuLists.length > 0" class="sub-menu-list">
         <template v-for="menuSmall in menu.menuLists">
           <li class="dropdown more-dropdown-sub">
-            <a href="${menuSmall.menuUrl}"> ${menuSmall.menuNameZh}</a>
+            <a href="${menuSmall.menuUrl}" @click="navTabClick(menuSmall.menuUrl)"> ${menuSmall.menuNameZh}</a>
           </li>
         </template>
       </ul>
@@ -56,7 +56,17 @@
             }
           })
         })
-      }
+      },
+      navTabClick: function (url) {
+        var that = this
+        if(url == '/system/products'){
+          url = '/system/products/'+localStorage.role
+        }
+        if(url == '/system/managers/parameter/list'){
+          url = '/system/managers/parameter/'+localStorage.role+'/list'
+        }
+        that.$router.go({path: url})
+      },
     }
   }
 

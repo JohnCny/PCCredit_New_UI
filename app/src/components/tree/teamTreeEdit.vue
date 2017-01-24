@@ -89,6 +89,15 @@
                   'text' : result.msg+"！"
                   }
                   QK.errorSwal(optionObj)
+                  that.init()
+                }else{
+                  swal({
+                      title: "更新成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  })
                 }
               })
             },
@@ -96,10 +105,19 @@
                that.$http.delete(QK.SERVER_URL+'/api/team/'+treeNode.teamId, true).then(function(res){
                 var data = jQuery.parseJSON(res.body)
                 var result = QK.getStateCode(that,data.code)
-                if (!result.state) {
+                if (result.state) {
+                  swal({
+                      title: "删除成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  })
+                }else{
+                  var message = data.data.message?data.data.message:result.msg
                   var optionObj = {
-                  'title' : '删除失败!',
-                  'text' : result.msg+"！"
+                    'title' : '删除失败!',
+                    'text' : message+"！"
                   }
                   QK.errorSwal(optionObj)
                 }
@@ -109,6 +127,7 @@
         }
         this.baseTree(urlMy, setting)
       },
+
       showNewPage:function () {
         //记录当前地址
         QK.noteNowUrl()
