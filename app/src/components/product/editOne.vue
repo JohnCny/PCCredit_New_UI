@@ -415,7 +415,7 @@ import selsect2 from 'select2'
                    //console.log(that.tProductInfo.explainList)
                    //console.log(that.tProductInfo.orgStr)
                     that.$http.put(QK.SERVER_URL+'/api/product', that.tProductInfo, true).then(function (data) {
-                      var data = jQuery.parseJSON(data.body)
+                      var data = $.parseJSON(data.body)
                       var id = data.data
                       var result = QK.getStateCode(that, data.code)
                       if (result.state) {
@@ -441,7 +441,7 @@ import selsect2 from 'select2'
                   var that = this
                   var id = that.$route.params.id
                   that.$http.get(QK.SERVER_URL+'/api/product?productId='+id,true).then(function (data) {
-                    var data = jQuery.parseJSON(data.body);
+                    var data = $.parseJSON(data.body);
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.$set("proType", data.data.productTypes)

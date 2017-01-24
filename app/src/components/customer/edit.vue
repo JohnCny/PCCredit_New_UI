@@ -219,7 +219,7 @@
                 educationDegree: that.tCustomerBasic.educationDegree,
                 industry:industry
                 }, true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body)
+                  var data = $.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                   swal({
@@ -299,7 +299,7 @@
               var that = this
               var id = that.$route.params.id
               that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   that.$set("tCustomerBasic", data.data)
@@ -340,7 +340,7 @@
               QK.messageFun($("#idNumberDiv"),msg5)
             }else {
               this.$http.get(QK.SERVER_URL+'/api/customerBasic/idCardExist?identityCard='+idCard,true).then(function (res) {
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   if(data.data){

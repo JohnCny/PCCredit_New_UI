@@ -89,7 +89,7 @@
                 var id = that.$route.params.id
                 tCustomerMaintenance.id=id
                 that.$http.post(QK.SERVER_URL+'/api/customerMaintenance',tCustomerMaintenance, true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body)
+                  var data = $.parseJSON(data.body)
                   var result = QK.getStateCode(that, data.code)
                   if (result.state) {
                     that.$router.go({path:'/system/customer/mainList'})

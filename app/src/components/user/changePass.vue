@@ -134,7 +134,7 @@
         if(bool){
           //发送请求
           that.$http.post(QK.SERVER_URL+'/api/user/updatePassword', that.password, true).then(function (data) {
-            var data = jQuery.parseJSON(data.body)
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that,data.code)
             if (result.state) {
               $(".errorMessage").addClass("isHidden")

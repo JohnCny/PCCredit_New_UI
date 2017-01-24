@@ -96,7 +96,7 @@
               that.infos.badCustomerId = id
               that.$http.post(QK.SERVER_URL+'/api/BadDebtCustomer', that.infos , true).then(function (data) {
                 var id = that.$route.params.id
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                  if (result.state) {
                         var optionObj = {

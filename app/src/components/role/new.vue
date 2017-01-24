@@ -140,7 +140,7 @@
             if(bool){
               that.role.authorityIds = that.setIdArr(that.authority)
               that.$http.post(QK.SERVER_URL+'/api/role',that.role, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   var optionObj = {
@@ -162,7 +162,6 @@
           },
          newRole:function() {
             var that = this
-
          },
          setIdArr: function(arr){
            var newArr = [],id
@@ -179,7 +178,7 @@
         init:function() {
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/role/add', true).then(function (data) {
-              var data = jQuery.parseJSON(data.body)
+              var data = $.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                 that.$set("authority", data.data)

@@ -185,7 +185,7 @@
               if(bool){
                 delete that.tOrganization['orgParentName']
                 that.$http.post(QK.SERVER_URL+'/api/organization', that.tOrganization, true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body)
+                  var data = $.parseJSON(data.body)
                   var result = QK.getStateCode(that,data.code)
                    if (result.state) {
                     swal({
@@ -220,7 +220,7 @@
             var login_name = "^[A-Za-z0-9_-]{4,12}$"
             if (loginName.length > 3 && loginName.match(login_name)) {
               this.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+loginName, true).then(function (res) {
-                  var data = jQuery.parseJSON(res.body)
+                  var data = $.parseJSON(res.body)
                   var result = QK.getStateCode(that, data.code)
                   if (data.data) {
                     QK.messageFun($("#nameDiv"),msg4)
@@ -248,7 +248,7 @@
               QK.messageFun($("#idNumberDiv"),msg5)
             }else {
               this.$http.post(QK.SERVER_URL+'/api/user/isIdCard',{"idCard":idCard},true).then(function (res) {
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   if(data.data){
@@ -272,7 +272,7 @@
             var msg5 = "邮件格式错误！"
             if (email.length > 6 && email.indexOf("@")>-1) {
                this.$http.post(QK.SERVER_URL+'/api/user/isEmail',{"email":email},true).then(function (res) {
-                var data = jQuery.parseJSON(res.body)
+                var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   if(data.data){

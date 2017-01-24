@@ -129,7 +129,7 @@
           "pageSearch" : JSON.stringify(that.search)
         }
         that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -183,7 +183,7 @@
                 },
                 function () {
                   that.$http.delete(QK.SERVER_URL + '/api/customerBasic/' + id).then(function (data) {
-                    var data = jQuery.parseJSON(data.body)
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.infos.$remove(that.infos.find(t => t.id === id))

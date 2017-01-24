@@ -28,7 +28,7 @@ QK.deleteSwal = (option) => {
     function (isConfirm) {
       if (isConfirm) {
         option['that'].$http.delete(QK.SERVER_URL + option['deleteUrl']).then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(option['that'], data.code)
           if (result.state) {
             swal({
@@ -77,7 +77,7 @@ QK.resetPwdSwal = (option) => {
     function (isConfirm) {
       if (isConfirm) {
         option['that'].$http.put(QK.SERVER_URL + option['resetUrl'],option['sendData']).then(function (data) {
-          var data = jQuery.parseJSON(data.body)
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(option['that'], data.code)
           if (result.state) {
             swal({

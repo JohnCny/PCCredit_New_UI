@@ -155,7 +155,7 @@
           pageList: function(searchAll){
             var that = this
             that.$http.post(QK.SERVER_URL+'/api/organization/pageList',searchAll, true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
+              var data = $.parseJSON(res.body)
               var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
                 page = page + 1

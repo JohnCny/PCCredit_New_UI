@@ -154,7 +154,7 @@
               delete that.infos['method']
               delete that.infos['emulateJSON']
               that.$http.post(QK.SERVER_URL+'/api/team', that.infos, true).then(function (data) {
-                var data = jQuery.parseJSON(data.body)
+                var data = $.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   var optionObj = {
@@ -177,7 +177,7 @@
           getTeamLeaderData: function(){
             var that = this
             that.$http.get(QK.SERVER_URL+'/api/user/role/'+JSON.parse(localStorage.user).roleType, that.infos, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body)
+              var data = $.parseJSON(data.body)
               var result = QK.getStateCode(that,data.code)
               if (result.state) {
                that.$set('teamLeaders', data.data)
