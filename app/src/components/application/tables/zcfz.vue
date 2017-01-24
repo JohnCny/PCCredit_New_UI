@@ -65,7 +65,7 @@ aaa{
                    var applicationTemplateVarId = $(event.currentTarget).data("id")
                    var templateVarValue = $(event.currentTarget).val()
                      that.$http.put(QK.SERVER_URL + '/api/application/ipc/normal',{applicationTemplateVarId:applicationTemplateVarId,templateVarValue:templateVarValue}, true).then(function (data) {
-                      var data = jQuery.parseJSON(data.body)
+                      var data = $.parseJSON(data.body)
                       var result = QK.getStateCode(that, data.code)
                       if (result.state) {
 

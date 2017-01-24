@@ -65,218 +65,204 @@
   </div>
 </template>
 <style scoped>
-  .myTab li{
+  .myTab li {
     width: 150px;
     float: left;
     text-align: center;
     list-style: none;
     line-height: 50px;
-    margin-bottom:10px;
-  }
-  .activePro{
-     background-color: #dff0d8 !important;
-     border:1px solid
-  }
-   .stepActive{
-     color:#fff;
-     background:url(../../../static/images/stepActive.png) no-repeat left center;
-   }
-  .stepActiveL{
-     color:#fff;
-     background:url(../../../static/images/stepActiveL.png) no-repeat left center;
-  }
-  .stepActiveR{
-     color:#fff;
-     background:url(../../../static/images/stepActiveR.png) no-repeat left center;
-  }
-  .stepLast{
-     background:url(../../../static/images/stepLast.png) no-repeat left center;
-  }
-  .stepNormal{
-     background:url(../../../static/images/stepNormal.png) no-repeat left center;
+    margin-bottom: 10px;
   }
 
+  .activePro {
+    background-color: #dff0d8 !important;
+    border: 1px solid
+  }
 
+  .stepActive {
+    color: #fff;
+    background: url(../../../static/images/stepActive.png) no-repeat left center;
+  }
 
+  .stepActiveL {
+    color: #fff;
+    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
+  }
 
+  .stepActiveR {
+    color: #fff;
+    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
+  }
 
+  .stepLast {
+    background: url(../../../static/images/stepLast.png) no-repeat left center;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  .stepNormal {
+    background: url(../../../static/images/stepNormal.png) no-repeat left center;
+  }
 
 
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data:function(){
-             return {
-             todo:{
-                text: ''
-             },
+  import QK from '../../QK'
+  export default{
+    data: function () {
+      return {
+        todo: {
+          text: ''
+        },
 
-              infoData:[
-                {id:'sqcp',text:'选择申请产品',classname:'stepActiveL'},
-                {id:'xzkh',text:'选择申请客户',classname:'stepActive'},
-                {id:'sqb',text:'填写申请表',classname:'stepNormal'},
-                {id:'ipc',text:'填写IPC调查报告',classname:'stepNormal'},
-                {id:'dctp',text:'上传调查图片',classname:'stepNormal'},
-                {id:'zxbg',text:'上传征信报告',classname:'stepNormal'},
-                {id:'xxzl',text:'信息总览',classname:'stepLast'}
-              ],
-              product:{
-                productId: '',
-                productName: '选择申请产品',
-              },
-              infos: [{
-                  id: '',
-                  cname: '',
-                  productLimitMin: '',
-                  certificateNumber: '',
-                  customerStatus: '',
-              }],
-                  currentpage: 1,//第几页
-                  totlepage: '',//共几页
-                  visiblepage: 10,//隐藏10页
-             search: {
-                  cname: ''
-             },
-             obj:{
-               id:'',
-               productName: '选择申请产品'
-             }
-           }
+        infoData: [
+          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
+          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
+          {id: 'sqb', text: '填写申请表', classname: 'stepNormal'},
+          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepNormal'},
+          {id: 'dctp', text: '上传调查图片', classname: 'stepNormal'},
+          {id: 'zxbg', text: '上传征信报告', classname: 'stepNormal'},
+          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
+        ],
+        product: {
+          productId: '',
+          productName: '选择申请产品',
         },
-          ready: function(){
-            this.init()
-            this.changeText()
+        infos: [{
+          id: '',
+          cname: '',
+          productLimitMin: '',
+          certificateNumber: '',
+          customerStatus: '',
+        }],
+        currentpage: 1,//第几页
+        totlepage: '',//共几页
+        visiblepage: 10,//隐藏10页
+        search: {
+          cname: ''
         },
-        route: {
+        obj: {
+          id: '',
+          productName: '选择申请产品'
+        }
+      }
+    },
+    ready: function () {
+      this.init()
+      this.changeText()
+    },
+    route: {
       canReuse: function () {
         return false
-        }
+      }
     },
-        created: function(){
-          QK.vector.$on('getfrom',this.bindPro)
-        },
+    created: function () {
+      QK.vector.$on('getfrom', this.bindPro)
+    },
 
-       computed: {
-          pagenums: function () {
-            //初始化前后页边界
-            var lowPage = 1
-            var highPage = this.totlepage
-            var pageArr = []
-            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2)
-              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage
-                highPage = this.currentpage + subVisiblePage - 1
-              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1
-                highPage = this.visiblepage
-              } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1
-                highPage = this.totlepage
-              }
-            }
-            //确定了上下page边界后，要准备压入数组中了
-            while (lowPage <= highPage) {
-              pageArr.push(lowPage)
-              lowPage++
-            }
-            return pageArr
+    computed: {
+      pagenums: function () {
+        //初始化前后页边界
+        var lowPage = 1
+        var highPage = this.totlepage
+        var pageArr = []
+        if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
+          if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
+            lowPage = this.currentpage - subVisiblePage
+            highPage = this.currentpage + subVisiblePage - 1
+          } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
+            lowPage = 1
+            highPage = this.visiblepage
+          } else {//处理后几页的逻辑
+            lowPage = this.totlepage - this.visiblepage + 1
+            highPage = this.totlepage
           }
-    },
-          watch: {
-            currentpage: function (oldValue, newValue) {
-              this.init()
-            }
-          },
-        methods:{
-         init:function() {
-            var that = this
-            var searchAll = {
-                  pageStart : that.currentpage,
-                  pageLength : that.visiblepage,
-                  pageSearch : JSON.stringify(that.search)
-                }
-            that.$http.post(QK.SERVER_URL+'/api/customerBasic/condition', searchAll , true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
-              var result = QK.getStateCode(that, data.code)
-              var page = parseInt(data.recordsTotal / 10);
-              if (data.recordsTotal % 10) {
-                page = page + 1;
-              }
-               that.$set('totlepage', page)
-              if (result.state) {
-                that.$set("infos", data.data)
-              }
-           })
-        },
-            pageChange: function (page) {
-            page = page || 1
-            var that = this
-            if (that.currentpage != page) {
-              that.currentpage = page
-            }
-          },
-        bindPro:function(obj){
-          var that = this
-          var product = that .product
-          this.$set("product.productId", obj.id)
-          this.$set("product.productName", obj.productName)
-        },
-         changeText: function(){
-            var that = this
-            var product = that.product.productName
-            //console.log(product)
-            that.$set('infoData[0].text',product)
-
-         },
-        nextStep: function() {
-            var that = this
-            var ids = []
-          $("input[type='radio']:checked").each(function(){
-            var id = $(this).val()
-            ids.push(id)
-          })
-              var customerId = ids
-              var productId = that.$route.params.id
-            that.$http.post(QK.SERVER_URL+'/api/application/'+productId+'/'+customerId, true).then(function (data) {
-              var data = $.parseJSON(data.body)
-              var result = QK.getStateCode(that, data.code)
-              if (result.state) {
-                      var aId = data.data
-                      that.$router.go({path:"/system/application/cusBasic/"+customerId+'/'+aId})
-                  if(!data.data){
-                   swal({
-                    title: "您已申请过该产品！",
-                    text: "",
-                    confirmButtonColor: "#EF5350",
-                    type: "error",
-                    confirmButtonText : '确定'
-                 })
-                  }
-              }
-           })
-        },
-            showInfo: function(){
-               var that = this
-               $(event.currentTarget).addClass("activePro").siblings("tr").removeClass("activePro")
-               $(event.currentTarget).find("input[type=radio]").attr("checked",true)
-            }
         }
+        //确定了上下page边界后，要准备压入数组中了
+        while (lowPage <= highPage) {
+          pageArr.push(lowPage)
+          lowPage++
+        }
+        return pageArr
+      }
+    },
+    watch: {
+      currentpage: function (oldValue, newValue) {
+        this.init()
+      }
+    },
+    methods: {
+      init: function () {
+        var that = this
+        var searchAll = {
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage,
+          pageSearch: JSON.stringify(that.search)
+        }
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition', searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          var page = parseInt(data.recordsTotal / 10);
+          if (data.recordsTotal % 10) {
+            page = page + 1;
+          }
+          that.$set('totlepage', page)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
+      pageChange: function (page) {
+        page = page || 1
+        var that = this
+        if (that.currentpage != page) {
+          that.currentpage = page
+        }
+      },
+      bindPro: function (obj) {
+        var that = this
+        var product = that.product
+        this.$set("product.productId", obj.id)
+        this.$set("product.productName", obj.productName)
+      },
+      changeText: function () {
+        var that = this
+        var product = that.product.productName
+        //console.log(product)
+        that.$set('infoData[0].text', product)
+
+      },
+      nextStep: function () {
+        var that = this
+        var ids = []
+        $("input[type='radio']:checked").each(function () {
+          var id = $(this).val()
+          ids.push(id)
+        })
+        var customerId = ids
+        var productId = that.$route.params.id
+        that.$http.post(QK.SERVER_URL + '/api/application/' + productId + '/' + customerId, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            var aId = data.data
+            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + aId})
+            if (!data.data) {
+              swal({
+                title: "您已申请过该产品！",
+                text: "",
+                confirmButtonColor: "#EF5350",
+                type: "error",
+                confirmButtonText: '确定'
+              })
+            }
+          }
+        })
+      },
+      showInfo: function () {
+        var that = this
+        $(event.currentTarget).addClass("activePro").siblings("tr").removeClass("activePro")
+        $(event.currentTarget).find("input[type=radio]").attr("checked", true)
+      }
     }
+  }
 </script>

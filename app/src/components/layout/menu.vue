@@ -1,6 +1,6 @@
 <template>
   <!--侧导航 start-->
-  <ul class="nav nav-pills nav-stacked custom-nav"  id="leftNav" >
+  <ul class="nav nav-pills nav-stacked custom-nav" id="leftNav">
     <li v-for="menu in menuList" class="menu-list">
       <a href="${menu.menuUrl}">
         <i class="fa fa-home"></i>
@@ -25,10 +25,8 @@
   import QK from '../../QK'
   import nicescroll from 'jquery.nicescroll'
   export default{
-    components: {
-
-    },
-     data(){
+    components: {},
+    data(){
       return {
         menuList: [],
       }
@@ -39,17 +37,17 @@
     methods: {
       init: function () {
         var that = this
-        $('body').css({'background':'#424f63'})
-        that.$http.get(QK.SERVER_URL+'/api/menu/all').then(function(res){
+        $('body').css({'background': '#424f63'})
+        that.$http.get(QK.SERVER_URL + '/api/menu/all').then(function (res) {
           var data = $.parseJSON(res.body)
           that.menuList = data.data.menus
-        }).then(function(){
+        }).then(function () {
           var locationUrl = window.location.href
           var partUrl = locationUrl.split('system/')[1]
-          $('.sub-menu-list > li a').each(function(){
+          $('.sub-menu-list > li a').each(function () {
             var tempA = $(this).attr('href');
-            if(tempA.indexOf('system/')!=-1){
-              if(tempA.split('system/')[1] == partUrl){
+            if (tempA.indexOf('system/') != -1) {
+              if (tempA.split('system/')[1] == partUrl) {
                 $(this).parent().addClass('active')
                 $(this).parents('.menu-list').addClass('nav-active')
               }

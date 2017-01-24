@@ -84,11 +84,12 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-on:click="showInfo(info,$index)" v-for="info in infos" >
-                        <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label class="checkbox"></label></span></td>
+                      <tr v-on:click="showInfo(info,$index)" v-for="info in infos">
+                        <td><span class="hideInput"><input type="checkbox" name="checkbox"/><label
+                          class="checkbox"></label></span></td>
                         <td>${info.maintenanceType | changeMain}</td>
                         <td>${info.operationTime | formatDate}</td>
-                        <td>${info.operationName  | isEmpty}</td>
+                        <td>${info.operationName | isEmpty}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -221,109 +222,109 @@
 
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data:function(){
-           return {
-           transfers:[{
-              transferTime: '',
-              oldManager:{
-                username: ''
-              },
-              newManager:{
-                username: ''
-              },
-              transferReason: '',
-              transferStatus: ''
-           }],
-             infos: [{
-                id: '',
-                maintenanceType: '',
-                operationTime: '',
-                operationName: ''
-              }],
-               temptCustomerMaintenance:{
-                  maintenanceType: '',
-                  operationTime: '',
-                  operationName: '',
-                  maintennaceSummary: ''
-                },
-                tCustomerBasic:{
-                  cname: '',
-                  sex: '',
-                  certificateType: '',
-                  certificateNumber: '',
-                  tel:'',
-                  homeAddress:'',
-                  marriageStatus:'',
-                  educationDegree:''
-                },
-                 infoData : [
-                {id:'jbxx',text:'客户基本信息',classname:'active'},
-                {id:'dkqk',text:'客户贷款情况',classname:''},
-                {id:'khwhjl',text:'客户维护记录',classname:''},
-                {id:'dhjkjl',text:'贷后监控记录',classname:''},
-                {id:'csjl',text:'逾期/不良催收记录',classname:''},
-                {id:'yjjl',text:'客户移交记录',classname:''},
-              ]
-           }
-        },
-        ready:function(){
-          this.init()
-          this.type()
-        },
-        methods:{
-        type:function() {
-          var that = this
-          var id = that.$route.params.id
-          that.$http.get(QK.SERVER_URL+'/api/customerMaintenance/'+id, true).then(function (data) {
-            var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-            that.$set("infos", data.data)
-            }
-         })
-      },
-          showInfo:function(info,index){
-              var that = this
-              that.$set("temptCustomerMaintenance",info)
-              $("#message #infor").eq(index-1).show()
-              $("#message #infor").eq(index-1).siblings().hide()
+  import QK from '../../QK'
+  export default{
+    data: function () {
+      return {
+        transfers: [{
+          transferTime: '',
+          oldManager: {
+            username: ''
           },
-           init:function() {
-            var that = this
-            var id = that.$route.params.id
-            that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
-              var result = QK.getStateCode(that, data.code)
-              if (result.state) {
-                that.$set("tCustomerBasic", data.data)
-               }
-             })
-            },
-            trans:function() {
-            var that = this
-             var id = that.$route.params.id
-             that.$http.get(QK.SERVER_URL+'/api/customerTransfer/'+id, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
-              var result = QK.getStateCode(that, data.code)
-              if (result.state) {
-                that.$set("transfers", data.data)
-              }
-            })
-           },
-           setTab2:function(){
-            var that = this
-              console.log(event.currentTarget)
-              $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
-              var id = $(event.currentTarget).data("id")
-              console.log(id)
-              $("#"+id).show().siblings("div.tabContent").hide()
+          newManager: {
+            username: ''
+          },
+          transferReason: '',
+          transferStatus: ''
+        }],
+        infos: [{
+          id: '',
+          maintenanceType: '',
+          operationTime: '',
+          operationName: ''
+        }],
+        temptCustomerMaintenance: {
+          maintenanceType: '',
+          operationTime: '',
+          operationName: '',
+          maintennaceSummary: ''
         },
-            cancelMethod(){
-               this.$router.go({path:localStorage.nowurl})
-           }
-        }
+        tCustomerBasic: {
+          cname: '',
+          sex: '',
+          certificateType: '',
+          certificateNumber: '',
+          tel: '',
+          homeAddress: '',
+          marriageStatus: '',
+          educationDegree: ''
+        },
+        infoData: [
+          {id: 'jbxx', text: '客户基本信息', classname: 'active'},
+          {id: 'dkqk', text: '客户贷款情况', classname: ''},
+          {id: 'khwhjl', text: '客户维护记录', classname: ''},
+          {id: 'dhjkjl', text: '贷后监控记录', classname: ''},
+          {id: 'csjl', text: '逾期/不良催收记录', classname: ''},
+          {id: 'yjjl', text: '客户移交记录', classname: ''},
+        ]
+      }
+    },
+    ready: function () {
+      this.init()
+      this.type()
+    },
+    methods: {
+      type: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/customerMaintenance/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
+      showInfo: function (info, index) {
+        var that = this
+        that.$set("temptCustomerMaintenance", info)
+        $("#message #infor").eq(index - 1).show()
+        $("#message #infor").eq(index - 1).siblings().hide()
+      },
+      init: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/customerBasic/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tCustomerBasic", data.data)
+          }
+        })
+      },
+      trans: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/customerTransfer/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("transfers", data.data)
+          }
+        })
+      },
+      setTab2: function () {
+        var that = this
+        console.log(event.currentTarget)
+        $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
+        var id = $(event.currentTarget).data("id")
+        console.log(id)
+        $("#" + id).show().siblings("div.tabContent").hide()
+      },
+      cancelMethod(){
+        this.$router.go({path: localStorage.nowurl})
+      }
     }
+  }
 
 </script>

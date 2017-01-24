@@ -32,7 +32,8 @@
                 <td>${info.createTime | formatDate}</td>
                 <td>${info.modifyBy}</td>
                 <td>${info.modifyTime | formatDate}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                  class="fa fa-edit"></i>
                   编辑 </a></td>
               </tr>
               </tbody>
@@ -58,88 +59,88 @@
 <style scoped>
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data:function(){
-           return {
-                infos:{
-                  id: '',
-                  parameterName: '',
-                  parameterValue: '',
-                  parameterNameZn: '',
-                  parameterDescription: '',
-                  createBy: '',
-                  createTime: '',
-                  modifyBy: '',
-                  modifyTime: ''
-                },
-                currentpage: 1,//第几页
-                totlepage: '',//共几页
-                visiblepage: 10//隐藏10页
-           }
+  import QK from '../../QK'
+  export default{
+    data: function () {
+      return {
+        infos: {
+          id: '',
+          parameterName: '',
+          parameterValue: '',
+          parameterNameZn: '',
+          parameterDescription: '',
+          createBy: '',
+          createTime: '',
+          modifyBy: '',
+          modifyTime: ''
         },
-        ready:function(){
-          this.init();
-        },
-        computed: {
-          pagenums: function () {
-            //初始化前后页边界
-            var lowPage = 1;
-            var highPage = this.totlepage;
-            var pageArr = [];
-            if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2);
-              if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage;
-                highPage = this.currentpage + subVisiblePage - 1;
-              } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1;
-                highPage = this.visiblepage;
-              } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1;
-                highPage = this.totlepage;
-              }
-            }
-            //确定了上下page边界后，要准备压入数组中了
-            while (lowPage <= highPage) {
-              pageArr.push(lowPage);
-              lowPage++;
-            }
-            return pageArr;
-          },
-        },
-        watch: {
-          currentpage: function (oldValue, newValue) {
-            this.init()
+        currentpage: 1,//第几页
+        totlepage: '',//共几页
+        visiblepage: 10//隐藏10页
+      }
+    },
+    ready: function () {
+      this.init();
+    },
+    computed: {
+      pagenums: function () {
+        //初始化前后页边界
+        var lowPage = 1;
+        var highPage = this.totlepage;
+        var pageArr = [];
+        if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
+          var subVisiblePage = Math.ceil(this.visiblepage / 2);
+          if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
+            lowPage = this.currentpage - subVisiblePage;
+            highPage = this.currentpage + subVisiblePage - 1;
+          } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
+            lowPage = 1;
+            highPage = this.visiblepage;
+          } else {//处理后几页的逻辑
+            lowPage = this.totlepage - this.visiblepage + 1;
+            highPage = this.totlepage;
           }
-        },
-        methods:{
-          init : function(){
-            var that = this
-            that.$http.get(QK.SERVER_URL+'/api/system', true).then(function(res){
-              var data = jQuery.parseJSON(res.body)
-              var page = parseInt(data.recordsTotal / 10);
-              if (data.recordsTotal % 10) {
-                page = page + 1;
-              }
-              that.$set('totlepage', page)
-              that.$set('infos', data.data)
-            })
-          },
-          pageChange: function (page) {
-            page = page || 1
-            var that = this
-            if (that.currentpage != page) {
-              that.currentpage = page
-            }
-          },
-          showInfo:function (id) {
-            //记录当前地址
-            QK.noteNowUrl()
-            //跳转地址
-            this.$router.go({path:'/system/parameter/edit/'+id})
+        }
+        //确定了上下page边界后，要准备压入数组中了
+        while (lowPage <= highPage) {
+          pageArr.push(lowPage);
+          lowPage++;
+        }
+        return pageArr;
+      },
+    },
+    watch: {
+      currentpage: function (oldValue, newValue) {
+        this.init()
+      }
+    },
+    methods: {
+      init: function () {
+        var that = this
+        that.$http.get(QK.SERVER_URL + '/api/system', true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var page = parseInt(data.recordsTotal / 10);
+          if (data.recordsTotal % 10) {
+            page = page + 1;
           }
-       }
+          that.$set('totlepage', page)
+          that.$set('infos', data.data)
+        })
+      },
+      pageChange: function (page) {
+        page = page || 1
+        var that = this
+        if (that.currentpage != page) {
+          that.currentpage = page
+        }
+      },
+      showInfo: function (id) {
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/parameter/edit/' + id})
+      }
     }
+  }
 
 </script>

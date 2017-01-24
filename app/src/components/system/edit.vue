@@ -11,28 +11,32 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="parameterName">参数名称</label>
                 <div class="input-icon right">
-                  <input id="parameterName" type="text" class="form-control" name="parameterName" v-model="tSysParameter.parameterName">
+                  <input id="parameterName" type="text" class="form-control" name="parameterName"
+                         v-model="tSysParameter.parameterName">
                   <div class="message">${parameterNameError}</div>
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="parameterValue">参数值</label>
                 <div class="input-icon right">
-                  <input id="parameterValue" type="text" class="form-control" name="parameterValue" v-model="tSysParameter.parameterValue">
+                  <input id="parameterValue" type="text" class="form-control" name="parameterValue"
+                         v-model="tSysParameter.parameterValue">
                   <div class="message">${errors.parameterValueError}</div>
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="parameterNameZn">参数中文名</label>
                 <div class="input-icon right">
-                  <input id="parameterNameZn" type="text" class="form-control" name="parameterNameZn" v-model="tSysParameter.parameterNameZn">
+                  <input id="parameterNameZn" type="text" class="form-control" name="parameterNameZn"
+                         v-model="tSysParameter.parameterNameZn">
                   <div class="message">${errors.parameterNameZnError}</div>
                 </div>
               </div>
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="parameterDescription">参数描述</label>
                 <div class="input-icon right">
-                  <input id="parameterDescription" type="text" class="form-control" name="parameterDescription" v-model="tSysParameter.parameterDescription">
+                  <input id="parameterDescription" type="text" class="form-control" name="parameterDescription"
+                         v-model="tSysParameter.parameterDescription">
                   <div class="message">${errors.parameterDescriptionError}</div>
                 </div>
               </div>
@@ -48,9 +52,9 @@
   </div>
 </template>
 <style>
-   .message{
-      color:#a94442;
-      height:20px;
+  .message {
+    color: #a94442;
+    height: 20px;
   }
 </style>
 <script>
@@ -74,11 +78,11 @@
       }
     },
     ready: function () {
-        QK.addMethod()
-        this.getInfo()
+      QK.addMethod()
+      this.getInfo()
     },
     methods: {
-       handleSubmit () {
+      handleSubmit () {
         var that = this
         var bool = QK.formValidation({
           id: "#para_edit",
@@ -89,54 +93,54 @@
             parameterDescription: {required: !0}
           }
         })
-          //验证结果  true  false
-           if (bool) {
-            //发送请求
-                var tSysParameter = that.tSysParameter
-                delete tSysParameter["createBy"]
-                delete tSysParameter["createTime"]
-                delete tSysParameter["modifyBy"]
-                delete tSysParameter["modifyTime"]
-                that.$http.put(QK.SERVER_URL+'/api/system', tSysParameter, true).then(function (data) {
-                  var data = jQuery.parseJSON(data.body)
-                  var result = QK.getStateCode(that, data.code)
-                  if (result.state) {
-                  swal({
-                      title: "修改成功!",
-                      text: "",
-                      confirmButtonColor: "#66BB6A",
-                      type: "success",
-                      confirmButtonText : '确定'
-                  },
-                  function(){
-                    that.$router.go({path:"/system/parameter/list"})
-                  })
-                }else{
-                  swal({
-                      title: "修改失败！",
-                      text: result.msg+"！",
-                      confirmButtonColor: "#EF5350",
-                      type: "error",
-                      confirmButtonText : '确定'
-                   })
-                  }
+        //验证结果  true  false
+        if (bool) {
+          //发送请求
+          var tSysParameter = that.tSysParameter
+          delete tSysParameter["createBy"]
+          delete tSysParameter["createTime"]
+          delete tSysParameter["modifyBy"]
+          delete tSysParameter["modifyTime"]
+          that.$http.put(QK.SERVER_URL + '/api/system', tSysParameter, true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              swal({
+                  title: "修改成功!",
+                  text: "",
+                  confirmButtonColor: "#66BB6A",
+                  type: "success",
+                  confirmButtonText: '确定'
+                },
+                function () {
+                  that.$router.go({path: "/system/parameter/list"})
                 })
-              }
-              return false
-         },
-       getInfo:function() {
-            var that = this
-            var id = that.$route.params.id
-            that.$http.get(QK.SERVER_URL+'/api/system/'+id, true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
-              var result = QK.getStateCode(that, data.code)
-              if (result.state) {
-                that.$set("tSysParameter", data.data)
-              }
-           })
-        },
-        cancelMethod(){
-           this.$router.go({path:localStorage.nowurl})
+            } else {
+              swal({
+                title: "修改失败！",
+                text: result.msg + "！",
+                confirmButtonColor: "#EF5350",
+                type: "error",
+                confirmButtonText: '确定'
+              })
+            }
+          })
+        }
+        return false
+      },
+      getInfo: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/system/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tSysParameter", data.data)
+          }
+        })
+      },
+      cancelMethod(){
+        this.$router.go({path: localStorage.nowurl})
       }
     }
   }

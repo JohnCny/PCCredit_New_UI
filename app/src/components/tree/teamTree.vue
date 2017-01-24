@@ -16,10 +16,10 @@
   import ztree from 'ztree'
   export default{
     data: function () {
-      return{
-        team : {
-          teamParentId:'',
-          teamParentName:''
+      return {
+        team: {
+          teamParentId: '',
+          teamParentName: ''
         },
 
       }
@@ -48,23 +48,24 @@
             showLine: false,
           },
           callback: {
-            onClick: function(event, treeId, treeNode, clickFlag){
+            onClick: function (event, treeId, treeNode, clickFlag) {
               that.$set('team.teamParentId', treeNode.teamId)
               that.$set('team.teamParentName', treeNode.teamName)
-              QK.vector.$emit('getfromchild',that.team)
+              QK.vector.$emit('getfromchild', that.team)
             },
           }
         }
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
+        that.$http.get(url, true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var result = QK.getStateCode(this, data.code)
+          if (result.state) {
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
             zTreeObj.expandAll(true)
           }
