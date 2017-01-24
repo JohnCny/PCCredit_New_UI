@@ -31,9 +31,11 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.loginAccount}</td>
-                <td><span class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
+                <td><span
+                  class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
                 <td>${info.loginTime | formatDate}</td>
-                <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span></td>
+                <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span>
+                </td>
                 <td>${info.loginIp}</td>
               </tr>
               </tbody>
@@ -71,9 +73,9 @@
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           loginAccount: '',
-           loginOperation: ''
+        search: {
+          loginAccount: '',
+          loginOperation: ''
         }
       }
     },
@@ -115,12 +117,12 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          "pageStart": that.currentpage,
+          "pageLength": that.visiblepage,
+          "pageSearch": JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList', searchAll).then(function (res) {
           var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {

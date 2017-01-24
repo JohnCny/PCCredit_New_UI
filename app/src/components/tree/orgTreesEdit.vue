@@ -16,8 +16,8 @@
   import ztree from 'ztree'
   export default{
     data: function () {
-      return{
-        topId:'',
+      return {
+        topId: '',
         sendData: []
       }
     },
@@ -25,7 +25,7 @@
       this.init()
     },
     methods: {
-      getTopId:function(){
+      getTopId: function () {
         return this.topId
       },
       init: function () {
@@ -48,7 +48,7 @@
             drag: {
               autoExpandTrigger: true,
               isCopy: false,
-			        isMove: true
+              isMove: true
             }
           },
           view: {
@@ -56,21 +56,21 @@
             showLine: false,
           },
           callback: {
-            onClick: function(event, treeId, treeNode, clickFlag){
+            onClick: function (event, treeId, treeNode, clickFlag) {
               that.$set('topId', treeNode.id)
-              QK.vector.$emit('getfromchild',that.getTopId())
+              QK.vector.$emit('getfromchild', that.getTopId())
             },
-            onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy){
-              $(treeNodes).each(function(i){
+            onDrop: function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
+              $(treeNodes).each(function (i) {
                 var dataJson = {
-                    id:this.id,
-                    orgParentId:targetNode.id
+                  id: this.id,
+                  orgParentId: targetNode.id
                 }
                 that.sendData.push(dataJson)
               })
-              that.$http.put(QK.SERVER_URL+'/api/organization/move',JSON.stringify(that.sendData), true).then(function(res){
+              that.$http.put(QK.SERVER_URL + '/api/organization/move', JSON.stringify(that.sendData), true).then(function (res) {
                 var data = $.parseJSON(res.body)
-                var result = QK.getStateCode(that,data.code)
+                var result = QK.getStateCode(that, data.code)
                 if (result.state) {
                   console.dir(data.data)
                 }
@@ -85,10 +85,10 @@
         var height = $(window).height()
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        that.$http.get(url,true).then(function(res){
+        that.$http.get(url, true).then(function (res) {
           var data = $.parseJSON(res.body)
-          var result = QK.getStateCode(this,data.code)
-          if(result.state){
+          var result = QK.getStateCode(this, data.code)
+          if (result.state) {
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
             zTreeObj.expandAll(true)
           }

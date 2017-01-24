@@ -64,7 +64,7 @@
             <label for="applyReason" class="col-sm-2 control-label">申请原因</label>
             <div class="col-sm-10" style="width:45%">
               <div class="input-icon right">
-                <input  name="applyReason" id="applyReason" v-model="applyReason" class="form-control" />
+                <input name="applyReason" id="applyReason" v-model="applyReason" class="form-control"/>
                 <div class="message">${errors.applyReasonError}</div>
               </div>
             </div>
@@ -73,7 +73,7 @@
             <label for="applyAmount" class="col-sm-2 control-label">申请金额</label>
             <div class="col-sm-10" style="width:45%">
               <div class="input-icon right">
-                <input  name="applyAmount" id="applyAmount" v-model="applyAmount" class="form-control" />
+                <input name="applyAmount" id="applyAmount" v-model="applyAmount" class="form-control"/>
                 <div class="message">${errors.applyAmountError}</div>
               </div>
             </div>
@@ -88,99 +88,105 @@
   </div>
 </template>
 <style scoped>
-  .myTab li{
+  .myTab li {
     width: 150px;
     float: left;
     text-align: center;
     list-style: none;
     line-height: 50px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
-  .activePro{
-     background-color: #dff0d8 !important;
-     border:1px solid
+
+  .activePro {
+    background-color: #dff0d8 !important;
+    border: 1px solid
   }
-   .stepActive{
-     color:#fff;
-     background:url(../../../static/images/stepActive.png) no-repeat left center;
-   }
-  .stepActiveL{
-     color:#fff;
-     background:url(../../../static/images/stepActiveL.png) no-repeat left center;
+
+  .stepActive {
+    color: #fff;
+    background: url(../../../static/images/stepActive.png) no-repeat left center;
   }
-  .stepActiveR{
-     color:#fff;
-     background:url(../../../static/images/stepActiveR.png) no-repeat left center;
+
+  .stepActiveL {
+    color: #fff;
+    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
   }
-  .stepLast{
-     background:url(../../../static/images/stepLast.png) no-repeat left center;
+
+  .stepActiveR {
+    color: #fff;
+    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
   }
-  .stepNormal{
-     background:url(../../../static/images/stepNormal.png) no-repeat left center;
+
+  .stepLast {
+    background: url(../../../static/images/stepLast.png) no-repeat left center;
+  }
+
+  .stepNormal {
+    background: url(../../../static/images/stepNormal.png) no-repeat left center;
   }
 </style>
 <script>
-    import QK from '../../QK'
-    export default{
-        data(){
-            return{
-              infoData:[
-                {id:'sqcp',text:'选择申请产品',classname:'stepActiveL'},
-                {id:'xzkh',text:'选择申请客户',classname:'stepActive'},
-                {id:'sqb',text:'填写申请表',classname:'stepActive'},
-                {id:'ipc',text:'填写IPC调查报告',classname:'stepNormal'},
-                {id:'dctp',text:'上传调查图片',classname:'stepNormal'},
-                {id:'zxbg',text:'上传征信报告',classname:'stepNormal'},
-                {id:'xxzl',text:'信息总览',classname:'stepLast'}
-                ],
-              tCustomerBasic:{
-                cname: '',
-                certificateNumber: '',
-                homeAddress: '',
-                tel: ''
-                },
-            errors:{
-               applyReasonError: '',
-               applyAmountError: ''
-            },
-              applicationId: '20',
-              applyReason: '',
-              applyAmount: '',
-              templateId: ''
-            }
+  import QK from '../../QK'
+  export default{
+    data(){
+      return {
+        infoData: [
+          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
+          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
+          {id: 'sqb', text: '填写申请表', classname: 'stepActive'},
+          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepNormal'},
+          {id: 'dctp', text: '上传调查图片', classname: 'stepNormal'},
+          {id: 'zxbg', text: '上传征信报告', classname: 'stepNormal'},
+          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
+        ],
+        tCustomerBasic: {
+          cname: '',
+          certificateNumber: '',
+          homeAddress: '',
+          tel: ''
         },
-         ready:function(){
-          this.init()
+        errors: {
+          applyReasonError: '',
+          applyAmountError: ''
         },
-      methods:{
-         nextStep: function(){
-           var that = this
-           var id = that.$route.params.aId
+        applicationId: '20',
+        applyReason: '',
+        applyAmount: '',
+        templateId: ''
+      }
+    },
+    ready: function () {
+      this.init()
+    },
+    methods: {
+      nextStep: function () {
+        var that = this
+        var id = that.$route.params.aId
 
-           that.$http.get(QK.SERVER_URL+'/api/application/'+id, true).then(function (data) {
-                var data = $.parseJSON(data.body);
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  var templateId = data.data.product.productApplyTemplateId
-                  console.log(templateId)
-                   that.$router.go({path:"/system/application/ipc/"+id+'/'+templateId})
-                }
-              })
-          },
-          init:function() {
-              var that = this
-               var id = that.$route.params.customerId
-              that.$http.get(QK.SERVER_URL+'/api/customerBasic/'+id, true).then(function (data) {
-                var data = $.parseJSON(data.body);
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  that.$set("tCustomerBasic", data.data)
-                }
-              })
-            },
-            cancel :function(){
-               window.history.back()
-            }
-       }
-   }
+        that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            var templateId = data.data.product.productApplyTemplateId
+            console.log(templateId)
+            that.$router.go({path: "/system/application/ipc/" + id + '/' + templateId})
+          }
+        })
+      },
+      init: function () {
+        var that = this
+        var id = that.$route.params.customerId
+        that.$http.get(QK.SERVER_URL + '/api/customerBasic/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tCustomerBasic", data.data)
+          }
+        })
+      },
+      cancel: function () {
+        window.history.back()
+      }
+    }
+  }
 </script>

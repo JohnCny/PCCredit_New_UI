@@ -27,62 +27,63 @@
   </p>
 </template>
 <style scoped>
-  #userNew input,#userNew select{
-    width:80%
+  #userNew input, #userNew select {
+    width: 80%
   }
-  .message{
-    color:#a94442;
-    height:20px;
+
+  .message {
+    color: #a94442;
+    height: 20px;
   }
 </style>
 <script>
-    import QK from '../../QK'
-    import jQueryValidation from 'jquery-validation'
-    export default{
-        data:function(){
-           return {
-                tOrganization:{
-                  orgName: '',
-                  orgDirectorName: '',
-                  orgLogisticsId: ''
-                },
-                errors:{
-                  orgNameError: '',
-                  orgDirectorNameError: '',
-                  orgLogisticsIdError: ''
-                }
-           }
+  import QK from '../../QK'
+  import jQueryValidation from 'jquery-validation'
+  export default{
+    data: function () {
+      return {
+        tOrganization: {
+          orgName: '',
+          orgDirectorName: '',
+          orgLogisticsId: ''
         },
-        ready:function(){
-          QK.addMethod()
-        },
-        methods:{
-        handleSubmit () {
-            var that = this
-            var bool = QK.formValidation({
-              id: "#org_new",
-              rulesMap:{
-                orgName:{required: !0,isRightfulString:!0},
-                orgDirectorName:{required: !0,isChinese:!0},
-                orgLogisticsId:{required: !0}
-              }
-            })
-            //验证结果  true  false
-            if(bool){
-              that.$http.post(QK.SERVER_URL+'/organization', that.user, true).then(function (data) {
-                var data = $.parseJSON(data.body)
-                var result = QK.getStateCode(that,data.code)
-                if (result.state) {
-                 that.$router.go({path:"/system/organization/list"})
-                }
-              })
-            }
-            return false
-          },
-            cancelMethod(){
-           this.$router.go({path:localStorage.nowurl})
+        errors: {
+          orgNameError: '',
+          orgDirectorNameError: '',
+          orgLogisticsIdError: ''
         }
-     }
+      }
+    },
+    ready: function () {
+      QK.addMethod()
+    },
+    methods: {
+      handleSubmit () {
+        var that = this
+        var bool = QK.formValidation({
+          id: "#org_new",
+          rulesMap: {
+            orgName: {required: !0, isRightfulString: !0},
+            orgDirectorName: {required: !0, isChinese: !0},
+            orgLogisticsId: {required: !0}
+          }
+        })
+        //验证结果  true  false
+        if (bool) {
+          that.$http.post(QK.SERVER_URL + '/organization', that.user, true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              that.$router.go({path: "/system/organization/list"})
+            }
+          })
+        }
+        return false
+      },
+      cancelMethod(){
+        this.$router.go({path: localStorage.nowurl})
+      }
+    }
   }
 
 </script>

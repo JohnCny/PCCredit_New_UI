@@ -12,7 +12,8 @@
                 <div class="form-group">
                   <label for="orgName">机构名称</label>
                   <div class="input-icon right">
-                    <input v-model="tOrganization.orgName" id="orgName" type="text" class="form-control" name="orgName" placeholder="请输入机构名称">
+                    <input v-model="tOrganization.orgName" id="orgName" type="text" class="form-control" name="orgName"
+                           placeholder="请输入机构名称">
                     <div class="message">${errors.orgNameError}</div>
                   </div>
                 </div>
@@ -23,7 +24,8 @@
                 <div class="form-group">
                   <label for="userCname">姓名</label>
                   <div class="input-icon right">
-                    <input v-model="tOrganization.userCname" id="userCname" type="text" class="form-control" name="userCname" placeholder="请输入中文名2到10位">
+                    <input v-model="tOrganization.userCname" id="userCname" type="text" class="form-control"
+                           name="userCname" placeholder="请输入中文名2到10位">
                     <div class="message">${errors.userCnameError}</div>
                   </div>
                 </div>
@@ -32,7 +34,8 @@
                 <div id="nameDiv" class="form-group">
                   <label for="username">账号</label>
                   <div class="input-icon right">
-                    <input v-on:change="cnameCheck" v-model="tOrganization.username" id="username" type="text" class="form-control" name="username" placeholder="请输入由数字、大小写字母以及下划线组成的3到12位字符">
+                    <input v-on:change="cnameCheck" v-model="tOrganization.username" id="username" type="text"
+                           class="form-control" name="username" placeholder="请输入由数字、大小写字母以及下划线组成的3到12位字符">
                     <div class="message">${errors.usernameError}</div>
                   </div>
                 </div>
@@ -43,7 +46,8 @@
                 <div class="form-group">
                   <label for="age">年龄</label>
                   <div class="input-icon right">
-                    <input  v-model="tOrganization.age" id="age" type="text" class="form-control" name="age" placeholder="请输入10-99之间的年龄值" >
+                    <input v-model="tOrganization.age" id="age" type="text" class="form-control" name="age"
+                           placeholder="请输入10-99之间的年龄值">
                     <div class="message">${errors.ageError}</div>
                   </div>
                 </div>
@@ -66,7 +70,8 @@
                 <div class="form-group">
                   <label for="tel">电话</label>
                   <div class="input-icon right">
-                    <input  v-model="tOrganization.tel" id="tel" type="text" class="form-control" name="tel" placeholder="请正确填写您的电话号码">
+                    <input v-model="tOrganization.tel" id="tel" type="text" class="form-control" name="tel"
+                           placeholder="请正确填写您的电话号码">
                     <div class="message">${errors.telError}</div>
                   </div>
                 </div>
@@ -75,7 +80,9 @@
                 <div id="idNumberDiv" class="form-group">
                   <label for="idCardNumber">证件号码</label>
                   <div class="input-icon right">
-                    <input v-model="tOrganization.idCardNumber" id="idCardNumber" type="text" class="form-control idNumber" name="idCardNumber" placeholder="请输入正确的身份证号" v-on:change="idNumberCheck">
+                    <input v-model="tOrganization.idCardNumber" id="idCardNumber" type="text"
+                           class="form-control idNumber" name="idCardNumber" placeholder="请输入正确的身份证号"
+                           v-on:change="idNumberCheck">
                     <div class="message">${errors.idNumberError}</div>
                   </div>
                 </div>
@@ -86,7 +93,8 @@
                 <div id="emailDiv" class="form-group">
                   <label for="username">电子邮件</label>
                   <div class="input-icon right">
-                    <input v-on:change="emailCheck" v-model="tOrganization.email" id="email" type="text" class="form-control" name="email" placeholder="请输入合法的邮件地址">
+                    <input v-on:change="emailCheck" v-model="tOrganization.email" id="email" type="text"
+                           class="form-control" name="email" placeholder="请输入合法的邮件地址">
                     <div class="message">${errors.emailError}</div>
                   </div>
                 </div>
@@ -95,7 +103,7 @@
                 <div class="form-group">
                   <label for="sex">用户状态</label>
                   <div class="input-icon right">
-                    <select  v-model="tOrganization.status" id="status" type="text" name="status" class="form-control">
+                    <select v-model="tOrganization.status" id="status" type="text" name="status" class="form-control">
                       <option selected value="0">正常</option>
                       <option value="1">锁定</option>
                       <option value="3">待激活</option>
@@ -119,178 +127,177 @@
   </div>
 </template>
 <style scoped>
-  #org_new input,#org_new select{
-    width:80%
+  #org_new input, #org_new select {
+    width: 80%
   }
-  .message{
-    color:#a94442;
-    height:20px;
+
+  .message {
+    color: #a94442;
+    height: 20px;
   }
 </style>
 <script>
-    import QK from '../../QK'
-    import jQueryValidation from 'jquery-validation'
-    export default{
-        data:function(){
-           return {
-                tOrganization:{
-                  orgName: '',
-                  username: '',
-                  userCname: '',
-                  age: '',
-                  sex: '',
-                  tel: '',
-                  idCardNumber: '',
-                  email: '',
-                  status: '',
-                  orgParentId: 0
+  import QK from '../../QK'
+  import jQueryValidation from 'jquery-validation'
+  export default{
+    data: function () {
+      return {
+        tOrganization: {
+          orgName: '',
+          username: '',
+          userCname: '',
+          age: '',
+          sex: '',
+          tel: '',
+          idCardNumber: '',
+          email: '',
+          status: '',
+          orgParentId: 0
+        },
+        errors: {
+          orgNameError: '',
+          usernameError: '',
+          userCnameError: '',
+          ageError: '',
+          sexError: '',
+          telError: '',
+          idCardNumberError: '',
+          emailError: '',
+          statusError: ''
+        }
+      }
+    },
+    ready: function () {
+      QK.addMethod()
+    },
+    components: {},
+    methods: {
+      handleSubmit () {
+        var that = this
+        var bool = QK.formValidation({
+          id: "#org_new",
+          rulesMap: {
+            orgName: {required: !0},
+            username: {required: !0, isRightfulString: !0},
+            userCname: {required: !0, isChinese: !0},//中文名
+            sex: {required: !0, downList: !0},//性别
+            age: {required: !0, age: !0},//年龄
+            tel: {required: !0, tel: !0},//联系方式
+            status: {required: !0},//状态
+            idCardNumber: {required: !0, idNumber: !0},//证件号码
+            email: {required: !0, email: !0},//电子邮件
+          }
+        })
+        //验证结果  true  false
+        if (bool) {
+          delete that.tOrganization['orgParentName']
+          that.$http.post(QK.SERVER_URL + '/api/organization', that.tOrganization, true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              swal({
+                  title: "创建成功!",
+                  text: "",
+                  confirmButtonColor: "#66BB6A",
+                  type: "success",
+                  confirmButtonText: '确定'
                 },
-                errors:{
-                  orgNameError: '',
-                  usernameError: '',
-                  userCnameError: '',
-                  ageError: '',
-                  sexError: '',
-                  telError: '',
-                  idCardNumberError: '',
-                  emailError: '',
-                  statusError: ''
-                }
-           }
-        },
-        ready:function(){
-          QK.addMethod()
-        },
-        components: {
-
-        },
-        methods:{
-          handleSubmit () {
-              var that = this
-              var bool = QK.formValidation({
-                id: "#org_new",
-                rulesMap:{
-                  orgName:{required: !0},
-                  username:{required: !0,isRightfulString: !0},
-                  userCname:{required: !0,isChinese:!0},//中文名
-                  sex:{required:!0,downList:!0},//性别
-                  age:{required:!0,age:!0},//年龄
-                  tel:{required:! 0,tel:!0},//联系方式
-                  status:{required:!0},//状态
-                  idCardNumber:{required:!0,idNumber:!0},//证件号码
-                  email:{required: !0,email: !0},//电子邮件
-                }
-              })
-              //验证结果  true  false
-              if(bool){
-                delete that.tOrganization['orgParentName']
-                that.$http.post(QK.SERVER_URL+'/api/organization', that.tOrganization, true).then(function (data) {
-                  var data = $.parseJSON(data.body)
-                  var result = QK.getStateCode(that,data.code)
-                   if (result.state) {
-                    swal({
-                        title: "创建成功!",
-                        text: "",
-                        confirmButtonColor: "#66BB6A",
-                        type: "success",
-                        confirmButtonText : '确定'
-                    },
-                    function(){
-                      that.$router.go({path:"/system/organization/list"})
-                    })
-                  }else{
-                    swal({
-                        title: "创建失败！",
-                        text: result.msg+"！",
-                        confirmButtonColor: "#EF5350",
-                        type: "error",
-                        confirmButtonText : '确定'
-                     })
-                    }
+                function () {
+                  that.$router.go({path: "/system/organization/list"})
                 })
+            } else {
+              swal({
+                title: "创建失败！",
+                text: result.msg + "！",
+                confirmButtonColor: "#EF5350",
+                type: "error",
+                confirmButtonText: '确定'
+              })
+            }
+          })
+        }
+        return false
+      },
+      cnameCheck: function () {
+        var that = this
+        var loginName = that.tOrganization.username;
+        var msg1 = "用户名可用!";
+        var msg3 = "请输入正确的登录名!";
+        var msg4 = "用户名已存在!";
+        var login_name = "^[A-Za-z0-9_-]{4,12}$"
+        if (loginName.length > 3 && loginName.match(login_name)) {
+          this.$http.get(QK.SERVER_URL + '/api/user/anon/resetPassword/' + loginName, true).then(function (res) {
+            var data = $.parseJSON(res.body)
+            var result = QK.getStateCode(that, data.code)
+            if (data.data) {
+              QK.messageFun($("#nameDiv"), msg4)
+            } else {
+              $("#nameDiv").find("div.message").css("color", "#3c763d").html(msg1)
+              $("#nameDiv").find("input").css("border-color", "#3c763d")
+              $("#btn_submit").removeAttr("disabled")
+            }
+          })
+        } else {
+          QK.messageFun($("#nameDiv"), msg3)
+        }
+      },
+      cancelMethod: function () {
+        this.$router.go({path: localStorage.nowurl})
+      },
+      idNumberCheck: function () {
+        var that = this
+        var idCard = that.tOrganization.idCardNumber + ''
+        var len = idCard.length
+        var msg3 = "该证件号码已存在！"
+        var msg4 = "证件可用"
+        var msg5 = "身份证长度不够！"
+        if (len < 14) {
+          QK.messageFun($("#idNumberDiv"), msg5)
+        } else {
+          this.$http.post(QK.SERVER_URL + '/api/user/isIdCard', {"idCard": idCard}, true).then(function (res) {
+            var data = $.parseJSON(res.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              if (data.data) {
+                QK.messageFun($("#idNumberDiv"), msg3)
+              } else {
+                $("#idNumberDiv").find("div.message").css("color", "#3c763d").html(msg4)
+                $("#idNumberDiv").find("input").css("border-color", "#3c763d")
+                $("#btn_submit").removeAttr("disabled")
               }
-              return false
-          },
-          cnameCheck: function(){
-            var that = this
-            var loginName = that.tOrganization.username;
-            var msg1 = "用户名可用!";
-            var msg3 = "请输入正确的登录名!";
-            var msg4 = "用户名已存在!";
-            var login_name = "^[A-Za-z0-9_-]{4,12}$"
-            if (loginName.length > 3 && loginName.match(login_name)) {
-              this.$http.get(QK.SERVER_URL+'/api/user/anon/resetPassword/'+loginName, true).then(function (res) {
-                  var data = $.parseJSON(res.body)
-                  var result = QK.getStateCode(that, data.code)
-                  if (data.data) {
-                    QK.messageFun($("#nameDiv"),msg4)
-                  } else {
-                     $("#nameDiv").find("div.message").css("color", "#3c763d").html(msg1)
-                     $("#nameDiv").find("input").css("border-color","#3c763d")
-                     $("#btn_submit").removeAttr("disabled")
-                  }
-              })
-            }else {
-              QK.messageFun($("#nameDiv"),msg3)
+            } else {
+              QK.messageFun($("#idNumberDiv"), result.msg)
             }
-          },
-          cancelMethod:function(){
-             this.$router.go({path:localStorage.nowurl})
-          },
-          idNumberCheck: function(){
-            var that = this
-            var idCard = that.tOrganization.idCardNumber+''
-            var len = idCard.length
-            var msg3 = "该证件号码已存在！"
-            var msg4 = "证件可用"
-            var msg5 = "身份证长度不够！"
-            if (len < 14) {
-              QK.messageFun($("#idNumberDiv"),msg5)
-            }else {
-              this.$http.post(QK.SERVER_URL+'/api/user/isIdCard',{"idCard":idCard},true).then(function (res) {
-                var data = $.parseJSON(res.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  if(data.data){
-                     QK.messageFun($("#idNumberDiv"),msg3)
-                  }else{
-                     $("#idNumberDiv").find("div.message").css("color", "#3c763d").html(msg4)
-                     $("#idNumberDiv").find("input").css("border-color","#3c763d")
-                     $("#btn_submit").removeAttr("disabled")
-                  }
-                }else{
-                  QK.messageFun($("#idNumberDiv"),result.msg)
-                }
-              })
+          })
+        }
+      },
+      emailCheck: function () {
+        var that = this
+        var email = that.tOrganization.email + ''
+        var msg3 = "该电子邮件已存在！"
+        var msg4 = "邮件可用"
+        var msg5 = "邮件格式错误！"
+        if (email.length > 6 && email.indexOf("@") > -1) {
+          this.$http.post(QK.SERVER_URL + '/api/user/isEmail', {"email": email}, true).then(function (res) {
+            var data = $.parseJSON(res.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              if (data.data) {
+                QK.messageFun($("#emailDiv"), msg3)
+              } else {
+                $("#emailDiv").find("div.message").css("color", "#3c763d").html(msg4)
+                $("#emailDiv").find("input").css("border-color", "#3c763d")
+                $("#btn_submit").removeAttr("disabled")
+              }
+            } else {
+              QK.messageFun($("#emailDiv"), result.msg)
             }
-          },
-          emailCheck: function(){
-            var that = this
-            var email = that.tOrganization.email+''
-            var msg3 = "该电子邮件已存在！"
-            var msg4 = "邮件可用"
-            var msg5 = "邮件格式错误！"
-            if (email.length > 6 && email.indexOf("@")>-1) {
-               this.$http.post(QK.SERVER_URL+'/api/user/isEmail',{"email":email},true).then(function (res) {
-                var data = $.parseJSON(res.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  if(data.data){
-                     QK.messageFun($("#emailDiv"),msg3)
-                  }else{
-                     $("#emailDiv").find("div.message").css("color", "#3c763d").html(msg4)
-                     $("#emailDiv").find("input").css("border-color","#3c763d")
-                     $("#btn_submit").removeAttr("disabled")
-                  }
-                }else{
-                  QK.messageFun($("#emailDiv"),result.msg)
-                }
-              })
-            }else {
-              QK.messageFun($("#emailDiv"),msg5)
-            }
-          },
-     }
+          })
+        } else {
+          QK.messageFun($("#emailDiv"), msg5)
+        }
+      },
+    }
   }
 
 </script>

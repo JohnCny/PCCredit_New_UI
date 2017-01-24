@@ -35,8 +35,10 @@
                 <td>${info.customer.certificateNumber | isEmpty}</td>
                 <td>${info.product.productName}</td>
                 <td>${info.applyAmount | isEmpty}</td>
-                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> 编辑 </a></td>
+                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span>
+                </td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
+                  class="fa fa-edit"></i> 编辑 </a></td>
               </tr>
               </tbody>
             </table>
@@ -75,9 +77,9 @@
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           cname: '',
-           productName: ''
+        search: {
+          cname: '',
+          productName: ''
         }
       }
     },
@@ -119,12 +121,12 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          "pageStart": that.currentpage,
+          "pageLength": that.visiblepage,
+          "pageSearch": JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/application/pageList',searchAll).then(function (res) {
+        that.$http.post(QK.SERVER_URL + '/api/application/pageList', searchAll).then(function (res) {
           var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
