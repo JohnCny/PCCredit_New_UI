@@ -17,8 +17,8 @@
               <input id="userCname" v-model="search.userCname" type="text" name="userCname"/>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:center">
-              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
-              <button v-on:click="reset" class="btn btn-info btn-sm" type="button">查看所有团队用户</button>
+              <button @click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button @click="reset" class="btn btn-info btn-sm" type="button">查看所有团队用户</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -28,7 +28,6 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>联系方式</th>
-                <th>创建时间</th>
                 <th>用户状态</th>
                 <th>操作</th>
               </tr>
@@ -39,15 +38,14 @@
                   <td>${info.userCname}</td>
                   <td>${info.sex | reSex}</td>
                   <td>${info.tel}</td>
-                  <td>${info.createTime | formatDate}</td>
                   <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
-                  <td><a v-on:click="deleteInfo(info.id)" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i>
+                  <td><a @click="deleteInfo(info.id,info.teamId)" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i>
                     移除该成员</a></td>
                 </tr>
               </template>
               <template v-else>
                 <tr>
-                  <td colspan="6">没有数据</td>
+                  <td colspan="5">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -112,26 +110,26 @@
         //初始化前后页边界
         var lowPage = 1
         var highPage = this.totlepage
-        var pageArr = [];
+        var pageArr = []
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
           var subVisiblePage = Math.ceil(this.visiblepage / 2)
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
             lowPage = this.currentpage - subVisiblePage
             highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-            lowPage = 1;
+            lowPage = 1
             highPage = this.visiblepage
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
+            lowPage = this.totlepage - this.visiblepage + 1
             highPage = this.totlepage
           }
         }
         //确定了上下page边界后，要准备压入数组中了
         while (lowPage <= highPage) {
-          pageArr.push(lowPage);
-          lowPage++;
+          pageArr.push(lowPage)
+          lowPage++
         }
-        return pageArr;
+        return pageArr
       },
     },
     watch: {
@@ -173,7 +171,7 @@
         this.init()
       },
       reset: function () {
-        this.$set('teamId', 0)
+        this.$set('teamId', '')
         this.init()
       },
       showInfo: function (id) {
@@ -188,31 +186,27 @@
         //跳转地址
         this.$router.go({path: '/system/team/newUser'})
       },
-      deleteInfo: function (id) {
+      deleteInfo: function (id,teamId) {
         var that = this
-        if (that.teamId) {
-          that.$http.delete(QK.SERVER_URL + '/api/userTeam?teamId=' + that.teamId + '&userIds=' + id, true).then(function (res) {
-            var data = $.parseJSON(res.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-              var optionObj = {
-                'that': that,
-                'title': '移除成功!',
-                'listUrl': '/system/team/list'
-              }
-              QK.successSwal(optionObj)
-              $('#' + id).remove()
-            } else {
-              var optionObj = {
-                'title': '移除失败!',
-                'text': result.msg + "！"
-              }
-              QK.errorSwal(optionObj)
+        that.$http.delete(QK.SERVER_URL + '/api/userTeam?teamId=' + teamId + '&userIds=' + id, true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            var optionObj = {
+              'that': that,
+              'title': '移除成功!',
+              'listUrl': '/system/team/list'
             }
-          })
-        } else {
-          alert("请先在团队列表选择团队!")
-        }
+            QK.successSwal(optionObj)
+            $('#' + id).remove()
+          } else {
+            var optionObj = {
+              'title': '移除失败!',
+              'text': result.msg + "！"
+            }
+            QK.errorSwal(optionObj)
+          }
+        })
       },
     }
   }

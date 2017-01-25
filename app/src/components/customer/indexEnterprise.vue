@@ -40,7 +40,7 @@
                   <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     编辑 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
+                  <td><a @click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
                     <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
                 </tr>
               </template>
@@ -165,6 +165,9 @@
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/customer/show/' + id})
+      },
+      deleteInfo: function(){
+
       }
     }
   }
