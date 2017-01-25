@@ -152,7 +152,7 @@
           pageStart: that.currentpage,
           pageLength: that.visiblepage,
           orgId: that.orgId,
-          pageSearch: that.search
+          pageSearch: JSON.stringify(that.search)
         }
         that.pageList(searchAll)
       },
@@ -199,7 +199,7 @@
           pageStart: this.currentpage,
           pageLength: this.visiblepage,
           orgId: orgId,
-          pageSearch: this.search
+          pageSearch: JSON.stringify(this.search)
         }
         this.pageList(searchAll)
       },

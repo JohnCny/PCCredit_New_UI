@@ -18,7 +18,8 @@
     data: function () {
       return {
         topId: '',
-        sendData: []
+        sendData: [],
+        sendDataName: []
       }
     },
     ready: function () {
@@ -72,10 +73,82 @@
                 var data = $.parseJSON(res.body)
                 var result = QK.getStateCode(that, data.code)
                 if (result.state) {
-                  console.dir(data.data)
+                  swal({
+                      title: "更新成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  })
+                }else{
+                  swal({
+                    title: '更新失败!',
+                    text: result.msg+"！",
+                    confirmButtonColor: "#EF5350",
+                    type: "error",
+                    confirmButtonText: '确定'
+                  },function(){
+                    document.location.reload()
+                  })
+                }
+              })
+            },
+            onRename: function (event, treeId, treeNode) {
+              var dataJson = {
+                "id": treeNode.id,
+                "orgName": treeNode.orgName,
+              }
+              that.sendDataName.push(dataJson)
+              that.$http.put(QK.SERVER_URL + '/api/organization/move', JSON.stringify(that.sendDataName), true).then(function (res) {
+                var data = $.parseJSON(res.body)
+                var result = QK.getStateCode(that, data.code)
+                if (result.state) {
+                  swal({
+                      title: "更新成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  })
+                }else{
+                  swal({
+                    title: '更新失败!',
+                    text: result.msg+"！",
+                    confirmButtonColor: "#EF5350",
+                    type: "error",
+                    confirmButtonText: '确定'
+                  },function(){
+                    document.location.reload()
+                  })
+                }
+              })
+            },
+            beforeRemove: function (treeId, treeNode) {
+              that.$http.delete(QK.SERVER_URL + '/api/organization/' + treeNode.id, true).then(function (res) {
+                var data = $.parseJSON(res.body)
+                var result = QK.getStateCode(that, data.code)
+                if (result.state) {
+                  swal({
+                      title: "删除成功!",
+                      text: "",
+                      confirmButtonColor: "#66BB6A",
+                      type: "success",
+                      confirmButtonText : '确定'
+                  })
+                }else{
+                  swal({
+                    title: '删除失败!',
+                    text: result.msg+"！",
+                    confirmButtonColor: "#EF5350",
+                    type: "error",
+                    confirmButtonText: '确定'
+                  },function(){
+                    document.location.reload()
+                  })
                 }
               })
             }
+
           }
         }
         this.baseTree(urlMy, setting)
