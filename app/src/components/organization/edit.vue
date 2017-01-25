@@ -16,7 +16,7 @@
                 <div class="form-group">
                   <label for="orgParentName">父机构</label>
                   <div class="input-icon right orgNameDiv">
-                    <input v-model="tOrganization.orgParentName" id="orgParentName" type="text" class="form-control"
+                    <input v-model="tOrganization.parentOrg.orgName" id="orgParentName" type="text" class="form-control"
                            name="orgParentName" readonly placeholder="请从机构列表选择">
                     <i v-on:click="hideOrgName" class="fa fa-times closeI"></i>
                     <div class="message"></div>
@@ -39,8 +39,13 @@
                 <div id="nameDiv" class="form-group">
                   <label for="orgDirectorName">负责人</label>
                   <div class="input-icon right">
-                    <input v-model="tOrganization.orgDirectorName" id="orgDirectorName" type="text" class="form-control"
-                           name="orgDirectorName" placeholder="请输入负责人">
+                    <select id="orgDirectorId" v-model="tOrganization.orgDirectorId" class="form-control" name="orgDirectorId">
+                      <option selected value="-1">--请选择--</option>
+                      <template v-for="orgLeader in orgLeaders" >
+                        <option v-if="tOrganization.orgDirectorId == orgLeader.userId"  selected v-bind:value="orgLeader.userId">${orgLeader.userCname}</option>
+                        <option v-else v-bind:value="orgLeader.userId">${orgLeader.userCname}</option>
+                      </template>
+                    </select>
                     <div class="message">${errors.orgDirectorNameError}</div>
                   </div>
                 </div>
@@ -95,10 +100,12 @@
       return {
         tOrganization: {
           orgName: '',
-          orgDirectorName: '',
+          orgDirectorId: '',
+          parentOrg: {id:'',orgName:''},
           orgParentId: '',
-          orgParentName: ''
+          orgLevel: 1
         },
+        orgLeaders: {},
         errors: {
           orgNameError: '',
           orgDirectorNameError: '',
@@ -107,6 +114,7 @@
     },
     ready: function () {
       this.init()
+      this.getTeamLeaderData()
       QK.addMethod()
     },
     created: function () {
@@ -130,8 +138,10 @@
         })
         //验证结果  true  false
         if (bool) {
-          delete that.tOrganization['orgParentName']
-          console.dir(that.tOrganization)
+          that.$set("tOrganization.orgParentId",tOrganization.parentOrg.id)
+          console.log(that.tOrganization)
+          console.log(that.tOrganization.parentOrg.id)
+          delete that.tOrganization['parentOrg']
           that.$http.put(QK.SERVER_URL + '/api/organization', that.tOrganization, true).then(function (data) {
             var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
@@ -167,6 +177,7 @@
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("tOrganization", data.data)
+            console.log(that.tOrganization)
           }
         })
       },
@@ -174,19 +185,29 @@
         this.$router.go({path: localStorage.nowurl})
       },
       bindOrg: function (org) {
-        this.$set('tOrganization.orgParentId', org.orgId)
-        this.$set('tOrganization.orgParentName', org.orgName)
+        this.$set('tOrganization.parentOrg.id', org.orgId)
+        this.$set('tOrganization.parentOrg.orgName', org.orgName)
       },
       hideOrgName: function () {
         var that = this
-        that.$set('tOrganization.orgParentId', '')
-        that.$set('tOrganization.orgParentName', '')
+        that.$set('tOrganization.parentOrg.id', '')
+        that.$set('tOrganization.parentOrg.orgName', '')
       },
       changeOrg: function () {
         var that = this
         if (!that.search.orgParentName) {
           that.$set('search.orgParentId', '')
         }
+      },
+      getTeamLeaderData: function(){
+        var that = this
+        that.$http.get(QK.SERVER_URL+'/api/user/role/'+JSON.parse(localStorage.user).roleType, true).then(function (data) {
+          var data = jQuery.parseJSON(data.body)
+          var result = QK.getStateCode(that,data.code)
+          if (result.state) {
+           that.$set('orgLeaders', data.data)
+          }
+        })
       },
     }
   }

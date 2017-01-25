@@ -18,8 +18,8 @@
                   <label for="isMenuType">是否机构类团队</label>
                   <div class="input-icon right">
                     <select v-model="infos.isMenuType" id="isMenuType" class="form-control" name="isMenuType" @change="checkMenuType">
-                      <option selected value="0">是</option>
-                      <option value="1">否</option>
+                      <option value="0">是</option>
+                      <option selected value="1">否</option>
                     </select>
                     <div class="message">${errors.isMenuTypeError}</div>
                   </div>
@@ -140,11 +140,11 @@
         this.infos.teamParentName = team.teamParentName
       },
       checkMenuType: function(){
-          if($("#isMenuType").val() == 0){
-              $(".teamParentDiv").show()
-          }else{
-              $(".teamParentDiv").hide()
-          }
+        if($("#isMenuType").val() == 1){
+            $(".teamParentDiv").show()
+        }else{
+            $(".teamParentDiv").hide()
+        }
       },
       handleSubmit () {
         var that = this

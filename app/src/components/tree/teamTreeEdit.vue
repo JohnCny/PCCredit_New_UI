@@ -76,6 +76,8 @@
                       confirmButtonColor: "#66BB6A",
                       type: "success",
                       confirmButtonText : '确定'
+                  },function(){
+                    document.location.reload()
                   })
                 }else{
                   swal({
@@ -106,6 +108,8 @@
                       confirmButtonColor: "#66BB6A",
                       type: "success",
                       confirmButtonText : '确定'
+                  },function(){
+                    document.location.reload()
                   })
                 }else{
                   swal({
@@ -131,6 +135,8 @@
                       confirmButtonColor: "#66BB6A",
                       type: "success",
                       confirmButtonText : '确定'
+                  },function(){
+                    document.location.reload()
                   })
                 }else{
                   var message = data.data.message?data.data.message:result.msg

@@ -198,7 +198,8 @@
               'listUrl': '/system/team/list'
             }
             QK.successSwal(optionObj)
-            $('#' + id).remove()
+            //$('#' + id).remove()
+            document.location.reload()
           } else {
             var optionObj = {
               'title': '移除失败!',
