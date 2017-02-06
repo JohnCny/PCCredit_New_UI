@@ -1,5 +1,6 @@
 <style src='../../../static/css/Tabs.css'></style>
 <template>
+  <my-tab></my-tab>
   <ul class="myTab">
     <template v-for="todo in infoData">
       <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
@@ -80,44 +81,16 @@
     background-color: #dff0d8 !important;
     border: 1px solid
   }
-
-  .stepActive {
-    color: #fff;
-    background: url(../../../static/images/stepActive.png) no-repeat left center;
-  }
-
-  .stepActiveL {
-    color: #fff;
-    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
-  }
-
-  .stepActiveR {
-    color: #fff;
-    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
-  }
-
-  .stepLast {
-    background: url(../../../static/images/stepLast.png) no-repeat left center;
-  }
-
-  .stepNormal {
-    background: url(../../../static/images/stepNormal.png) no-repeat left center;
-  }
 </style>
 <script>
   import QK from '../../QK'
+  import myTab from './myTab.vue'
   export default{
+   components: {
+        myTab
+      },
     data: function () {
       return {
-        infoData: [
-          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
-          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
-          {id: 'sqb', text: '填写申请表', classname: 'stepActive'},
-          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepActive'},
-          {id: 'dctp', text: '上传调查图片', classname: 'stepActive'},
-          {id: 'zxbg', text: '上传征信报告', classname: 'stepActive'},
-          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
-        ],
         infos: [{
           productInvestPictureDesc: '',
           investPictureUrl: ''
@@ -125,9 +98,12 @@
       }
     },
     ready: function () {
-      //this.init()
+     this.initActive()
     },
     methods: {
+     initActive: function(){
+           $(".xzkhNormal,.sqbNormal,.ipcNormal, .dctpNormal,.zxbgNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+       },
       nextStep: function () {
         var that = this
         var id = that.$route.params.appliId

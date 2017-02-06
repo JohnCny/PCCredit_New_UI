@@ -327,7 +327,7 @@
           $("#preNodeI").attr("disabled", true)
         } else if (vals == 1 || vals == 2) {
           that.$http.get(QK.SERVER_URL + '/api/productApprove?productId=' + productId + '', true).then(function (data) {
-            var data = $.parseJSON(data.body);
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
               that.$set("nodeNames", data.data)

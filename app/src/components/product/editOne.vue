@@ -479,7 +479,7 @@
         var that = this
         var id = that.$route.params.id
         that.$http.get(QK.SERVER_URL + '/api/product?productId=' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("proType", data.data.productTypes)
