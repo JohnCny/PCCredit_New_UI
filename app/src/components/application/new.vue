@@ -10,11 +10,10 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>产品名称：</span><input v-model="search.productName" type="text" name="productName"
-                                       placeholder="请输入产品名称"/>
+              <span>产品名称：</span><input v-model="search.productName" type="text" name="productName"  placeholder="请输入产品名称"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="table-responsive">
@@ -136,7 +135,7 @@
           pageSearch: JSON.stringify(that.search)
         }
         that.$http.post(QK.SERVER_URL + '/api/product/pageList', searchAll, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {

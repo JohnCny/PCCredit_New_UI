@@ -38,7 +38,7 @@
                     </td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
-                    <td>${info.customerStatus | reCus}</td>
+                    <td>${info.customerStatus}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -94,7 +94,7 @@
     },
     ready: function () {
       this.init()
-      this.changeText()
+      //this.changeText()
     },
     route: {
       canReuse: function () {
@@ -145,8 +145,8 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerMaintenance/condition/'+0, searchAll, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/'+0, searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {

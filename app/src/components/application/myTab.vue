@@ -29,6 +29,10 @@
   .stepLast {
     background: url(../../../static/images/stepLast.png) no-repeat left center;
   }
+  .stepActiveR {
+    color: #fff;
+    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
+  }
 </style>
 <script>
   import QK from '../../QK'

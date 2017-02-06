@@ -54,10 +54,10 @@ aaa{
     methods:{
       init:function() {
         var that = this
-        var applicationId = that.$route.params.aId
+        var applicationId = that.$route.params.appliId
         var templateId = that.$route.params.templateId
         that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("vars", data.data)

@@ -33,7 +33,7 @@
                 <td>${info.customerCardNumber}</td>
                 <td>${info.productName}</td>
                 <td>${info.approveAmount}</td>
-                <td>${info.productName}</td>
+                <td>${info.applicationStatus}</td>
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
               </tr>
               </tbody>
@@ -67,7 +67,7 @@
           customerCardNumber: '',
           productName: '',
           approveAmount: '',
-          productInterestMin: ''
+          applicationStatus: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
@@ -120,8 +120,8 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/applicationContract', searchAll, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+        that.$http.post(QK.SERVER_URL + '/api/applicationContract/pageList', searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -144,7 +144,7 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/application/cusSign/'+id})
+        this.$router.go({path: '/system/application/inputSign/'+id})
       }
     }
   }

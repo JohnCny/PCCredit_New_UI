@@ -1,10 +1,6 @@
 <style src='../../../../static/css/Tabs.css'></style>
 <template>
-  <ul class="myTab">
-    <template v-for="todo in infoData">
-      <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-    </template>
-  </ul>
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12 col-sm-12">
       <ul class="myTab1" id="menu1">
@@ -23,8 +19,8 @@
       </section>
     </div>
     <div class="col-xs-12 col-md-offset-5 contain" style="margin-bottom:10px;">
-      <button v-on:click="nextStep()" class="btn btn-success">下一步</button>
-      <button v-on:click="cancel()"  class="btn btn-info">返回上一步</button>
+      <button v-on:click="nextStep" class="btn btn-success">下一步</button>
+      <button v-on:click="cancel"  class="btn btn-info">返回上一步</button>
     </div>
   </div>
 </template>
@@ -62,47 +58,22 @@
      background-color: #dff0d8 !important;
      border:1px solid
   }
-   .stepActive{
-     color:#fff;
-     background:url(../../../../static/images/stepActive.png) no-repeat left center;
-   }
-  .stepActiveL{
-     color:#fff;
-     background:url(../../../../static/images/stepActiveL.png) no-repeat left center;
-  }
-  .stepActiveR{
-     color:#fff;
-     background:url(../../../../static/images/stepActiveR.png) no-repeat left center;
-  }
-  .stepLast{
-     background:url(../../../../static/images/stepLast.png) no-repeat left center;
-  }
-  .stepNormal{
-     background:url(../../../../static/images/stepNormal.png) no-repeat left center;
-  }
 </style>
 <script>
   import QK from '../../../QK'
   import zcfz from './zcfz.vue'
   import jcjy from './jcjy.vue'
   import xjl from './xjl.vue'
+  import myTab from '../myTab.vue'
   export default{
     components: {
       zcfz,
       jcjy,
-      xjl
+      xjl,
+      myTab
     },
     data(){
       return{
-        infoData:[
-          {id:'sqcp',text:'选择申请产品',classname:'stepActiveL'},
-          {id:'xzkh',text:'选择申请客户',classname:'stepActive'},
-          {id:'sqb',text:'填写申请表',classname:'stepActive'},
-          {id:'ipc',text:'填写IPC调查报告',classname:'stepActive'},
-          {id:'dctp',text:'上传调查图片',classname:'stepNormal'},
-          {id:'zxbg',text:'上传征信报告',classname:'stepNormal'},
-          {id:'xxzl',text:'信息总览',classname:'stepLast'}
-          ],
         ipcMenu:[],
         ids:[]
       }
@@ -110,6 +81,7 @@
     ready:function(){
       this.ipcTab()
       this.init()
+      this.initActive()
     },
     methods:{
       init: function(){
@@ -125,9 +97,9 @@
       },
       ipcTab:function() {
         var that = this
-        var id = that.$route.params.aId
+        var id = that.$route.params.appliId
         that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state){
             that.$set("ipcMenu", data.data)
@@ -135,6 +107,9 @@
             console.log(that.ipcMenu)
           }
         })
+      },
+     initActive: function(){
+        $(".ipcNormal,.xzkhNormal,.sqbNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
       },
       setTab2:function(){
         var that = this
@@ -151,15 +126,9 @@
         }
       },
       nextStep: function(){
-        var that = this
-        var id = that.$route.params.aId
-        that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/ifFileNext/'+id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
-          var result = QK.getStateCode(that, data.code)
-          if (result.state){
-             that.$router.go({path:"/system/application/picture/"+id})
-          }
-        })
+         var that = this
+         var id = that.$route.params.appliId
+         this.$router.go({path:"/system/application/picture/"+id})
       },
       cancel :function(){
          window.history.back()
