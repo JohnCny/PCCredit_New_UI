@@ -67,7 +67,7 @@
           <div class="page-bar">
             <ul>
               <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+              <li v-for="index in pagenums" v-bind:class="{active: currentpage == index}">
                 <a v-on:click="pageChange(index)">${index}</a>
               </li>
               <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
@@ -78,8 +78,6 @@
       </section>
     </div>
   </div>
-
-
 </template>
 <style scoped>
 </style>
@@ -157,34 +155,34 @@
            }
         },
         ready:function(){
-          this.init();
+          this.init()
         },
          computed: {
           pagenums: function () {
             //初始化前后页边界
-            var lowPage = 1;
-            var highPage = this.totlepage;
-            var pageArr = [];
+            var lowPage = 1
+            var highPage = this.totlepage
+            var pageArr = []
             if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-              var subVisiblePage = Math.ceil(this.visiblepage / 2);
+              var subVisiblePage = Math.ceil(this.visiblepage / 2)
               if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-                lowPage = this.currentpage - subVisiblePage;
-                highPage = this.currentpage + subVisiblePage - 1;
+                lowPage = this.currentpage - subVisiblePage
+                highPage = this.currentpage + subVisiblePage - 1
               } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-                lowPage = 1;
-                highPage = this.visiblepage;
+                lowPage = 1
+                highPage = this.visiblepage
               } else {//处理后几页的逻辑
-                lowPage = this.totlepage - this.visiblepage + 1;
-                highPage = this.totlepage;
+                lowPage = this.totlepage - this.visiblepage + 1
+                highPage = this.totlepage
               }
             }
             //确定了上下page边界后，要准备压入数组中了
             while (lowPage <= highPage) {
-              pageArr.push(lowPage);
-              lowPage++;
+              pageArr.push(lowPage)
+              lowPage++
             }
-            return pageArr;
-          },
+            return pageArr
+          }
     },
           watch: {
             currentpage: function (oldValue, newValue) {
@@ -203,11 +201,11 @@
                   pageSearch : JSON.stringify(that.search)
                 }
             that.$http.post(QK.SERVER_URL+'/api/BadDebtCustomer/pageList', searchAll , true).then(function (data) {
-              var data = jQuery.parseJSON(data.body);
+              var data = jQuery.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
-              var page = parseInt(data.recordsTotal / 10);
+              var page = parseInt(data.recordsTotal / 10)
               if (data.recordsTotal % 10) {
-                page = page + 1;
+                page = page + 1
               }
                that.$set('totlepage', page)
               if (result.state) {
@@ -215,7 +213,7 @@
               }
            })
         },
-             pageChange: function (page) {
+            pageChange: function (page) {
             page = page || 1
             var that = this
             if (that.currentpage != page) {

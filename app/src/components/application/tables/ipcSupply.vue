@@ -23,8 +23,8 @@
       </section>
     </div>
     <div class="col-xs-12 col-md-offset-5 contain" style="margin-bottom:10px;">
-      <button id="btn_submit" v-on:click="nextStep()" class="btn btn-success">下一步</button>
-      <a v-on:click="cancel()"  type="reset" class="btn btn-info">返回上一步</a>
+      <button id="btn_submit" v-on:click="nextStep" class="btn btn-success">下一步</button>
+      <a v-on:click="cancel"  type="reset" class="btn btn-info">返回上一步</a>
     </div>
   </div>
 </template>
@@ -119,8 +119,8 @@
            $("#menu1").eq(0).addClass('active')
           },
           ipcTab:function() {
-              var that = this
-               var id = that.$route.params.aId
+               var that = this
+               var id = that.$route.params.appliId
               that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+id, true).then(function (data) {
                 var data = $.parseJSON(data.body);
                 var result = QK.getStateCode(that, data.code)
@@ -146,7 +146,7 @@
             },
             nextStep: function(){
                var that = this
-               var id = that.$route.params.aId
+               var id = that.$route.params.appliId
               that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/ifFileNext/'+id, true).then(function (data) {
                 var data = $.parseJSON(data.body);
                 var result = QK.getStateCode(that, data.code)

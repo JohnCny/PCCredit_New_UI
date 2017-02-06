@@ -19,7 +19,7 @@
                                        placeholder="请输入产品名称"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="table-responsive">
@@ -57,7 +57,7 @@
                 </ul>
               </div>
               <div class="col-xs-12 col-md-offset-5 contain">
-                <button id="btn_submit" class="btn btn-success" v-on:click="nextStep()">下一步</button>
+                <button id="btn_submit" class="btn btn-success" v-on:click="nextStep">下一步</button>
               </div>
             </div>
           </div>

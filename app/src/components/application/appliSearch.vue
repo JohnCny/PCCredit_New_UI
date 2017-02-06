@@ -14,7 +14,7 @@
               <span>产品名称：</span><input v-model="search.productName" type="text" name="certificateNumber"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
