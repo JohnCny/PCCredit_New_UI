@@ -29,7 +29,6 @@
               <tr>
                 <th>机构名称</th>
                 <th>负责人</th>
-                <th>后勤</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
@@ -38,16 +37,15 @@
                 <tr v-for="info in infos">
                   <td>${info.orgName}</td>
                   <td>${info.orgDirectorName}</td>
-                  <td>${info.orgLogisticsId}</td>
-                  <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                    class="fa fa-edit"></i>编辑 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id)" title="删除" class="btn btn-danger btn-xs"><i
+                  <td><button v-on:click="showInfo(info.id)" class="btn btn-info btn-xs editBtn"><i
+                    class="fa fa-edit"></i>编辑 </button></td>
+                  <td><a v-on:click="deleteInfo(info.id,info.orgParentId)" title="删除" class="btn btn-danger btn-xs"><i
                     class="fa fa-eraser"></i> 删除</a></td>
                 </tr>
               </template>
               <template v-else>
                 <tr>
-                  <td colspan="5">没有数据</td>
+                  <td colspan="4">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -152,7 +150,7 @@
           pageStart: that.currentpage,
           pageLength: that.visiblepage,
           orgId: that.orgId,
-          pageSearch: that.search
+          pageSearch: JSON.stringify(that.search)
         }
         that.pageList(searchAll)
       },
@@ -179,7 +177,17 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/organization/edit/' + id})
+        if (JSON.parse(localStorage.user).roleType == 1) {
+          swal({
+            title: "",
+            text: "请在左侧机构树上进行编辑！",
+            confirmButtonColor: "#66BB6A",
+            type: "success",
+            confirmButtonText: '确定'
+          })
+        } else {
+          this.$router.go({path: '/system/organization/edit/' + id})
+        }
       },
       showNewPage: function () {
         //记录当前地址
@@ -199,7 +207,7 @@
           pageStart: this.currentpage,
           pageLength: this.visiblepage,
           orgId: orgId,
-          pageSearch: this.search
+          pageSearch: JSON.stringify(this.search)
         }
         this.pageList(searchAll)
       },
@@ -207,14 +215,25 @@
         this.$set('orgId', JSON.parse(localStorage.user).org.id)
         this.init()
       },
-      deleteInfo: function (id) {
+      deleteInfo: function (id,orgParentId) {
         var that = this
-        var optionObj = {
-          'that': that,
-          'id': id,
-          'deleteUrl': '/api/organization/' + id,
+        if(orgParentId != 0){
+          var optionObj = {
+            'that': that,
+            'id': id,
+            'deleteUrl': '/api/organization/' + id,
+          }
+          QK.deleteSwal(optionObj)
+          document.location.reload()
+        }else{
+          swal({
+            title: "",
+            text: "该机构为顶级机构，不能删除！",
+            confirmButtonColor: "#EF5350",
+            type: "error",
+            confirmButtonText: '确定'
+          })
         }
-        QK.deleteSwal(optionObj)
       },
     }
   }
