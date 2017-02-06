@@ -38,11 +38,16 @@
                 <div id="nameDiv" class="form-group">
                   <label for="orgDirectorName">负责人</label>
                   <div class="input-icon right">
-                    <input v-model="tOrganization.orgDirectorName" id="orgDirectorName" type="text" class="form-control"
-                           name="orgDirectorName" placeholder="请输入负责人">
+                    <select id="orgDirectorName" v-model="tOrganization.orgDirectorId" class="form-control" name="orgDirectorId">
+                      <option selected value="-1">--请选择--</option>
+                      <template v-for="orgLeader in orgLeaders" >
+                        <option v-bind:value="orgLeader.userId">${orgLeader.userCname}</option>
+                      </template>
+                    </select>
                     <div class="message">${errors.orgDirectorNameError}</div>
                   </div>
                 </div>
+
               </div>
             </div>
             <div class="row">
@@ -95,9 +100,12 @@
         tOrganization: {
           orgName: '',
           orgDirectorName: '',
+          orgDirectorId: '',
           orgParentId: '',
-          orgParentName: ''
+          orgParentName: '',
+          orgLevel: 1
         },
+        orgLeaders: {},
         errors: {
           orgNameError: '',
           orgDirectorNameError: '',
@@ -106,6 +114,7 @@
     },
     ready: function () {
       QK.addMethod()
+      this.getTeamLeaderData()
     },
     created: function () {
       QK.vector.$on('getfromchild', this.bindOrg)
@@ -131,6 +140,7 @@
         if (bool) {
           delete that.tOrganization['orgParentName']
           console.dir(that.tOrganization)
+          that.$set("tOrganization.orgDirectorName",$("#orgDirectorName option:selected").text())
           that.$http.post(QK.SERVER_URL + '/api/organization', that.tOrganization, true).then(function (data) {
             var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
@@ -175,6 +185,16 @@
         if (!that.search.orgParentName) {
           that.$set('search.orgParentId', '')
         }
+      },
+      getTeamLeaderData: function(){
+        var that = this
+        that.$http.get(QK.SERVER_URL+'/api/user/role/'+JSON.parse(localStorage.user).roleType, true).then(function (data) {
+          var data = jQuery.parseJSON(data.body)
+          var result = QK.getStateCode(that,data.code)
+          if (result.state) {
+           that.$set('orgLeaders', data.data)
+          }
+        })
       },
     }
   }

@@ -89,7 +89,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <button id="btn_submit" class="btn btn-success">确定</button>
-                  <button type="reset" class="btn btn-default">取消</button>
+                  <button class="btn btn-default">取消</button>
                 </div>
               </div>
               <!--</template>-->
@@ -262,7 +262,7 @@
             industries:function() {
                 var that = this
                 var id = that.$route.params.id
-                that.$http.get(QK.SERVER_URL+'/api/customerIndustry?customerId='+id, true).then(function (data) {
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry/'+id, true).then(function (data) {
                     var data = $.parseJSON(data.body);
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {

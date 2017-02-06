@@ -1,12 +1,15 @@
 <template>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
+      <org-tree></org-tree>
+    </div>
+    <div class="col-md-8">
       <section class="panel">
         <header class="panel-heading">
           填写机构信息
         </header>
         <div class="panel-body">
-          <form id="org_new" @submit.prevent="handleSubmit">
+          <form id="org_edit" @submit.prevent="handleSubmit">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -135,9 +138,27 @@
     color: #a94442;
     height: 20px;
   }
+
+  .orgNameDiv {
+    position: relative
+  }
+
+  .orgNameDiv .closeI {
+    position: absolute;
+    line-height: 30px;
+    font-size: 16px;
+    font-style: normal;
+    color: #d2322d;
+    right: 21%;
+    top: 5%;
+    width: 16px;
+    text-algin: center;
+  }
 </style>
 <script>
   import QK from '../../QK'
+  import ztree from 'ztree'
+  import OrgTree from '../tree/orgTree.vue'
   import jQueryValidation from 'jquery-validation'
   export default{
     data: function () {
@@ -152,8 +173,7 @@
           idCardNumber: '',
           email: '',
           status: '',
-          orgParentId: 0,
-          orgLevel: 0
+          orgParentId: 0
         },
         errors: {
           orgNameError: '',
@@ -169,14 +189,17 @@
       }
     },
     ready: function () {
+      this.init()
       QK.addMethod()
     },
-    components: {},
+    components: {
+      OrgTree
+    },
     methods: {
       handleSubmit () {
         var that = this
         var bool = QK.formValidation({
-          id: "#org_new",
+          id: "#org_edit",
           rulesMap: {
             orgName: {required: !0},
             username: {required: !0, isRightfulString: !0},
@@ -192,12 +215,13 @@
         //验证结果  true  false
         if (bool) {
           delete that.tOrganization['orgParentName']
+          console.dir(that.tOrganization)
           that.$http.post(QK.SERVER_URL + '/api/organization', that.tOrganization, true).then(function (data) {
             var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
               swal({
-                  title: "创建成功!",
+                  title: "编辑成功!",
                   text: "",
                   confirmButtonColor: "#66BB6A",
                   type: "success",
@@ -208,7 +232,7 @@
                 })
             } else {
               swal({
-                title: "创建失败！",
+                title: "编辑失败！",
                 text: result.msg + "！",
                 confirmButtonColor: "#EF5350",
                 type: "error",
@@ -219,6 +243,17 @@
         }
         return false
       },
+      init: function(){
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/organization/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tOrganization", data.data)
+          }
+        })
+      },
       cnameCheck: function () {
         var that = this
         var loginName = that.tOrganization.username;
@@ -227,7 +262,7 @@
         var msg4 = "用户名已存在!";
         var login_name = "^[A-Za-z0-9_-]{4,12}$"
         if (loginName.length > 3 && loginName.match(login_name)) {
-          this.$http.get(QK.SERVER_URL + '/api/user/anon/resetPassword/' + loginName, true).then(function (res) {
+          that.$http.get(QK.SERVER_URL + '/api/user/anon/resetPassword/' + loginName, true).then(function (res) {
             var data = $.parseJSON(res.body)
             var result = QK.getStateCode(that, data.code)
             if (data.data) {
@@ -241,9 +276,6 @@
         } else {
           QK.messageFun($("#nameDiv"), msg3)
         }
-      },
-      cancelMethod: function () {
-        this.$router.go({path: localStorage.nowurl})
       },
       idNumberCheck: function () {
         var that = this
@@ -297,6 +329,9 @@
         } else {
           QK.messageFun($("#emailDiv"), msg5)
         }
+      },
+      cancelMethod: function () {
+        this.$router.go({path: localStorage.nowurl})
       },
     }
   }
