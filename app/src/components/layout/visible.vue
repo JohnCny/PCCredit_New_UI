@@ -26,8 +26,8 @@
       return {
         user: {
           id: '',
-          roleName:'',
-          roleNameZh:''
+          roleName: '',
+          roleNameZh: ''
         }
       }
     },

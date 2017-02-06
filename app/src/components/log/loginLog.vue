@@ -7,13 +7,18 @@
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
-            <div class="col-lg-3 col-md-3 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-xs-12">
               <span>登入名：</span><input v-model="search.loginAccount" type="text" name="loginAccount"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>操作：</span><input v-model="search.loginOperation" type="text" name="loginOperation"/>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+              <span>操作：</span>
+              <select class="form-control" v-model="search.loginOperation" name="loginOperation">
+                <option value="">--请选择--</option>
+                <option value="1">登录</option>
+                <option value="0">退出</option>
+              </select>
             </div>
-            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+            <div class="col-lg-4 col-md-4 col-xs-12" style="text-align:center">
               <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
@@ -31,9 +36,11 @@
               <tbody>
               <tr v-for="info in infos">
                 <td>${info.loginAccount}</td>
-                <td><span class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
+                <td><span
+                  class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
                 <td>${info.loginTime | formatDate}</td>
-                <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span></td>
+                <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span>
+                </td>
                 <td>${info.loginIp}</td>
               </tr>
               </tbody>
@@ -71,9 +78,9 @@
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
-        search:{
-           loginAccount: '',
-           loginOperation: ''
+        search: {
+          loginAccount: '',
+          loginOperation: ''
         }
       }
     },
@@ -115,13 +122,13 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          "pageStart": that.currentpage,
+          "pageLength": that.visiblepage,
+          "pageSearch": JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+        that.$http.post(QK.SERVER_URL + '/api/loginLog/pageList', searchAll).then(function (res) {
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {
             page = page + 1

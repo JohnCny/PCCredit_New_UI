@@ -16,10 +16,10 @@
   import ztree from 'ztree'
   export default{
     data: function () {
-      return{
-        org : {
-          orgId:'',
-          orgName:''
+      return {
+        org: {
+          orgId: '',
+          orgName: ''
         }
       }
     },
@@ -27,7 +27,7 @@
       this.init()
     },
     methods: {
-      getOrgData:function(){
+      getOrgData: function () {
         return this.org
       },
       init: function () {
@@ -50,25 +50,26 @@
             showLine: false,
           },
           callback: {
-            onClick: function(event, treeId, treeNode, clickFlag){
+            onClick: function (event, treeId, treeNode, clickFlag) {
               that.$set('org.orgId', treeNode.id)
               that.$set('org.orgName', treeNode.orgName)
-              QK.vector.$emit('getfromchild',that.getOrgData())
+              QK.vector.$emit('getfromchild', that.getOrgData())
             }
           }
         }
         this.baseTree(urlMy, setting)
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
 //        $(".treeBox").css("height", (parseInt(height) - 170) + "px")
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+        that.$http.get(url, true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var result = QK.getStateCode(this, data.code)
+          if (result.state) {
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
             zTreeObj.expandAll(true)
           }
         })

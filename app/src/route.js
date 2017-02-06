@@ -21,11 +21,12 @@ import Error from './components/error.vue'
 * ***********************/
 import Customer from './components/customer/index.vue'//客户列表
 import CustomerNew from './components/customer/new.vue'//新建客户
-import CustomerEdit from './components/customer/edit.vue'//编辑客户
+import CustomerEdit from './components/customer/editCus.vue'//编辑个人客户
+import EnterPriseEdit from './components/customer/editEnterprise.vue'//编辑企业客户
 import Maintenance from './components/customer/maintenance.vue'//客户维护列表
 import MainNew from './components/customer/mainNew.vue'//新增客户维护
 import MainRecord from './components/customer/mainRecord.vue'//客户维护记录
-import CusTransfer from './components/customer/cusTransfer.vue'//客户移交
+import CusTransfer from './components/customer/transfer.vue'//客户移交
 import CusAccpet from './components/customer/accept.vue'//客户接收
 import CusShow from './components/customer/show.vue'//客户信息展示
 
@@ -128,6 +129,14 @@ import LoanAfterDo from './components/loanafter/loanafterdo.vue'//贷后监控�
 import LoanAfterMonitor from './components/loanafter/loanmonitor.vue'//贷后监控
 import LoanOverDue from './components/loanafter/overduecus.vue'//预期不良
 import Collections from './components/loanafter/collection.vue'//催收
+
+/************************
+ * 风险管理
+ * ***********************/
+import RiskList from './components/riskmanagement/risklist.vue'//风险名单
+import RiskDoctor from './components/riskmanagement/riskcusdoc.vue'//风险客户操作
+import OutRiskList from './components/riskmanagement/outrisklist.vue'//风险客户操作
+
 
 /************************
  * 进件
@@ -249,8 +258,11 @@ export default {
       '/customer/new': {//新建客户
         component: CustomerNew
       },
-      '/customer/edit/:id': {//编辑客户
+      '/customer/editCus/:id': {//编辑个人客户
         component: CustomerEdit
+      },
+      '/customer/editEnterPrise/:id': {//编辑企业客户
+        component: EnterPriseEdit
       },
       '/customer/mainList':{//客户维护列表
         component: Maintenance
@@ -389,21 +401,31 @@ export default {
       '/loanafter/new': {//新增贷后监控
         component: LoanNew
       },
-      '/loanafter/loanafterdo': {//新增贷后监控
+      '/loanafter/loanafterdo': {//贷后监控实施
         component: LoanAfterDo
       },
-      '/loanafter/loanmonitor/:id': {//新增贷后监控
+      '/loanafter/loanmonitor/:id': {//贷后监控
         component: LoanAfterMonitor
       },
-      '/loanafter/overduecus': {//新增贷后监控
+      '/loanafter/overduecus': {//逾期不良客户催收
         component: LoanOverDue
       },
-      '/loanafter/collection': {//新增贷后监控
+      '/loanafter/collection/:id': {//催收
         component: Collections
-      }
+      },
       /*start---贷后管理---start*/
 
-
+      /*start---风险管理---start*/
+      '/riskmanagement/risklist': {//风险名单
+        component: RiskList
+      },
+      '/riskmanagement/riskcusdoc': {//风险客户操作
+        component: RiskDoctor
+      },
+      '/riskmanagement/outrisklist/:id': {//风险客户操作
+        component: OutRiskList
+      },
+      /*start---风险管理---start*/
 
       }
   }

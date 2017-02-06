@@ -39,7 +39,7 @@
               </tr>
               </thead>
               <tbody>
-              <template  v-if="infos.length" >
+              <template v-if="infos.length">
                 <tr v-for="info in infos">
                   <td>${info.userCname}</td>
                   <td>${info.employeeNumber}</td>
@@ -49,7 +49,7 @@
                     管理 </a></td>
                 </tr>
               </template>
-              <template  v-else>
+              <template v-else>
                 <tr v-else>
                   <td colspan="4">没有数据</td>
                 </tr>
@@ -98,9 +98,7 @@
         }
       }
     },
-    components: {
-
-    },
+    components: {},
     ready: function () {
       this.init()
       this.getLevel()
@@ -144,12 +142,12 @@
         var levelId = that.search.levelId
         var userCname = that.search.userCname
         var searchAll = {
-          pageStart : that.currentpage,
-          pageLength : that.visiblepage,
-          pageSearch : JSON.stringify(that.search)
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage,
+          pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerManager/pageList',searchAll,true).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+        that.$http.post(QK.SERVER_URL + '/api/customerManager/pageList', searchAll, true).then(function (res) {
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -158,10 +156,10 @@
           that.$set('infos', data.data)
         })
       },
-      getLevel: function(){
+      getLevel: function () {
         var that = this
         that.$http.get(QK.SERVER_URL + '/api/customerManagerLevel/all', true).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+          var data = $.parseJSON(res.body)
           that.$set('levers', data.data)
         })
       },
