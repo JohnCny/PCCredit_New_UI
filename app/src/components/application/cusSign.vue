@@ -1,6 +1,7 @@
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
           进件列表
@@ -8,10 +9,7 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户名称：</span><input v-model="search.cname" type="text" name="cname"/>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>产品名称：</span><input v-model="search.productName" type="text" name="certificateNumber"/>
+              <span>客户名称：</span><input v-model="search.customerCname" type="text" name="customerCname"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -31,14 +29,12 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.customer.cname}</td>
-                <td>${info.customer.certificateNumber | isEmpty}</td>
-                <td>${info.product.productName}</td>
-                <td>${info.applyAmount | isEmpty}</td>
-                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span>
-                </td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i> 编辑 </a></td>
+                <td>${info.customerCname}</td>
+                <td>${info.customerCardNumber}</td>
+                <td>${info.productName}</td>
+                <td>${info.approveAmount}</td>
+                <td>${info.productName}</td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
               </tr>
               </tbody>
             </table>
@@ -46,7 +42,7 @@
           <div class="page-bar">
             <ul>
               <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{active: currentpage == index}">
+              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
                 <a v-on:click="pageChange(index)">${index}</a>
               </li>
               <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>
@@ -58,7 +54,7 @@
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 </style>
 <script>
   import QK from '../../QK'
@@ -66,20 +62,18 @@
   export default{
     data: function () {
       return {
-        infos: [{
-          id: '',
-          customer: '',
-          certificateNumber: '',
-          product: '',
-          applyAmount: '',
-          applicationStatus: ''
-        }],
+        infos: {
+          customerCname: '',
+          customerCardNumber: '',
+          productName: '',
+          approveAmount: '',
+          productInterestMin: ''
+        },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
-          cname: '',
-          productName: ''
+          customerCname: ''
         }
       }
     },
@@ -122,18 +116,21 @@
       init: function () {
         var that = this
         var searchAll = {
-          "pageStart": that.currentpage,
-          "pageLength": that.visiblepage,
-          "pageSearch": JSON.stringify(that.search)
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage,
+          pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/application/pageList', searchAll).then(function (res) {
-          var data = $.parseJSON(res.body)
-          var page = parseInt(data.recordsTotal / 10)
+        that.$http.post(QK.SERVER_URL + '/api/applicationContract', searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body);
+          var result = QK.getStateCode(that, data.code)
+          var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
           }
           that.$set('totlepage', page)
-          that.$set('infos', data.data)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
         })
       },
       pageChange: function (page) {
@@ -143,12 +140,13 @@
           that.currentpage = page
         }
       },
-      showInfo: function (id) {
+      show: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/application/searchEdit/' + id})
+        this.$router.go({path: '/system/application/cusSign/'+id})
       }
     }
   }
+
 </script>

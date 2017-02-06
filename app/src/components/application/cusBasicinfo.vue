@@ -80,8 +80,8 @@
           </div>
         </form>
         <div class="col-xs-12 col-md-offset-5 contain">
-          <button id="btn_submit" class="btn btn-success" v-on:click="nextStep()">下一步</button>
-          <button class="btn btn-info" v-on:click="cancel()">返回上一步</button>
+          <button id="btn_submit" class="btn btn-success" v-on:click="nextStep">下一步</button>
+          <button class="btn btn-info" v-on:click="cancel">返回上一步</button>
         </div>
       </section>
     </div>
