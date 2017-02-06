@@ -104,6 +104,7 @@
   .stepNormal {
     background: url(../../../static/images/stepNormal.png) no-repeat left center;
   }
+
 </style>
 <script>
   import QK from '../../QK'
@@ -191,4 +192,5 @@
       }
     }
   }
+
 </script>

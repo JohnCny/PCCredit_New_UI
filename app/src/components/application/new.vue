@@ -1,11 +1,6 @@
 <style src='../../../static/css/Tabs.css'></style>
 <template>
-  <ul class="myTab">
-    <template v-for="todo in infoData">
-      <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-    </template>
-  </ul>
-
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
@@ -66,58 +61,13 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .myTab li {
-    width: 150px;
-    float: left;
-    text-align: center;
-    list-style: none;
-    line-height: 50px;
-    margin-bottom: 10px;
-  }
 
-  .activePro {
-    background-color: #dff0d8 !important;
-    border: 1px solid
-  }
-
-  .stepActive {
-    color: #fff;
-    background: url(../../../static/images/stepActive.png) no-repeat left center;
-  }
-
-  .stepActiveL {
-    color: #fff;
-    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
-  }
-
-  .stepActiveR {
-    color: #fff;
-    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
-  }
-
-  .stepLast {
-    background: url(../../../static/images/stepLast.png) no-repeat left center;
-  }
-
-  .stepNormal {
-    background: url(../../../static/images/stepNormal.png) no-repeat left center;
-  }
-</style>
 <script>
   import QK from '../../QK'
+  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
-        infoData: [
-          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
-          {id: 'xzkh', text: '选择申请客户', classname: 'stepNormal'},
-          {id: 'sqb', text: '填写申请表', classname: 'stepNormal'},
-          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepNormal'},
-          {id: 'dctp', text: '上传调查图片', classname: 'stepNormal'},
-          {id: 'zxbg', text: '上传征信报告', classname: 'stepNormal'},
-          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
-        ],
         infos: [{
           id: '',
           productName: '',
@@ -138,6 +88,9 @@
           productName: ''
         }
       }
+    },
+    components: {
+      "my-tab": myTab
     },
     ready: function () {
       this.init()
