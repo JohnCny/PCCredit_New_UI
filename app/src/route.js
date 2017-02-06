@@ -135,6 +135,10 @@ import Collections from './components/loanafter/collection.vue'//催收
  * ***********************/
 import RiskList from './components/riskmanagement/risklist.vue'//风险名单
 import RiskDoctor from './components/riskmanagement/riskcusdoc.vue'//风险客户操作
+import OutRiskList from './components/riskmanagement/outrisklist.vue'//转出风险客户操作
+import InRiskList from './components/riskmanagement/inrisklist.vue'//转入风险
+import BlackList from './components/riskmanagement/blacklist.vue'//黑名单
+import OutBlackList from './components/riskmanagement/outblacklist.vue'//黑名单
 
 /************************
  * 进件
@@ -419,6 +423,18 @@ export default {
       },
       '/riskmanagement/riskcusdoc': {//风险客户操作
         component: RiskDoctor
+      },
+      '/riskmanagement/outrisklist/:id': {//转出风险
+        component: OutRiskList
+      },
+      '/riskmanagement/inrisklist': {//转入风险
+        component: InRiskList
+      },
+      '/riskmanagement/blacklist': {//黑名单
+        component: BlackList
+      },
+      '/riskmanagement/outblacklist': {//转出黑名单
+        component: OutBlackList
       },
       /*start---风险管理---start*/
 

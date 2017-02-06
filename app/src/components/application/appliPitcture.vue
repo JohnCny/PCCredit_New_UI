@@ -26,7 +26,7 @@
                 <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}
                 </td>
                 <td>${info.investPictureUrl}</td>
-                <td><a href="javascript:;" v-on:click="goAdd()" class="btn btn-success btn-xs"><i
+                <td><a href="javascript:;" v-on:click="goAdd" class="btn btn-success btn-xs"><i
                   class="fa fa-plus"></i>继续添加</a></td>
               </tr>
               </tbody>
@@ -36,8 +36,8 @@
       </section>
     </div>
     <div class="col-xs-12 col-md-offset-5 contain" style="margin-bottom:10px;">
-      <button id="btn_submit" v-on:click="nextStep()" class="btn btn-success">下一步</button>
-      <a v-on:click="cancel()" type="reset" class="btn btn-info">返回上一步</a>
+      <button id="btn_submit" v-on:click="nextStep" class="btn btn-success">下一步</button>
+      <a v-on:click="cancel" type="reset" class="btn btn-info">返回上一步</a>
     </div>
   </div>
 </template>
