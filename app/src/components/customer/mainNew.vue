@@ -103,7 +103,7 @@
       type: function () {
         var that = this
         that.$http.get(QK.SERVER_URL + '/api/customerMaintenance/maintenanceType', true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("maintenanceType", data.data)

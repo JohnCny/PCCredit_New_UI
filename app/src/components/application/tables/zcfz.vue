@@ -24,9 +24,6 @@
   </table>
 </template>
 <style scope>
-aaa{
-  float:left;
-}
 </style>
 <script>
     import QK from '../../../QK'
@@ -50,7 +47,7 @@ aaa{
         methods:{
            init:function() {
               var that = this
-               var applicationId = that.$route.params.aId
+               var applicationId = that.$route.params.appliId
                var templateId = that.$route.params.templateId
               that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
                 var data = $.parseJSON(data.body);

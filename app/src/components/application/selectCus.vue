@@ -244,8 +244,8 @@
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            var aId = data.data
-            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + aId})
+            var appliId = data.data
+            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
             if (!data.data) {
               swal({
                 title: "您已申请过该产品！",

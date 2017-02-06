@@ -27,7 +27,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <a class="btn btn-default" v-on:click="getTeam()">获取成员列表</a>
+                  <a class="btn btn-default" v-on:click="getTeam">获取成员列表</a>
                 </div>
               </div>
             </div>

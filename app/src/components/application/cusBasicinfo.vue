@@ -161,7 +161,7 @@
     methods: {
       nextStep: function () {
         var that = this
-        var id = that.$route.params.aId
+        var id = that.$route.params.appliId
 
         that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
           var data = $.parseJSON(data.body);
