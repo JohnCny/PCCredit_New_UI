@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          客户管理
+          客户管理 <a @click="newPageShow" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -40,7 +40,7 @@
                   <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     编辑 </a></td>
-                  <td><a v-on:click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
+                  <td><a @click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
                     <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
                 </tr>
               </template>
@@ -165,6 +165,15 @@
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/customer/show/' + id})
+      },
+      newPageShow: function(){
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/customer/new'})
+      },
+      deleteInfo: function(){
+
       }
     }
   }
