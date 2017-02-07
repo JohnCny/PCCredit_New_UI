@@ -138,7 +138,8 @@ import RiskDoctor from './components/riskmanagement/riskcusdoc.vue'//风险客�
 import OutRiskList from './components/riskmanagement/outrisklist.vue'//转出风险客户操作
 import InRiskList from './components/riskmanagement/inrisklist.vue'//转入风险
 import BlackList from './components/riskmanagement/blacklist.vue'//黑名单
-import OutBlackList from './components/riskmanagement/outblacklist.vue'//黑名单
+import OutBlackList from './components/riskmanagement/outblacklist.vue'//转出黑名单
+import Reviewed from './components/riskmanagement/reviewed.vue'//审核
 
 /************************
  * 进件
@@ -427,14 +428,17 @@ export default {
       '/riskmanagement/outrisklist/:id': {//转出风险
         component: OutRiskList
       },
-      '/riskmanagement/inrisklist': {//转入风险
+      '/riskmanagement/inrisklist/:id': {//转入风险
         component: InRiskList
       },
       '/riskmanagement/blacklist': {//黑名单
         component: BlackList
       },
-      '/riskmanagement/outblacklist': {//转出黑名单
+      '/riskmanagement/outblacklist/:id': {//转出黑名单
         component: OutBlackList
+      },
+      '/riskmanagement/reviewed/:id/:riskid': {//转出黑名单
+        component: Reviewed
       },
       /*start---风险管理---start*/
 

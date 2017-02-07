@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          逾期/不良客户列表
+          风险名单
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -17,7 +17,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>所属日期：</span>
-              <input class="input" size="50" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
+              <input class="input" size="50" readonly="readonly" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
               <calendar
                 :show.sync="calendar.show"
                 :type="calendar.type"
@@ -50,16 +50,19 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.badCustomerCname}</td>
-                <td v-if="info.cuatomerType == 0">个人用户</td>
-                <td v-if="info.cuatomerType == 1">企业用户</td>
-                <td>${info.badCustomerCardNum}</td>
-                <td>${info.badCustomerProductName}</td>
-                <td>${info.badDebtAmount}</td>
-                <td></td>
-                <td>
-                  <a class="btn btn-info btn-xs" v-on:click="editInfo(info.id)">审核</a>
-                </td>
+                <td>${info.customerName}</td>
+                <td>${info.idCard}</td>
+                <td>${info.createTime | formatDate}</td>
+                <td>${info.riskBlackTransforReason}</td>
+                <td v-if="info.riskBlackOperationType == 0"><a class="btn btn-danger btn-xs" href="javascript:void (0);">申请转入黑名单</a></td>
+                <template v-else>
+                  <td v-if="info.riskBlackOperationType == 1"><a class="btn btn-warning btn-xs" href="javascript:void (0);">申请转出黑名单</a></td>
+                  <template v-else>
+                    <td v-if="info.riskBlackApproveStatus == 2"><a class="btn btn-info btn-xs" href="javascript:void (0);">转出风险名单</a></td>
+                  </template>
+                </template>
+                <td v-if = "info.riskBlackApproveStatus == 0"><a class="btn btn-info btn-xs" v-on:click="editInfo(info.riskBlackCustomerId,info.riskBlackApproveId)">审核</a></td>
+                <td v-else><a class="btn btn-default btn-xs">审核</a></td>
               </tr>
               </tbody>
             </table>
@@ -202,7 +205,7 @@
                   pageLength : that.visiblepage,
                   pageSearch : JSON.stringify(that.search)
                 }
-            that.$http.post(QK.SERVER_URL+'/api/BadDebtCustomer/pageList', searchAll , true).then(function (data) {
+            that.$http.post(QK.SERVER_URL+'/api/riskBlackCustomerApprove/pageList', searchAll , true).then(function (data) {
               var data = jQuery.parseJSON(data.body);
               var result = QK.getStateCode(that, data.code)
               var page = parseInt(data.recordsTotal / 10);
@@ -222,11 +225,11 @@
               that.currentpage = page
             }
           },
-         editInfo:function(id){
+         editInfo:function(id,riskid){
             //记录当前地址
             QK.noteNowUrl()
             //跳转地址
-            this.$router.go({path: '/system/product/editThree/' + id})
+            this.$router.go({path: '/system/riskmanagement/reviewed/' + id + '/' + riskid})
          },
          open(e,type) {
             // 设置类型
