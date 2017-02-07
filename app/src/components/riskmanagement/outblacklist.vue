@@ -4,7 +4,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          转入风险名单信息
+          转出黑名单信息
         </header>
         <div class="panel-body">
           <form id="RiskOut" @submit.prevent="handleSubmit" enctype="multipart/form-data">
@@ -14,7 +14,7 @@
                   <label for="username">转出原因:</label>
                   <div class="input-icon right">
                     <textarea class="form-control" name="riskBlackTransforReason" v-model="infos.riskBlackTransforReason"></textarea>
-                    <div class="message">${errors.emailError}</div>
+                    <div class="message"></div>
                   </div>
                 </div>
               </div>
@@ -71,7 +71,7 @@
                   var optionObj = {
                       'that' : that,
                       'title' : '转出成功!',
-                      'listUrl' : '/system/riskmanagement/risklist'
+                      'listUrl' : '/system/riskmanagement/blacklist'
                     }
                     QK.successSwal(optionObj)
                 }else{

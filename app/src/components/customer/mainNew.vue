@@ -35,7 +35,7 @@
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10" style="margin-bottom:20px;">
               <button id="btn_submit" class="btn btn-success">确定</button>
-              <button @click="cancelMethod()" class="btn btn-default">取消</button>
+              <a @click="cancelMethod()" class="btn btn-default">取消</a>
             </div>
           </div>
         </form>

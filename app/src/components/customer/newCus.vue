@@ -109,7 +109,7 @@
               </div>
               <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <button @click="cancelMethod()" class="btn btn-default">取消</button>
+                <a @click="cancelMethod()" class="btn btn-default">取消</a>
               </div>
               <!--</template>-->
             </form>
