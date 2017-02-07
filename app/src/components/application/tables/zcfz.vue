@@ -11,7 +11,7 @@
           <tr>
             <td style="width:40%;padding-left:20px;">${temp.templateVarName}</td>
             <td style="width:60%;padding-left:20px;">
-                <input type="${temp.templateVarInputType | getType}" class="form-control" name="tempValue" v-on:change="updateValue" v-model="temp.templateVarValue" data-id="${temp.applicationTemplateVarId}"/>
+                <input type="${temp.templateVarInputType | getType}" class="form-control" name="tempValue" @change="updateValue(temp)" v-model="temp.templateVarValue" />
                 <template v-if="!temp.vars.length">
                   <img @click="addRow(temp)" src="../../../../static/images/add.png">
                   <img @click="delRow(temp)" src="../../../../static/images/del.png">
@@ -22,19 +22,20 @@
             <tr>
               <td style="width:40%;padding-left:40px;">${info.templateVarName}</td>
               <td style="width:60%;padding-left:20px">
-                <input  type="${temp.templateVarInputType | getType}" class="form-control" name="tempVarValue" v-on:change="updateValue" data-id="${info.applicationTemplateVarId}" v-model="info.templateVarValue"/>
+                <input type="${temp.templateVarInputType | getType}" class="form-control" name="tempVarValue" @change="updateValue(info)" v-model="info.templateVarValue"/>
                 <img @click="addRow(info)" src="../../../../static/images/add.png">
                 <img @click="delRow(info)" src="../../../../static/images/del.png">
               </td>
             </tr>
-            <template v-for="mini in info.vars">
+            <template v-for="mini in info.extras">
               <tr>
                 <td style="width:40%;padding-left:60px;">
                   <span></span>
-                  <input type="text" class="form-control" name="templateVarExtraName" v-model="mini.templateVarExtraName"/>
+                  <input style="display:none" type="text" class="form-control" name="templateVarExtraName" v-model="mini.templateVarExtraName"/>
+                  <span>${mini.templateVarExtraName}</span>
                 </td>
                 <td style="width:60%;padding-left:20px">
-                  <input type="${mini.templateVarInputType | getType}" class="form-control" name="templateVarExtraValue" data-id="${mini.applicationTemplateVarId}" v-model="mini.templateVarValue"/>
+                  <input type="number" class="form-control" name="templateVarExtraValue" v-model="mini.templateVarExtraValue"/>
                   <button @click="updateAddRow(info)" class="btn btn-success btn-xs">保存</button>
                   <button @click="editAddRow()" class="btn btn-info btn-xs">编辑</button>
                 </td>
@@ -108,31 +109,31 @@
       updateAddRow: function(info){
         var that = this
         var inputs = $(event.currentTarget).parents("tr").find("input")
-        that.$set("addSendData.applicationId",that.$route.params.aId)
-        that.$set("addSendData.templateVarId",info.applicationTemplateVarId)
+        that.$set("addSendData.applicationId",that.$route.params.appliId)
+        that.$set("addSendData.templateVarId",info.templateVarId)
         that.$set("addSendData.templateVarExtraName",$(inputs[0]).val())
         that.$set("addSendData.templateVarExtraValue",$(inputs[1]).val())
         that.$http.post(QK.SERVER_URL + '/api/application/ipc',that.addSendData, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            $(event.currentTarget).hide()
             $(event.currentTarget).parents("tr").find("input").eq(0).hide()
             $(event.currentTarget).parents("tr").find("td").eq(0).find("span").html(that.addSendData.templateVarExtraName)
+            $(event.currentTarget).hide()
           }else{
             alert("新增失败")
           }
         })
-
       },
       editAddRow: function(){
-        $(event.currentTarget).hide()
         $(event.currentTarget).parents("tr").find("input").eq(0).show()
         $(event.currentTarget).parents("tr").find("td").eq(0).find("span").html("")
+        $(event.currentTarget).prev("button").show()
+        $(event.currentTarget).hide()
       },
-      updateValue: function(){
+      updateValue: function(info){
         var that = this
-        var applicationTemplateVarId = $(event.currentTarget).data("id")
+        var applicationTemplateVarId = info.applicationTemplateVarId
         var templateVarValue = $(event.currentTarget).val()
         that.$http.put(QK.SERVER_URL + '/api/application/ipc/normal',{applicationTemplateVarId:applicationTemplateVarId,templateVarValue:templateVarValue}, true).then(function (data) {
           var data = $.parseJSON(data.body)

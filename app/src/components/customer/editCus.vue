@@ -33,9 +33,10 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="certificateType">证件类型</label>
                 <div class="input-icon right">
-                  <select id="certificateType" type="text" name="certificateType" class="form-control" v-model="tCustomerBasic.certificateType">
+                  <select id="certificateType" type="text" name="certificateType" class="form-control"
+                          v-model="tCustomerBasic.certificateType">
                     <template v-for="cert in certificate">
-                      <option  value="${cert.id}" checked>${cert.value}</option>
+                      <option value="${cert.id}" checked>${cert.value}</option>
                     </template>
                   </select>
                   <div class="message">${errors.certificateTypeError}</div>
@@ -71,9 +72,10 @@
               <div class="form-group col-md-8 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="industry">所属行业</label>
                 <div class="input-icon right">
-                  <select id="industry" type="text" name="industry" v-model="industry" class="form-control select2-multiple" multiple>
+                  <select id="industry" type="text" name="industry" v-model="industry"
+                          class="form-control select2-multiple" multiple>
                     <template v-for="industries in customerIndustry">
-                      <option  value="${industries.id}" selected>${industries.industryName}</option>
+                      <option value="${industries.id}" selected>${industries.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.industryError}</div>
@@ -83,9 +85,12 @@
               <div class="form-group col-md-3  col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="marriageStatus">婚姻状况</label>
                 <div class="input-icon right">
-                  <select id="marriageStatus" type="text" name="marriageStatus" v-model="tCustomerBasic.marriageStatus" class="form-control">
+                  <select id="marriageStatus" type="text" name="marriageStatus" v-model="tCustomerBasic.marriageStatus"
+                          class="form-control">
                     <template v-for="marriageStatus in marriage">
-                      <option v-if="tCustomerBasic.marriageStatus==marriageStatus.id" selected value="${marriageStatus.id}">${marriageStatus.value}</option>
+                      <option v-if="tCustomerBasic.marriageStatus==marriageStatus.id" selected
+                              value="${marriageStatus.id}">${marriageStatus.value}
+                      </option>
                       <option v-else value="${marriageStatus.id}">${marriageStatus.value}</option>
                     </template>
                   </select>
@@ -95,9 +100,12 @@
               <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <label for="educationDegree">文化程度</label>
                 <div class="input-icon right">
-                  <select id="educationDegree" type="text" class="form-control" name="educationDegree" v-model="tCustomerBasic.educationDegree">
+                  <select id="educationDegree" type="text" class="form-control" name="educationDegree"
+                          v-model="tCustomerBasic.educationDegree">
                     <template v-for="educationDegree in education">
-                      <option v-if="tCustomerBasic.educationDegree==educationDegree.id" selected value="${educationDegree.id}">${educationDegree.value}</option>
+                      <option v-if="tCustomerBasic.educationDegree==educationDegree.id" selected
+                              value="${educationDegree.id}">${educationDegree.value}
+                      </option>
                       <option v-else value="${educationDegree.id}">${educationDegree.value}</option>
                     </template>
                   </select>
@@ -106,7 +114,7 @@
               </div>
               <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <a v-link="{path:'/system/customer/list'}"  type="reset" class="btn btn-default">取消</a>
+                <a @click="cancelMethod()" class="btn btn-default">取消</a>
               </div>
             </form>
           </div>
@@ -120,6 +128,7 @@
       color:#a94442;
       height:20px;
   }
+
 </style>
 <script>
     import QK from '../../QK'
@@ -340,7 +349,11 @@
                         }
                     })
                 }
-            }
+            },
+            cancelMethod:function(){
+                this.$router.go({path:localStorage.nowurl})
+            },
         }
     }
+
 </script>

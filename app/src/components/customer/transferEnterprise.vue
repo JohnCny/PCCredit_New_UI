@@ -54,7 +54,7 @@
             </form>
             <div class="col-md-5 col-md-offset-2 contain" style="margin-top: 50px;">
               <button id="btn_submit" class="btn btn-success" @click="transfer">确定</button>
-              <a @click="cancleMethod()" class="btn btn-default">取消</a>
+              <button @click="cancleMethod()" class="btn btn-default">取消</button>
             </div>
 
           </div>

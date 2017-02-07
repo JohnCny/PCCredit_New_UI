@@ -73,7 +73,7 @@
         var that = this
         $("#zcfz").show().siblings("div.tabContent").hide()
         $(".xzkhNormal,.sqbNormal,.ipcNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-        var id = that.$route.params.aId
+        var id = that.$route.params.appliId
         that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+id, true).then(function (data) {
           var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
