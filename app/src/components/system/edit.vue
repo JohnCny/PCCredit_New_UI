@@ -42,7 +42,7 @@
               </div>
               <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <a v-on:click="cancelMethod()" type="reset" class="btn btn-default">取消</a>
+                <a @click="cancelMethod()" class="btn btn-default">取消</a>
               </div>
             </form>
           </div>
@@ -132,7 +132,7 @@
         var that = this
         var id = that.$route.params.id
         that.$http.get(QK.SERVER_URL + '/api/system/' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body)
+          var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("tSysParameter", data.data)

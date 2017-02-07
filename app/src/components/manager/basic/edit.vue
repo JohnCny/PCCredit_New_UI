@@ -60,7 +60,7 @@
         <div class="row">
           <div class="col-xs-12" style="text-align:center">
             <button class="btn btn-success" type="submit">提 交</button>
-            <button class="btn btn-default">返 回</button>
+            <a @click="cancelMethod()" class="btn btn-default">返 回</a>
           </div>
         </div>
       </form>
@@ -153,6 +153,9 @@
           that.$set('infos', data.data.customerManager)
           that.$set('levers', data.data.customerManagerLevel)
         })
+      },
+      cancelMethod:function(){
+         this.$router.go({path:localStorage.nowurl})
       },
     }
   }

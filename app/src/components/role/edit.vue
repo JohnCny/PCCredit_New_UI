@@ -95,7 +95,7 @@
             <div class="row">
               <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
                 <button class="btn btn-success">确定</button>
-                <a v-on:click="cancelMethod()" type="reset" class="btn btn-default">取消</a>
+                <a @click="cancelMethod()" class="btn btn-default">取消</a>
               </div>
             </div>
           </div>

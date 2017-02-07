@@ -213,7 +213,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 col-md-offset-5" style="margin-top:30px;margin-bottom:20px;">
-        <a v-on:click="cancelMethod()" type="reset" class="btn btn-success">返回</a>
+        <a @click="cancelMethod()" class="btn btn-success">返回</a>
       </div>
     </div>
   </form>
