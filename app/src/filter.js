@@ -55,6 +55,31 @@ export const getRoleState = (num) => {
   return reStr;
 }
 
+
+
+/**
+ * 获取ipc表单种类
+ * @method getType
+ * @param {number} num
+ * @returns {string}
+ * @author: qwy
+ * @date: 2017.2.6
+ */
+export const getType = (num) => {
+  var typeTxt = 'text';
+  switch (parseInt(num)) {
+    case 0:
+      typeTxt = 'number';
+      break;
+    case 1:
+      typeTxt = 'date';
+      break;
+    default:
+      typeTxt = 'text'
+  }
+  return typeTxt;
+}
+
 /**
  * 获取角色
  * @method getRole
