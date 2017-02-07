@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          逾期/不良客户列表
+          风险名单
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -54,23 +54,23 @@
                 <td>${info.idCard}</td>
                 <td>${info.createTime}</td>
                 <td>${info.badReason}</td>
-                <td v-if="info.customerStatus == 0">正常</td>
+                <td v-if="info.customerStatus == 0"><a class="btn btn-success btn-xs" href="javascript:void (0);">正常</a></td>
                 <template v-else>
-                  <td v-if="info.customerStatus == 1">高风险用户</td>
+                  <td v-if="info.customerStatus == 1"><a class="btn btn-danger btn-xs" href="javascript:void (0);">高风险用户</a></td>
                   <template v-else>
-                    <td v-if="info.customerStatus == 2">黑名单用户</td>
+                    <td v-if="info.customerStatus == 2"><a class="btn btn-danger btn-xs" href="javascript:void (0);">黑名单用户</a></td>
                     <template v-else>
-                      <td v-if="info.customerStatus == 3">高风险转黑名单审核</td>
+                      <td v-if="info.customerStatus == 3"><a class="btn btn-warning btn-xs" href="javascript:void (0);">高风险转黑名单审核</a></td>
                       <template v-else>
-                        <td v-if="info.customerStatus == 4">黑名单转出</td>
+                        <td v-if="info.customerStatus == 4"><a class="btn btn-primary btn-xs" href="javascript:void (0);">黑名单转出</a></td>
                       </template>
                     </template>
                   </template>
                 </template>
                 <td>
-                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="editInfo(info.customerId)">转出风险名单</a>
+                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="outList(info.customerId)">转出风险名单</a>
                   <a v-else class="btn btn-default btn-xs" href="javascript:void (0);">转出风险名单</a>
-                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">转入风险名单</a>
+                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="inList(info.customerId)">转入风险名单</a>
                   <a v-else class="btn btn-default btn-xs" href="javascript:void (0);">转入风险名单</a>
                 </td>
               </tr>
@@ -235,11 +235,17 @@
                   that.currentpage = page
                 }
             },
-           editInfo:function(id){
+           outList:function(id){
                 //记录当前地址
                 QK.noteNowUrl()
                 //跳转地址
                 this.$router.go({path: '/system/riskmanagement/outrisklist/' + id})
+           },
+           inList:function(id){
+                //记录当前地址
+                QK.noteNowUrl()
+                //跳转地址
+                this.$router.go({path: '/system/riskmanagement/inrisklist/' + id})
            },
            open(e,type) {
                 // 设置类型

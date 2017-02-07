@@ -98,7 +98,7 @@
       }
     },
     ready: function () {
-      this.init();
+      this.init()
     },
     computed: {
       pagenums: function () {
@@ -107,15 +107,15 @@
         var highPage = this.totlepage;
         var pageArr = [];
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-          var subVisiblePage = Math.ceil(this.visiblepage / 2);
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
             lowPage = this.currentpage - subVisiblePage;
-            highPage = this.currentpage + subVisiblePage - 1;
+            highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
             lowPage = 1;
             highPage = this.visiblepage;
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
+            lowPage = this.totlepage - this.visiblepage + 1
             highPage = this.totlepage;
           }
         }
