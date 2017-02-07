@@ -1,9 +1,6 @@
+<style src='../../../static/css/Tabs.css'></style>
 <template>
-  <ul class="myTab">
-    <template v-for="todo in infoData">
-      <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-    </template>
-  </ul>
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
@@ -51,7 +48,6 @@
       </section>
     </div>
   </div>
-
   <div class="row" style="height:700px;">
     <div class="col-sm-12">
       <section class="panel">
@@ -80,8 +76,8 @@
           </div>
         </form>
         <div class="col-xs-12 col-md-offset-5 contain">
-          <button id="btn_submit" class="btn btn-success" v-on:click="nextStep()">下一步</button>
-          <button class="btn btn-info" v-on:click="cancel()">返回上一步</button>
+          <button id="btn_submit" class="btn btn-success" v-on:click="nextStep">下一步</button>
+          <button class="btn btn-info" v-on:click="cancel">返回上一步</button>
         </div>
       </section>
     </div>
@@ -127,18 +123,13 @@
 </style>
 <script>
   import QK from '../../QK'
+  import myTab from './myTab.vue'
   export default{
+    components: {
+        myTab
+      },
     data(){
       return {
-        infoData: [
-          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
-          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
-          {id: 'sqb', text: '填写申请表', classname: 'stepActive'},
-          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepNormal'},
-          {id: 'dctp', text: '上传调查图片', classname: 'stepNormal'},
-          {id: 'zxbg', text: '上传征信报告', classname: 'stepNormal'},
-          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
-        ],
         tCustomerBasic: {
           cname: '',
           certificateNumber: '',
@@ -157,6 +148,7 @@
     },
     ready: function () {
       this.init()
+      this.initActive()
     },
     methods: {
       nextStep: function () {
@@ -164,7 +156,7 @@
         var id = that.$route.params.appliId
 
         that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             var templateId = data.data.product.productApplyTemplateId
@@ -177,12 +169,15 @@
         var that = this
         var id = that.$route.params.customerId
         that.$http.get(QK.SERVER_URL + '/api/customerBasic/' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("tCustomerBasic", data.data)
           }
         })
+      },
+      initActive: function(){
+        $(".xzkhNormal,.sqbNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
       },
       cancel: function () {
         window.history.back()

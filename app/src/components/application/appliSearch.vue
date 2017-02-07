@@ -46,7 +46,7 @@
           <div class="page-bar">
             <ul>
               <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+              <li v-for="index in pagenums" v-bind:class="{active: currentpage == index}">
                 <a v-on:click="pageChange(index)">${index}</a>
               </li>
               <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>

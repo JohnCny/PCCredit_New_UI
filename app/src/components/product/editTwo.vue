@@ -145,7 +145,7 @@
           searchAll,
           productId: id
         }, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {

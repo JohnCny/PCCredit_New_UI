@@ -137,7 +137,7 @@
                 })
                 var tempid = ids.join(",")
                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:1,customerIds:tempid},true).then(function (data) {
-                    var data = $.parseJSON(data.body);
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                         swal({
@@ -162,7 +162,7 @@
                 keyobj["customerIds"] = tempid
                 keyobj["flag"] = 2
                 that.$http.put(QK.SERVER_URL+'/api/customerTransfer/accept',{flag:2,customerIds:tempid} ,true).then(function (data) {
-                    var data = $.parseJSON(data.body);
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                         swal({

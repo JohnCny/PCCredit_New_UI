@@ -144,7 +144,7 @@ import OutBlackList from './components/riskmanagement/outblacklist.vue'//黑名�
  * 进件
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
-import selectCus from './components/application/selectCus.vue'//选择申请客户
+import appliCus from './components/application/appliCus.vue'//选择申请客户
 import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
@@ -152,6 +152,8 @@ import appliApproval from './components/application/approval.vue'//征信报告
 import informationAll from './components/application/informationAll.vue'//进件信息总览
 import appliCheck from './components/application/appliSearch.vue'//进件查询
 import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
+import customerSign from './components/application/cusSign.vue'//进件客户签约
+import inputSign from './components/application/inputSignMess.vue'//录入客户签约
 
 export default {
   // '/index': {
@@ -189,17 +191,18 @@ export default {
         component: UserEdit
       },
       /*end---用户---end*/
+
       /*start---进件---start*/
       '/application/new': {//进件申请
         component: ApplicationNew
       },
-      '/application/select/:id':{//选择申请客户
-        component: selectCus
+      '/application/appliCus/:id':{//选择申请客户
+        component: appliCus
       },
-      '/application/cusBasic/:customerId/:aId':{//填写申请表
+      '/application/cusBasic/:customerId/:appliId':{//填写申请表
         component: cusBasic
       },
-      '/application/ipc/:aId/:templateId':{//填写IPC调查报告
+      '/application/ipc/:appliId/:templateId':{//填写IPC调查报告
         component: ipcSupply
       },
       '/application/list':{//进件查询
@@ -216,6 +219,12 @@ export default {
       },
       '/application/informationAll/:id':{//进件信息总览
         component:informationAll
+      },
+      '/application/cusSign':{//进件客户签约
+        component:customerSign
+      },
+      '/application/inputSign/:id':{//进件客户签约
+        component:inputSign
       },
       /*end---进件---end*/
 
