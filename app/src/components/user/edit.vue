@@ -151,7 +151,7 @@
             <div class="row">
               <div class="col-md-12">
                 <button class="btn btn-success">确定</button>
-                <button type="reset" class="btn btn-default">取消</button>
+                <button @click="cancelMethod()" class="btn btn-default">取消</button>
               </div>
             </div>
           </form>
@@ -418,6 +418,9 @@
         } else {
           QK.messageFun($("#emailDiv"), msg5)
         }
+      },
+      cancelMethod:function(){
+         this.$router.go({path:localStorage.nowurl})
       },
 
     }

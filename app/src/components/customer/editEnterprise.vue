@@ -89,7 +89,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <button id="btn_submit" class="btn btn-success">确定</button>
-                  <button class="btn btn-default">取消</button>
+                  <button @click="cancelMethod()" class="btn btn-default">取消</button>
                 </div>
               </div>
               <!--</template>-->
@@ -296,7 +296,10 @@
                         }
                     })
                 }
-            }
+            },
+            cancelMethod:function(){
+                this.$router.go({path:localStorage.nowurl})
+            },
         }
     }
 </script>

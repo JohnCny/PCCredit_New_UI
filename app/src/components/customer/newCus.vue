@@ -109,7 +109,7 @@
               </div>
               <div class="col-xs-12 col-md-offset-5 contain" style="margin-top: 50px;">
                 <button id="btn_submit" class="btn btn-success">确定</button>
-                <a v-link="{path:'/system/customer/list'}" type="reset" class="btn btn-default">取消</a>
+                <button @click="cancelMethod()" class="btn btn-default">取消</button>
               </div>
               <!--</template>-->
             </form>
@@ -327,7 +327,10 @@
                         }
                     })
                 }
-            }
+            },
+            cancelMethod:function(){
+                this.$router.go({path:localStorage.nowurl})
+            },
         }
     }
 </script>
