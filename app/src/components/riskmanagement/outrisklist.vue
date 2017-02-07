@@ -4,7 +4,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          转入风险名单信息
+          转出风险名单信息
         </header>
         <div class="panel-body">
           <form id="RiskOut" @submit.prevent="handleSubmit" enctype="multipart/form-data">
