@@ -2,7 +2,7 @@
 <template>
   <ul class="myTab">
     <template v-for="todo in infoData">
-      <li v-on:click="changeTab()" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
+      <li v-on:click="changeTab" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
     </template>
   </ul>
   <div class="row tabCon" id="xxzl">
@@ -183,7 +183,7 @@
                     <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}
                     </td>
                     <td>${info.investPictureUrl}</td>
-                    <td><a href="javascript:;" v-on:click="goAdd()" class="btn btn-success btn-xs"><i
+                    <td><a href="javascript:;" v-on:click="goAdd" class="btn btn-success btn-xs"><i
                       class="fa fa-plus"></i>继续添加</a></td>
                   </tr>
                   </tbody>

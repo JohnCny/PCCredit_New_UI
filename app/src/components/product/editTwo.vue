@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          产品信息 <a v-on:click="show()" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
+          产品信息 <a v-on:click="show" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新 增</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -16,7 +16,7 @@
               <span>当前状态：</span><input v-model="search.productState" type="text" name="productState"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -145,7 +145,7 @@
           searchAll,
           productId: id
         }, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {

@@ -43,7 +43,7 @@
                   <td><a href="javascript:;" v-on:click="showInfo(info.dataId)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     编辑 </a></td>
-                  <td><a v-on:click="deleteInfo(info.dataId)" title="删除" class="btn btn-danger btn-xs"><i
+                  <td><a v-on:click="deleteInfo(info.datappliId)" title="删除" class="btn btn-danger btn-xs"><i
                     class="fa fa-eraser"></i> 删除
                   </a></td>
                 </tr>

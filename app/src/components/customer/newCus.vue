@@ -282,7 +282,7 @@
             searchId: function() {
                 var that = this;
                 that.$http.get(QK.SERVER_URL+'/api/customerBasic/allStatus', true).then(function (data) {
-                    var data = $.parseJSON(data.body);
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.$set("certificate", data.data.cert)
@@ -292,9 +292,9 @@
                 })
             },
             industries:function() {
-                var that = this;
+                var that = this
                 that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
-                    var data = $.parseJSON(data.body);
+                    var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.$set("customerIndustry", data.data)

@@ -341,7 +341,7 @@
         var proId = that.ids.proId
         var flowId = that.ids.flowId
         that.$http.get(QK.SERVER_URL + '/api/productApprove/' + proId + '?approveId=' + flowId, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("infos", data.data.productApprove)
@@ -366,7 +366,7 @@
           $("#preNodeI").attr("disabled", true)
         } else if (vals == "中间节点") {
           that.$http.get(QK.SERVER_URL + '/api/productApprove?productId=' + proId + '', true).then(function (data) {
-            var data = $.parseJSON(data.body);
+            var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
               that.$set("nodeNames", data.data)
