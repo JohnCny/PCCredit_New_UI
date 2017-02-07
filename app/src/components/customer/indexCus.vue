@@ -137,9 +137,9 @@
                 }
                 that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/0',searchAll).then(function (res) {
                     var data = jQuery.parseJSON(res.body)
-                    var page = parseInt(data.recordsTotal / 10);
+                    var page = parseInt(data.recordsTotal / 10)
                     if (data.recordsTotal % 10) {
-                        page = page + 1;
+                        page = page + 1
                     }
                     that.$set('totlepage', page)
                     that.$set('infos', data.data)

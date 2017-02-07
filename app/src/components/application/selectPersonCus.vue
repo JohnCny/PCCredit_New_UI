@@ -38,7 +38,7 @@
                     </td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
-                    <td>${info.customerStatus | reCus}</td>
+                    <td>${info.customerStatus}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -64,64 +64,11 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .myTab li {
-    width: 150px;
-    float: left;
-    text-align: center;
-    list-style: none;
-    line-height: 50px;
-    margin-bottom: 10px;
-  }
-
-  .activePro {
-    background-color: #dff0d8 !important;
-    border: 1px solid
-  }
-
-  .stepActive {
-    color: #fff;
-    background: url(../../../static/images/stepActive.png) no-repeat left center;
-  }
-
-  .stepActiveL {
-    color: #fff;
-    background: url(../../../static/images/stepActiveL.png) no-repeat left center;
-  }
-
-  .stepActiveR {
-    color: #fff;
-    background: url(../../../static/images/stepActiveR.png) no-repeat left center;
-  }
-
-  .stepLast {
-    background: url(../../../static/images/stepLast.png) no-repeat left center;
-  }
-
-  .stepNormal {
-    background: url(../../../static/images/stepNormal.png) no-repeat left center;
-  }
-
-
-</style>
 <script>
   import QK from '../../QK'
   export default{
     data: function () {
       return {
-        todo: {
-          text: ''
-        },
-
-        infoData: [
-          {id: 'sqcp', text: '选择申请产品', classname: 'stepActiveL'},
-          {id: 'xzkh', text: '选择申请客户', classname: 'stepActive'},
-          {id: 'sqb', text: '填写申请表', classname: 'stepNormal'},
-          {id: 'ipc', text: '填写IPC调查报告', classname: 'stepNormal'},
-          {id: 'dctp', text: '上传调查图片', classname: 'stepNormal'},
-          {id: 'zxbg', text: '上传征信报告', classname: 'stepNormal'},
-          {id: 'xxzl', text: '信息总览', classname: 'stepLast'}
-        ],
         product: {
           productId: '',
           productName: '选择申请产品',
@@ -147,7 +94,7 @@
     },
     ready: function () {
       this.init()
-      this.changeText()
+      //this.changeText()
     },
     route: {
       canReuse: function () {
@@ -198,8 +145,8 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition', searchAll, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/'+0, searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
@@ -244,8 +191,8 @@
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            var aId = data.data
-            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + aId})
+            var appliId = data.data
+            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
             if (!data.data) {
               swal({
                 title: "您已申请过该产品！",

@@ -1,22 +1,18 @@
 <style src='../../../static/css/sweetalert.css'></style>
-<style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          客户列表
+          进件列表
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户名称/企业名称：</span><input v-model="search.customerName" type="text" name="customerName"/>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>证件号码/企业工商号：</span><input v-model="search.customerCardId" type="text" name="customerCardId"/>
+              <span>客户名称：</span><input v-model="search.customerCname" type="text" name="customerCname"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -24,19 +20,21 @@
               <thead>
               <tr>
                 <th>客户名称</th>
-                <th>证件号码</th>
+                <th>客户证件号码</th>
                 <th>产品名称</th>
-                <th>额度</th>
-                <th colspan="2">操作</th>
+                <th>申请金额</th>
+                <th>当前状态</th>
+                <th>操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.customerName}</td>
-                <td>${info.customerCardId}</td>
+                <td>${info.customerCname}</td>
+                <td>${info.customerCardNumber}</td>
                 <td>${info.productName}</td>
-                <td>${info.applyAmount}</td>
-                <td><a class="btn btn-success btn-xs" v-on:click="addLoan(info.id)">新增贷后监控</a></td>
+                <td>${info.approveAmount}</td>
+                <td>${info.applicationStatus}</td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
               </tr>
               </tbody>
             </table>
@@ -55,8 +53,6 @@
       </section>
     </div>
   </div>
-
-
 </template>
 <style scoped>
 </style>
@@ -67,49 +63,48 @@
     data: function () {
       return {
         infos: {
-          customerName: '',
-          customerCardId: '',
+          customerCname: '',
+          customerCardNumber: '',
           productName: '',
-          applyAmount: '',
-          id: '',
+          approveAmount: '',
+          applicationStatus: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
         visiblepage: 10,//隐藏10页
         search: {
-          customerName: '',
-          customerCardId: ''
+          customerCname: ''
         }
       }
     },
     ready: function () {
-      this.init();
+      this.init()
     },
     computed: {
       pagenums: function () {
         //初始化前后页边界
-        var lowPage = 1;
-        var highPage = this.totlepage;
-        var pageArr = [];
+        var lowPage = 1
+        var highPage = this.totlepage
+        var pageArr = []
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-          var subVisiblePage = Math.ceil(this.visiblepage / 2);
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
-            lowPage = this.currentpage - subVisiblePage;
-            highPage = this.currentpage + subVisiblePage - 1;
+            lowPage = this.currentpage - subVisiblePage
+            highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
-            lowPage = 1;
-            highPage = this.visiblepage;
+            lowPage = 1
+            highPage = this.visiblepage
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
-            highPage = this.totlepage;
+            lowPage = this.totlepage - this.visiblepage + 1
+            highPage = this.totlepage
           }
         }
         //确定了上下page边界后，要准备压入数组中了
         while (lowPage <= highPage) {
-          pageArr.push(lowPage);
-          lowPage++;
+          pageArr.push(lowPage)
+          lowPage++
         }
-        return pageArr;
+        return pageArr
       },
     },
     watch: {
@@ -125,7 +120,7 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/loanMonitor/add/pageList', searchAll, true).then(function (data) {
+        that.$http.post(QK.SERVER_URL + '/api/applicationContract/pageList', searchAll, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
@@ -145,27 +140,11 @@
           that.currentpage = page
         }
       },
-      addLoan: function (id) {
-        var that = this
-        console.log(id)
-        that.$http.get(QK.SERVER_URL + '/api/loanMonitor/' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            var optionObj = {
-              'that': that,
-              'title': '新增成功!',
-            }
-            QK.successSwal(optionObj)
-          } else {
-            var optionObj = {
-              'that': that,
-              'title': '新增失败!',
-              'text': result.msg + "！",
-            }
-            QK.errorSwal(optionObj)
-          }
-        })
+      show: function (id) {
+        //记录当前地址
+        QK.noteNowUrl()
+        //跳转地址
+        this.$router.go({path: '/system/application/inputSign/'+id})
       }
     }
   }

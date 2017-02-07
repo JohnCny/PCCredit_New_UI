@@ -14,7 +14,7 @@
               <span>产品名称：</span><input v-model="search.productName" type="text" name="certificateNumber"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -46,7 +46,7 @@
           <div class="page-bar">
             <ul>
               <li v-if="currentpage"><a v-on:click="currentpage--" v-bind:class="{hide:currentpage==1}">上一页</a></li>
-              <li v-for="index in pagenums" v-bind:class="{ active: currentpage == index}">
+              <li v-for="index in pagenums" v-bind:class="{active: currentpage == index}">
                 <a v-on:click="pageChange(index)">${index}</a>
               </li>
               <li v-if="currentpage!=totlepage"><a v-on:click="currentpage++">下一页</a></li>

@@ -211,7 +211,7 @@
         })
       },
       setIdArr: function (arr) {
-        var newArr = [], id;
+        var newArr = [], id
         $.each(arr, function (i, v) {
           $.each($(v)[0].authorityList, function (i, v) {
             id = $(v)[0].selected ? jQuery(v)[0].id : -1
