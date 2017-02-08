@@ -84,7 +84,6 @@
     methods: {
       getData: function () {
             var that = this
-            var myChart1 = echarts.init(document.getElementById('echart1'))
             var myChart2 = echarts.init(document.getElementById('echart2'))
             var myChart3 = echarts.init(document.getElementById('echart3'))
             var myChart4 = echarts.init(document.getElementById('echart4'))
@@ -133,17 +132,79 @@
                           },
                       ]
                   }
-            myChart1.setOption(option)
             myChart2.setOption(option)
             myChart3.setOption(option)
             myChart4.setOption(option)
              window.addEventListener("resize",function(){
-                myChart1.resize()
                 myChart2.resize()
                 myChart3.resize()
                 myChart4.resize()
             });
+      },
+      getDataOne: function () {
+        var myChart1 = echarts.init(document.getElementById('echart1'))
+        //myChart3['thisTime'] = new Date();
+        //myChart3['thisMonth'] = myChart3.thisTime.getMonth();
+        //myChart3['xtime'] = [];
+        //for (var i = 0; i < 12; i++) {
+         // myChart3.xtime[i] = ((myChart3.thisMonth + i + 1) % 12).toString() + '月';
+        //}
+        var that = this
+        that.$http.get(QK.SERVER_URL + '/api/index').then(function (data) {
+          var data = jQuery.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            console.log(result.msg)
+            var data = data.data
+            var option = {
+              title: {
+                text: data.textNameOne
+              },
+              tooltip: {
+                trigger: 'axis'
+              },
+              toolbox: {
+                feature: {
+                  dataView: {show: true, readOnly: false},
+                  magicType: {show: true, type: ['line']},
+                  restore: {show: true},
+                  saveAsImage: {show: true}
+                }
+              },
+              legend: {
+                data: data.textNameOne
+              },
+              xAxis: {
+                data: data.timeArrayOne
+              },
+              yAxis: [
+                {
+                  type: 'value',
+//                        name: data.textNameOne,
+//                        min: 0,
+//                        max: 250,
+//                        interval: 50,
+                  axisLabel: {
+                    formatter: '￥{value}'
+                  }
+                },
+              ],
+              series: [
+                {
+                  name: data.textNameOne,
+                  type: 'bar',
+                  data: data.dataArrayOne
+                },
 
+              ]
+
+            };
+            myChart3.setOption(option)
+          }
+          else {
+            console.log("**************************************" + result.msg)
+          }
+        })
       }
     }
 
