@@ -43,7 +43,7 @@
            return {
               infos:{
               riskBlackTransforReason:'',
-              riskBlackOperationType:'2'
+              riskBlackOperationType:'1'
               }
            }
         },
@@ -63,8 +63,8 @@
             })
             //验证结果  true  false
             if(bool){
-              var riskCustomerId = that.$route.params.id
-              that.$http.put(QK.SERVER_URL+'/api/riskBlackCustomerApprove/approve?riskCustomerId='+riskCustomerId, that.infos, true).then(function (data) {
+              var customerId = that.$route.params.id
+              that.$http.put(QK.SERVER_URL+'/api/riskBlackCustomerApprove/approve?customerId='+customerId, that.infos, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {

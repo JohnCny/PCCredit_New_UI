@@ -9,7 +9,9 @@ import Test from './components/user/index.vue'
  * 单独页面
  * ***********************/
 import Login from './components/Login.vue'
-import System from './components/System.vue'
+import System from './components/system.vue'
+import Admin from './components/dashboard/admin.vue'
+import Manager from './components/dashboard/manager.vue'
 import Error from './components/error.vue'
 
 /************************
@@ -176,7 +178,10 @@ export default {
     component: System,
     subRoutes: {
       '/admin': {
-        component: System
+        component: Admin
+      },
+      '/manager': {
+        component: Manager
       },
       '/user/changePass': { //修改密码
         component: UserChangePass

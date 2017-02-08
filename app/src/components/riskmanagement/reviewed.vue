@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-md-12">
         <section class="panel">
-          <header class="panel-heading">
-            转入黑名单信息
+          <header class="panel-heading" >
+            转入(转出)黑(风险)名单信息
           </header>
           <div class="panel-body">
             <div class="row">
@@ -52,15 +52,15 @@
                 <div class="form-ground">
                   <label for="sex">申请操作:</label>
                   <div class="input-icon right">
-                    <span>
-                      <a v-if="infos.riskBlackOperationType == 0">转入黑名单</a>
-                      <template v-esle>
-                        <a v-if="infos.riskBlackOperationType == 1">转出黑名单</a>
-                        <template v-else>
-                          <a v-if="infos.riskBlackOperationType == 2">转出风险名单</a>
-                        </template>
-                      </template>
-                    </span>
+                   <span>
+                     <a v-if="infos.riskBlackOperationType == 0">转入黑名单</a>
+                     <template v-else>
+                       <a v-if="infos.riskBlackOperationType == 1">转出黑名单</a>
+                       <template v-else>
+                         <a>转出风险名单</a>
+                       </template>
+                     </template>
+                   </span>
                     <div class="message">${errors.siteVisitsrateError}</div>
                   </div>
                 </div>
@@ -162,6 +162,7 @@
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
                 that.$set("infos", data.data)
+                console.log(data.data.riskBlackOperationType)
             }
          })
       }
