@@ -121,11 +121,11 @@
         })
       },
       goAdd: function () {
-        $(event.currentTarget).parent("td").prev("td").append("<tr><td>图片路径：<input type='file'/> <button id='upload'>上传</button></td></tr>")
+        $(event.currentTarget).parent("td").prev("td").append("<form id='upfile'>选择一个文件:<input action='/api/applicationInvestPicture' type='file' name='file' id='upload' /><br/><br/>	<input id='uploadFile' value='上传' type='button'/></form>")
         var that = this
         var applicationId = that.$route.params.id
         var productInvestPictureDesc = $("#descript").val()
-        $("#upload").click(function () {
+        $("#uploadFile").click(function () {
           that.$http.post(QK.SERVER_URL + '/api/applicationInvestPicture', {
             applicationId: applicationId,
             productInvestPictureDesc: productInvestPictureDesc

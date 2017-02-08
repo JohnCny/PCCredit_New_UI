@@ -16,7 +16,7 @@
               <span>证件号码/企业工商号：</span><input v-model="search.customerCardId" type="text" name="productState"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
