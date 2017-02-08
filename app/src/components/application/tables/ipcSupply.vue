@@ -4,7 +4,7 @@
     <div class="col-sm-12 col-lg-12 col-md-12 col-sm-12">
       <ul class="myTab1" id="menu1">
         <template v-for="(index,ipc) in ipcMenu">
-          <li v-bind:class="{ active: !index}" v-on:click="setTab2" v-bind:data-id="ipc.menuId" >${ipc.menuName}</li>
+          <li v-bind:data-id="ipc.templateId"  v-bind:class="{ active: !index}" v-on:click="setTab2" >${ipc.menuName}</li>
         </template>
       </ul>
       <section class="panel">
@@ -55,8 +55,9 @@
   export default{
     data(){
       return{
+        vars:{},
         ipcMenu:[],
-        ids:[]
+        ids:[],
       }
     },
     components: {
@@ -67,40 +68,51 @@
     },
     ready:function(){
       this.init()
+
     },
     methods:{
       init:function() {
         var that = this
         $("#zcfz").show().siblings("div.tabContent").hide()
         $(".xzkhNormal,.sqbNormal,.ipcNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-        var id = that.$route.params.aId
+        var id = that.$route.params.appliId
         that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+id, true).then(function (data) {
           var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
           if (result.state){
             that.$set("ipcMenu", data.data)
             $(that.ipcMenu).each(function(i,v){
-              that.ids.push($(v)[0].menuId)
+              that.ids.push($(v)[0].templateId)
             })
             var divs = $("div.tabContent")
             for(var i =0;i<divs.length;i++){
               $(divs[i]).addClass("tabContent"+that.ids[i])
             }
-            console.log(that.ids)
+            this.setTab2()
           }
         })
       },
       setTab2:function(){
         var that = this
         $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
-        var id = $(event.currentTarget).data("id")
-        $("div.tabContent"+id).show().siblings("div.tabContent").hide()
+        var applicationId = that.$route.params.appliId
+        var templateId = $(event.currentTarget).data("id")?$(event.currentTarget).data("id"):that.ids[0]
+        console.log(templateId)
+        $("div.tabContent"+templateId).show().siblings("div.tabContent").hide()
+        that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("vars", data.data)
+            QK.vector.$emit('getfromchild', that.vars)
+          }
+        })
       },
       nextStep: function(){
         var that = this
-        var id = that.$route.params.aId
+        var id = that.$route.params.appliId
         that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/ifFileNext/'+id, true).then(function (data) {
-          var data = $.parseJSON(data.body);
+          var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state){
              that.$router.go({path:"/system/application/picture/"+id})

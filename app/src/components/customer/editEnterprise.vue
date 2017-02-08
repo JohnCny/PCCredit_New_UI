@@ -77,8 +77,9 @@
                     <label for="industryEn">所属行业</label>
                     <div class="input-icon right">
                       <select id="industryEn" name="industry" v-model="industry" class="form-control select2-multiple" multiple>
-                        <template v-for="industries in enterPriseIndustry">
-                          <option value="${industries.id}" selected>${industries.industryName}</option>
+                        <template v-for="industries in allEnterPriseIndustry">
+                          <option v-if="enterPriseIndustry.indexOf(industries.id)>=0" value="${industries.id}" selected>${industries.industryName}</option>
+                          <option v-else value="${industries.id}">${industries.industryName}</option>
                         </template>
                       </select>
                       <div class="message">${errors.industryError}</div>
@@ -89,7 +90,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <button id="btn_submit" class="btn btn-success">确定</button>
-                  <button class="btn btn-default">取消</button>
+                  <a @click="cancelMethod()" class="btn btn-default">取消</a>
                 </div>
               </div>
               <!--</template>-->
@@ -127,6 +128,7 @@
                 },
                 industry:[],
                 enterPriseIndustry:[],
+                allEnterPriseIndustry: [],
                 errors:{
                     cnameError: '',
                     certificateNumberError: '',
@@ -142,6 +144,7 @@
             this.ComponentsSelect2()
             this.init()
             this.industries()
+            this.getIndustries()
         },
         methods: {
             handleSubmit () {
@@ -183,7 +186,7 @@
                                 confirmButtonText : '确定'
                             },
                             function(){
-                              that.$router.go({path:"/system/customer/list"})
+                             that.$router.go({path:"/system/customer/list"})
                             })
                         }else{
                             swal({
@@ -266,7 +269,19 @@
                     var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
-                        that.$set("enterPriseIndustry", data.data)
+                        $(data.data).each(function(i,v){
+                            that.enterPriseIndustry.push($(v)[0].industryId)
+                        })
+                    }
+                })
+            },
+            getIndustries:function() {
+                var that = this
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
+                    var data = $.parseJSON(data.body)
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                      that.$set("allEnterPriseIndustry", data.data)
                     }
                 })
             },
@@ -296,7 +311,10 @@
                         }
                     })
                 }
-            }
+            },
+            cancelMethod:function(){
+                this.$router.go({path:localStorage.nowurl})
+            },
         }
     }
 </script>
