@@ -57,9 +57,7 @@
     methods: {
       getRole: function () {
         var that = this
-        if (!that.roleId) {
-          this.$set('roleId', JSON.parse(localStorage.user).roleType)
-        }
+        this.$set('roleId', JSON.parse(localStorage.user).roleType)
         that.$http.get(QK.SERVER_URL + '/api/role', true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)

@@ -11,33 +11,46 @@
           <tr>
             <td style="width:40%;padding-left:20px;">${temp.templateVarName}</td>
             <td style="width:60%;padding-left:20px;">
-                <input type="${temp.templateVarInputType | getType}" class="form-control" name="tempValue" @change="updateValue(temp)" v-model="temp.templateVarValue" />
-                <template v-if="!temp.vars.length">
-                  <img @click="addRow(temp)" src="../../../../static/images/add.png">
-                  <img @click="delRow(temp)" src="../../../../static/images/del.png">
-                </template>
+              <template v-if="temp.templateVarInputType!=5">
+                <input type="${temp.templateVarInputType | getType}" class="form-control" @change="updateValue(temp)" v-model="temp.templateVarValue" />
+                <img @click="addRow(temp.extras)" src="../../../../static/images/add.png">
+                <!--<img @click="delRow(temp.vars)" data-type="2" src="../../../../static/images/del.png">-->
+              </template>
+              <template v-else>
+                <textarea class="form-control" @change="updateValue(temp)">${temp.templateVarValue}</textarea>
+              </template>
             </td>
           </tr>
+          <template v-for="mini in temp.extras">
+            <tr>
+              <td style="width:40%;padding-left:60px;">
+                <input type="text" class="form-control" v-model="mini.templateVarExtraName"/>
+              </td>
+              <td style="width:60%;padding-left:20px">
+                <input type="number" class="form-control" v-model="mini.templateVarExtraValue"/>
+                <button @click="editExtra(mini,temp)" class="btn btn-success btn-xs">保存</button>
+                <button @click="delRow(mini,temp.extras)" data-type="2" class="btn btn-warning btn-xs">删除</button>
+              </td>
+            </tr>
+          </template>
           <template v-for="info in temp.vars">
             <tr>
               <td style="width:40%;padding-left:40px;">${info.templateVarName}</td>
               <td style="width:60%;padding-left:20px">
-                <input type="${temp.templateVarInputType | getType}" class="form-control" name="tempVarValue" @change="updateValue(info)" v-model="info.templateVarValue"/>
-                <img @click="addRow(info)" src="../../../../static/images/add.png">
-                <img @click="delRow(info)" src="../../../../static/images/del.png">
+                <input type="${temp.templateVarInputType|getType}" step="${temp.templateVarInputType|getNumType}" class="form-control" @change="updateValue(info)" v-model="info.templateVarValue"/>
+                <img @click="addRow(info.extras)" src="../../../../static/images/add.png">
+                <!--<img @click="delRow(info.extras)" data-type="2" src="../../../../static/images/del.png">-->
               </td>
             </tr>
             <template v-for="mini in info.extras">
               <tr>
                 <td style="width:40%;padding-left:60px;">
-                  <span></span>
-                  <input style="display:none" type="text" class="form-control" name="templateVarExtraName" v-model="mini.templateVarExtraName"/>
-                  <span>${mini.templateVarExtraName}</span>
+                  <input type="text" class="form-control" v-model="mini.templateVarExtraName"/>
                 </td>
                 <td style="width:60%;padding-left:20px">
-                  <input type="number" class="form-control" name="templateVarExtraValue" v-model="mini.templateVarExtraValue"/>
-                  <button @click="updateAddRow(info)" class="btn btn-success btn-xs">保存</button>
-                  <button @click="editAddRow()" class="btn btn-info btn-xs">编辑</button>
+                  <input type="number" class="form-control" v-model="mini.templateVarExtraValue"/>
+                  <button @click="editExtra(mini,info)" class="btn btn-success btn-xs">保存</button>
+                  <button @click="delRow(mini,info.extras)" data-type="2" class="btn btn-warning btn-xs">删除</button>
                 </td>
               </tr>
             </template>
@@ -54,7 +67,7 @@
   }
   #zcfzTable th,#zcfzTable td{
     border:1px solid #ddd;
-    line-height:40px
+    height:40px
   }
   #zcfzTable input{
     float:left;
@@ -85,28 +98,44 @@
       }
     },
     ready :function(){
-      this.init()
+      //this.init()
+    },
+    created: function () {
+      QK.vector.$on('getfromchild', this.init)
+    },
+    beforeDestroy: function () {
+      QK.vector.$off('getfromchild', this.init)
     },
     methods:{
-      init:function() {
+      init:function(vars) {
         var that = this
-        var applicationId = that.$route.params.appliId
-        var templateId = that.$route.params.templateId
-        that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            that.$set("vars", data.data)
-          }
-        })
+        that.$set("vars", vars)
       },
       addRow: function(row){
-        row.vars.push({})
+        row.push({})
       },
-      delRow: function(row){
-        row.vars.pop()
+      delRow: function(mini,info){
+        var that = this,ipcCRUDType=$(event.currentTarget).data("type")
+        if(ipcCRUDType == 2){
+          that.$http.delete(QK.SERVER_URL + '/api/application/ipc?ipcCRUDType='+ipcCRUDType+'&extraVarId='+mini.extraVarId,true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              info.pop()
+            }
+          })
+        }else{
+          that.$http.delete(QK.SERVER_URL + '/api/application/ipc?ipcCRUDType='+ipcCRUDType+'&applicationTemplateVarId='+mini.applicationTemplateVarId,true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              info.pop()
+            }
+          })
+        }
       },
-      updateAddRow: function(info){
+      //新增一行数据
+      addRowData: function(info){
         var that = this
         var inputs = $(event.currentTarget).parents("tr").find("input")
         that.$set("addSendData.applicationId",that.$route.params.appliId)
@@ -117,30 +146,51 @@
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            $(event.currentTarget).parents("tr").find("input").eq(0).hide()
-            $(event.currentTarget).parents("tr").find("td").eq(0).find("span").html(that.addSendData.templateVarExtraName)
-            $(event.currentTarget).hide()
+            alert("新增成功")
           }else{
             alert("新增失败")
           }
         })
       },
-      editAddRow: function(){
-        $(event.currentTarget).parents("tr").find("input").eq(0).show()
-        $(event.currentTarget).parents("tr").find("td").eq(0).find("span").html("")
-        $(event.currentTarget).prev("button").show()
-        $(event.currentTarget).hide()
+      //更新新增子项
+      editRowData: function(mini){
+        var that = this
+        var sendData = {
+          "ipcCRUDType" : 2,
+          "extraVarId" : mini.extraVarId,
+          "templateVarExtraName" : mini.templateVarExtraName,
+          "templateVarExtraValue" : mini.templateVarExtraValue
+        }
+        that.$http.put(QK.SERVER_URL + '/api/application/ipc',sendData, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            alert("更新成功")
+          }
+        })
       },
+      //更新主项
       updateValue: function(info){
         var that = this
-        var applicationTemplateVarId = info.applicationTemplateVarId
-        var templateVarValue = $(event.currentTarget).val()
-        that.$http.put(QK.SERVER_URL + '/api/application/ipc/normal',{applicationTemplateVarId:applicationTemplateVarId,templateVarValue:templateVarValue}, true).then(function (data) {
+        var sendData = {
+          "ipcCRUDType" : 1,
+          "applicationTemplateVarId" : info.applicationTemplateVarId,
+          "templateVarValue" : $(event.currentTarget).val()
+        }
+        that.$http.put(QK.SERVER_URL + '/api/application/ipc',sendData, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
           }
         })
+      },
+      editExtra: function(mini,info){
+        //如果该行有id就执行新增一行数据方法  如果没有则执行更新新增子项方法
+        if(mini.extraVarId){
+          this.editRowData(mini)
+        }else{
+          this.addRowData(info)
+        }
       }
     }
   }

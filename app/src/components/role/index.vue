@@ -102,7 +102,7 @@
     methods: {
       init: function () {
         var that = this
-        that.$http.post(QK.SERVER_URL + '/api/role/pageList', true).then(function (res) {
+        that.$http.get(QK.SERVER_URL + '/api/role/pageList',true).then(function (res) {
           var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10)
           if (data.recordsTotal % 10) {
