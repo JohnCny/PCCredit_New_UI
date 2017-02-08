@@ -17,7 +17,7 @@
               <span>客户名称：</span><input v-model="search.cname" type="text" name="productName" placeholder="请输入客户名称"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="table-responsive">
@@ -38,7 +38,7 @@
                     </td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
-                    <td>${info.customerStatus}</td>
+                    <td><span class="label label-sm ${info.customerStatus | cusColor}">${info.customerStatus | reCus}</span></td>
                   </tr>
                   </tbody>
                 </table>

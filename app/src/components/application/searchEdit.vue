@@ -5,6 +5,7 @@
       <li v-on:click="changeTab" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
     </template>
   </ul>
+
   <div class="row tabCon" id="xxzl">
     <div class="col-sm-12">
       <section class="panel">
@@ -52,16 +53,33 @@
                 <div class="form-group">
                   <div class="control-label col-md-3 col-sm-3 col-xs-4">执行利率：</div>
                   <div class="col-md-9 col-sm-9 col-xs-8">
-                    ${tCustomerBasic.tel | isEmpty}
+                    1.8%
                   </div>
                 </div>
               </div>
             </div>
-
             <header class="panel-heading">
               已上传图片
             </header>
+            <div class="panel-body">
+              <div class="tableDiv">
+                <table class="table table-striped table-bordered table-hover order-column">
+                  <thead>
+                  <tr>
+                    <th>图片说明</th>
+                    <th>是否已上传</th>
 
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="info in infos">
+                    <td>${info.investPritureDescription}</td>
+                    <td>${info.investPictureUrl}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <header class="panel-heading">
               风控信息
             </header>
@@ -146,6 +164,9 @@
           </div>
         </div>
       </section>
+      <div class="col-xs-12 col-md-offset-5 contain">
+        <button id="btn_submit" v-on:click="saveAppli" class="btn btn-success">保存</button>
+      </div>
     </div>
   </div>
   <div class="row tabCon" style="display:none;" id="ipc">
@@ -153,11 +174,12 @@
       <section class="panel borderTab">
         <div class="panel-body borderTab">
           <div class="table-responsive">
-
-
           </div>
         </div>
       </section>
+      <div class="col-xs-12 col-md-offset-5 contain">
+        <button id="btn" v-on:click="saveAppli" class="btn btn-success">保存</button>
+      </div>
     </div>
   </div>
   <div class="row tabCon" style="display:none;" id="dctp">
@@ -193,6 +215,9 @@
           </div>
         </div>
       </section>
+      <div class="col-xs-12 col-md-offset-5 contain">
+        <button id="btn_picture" v-on:click="saveAppli" class="btn btn-success">保存</button>
+      </div>
     </div>
   </div>
   <div class="row tabCon" style="display:none;" id="spxx">
@@ -206,7 +231,7 @@
             <table class="bxd">
               <tbody>
               <tr>
-                <td>当前审批节点：<span>XXXXXXXXX</span></td>
+                <td>当前审批节点：<span>客户经理审批</span></td>
                 <td colspan="2">风险提示：<span style="color:#a94442">风险客户</span></td>
               </tr>
               </tbody>
@@ -229,14 +254,14 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                  <tr v-for="var in vars">
+                    <td>客户经理审批</td>
+                    <td>${var.approvalPersonCname}</td>
+                    <td><span class="label label-sm ${var.approvalConclution | approvalColor}">${var.approvalConclution | approvalChange}</span></td>
+                    <td>${var.approvalConditions}</td>
+                    <td>${var.approvalAmount}</td>
+                    <td>${var.approvalRate}</td>
+                    <td>${var.approvalOpinion}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -249,10 +274,10 @@
             <table class="bxd">
               <tbody>
               <tr>
-                <td>贷款开始日期：<span>XXXXXXXXX</span></td>
-                <td>贷款结束日期：<span>XXXXXXXXX</span></td>
-                <td>合同编号：<span>XXXXXXXXX</span></td>
-                <td>放款账号：<span>XXXXXXXXX</span></td>
+                <td>贷款开始日期：<span>${temp.loanStartTime | isEmpty}</span></td>
+                <td>贷款结束日期：<span>${temp.loanEndTime | isEmpty}</span></td>
+                <td>合同编号：<span>${temp.contractNumber | isEmpty}</span></td>
+                <td>放款账号：<span>${temp.loanAccount | isEmpty}</span></td>
               </tr>
               </tbody>
             </table>
@@ -292,6 +317,9 @@
           </div>
         </div>
       </section>
+      <div class="col-xs-12 col-md-offset-5 contain">
+        <button id="btn_approval" v-on:click="saveAppli" class="btn btn-success">保存</button>
+      </div>
     </div>
   </div>
 </template>
@@ -321,6 +349,24 @@
           {id: 'dctp', text: '调查图片', classname: ''},
           {id: 'spxx', text: '审批信息', classname: ''}
         ],
+        infos:[{
+          investPritureDescription: '',
+          investPictureUrl: ''
+        }],
+        vars:[{
+           approvalPersonCname:'',
+           approvalConclution:'',
+           approvalConditions:'',
+           approvalAmount:'',
+           approvalRate:'',
+           approvalOpinion:''
+        }],
+        temp:{
+          loanStartTime:'',
+          loanEndTime:'',
+          contractNumber:'',
+          loanAccount:''
+        },
         tCustomerBasic: {
           cname: '',
           certificateNumber: '',
@@ -330,15 +376,73 @@
         errors: {
           applyReasonError: '',
           applyAmountError: ''
-        },
-
+        }
       }
     },
 
     ready: function () {
+       this.init()
+       this.pictureUrl()
+       this.approval()
 
     },
     methods: {
+     init: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("tCustomerBasic", data.data.customer)
+          }
+        })
+      },
+      pictureUrl: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/applicationInvestPicture/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
+      approval: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/applicationApproval/' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("vars", data.data.approval)
+            that.$set("temp", data.data.contract)
+          }
+        })
+      },
+      saveAppli: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
+      goAdd: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        })
+      },
       changeTab: function () {
         var that = this
         $(event.currentTarget).addClass("active").siblings("li").removeClass("active")

@@ -30,6 +30,10 @@
 
   </template>
 <style scoped>
+    .nav > li > a:hover, .nav > li > a:focus {
+      text-decoration: none;
+      background-color: #fff;
+    }
     active{
      background:#eff0f4;
     }
