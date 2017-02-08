@@ -9,7 +9,7 @@ import Test from './components/user/index.vue'
  * 单独页面
  * ***********************/
 import Login from './components/Login.vue'
-import System from './components/system.vue'
+import System from './components/System.vue'
 import Admin from './components/dashboard/admin.vue'
 import Manager from './components/dashboard/manager.vue'
 import Error from './components/error.vue'
