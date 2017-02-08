@@ -1,54 +1,50 @@
+<style src='../../../static/css/pageStyle.css'></style>
 <template>
   <div class="row">
     <div class="col-md-12">
       <section class="panel">
         <header class="panel-heading">
-          客户管理 <a @click="newPageShow" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
+          客户列表
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>名称：</span><input v-model="search.cname" type="text" name="cname"/>
+              <span>客户名称：</span><input v-model="search.cname" type="text" name="cname"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>工商注册号：</span><input v-model="search.certificateNumber" type="text" name="certificateNumber"/>
+              <span>客户证件号码：</span><input v-model="search.certificateNumber" type="text" name="certificateNumber"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
-            <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
+            <table class="table table-striped table-bordered table-hover order-column">
               <thead>
               <tr>
-                <th>名称</th>
-                <th>工商注册号</th>
-                <th>电话</th>
-                <th>地址</th>
-                <th>法人</th>
-                <th>状态</th>
+                <th>客户名称</th>
+                <th>客户证件号码</th>
+                <th>联系方式</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
               <template  v-if="infos.length" >
                 <tr v-for="info in infos">
-                  <td><a href="javascript:;" v-on:click="show(info.id)">${info.cname}</a></td>
+                  <td>${info.cname}</td>
                   <td>${info.certificateNumber}</td>
                   <td>${info.tel}</td>
-                  <td>${info.homeAddress}</td>
-                  <td>${info.enterpriseCname}</td>
-                  <td><span style="font-weight:normal" class="label label-sm ${info.customerStatus | getCusClass}">${info.customerStatus | getCusState}</span></td>
+                  <td><a href="javascript:;" v-on:click="show(info.id)" class="btn btn-info btn-xs"><i
+                    class="fa fa-edit"></i>
+                    新增维护记录 </a></td>
                   <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
-                    编辑 </a></td>
-                  <td><a @click="deleteInfo(info.id,info.ifDel)"  href="javascript:;" disabled="${info.ifDel | getDelete}"  class="btn btn-danger btn-xs">
-                    <i class="glyphicon glyphicon-pencil"></i> 删除 </a></td>
+                    查看 </a></td>
                 </tr>
               </template>
-              <template  v-else>
+              <template v-else>
                 <tr>
-                  <td colspan="8">没有数据</td>
+                  <td colspan="5">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -73,27 +69,22 @@
 </style>
 <script>
   import QK from '../../QK'
-  import swal from 'sweetalert'
   export default{
     data: function () {
       return {
-        infos: {
-          id:'',
+        infos: [{
+          id: '',
           cname: '',
           certificateNumber: '',
-          tel: '0',
-          homeAddress: '',
-          enterpriseCname: '',
-          enterpriseIdCard: '',
-          industry: ''
+          tel: ''
+        }],
+        search: {
+          cname: '',
+          certificateNumber: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
-        visiblepage: 10,//隐藏10页
-        search:{
-           certificateNumber: '',
-           cname: ''
-        }
+        visiblepage: 10//隐藏10页
       }
     },
     ready: function () {
@@ -134,13 +125,13 @@
     methods: {
       init: function () {
         var that = this
-         var searchAll = {
-          "pageStart" : that.currentpage,
-          "pageLength" : that.visiblepage,
-          "pageSearch" : JSON.stringify(that.search)
+        var searchAll = {
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage,
+          pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/1',searchAll).then(function (res) {
-          var data = jQuery.parseJSON(res.body)
+        that.$http.post(QK.SERVER_URL + '/api/customerMaintenance/condition/1', searchAll).then(function (res) {
+          var data = $.parseJSON(res.body)
           var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
             page = page + 1;
@@ -160,22 +151,13 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/customer/editEnterPrise/' + id})
+        this.$router.go({path: '/system/customer/mainRecord/' + id})
       },
-      show: function(id){
+      show: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/customer/show/' + id})
-      },
-      newPageShow: function(){
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/customer/new'})
-      },
-      deleteInfo: function(){
-
+        this.$router.go({path: '/system/customer/mainNew/' + id})
       }
     }
   }

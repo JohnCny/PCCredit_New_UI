@@ -1,6 +1,6 @@
 <template>
 
-  这是主要内容区域
+
 
 </template>
 <script>

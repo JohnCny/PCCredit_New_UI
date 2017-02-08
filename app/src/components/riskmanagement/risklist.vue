@@ -17,7 +17,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>所属日期：</span>
-              <input class="input" size="50" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
+              <input class="input" size="50" readonly="readonly" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
               <calendar
                 :show.sync="calendar.show"
                 :type="calendar.type"
@@ -52,7 +52,7 @@
               <tr v-for="info in infos">
                 <td>${info.customerName}</td>
                 <td>${info.idCard}</td>
-                <td>${info.createTime}</td>
+                <td>${info.createTime | formatDate}</td>
                 <td>${info.badReason}</td>
                 <td v-if="info.customerStatus == 0"><a class="btn btn-success btn-xs" href="javascript:void (0);">正常</a></td>
                 <template v-else>
@@ -63,14 +63,23 @@
                       <td v-if="info.customerStatus == 3"><a class="btn btn-warning btn-xs" href="javascript:void (0);">高风险转黑名单审核</a></td>
                       <template v-else>
                         <td v-if="info.customerStatus == 4"><a class="btn btn-primary btn-xs" href="javascript:void (0);">黑名单转出</a></td>
+                        <template v-else>
+                          <td v-if="info.customerStatus == 5"><a class="btn btn-primary btn-xs" href="javascript:void (0);">禁用客户</a></td>
+                          <template v-else>
+                            <td v-if="info.customerStatus == 6"><a class="btn btn-primary btn-xs" href="javascript:void (0);">客户移交中</a></td>
+                            <template v-else>
+                              <td v-if="info.customerStatus == 7"><a class="btn btn-primary btn-xs" href="javascript:void (0);">风险名单转出审核</a></td>
+                            </template>
+                          </template>
+                        </template>
                       </template>
                     </template>
                   </template>
                 </template>
                 <td>
-                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="outList(info.customerId)">转出风险名单</a>
+                  <a v-if="info.customerStatus == 0" class="btn btn-warning btn-xs" v-on:click="outList(info.customerId)">转出风险名单</a>
                   <a v-else class="btn btn-default btn-xs" href="javascript:void (0);">转出风险名单</a>
-                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="inList(info.customerId)">转入风险名单</a>
+                  <a v-if="info.customerStatus == 0" class="btn btn-warning btn-xs" v-on:click="inList(info.customerId)">转入黑名单</a>
                   <a v-else class="btn btn-default btn-xs" href="javascript:void (0);">转入风险名单</a>
                 </td>
               </tr>
@@ -210,6 +219,7 @@
         methods:{
             init:function() {
                 var that = this
+                that.search.createTime = that.calendar.items.picker3.value
                 var searchAll = {
                       pageStart : that.currentpage,
                       pageLength : that.visiblepage,

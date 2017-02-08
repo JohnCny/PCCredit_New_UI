@@ -72,12 +72,40 @@ export const getType = (num) => {
       typeTxt = 'number';
       break;
     case 1:
+      typeTxt = 'text';
+      break;
+    case 2||3:
+      typeTxt = 'number';
+      break;
+    case 4:
       typeTxt = 'date';
       break;
     default:
       typeTxt = 'text'
   }
   return typeTxt;
+}
+/**
+ * 获取ipc表单number类型
+ * @method getNumType
+ * @param {number} num
+ * @returns {string}
+ * @author: qwy
+ * @date: 2017.2.6
+ */
+export const getNumType = (num) => {
+  var num = 'text';
+  switch (parseInt(num)) {
+    case 2:
+      num = '0.01';
+      break;
+    case 3:
+      num = '1';
+      break;
+    default:
+      num = ''
+  }
+  return num;
 }
 
 /**
@@ -214,6 +242,109 @@ export const getApplicationClass = (state) => {
   return stateCalss;
 }
 
+/**
+ * 显示客户状态
+ * @method getCusState
+ * @param {num} 客户状态码
+ * @returns {string} 返回客户状态标签代码
+ * @author: Phenix qwy
+ * @date: 2017.2.8
+ */
+export const getCusState = (state) => {
+  var stateName = "";
+  switch (parseInt(state)) {
+    case 0:
+      stateName = "正常";
+      break;
+    case 1:
+      stateName = "高风险用户";//模型评估通过
+      break;
+    case 2:
+      stateName = "黑名单用户";
+      break;
+    case 3:
+      stateName = "高风险转黑名单审核";//专家评审完成
+      break;
+    case 4:
+      stateName = "黑名单转出";
+      break;
+    case 5:
+      stateName = "禁用客户";
+      break;
+    case 6:
+      stateName = "客户移交中";
+      break;
+  }
+  return stateName;
+}
+
+export const getCusClass = (state) => {
+  var stateCalss = "";
+  switch (state) {
+    case 0:
+      stateCalss = "label-success";
+      break;
+    case 1:
+      stateCalss = "label-warning";
+      break;
+    case 2:
+       stateCalss = "label-danger";
+    break;
+    case 3:
+      stateCalss = "label-warning";
+      break;
+    case 4:
+      stateCalss = "label-info";
+      break;
+    case 5:
+      stateCalss = "label-danger";
+      break;
+    case 6:
+      stateCalss = "label-info";
+      break;
+  }
+  return stateCalss;
+}
+
+/**
+ * 显示客户移交状态
+ * @method getCusTransferState
+ * @param {num} 客户移交状态码
+ * @returns {string} 返回客户移交状态标签代码
+ * @author: Phenix qwy
+ * @date: 2017.2.8
+ */
+export const getCusTransferState = (state) => {
+  var stateName = "";
+  switch (parseInt(state)) {
+    case 0:
+      stateName = "待接收人确认";
+      break;
+    case 1:
+      stateName = "接收人确认";//模型评估通过
+      break;
+    case 2:
+      stateName = "接收人拒绝";
+      break;
+  }
+  return stateName;
+}
+
+export const getCusTransferClass = (state) => {
+  var stateCalss = "";
+  switch (state) {
+    case 0:
+      stateCalss = "label-info";
+      break;
+    case 1:
+      stateCalss = "label-success";
+      break;
+    case 2:
+      stateCalss = "label-warning";
+      break;
+  }
+  return stateCalss;
+}
 
 /**
  * 登入结果

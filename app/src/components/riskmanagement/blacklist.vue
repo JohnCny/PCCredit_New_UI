@@ -17,7 +17,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>所属日期：</span>
-              <input class="input" size="50" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
+              <input class="input" size="50" readonly="readonly" type="text" @click.stop="open($event,'picker3')" v-model="calendar.items.picker3.value" placeholder=""><br>
               <calendar
                 :show.sync="calendar.show"
                 :type="calendar.type"
@@ -52,23 +52,12 @@
               <tr v-for="info in infos">
                 <td>${info.customerName}</td>
                 <td>${info.idCard}</td>
-                <td>${info.createTime}</td>
-                <td>${info.badReason}</td>
-                <td v-if="info.customerStatus == 0"><a class="btn btn-success btn-xs" href="javascript:void (0);">正常</a></td>
-                <template v-else>
-                  <td v-if="info.customerStatus == 1"><a class="btn btn-danger btn-xs" href="javascript:void (0);">高风险用户</a></td>
-                  <template v-else>
-                    <td v-if="info.customerStatus == 2"><a class="btn btn-danger btn-xs" href="javascript:void (0);">黑名单用户</a></td>
-                    <template v-else>
-                      <td v-if="info.customerStatus == 3"><a class="btn btn-warning btn-xs" href="javascript:void (0);">高风险转黑名单审核</a></td>
-                      <template v-else>
-                        <td v-if="info.customerStatus == 4"><a class="btn btn-primary btn-xs" href="javascript:void (0);">黑名单转出</a></td>
-                      </template>
-                    </template>
-                  </template>
-                </template>
+                <td>${info.createTime | formatDate}</td>
+                <td>${info.blackReason}</td>
+                <td v-if="info.tBlackCustomerStatus == 0"><a class="btn btn-success btn-xs" href="javascript:void (0);">正常</a></td>
+                <td v-else><a class="btn btn-warning btn-xs" href="javascript:void (0);">转出黑名单</a></td>
                 <td>
-                  <a v-if="info.customerStatus == 1" class="btn btn-warning btn-xs" v-on:click="editInfo(info.customerId)">转出黑名单</a>
+                  <a v-if="info.tBlackCustomerStatus == 0" class="btn btn-warning btn-xs" v-on:click="editInfo(info.tBlackCustomerId)">转出黑名单</a>
                   <a v-else class="btn btn-default btn-xs" href="javascript:void (0);">转出黑名单</a>
                 </td>
               </tr>
@@ -108,8 +97,7 @@
                 customerName: '',
                 idCard: '',
                 createTime: '',
-                badReason: '',
-                riskType:'',
+                blackReason: '',
               },
               currentpage: 1,//第几页
               totlepage: '',//共几页
@@ -208,12 +196,13 @@
         methods:{
             init:function() {
                 var that = this
+                that.search.createTime = that.calendar.items.picker3.value
                 var searchAll = {
                       pageStart : that.currentpage,
                       pageLength : that.visiblepage,
                       pageSearch : JSON.stringify(that.search)
                     }
-                that.$http.post(QK.SERVER_URL+'/api/riskCustomer/pageList', searchAll , true).then(function (data) {
+                that.$http.post(QK.SERVER_URL+'/api/blackCustomer/pageList', searchAll , true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   var page = parseInt(data.recordsTotal / 10);
@@ -223,6 +212,7 @@
                    that.$set('totlepage', page)
                   if (result.state) {
                     that.$set("infos", data.data)
+                    console.log(data.data)
                   }
                })
           },

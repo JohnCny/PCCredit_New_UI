@@ -13,6 +13,8 @@
     <div class="wrapper">
       <router-view></router-view>
     </div>
+
+
     <!--内容区域 end-->
 
     <!--底部 start-->
@@ -25,7 +27,7 @@
 <script>
   import MainHead from './mainHead.vue'
   import MainCrumb from './mainCrumb.vue'
-  import routerView from './routerView.vue'
+  import RouterView from './routerView.vue'
   export default{
     data(){
       return {
@@ -35,7 +37,7 @@
     components: {
       MainHead,
       MainCrumb,
-      routerView
+      RouterView
     }
   }
 </script>
