@@ -26,6 +26,7 @@
                 <th>联系方式</th>
                 <th>证件号码</th>
                 <th>创建时间</th>
+                <th>状态</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
@@ -37,6 +38,7 @@
                   <td>${info.tel}</td>
                   <td>${info.certificateNumber}</td>
                   <td>${info.createTime | formatDate}</td>
+                  <td><span style="font-weight:normal" class="label label-sm ${info.customerStatus | getCusClass}">${info.customerStatus | getCusState}</span></td>
                   <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                     class="fa fa-edit"></i>
                     编辑 </a></td>
@@ -46,7 +48,7 @@
               </template>
               <template  v-else>
                 <tr>
-                  <td colspan="7">没有数据</td>
+                  <td colspan="8">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -81,7 +83,8 @@
                     sex: '',
                     tel: '',
                     certificateNumber: '',
-                    createTime: ''
+                    createTime: '',
+                    customerStatus:''
                 }],
                 currentpage: 1,//第几页
                 totlepage: '',//共几页

@@ -5,12 +5,21 @@
 
 </style>
 <script>
+  import QK from '../../../QK'
+  export default{
+    data(){
+      return{
+        vars:{}
+      }
+    },
+    ready :function(){
+      this.init()
+    },
+    methods:{
+      init:function() {
 
-    export default{
-        data(){
-            return{
-
-            }
-        }
+      },
     }
+  }
+
 </script>

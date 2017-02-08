@@ -74,8 +74,9 @@
                 <div class="input-icon right">
                   <select id="industry" type="text" name="industry" v-model="industry"
                           class="form-control select2-multiple" multiple>
-                    <template v-for="industries in customerIndustry">
-                      <option value="${industries.id}" selected>${industries.industryName}</option>
+                    <template v-for="industries in allCustomerIndustry">
+                      <option v-if="customerIndustry.indexOf(industries.id)>=0" value="${industries.id}" selected>${industries.industryName}</option>
+                      <option v-else value="${industries.id}">${industries.industryName}</option>
                     </template>
                   </select>
                   <div class="message">${errors.industryError}</div>
@@ -88,9 +89,7 @@
                   <select id="marriageStatus" type="text" name="marriageStatus" v-model="tCustomerBasic.marriageStatus"
                           class="form-control">
                     <template v-for="marriageStatus in marriage">
-                      <option v-if="tCustomerBasic.marriageStatus==marriageStatus.id" selected
-                              value="${marriageStatus.id}">${marriageStatus.value}
-                      </option>
+                      <option v-if="tCustomerBasic.marriageStatus==marriageStatus.id" selected value="${marriageStatus.id}">${marriageStatus.value}</option>
                       <option v-else value="${marriageStatus.id}">${marriageStatus.value}</option>
                     </template>
                   </select>
@@ -154,6 +153,7 @@
                 marriage:[],
                 education:[],
                 customerIndustry:[],
+                allCustomerIndustry:[],
                 errors: {
                     sexError: '',
                     certificateTypeError: '',
@@ -171,6 +171,7 @@
             this.ComponentsSelect2()
             this.init()
             this.industries()
+            this.getIndustries()
             this.searchId()
         },
         methods: {
@@ -319,7 +320,22 @@
                     var data = $.parseJSON(data.body)
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
-                      that.$set("customerIndustry", data.data)
+                      that.$set("customerIndustry",[])
+                      $(data.data).each(function(i,v){
+                        that.customerIndustry.push($(v)[0].industryId)
+                      })
+                      console.log(that.customerIndustry)
+                    }
+                })
+            },
+            getIndustries:function() {
+                var that = this
+                that.$http.get(QK.SERVER_URL+'/api/customerIndustry', true).then(function (data) {
+                    var data = $.parseJSON(data.body)
+                    var result = QK.getStateCode(that, data.code)
+                    if (result.state) {
+                      that.$set("allCustomerIndustry", data.data)
+                      console.log(that.allCustomerIndustry)
                     }
                 })
             },

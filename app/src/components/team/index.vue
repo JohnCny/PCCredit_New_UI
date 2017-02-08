@@ -28,6 +28,7 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>联系方式</th>
+                <th>所属团队</th>
                 <th>用户状态</th>
                 <th>操作</th>
               </tr>
@@ -38,6 +39,7 @@
                   <td>${info.userCname}</td>
                   <td>${info.sex | reSex}</td>
                   <td>${info.tel}</td>
+                  <td>${info.teamName}</td>
                   <td><span class="label label-sm ${info.status | reStatusClass}">${info.status | reStatus}</span></td>
                   <td><a @click="deleteInfo(info.id,info.teamId)" class="btn btn-danger btn-xs"><i class="fa fa-eraser"></i>
                     移除该成员</a></td>
@@ -45,7 +47,7 @@
               </template>
               <template v-else>
                 <tr>
-                  <td colspan="5">没有数据</td>
+                  <td colspan="6">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -86,6 +88,7 @@
           idCardNumber: '',
           roleId: '',
           email: '',
+          teamName: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
@@ -192,14 +195,26 @@
           var data = $.parseJSON(res.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            var optionObj = {
-              'that': that,
-              'title': '移除成功!',
-              'listUrl': '/system/team/list'
+            if(data.data.mark == 6001){
+              swal({
+                title: "",
+                text: data.data.message,
+                confirmButtonColor: "#66BB6A",
+                type: "success",
+                confirmButtonText: '确定'
+              },
+              function () {
+                document.location.reload()
+              })
+            }else if(data.data.mark == 6000){
+              swal({
+                title: "",
+                text: data.data.message,
+                confirmButtonColor: "#EF5350",
+                type: "error",
+                confirmButtonText: '确定'
+              })
             }
-            QK.successSwal(optionObj)
-            //$('#' + id).remove()
-            document.location.reload()
           } else {
             var optionObj = {
               'title': '移除失败!',
