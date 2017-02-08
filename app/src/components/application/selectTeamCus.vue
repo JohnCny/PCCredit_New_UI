@@ -32,7 +32,7 @@
                     </td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
-                    <td>${info.customerStatus</td>
+                    <td><span class="label label-sm ${info.customerStatus | cusColor}">${info.customerStatus | reCus}</span></td>
                   </tr>
                   </tbody>
                 </table>

@@ -577,7 +577,15 @@ export const reLog = (num) => {
   }
   return reStr;
 }
-export const reLogColor = (num) => {
+/**
+ * 登陆登出颜色转换
+ * @method loginColor
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const loginColor = (num) => {
   var stateCalss = "";
   switch (num) {
     case 0:
@@ -585,6 +593,61 @@ export const reLogColor = (num) => {
       break;
     case 1:
       stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
+
+/**
+ * 进件审批类型转换
+ * @method approvalChange
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const approvalChange = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '通过';
+      break;
+    case 1:
+      reStr = '有条件通过';
+      break;
+    case 2:
+      reStr = '退回修改';
+      break;
+    case 3:
+      reStr = '拒绝';
+      break;
+    default:
+      reStr = '未填写'
+  }
+  return reStr;
+}
+/**
+ * 进件审批类型颜色转换
+ * @method approvalColor
+ * @param {number || bool} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.1.11
+ */
+export const approvalColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-success";
+      break;
+    case 1:
+      stateCalss = "label-primary";
+      break;
+    case 2:
+      stateCalss = "label-danger";
+      break;
+    case 3:
+      stateCalss = "label-warning";
       break;
   }
   return stateCalss;
@@ -605,7 +668,150 @@ export const getDelete = (ifDel) => {
   }
   return bool;
 }
+/**
+ * 进件查询当前状态转换
+ * @method appliChange
+ * @date: 2016.11.30
+ */
+export const appliChange = (num) => {
+  if (num == '0') {
+    return '未完成';
+  } else if (num == '1') {
+    return '禁入';
+  } else if (num == '2') {
+    return '待审核';
+  } else if (num == '3') {
+    return '审核通过';
+  } else if (num == '4') {
+    return '审核不通过';
+  }else{
+    return '无数据';
+  }
+}
+/**
+ * 进件查询当前状态颜色转换
+ * @method appliColor
+ * @date: 2016.11.30
+ */
+export const appliColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-danger";
+      break;
+    case 1:
+      stateCalss = "label-info";
+      break;
+    case 2:
+      stateCalss = "label-primary";
+      break;
+    case 3:
+      stateCalss = "label-warning";
+      break;
+    case 4:
+      stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
 
+/**
+ * 审核状态转换
+ * @method checkColor
+ * @date: 2016.11.30
+ */
+export const checkStatus = (num) => {
+  if (num == '0') {
+    return '未审核';
+  } else if (num == '1') {
+    return '完成审核';
+  }else{
+    return '无数据';
+  }
+}
+/**
+ * 审核状态颜色转换
+ * @method checkColor
+ * @date: 2016.11.30
+ */
+export const checkColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-danger";
+      break;
+    case 1:
+      stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
+/**
+ * 客户状态
+ * @method reCus
+ * @param {number} num
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.2.7
+ */
+export const reCus = (num) => {
+  var reStr = '未填写';
+  switch (parseInt(num)) {
+    case 0:
+      reStr = '正常';
+      break;
+    case 1:
+      reStr = '高风险用户';
+      break;
+    case 2:
+      reStr = '黑名单用户';
+      break;
+    case 3:
+      reStr = '高风险转黑名单审核';
+      break;
+    case 4:
+      reStr = '黑名单转出';
+    case 5:
+      reStr = '禁用客户';
+    case 6:
+      reStr = '客户移交中';
+  }
+  return reStr;
+}
+/**
+ * 客户当前状态颜色转换
+ * @method cusColor
+ * @date: 2016.11.30
+ */
+export const cusColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-success";
+      break;
+    case 1:
+      stateCalss = "label-danger";
+      break;
+    case 2:
+      stateCalss = "label-default";
+      break;
+    case 3:
+      stateCalss = "label-warning";
+      break;
+    case 4:
+      stateCalss = "label-primary";
+      break;
+    case 5:
+      stateCalss = "label-danger";
+      break;
+    case 6:
+      stateCalss = "label-info";
+      break;
+    default:
+      stateCalss = "label-info";
+  }
+  return stateCalss;
+}
 /**
  * 维护类型转换
  * @method getDelete
@@ -754,7 +960,30 @@ export const nationalName = (num) => {
   }
   return nationality;
 }
-
+/**
+ * 转换url
+ * @method changeUrl
+ * @param {url} url 转换url
+ * @returns {string}
+ * @author: zx
+ * @date: 2017.2.7
+ */
+export const changeUrl = (fileUrl)=> {
+  var str = "";
+  //console.log(fileUrl)
+  //var strUrl=fileUrl.indexOf('/');
+  //var sUrl=fileUrl.substring(strUrl+1);
+ var arr = fileUrl.split("/")
+   console.log(arr)
+   arr[0] = ""
+   var newArr = arr
+   console.log(newArr)
+   var newStr = newArr.join("")
+ // str.replace('QK.SERVER_URL'+sUrl);
+  str = document.location.protocol +"//"+newStr
+  console.log(str)
+  //return str;
+}
 /**
  * 时间戳转字符日期信息
  * @method formatDate
