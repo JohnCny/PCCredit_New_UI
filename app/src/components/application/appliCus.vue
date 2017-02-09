@@ -20,10 +20,10 @@
     <div class="panel-body">
       <div class="tab-content">
         <div id="home3" class="tab-pane active">
-          <personl-customer></personl-customer>
+          <person></person>
         </div>
         <div id="about3" class="tab-pane">
-          <team-customer></team-customer>
+          <team></team>
         </div>
       </div>
     </div>
@@ -70,8 +70,8 @@
 <script>
     import QK from '../../QK'
     import myTab from './myTab.vue'
-    import personlCustomer from './personlCustomer.vue'
-    import teamCustomer from './teamCustomer.vue'
+    import person from './person.vue'
+    import team from './team.vue'
     export default{
         data(){
             return{
@@ -87,9 +87,9 @@
        }
     },
         components: {
-            personlCustomer,
-            teamCustomer,
-            myTab
+           'person': person,
+           'team':team,
+           'my-Tab':myTab
         }
     }
 </script>
