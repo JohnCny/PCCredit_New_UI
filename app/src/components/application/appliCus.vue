@@ -20,14 +20,13 @@
     <div class="panel-body">
       <div class="tab-content">
         <div id="home3" class="tab-pane active">
-          <select-person-cus></select-person-cus>
+          <personl-customer></personl-customer>
         </div>
         <div id="about3" class="tab-pane">
-          <select-team-cus></select-team-cus>
+          <team-customer></team-customer>
         </div>
       </div>
     </div>
-
   </template>
 <style scoped>
     .nav > li > a:hover, .nav > li > a:focus {
@@ -71,8 +70,8 @@
 <script>
     import QK from '../../QK'
     import myTab from './myTab.vue'
-    import selectPersonCus from './selectPersonCus.vue'
-    import selectTeamCus from './selectTeamCus.vue'
+    import personlCustomer from './personlCustomer.vue'
+    import teamCustomer from './teamCustomer.vue'
     export default{
         data(){
             return{
@@ -88,8 +87,8 @@
        }
     },
         components: {
-            selectPersonCus,
-            selectTeamCus,
+            personlCustomer,
+            teamCustomer,
             myTab
         }
     }
