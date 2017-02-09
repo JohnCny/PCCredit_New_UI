@@ -133,9 +133,9 @@
               //设置缓存当前登录用户信息
               localStorage.user = JSON.stringify(data.data)
               $(".registration").addClass("isHidden")
-              if(data.data.user.id == 2){
+              if(data.data.roleType == 2){
                 that.$router.go({path: '/system/admin'})
-              }else if(data.data.user.id == 4 || 0){
+              }else if(data.data.roleType == 3 || 1){
                 that.$router.go({path: '/system/manager'})
               }
 
