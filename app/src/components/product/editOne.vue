@@ -312,7 +312,7 @@
     </div>
     <p class="button">
       <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
-      <a href="javascript:void (0);" v-link={path:'/system/product/list'} class="btn btn-default">返回</a>
+      <a href="javascript:void (0);" @click="back()" class="btn btn-default">返回</a>
     </p>
   </form>
 </template>
@@ -605,6 +605,9 @@
         console.log(stringarr)
         console.log("stringarr的類型為：" + (typeof stringarr))
         return stringarr
+      },
+      back:function(){
+        this.$router.go({path:'/system/product/list'})
       }
     }
   }
