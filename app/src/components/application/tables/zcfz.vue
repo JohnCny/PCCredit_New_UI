@@ -85,15 +85,7 @@
   export default{
     data(){
       return{
-        vars:[{
-          groupName:''  ,
-          templateVarName: '',
-          templateVarValue: '',
-          applicationTemplateVarId: '',
-          groups:[{
-            groupName:''
-          }]
-        }],
+        vars:[],
         addSendData: {ipcCRUDType:2,applicationId:'',templateVarId:'',templateVarExtraName:'',templateVarExtraValue:''}
       }
     },
@@ -107,9 +99,15 @@
       QK.vector.$off('getfromchild', this.init)
     },
     methods:{
-      init:function(vars) {
-        var that = this
-        that.$set("vars", vars)
+      init:function(varsArr) {
+        //$(varsArr).each(function(i,v){
+         // $(v)[0].groupId
+        //})
+        var arr = varsArr
+        this.$set("vars", arr[0])
+        console.log(varsArr)
+        console.log(arr)
+        console.log(this.vars)
       },
       addRow: function(row){
         row.push({})

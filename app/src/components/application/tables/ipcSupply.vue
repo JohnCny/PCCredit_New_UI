@@ -4,7 +4,7 @@
     <div class="col-sm-12 col-lg-12 col-md-12 col-sm-12">
       <ul class="myTab1" id="menu1">
         <template v-for="(index,ipc) in ipcMenu">
-          <li v-bind:data-id="ipc.templateId"  v-bind:class="{ active: !index}" v-on:click="setTab2" >${ipc.menuName}</li>
+          <li v-bind:data-id="ipc.templateId" v-bind:data-menuid="ipc.menuId" v-bind:class="{ active: !index}" v-on:click="setTab2" >${ipc.menuName}</li>
         </template>
       </ul>
       <section class="panel">
@@ -55,7 +55,7 @@
   export default{
     data(){
       return{
-        vars:{},
+        varsArr:[],
         ipcMenu:[],
         ids:[],
       }
@@ -68,15 +68,14 @@
     },
     ready:function(){
       this.init()
-
     },
     methods:{
       init:function() {
         var that = this
         $("#zcfz").show().siblings("div.tabContent").hide()
         $(".xzkhNormal,.sqbNormal,.ipcNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-        var id = that.$route.params.appliId
-        that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+id, true).then(function (data) {
+        var applicationId = that.$route.params.appliId
+        that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+applicationId, true).then(function (data) {
           var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
           if (result.state){
@@ -88,7 +87,18 @@
             for(var i =0;i<divs.length;i++){
               $(divs[i]).addClass("tabContent"+that.ids[i])
             }
-            this.setTab2()
+            for(var i=0;i<that.ids.length;i++){
+              that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+that.ids[i], true).then(function (data) {
+                var data = $.parseJSON(data.body)
+                var result = QK.getStateCode(that, data.code)
+                if (result.state) {
+                  that.varsArr.push(data.data)
+                }
+              })
+            }
+            QK.vector.$emit('getfromchild', that.varsArr)
+            console.log(that.varsArr)
+            //this.setTab2()
           }
         })
       },
@@ -97,16 +107,31 @@
         $(event.currentTarget).addClass("active").siblings("li").removeClass("active")
         var applicationId = that.$route.params.appliId
         var templateId = $(event.currentTarget).data("id")?$(event.currentTarget).data("id"):that.ids[0]
-        console.log(templateId)
         $("div.tabContent"+templateId).show().siblings("div.tabContent").hide()
-        that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            that.$set("vars", data.data)
-            QK.vector.$emit('getfromchild', that.vars)
-          }
-        })
+        //that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
+          //var data = $.parseJSON(data.body)
+          //var result = QK.getStateCode(that, data.code)
+          //if (result.state) {
+            //that.$set("vars", data.data)
+            //QK.vector.$emit('getfromchild', that.vars)
+          //}
+        //})
+      },
+      getVarArr: function(){
+        var that = this
+        var applicationId = that.$route.params.appliId
+         console.log(that.ids)
+        for(var i=0;i<that.ids.length;i++){
+          that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+that.ids[i], true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              that.varsArr.push(data.data)
+            }
+          })
+        }
+        QK.vector.$emit('getfromchild', that.varsArr)
+        console.log(that.varsArr)
       },
       nextStep: function(){
         var that = this

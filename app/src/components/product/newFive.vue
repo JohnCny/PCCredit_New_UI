@@ -23,7 +23,7 @@
     </div>
   </div>
   <p class="button">
-    <a class="btn btn-default" v-link="{path:'/system/product/list'}">返回</a>
+    <a class="btn btn-default" @click="cancelMethod()">返回</a>
   </p>
 </template>
 <style scoped>
@@ -80,7 +80,7 @@
         }
         return false
       },
-      cancelMethod(){
+      cancelMethod:function(){
         this.$router.go({path: localStorage.nowurl})
       }
     }
