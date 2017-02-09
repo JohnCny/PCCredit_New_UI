@@ -49,7 +49,7 @@
               </div>
               <div class="col-xs-12 col-md-offset-5 contain">
                 <button id="btn_submit" class="btn btn-success" v-on:click="nextStep()">下一步</button>
-                <button class="btn btn-info" v-link={path:'/system/application/new'}>返回上一步</button>
+                <button class="btn btn-info" @click="backStep()">返回上一步</button>
               </div>
             </div>
           </div>
@@ -212,6 +212,9 @@
         var that = this
         $(event.currentTarget).addClass("activePro").siblings("tr").removeClass("activePro")
         $(event.currentTarget).find("input[type=radio]").attr("checked", true)
+      },
+      backStep:function(){
+        this.$router.go({path:'/system/application/new'})
       }
     }
   }
