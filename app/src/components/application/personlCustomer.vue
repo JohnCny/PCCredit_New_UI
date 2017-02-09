@@ -58,6 +58,12 @@
     </div>
   </div>
 </template>
+<style scope>
+  .activePro{
+     background-color: #dff0d8 !important;
+     border:1px solid
+  }
+</style>
 <script>
   import QK from '../../QK'
   export default{
@@ -84,7 +90,6 @@
     },
     ready: function () {
       this.init()
-      //this.changeText()
     },
     computed: {
       pagenums: function () {
