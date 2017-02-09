@@ -1,11 +1,5 @@
-<style src='../../../static/css/Tabs.css'></style>
 <template>
   <my-tab></my-tab>
-  <ul class="myTab">
-    <template v-for="todo in infoData">
-      <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-    </template>
-  </ul>
   <div class="row">
     <div class="col-md-12">
       <section class="panel">

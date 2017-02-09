@@ -151,7 +151,7 @@ import appliCus from './components/application/appliCus.vue'//选择申请客户
 import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
-import appliApproval from './components/application/approval.vue'//征信报告
+import creditReport from './components/application/creditReport.vue'//征信报告
 import informationAll from './components/application/informationAll.vue'//进件信息总览
 import appliCheck from './components/application/index.vue'//进件查询
 import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
@@ -222,8 +222,8 @@ export default {
       '/application/picture/:id':{//调查图片
         component:appliPicture
       },
-      '/application/approval/:id':{//征信报告列表
-        component:appliApproval
+      '/application/creditReport/:id':{//征信报告列表
+        component:creditReport
       },
       '/application/informationAll/:id':{//进件信息总览
         component:informationAll

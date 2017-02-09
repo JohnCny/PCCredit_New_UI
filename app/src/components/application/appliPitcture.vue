@@ -160,7 +160,7 @@
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("infos", data.data)
-            that.$router.go({path: "/system/application/approval/" + id})
+            that.$router.go({path: "/system/application/creditReport/" + id})
           }
         })
       },
