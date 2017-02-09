@@ -8,7 +8,7 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户名称：</span><input v-model="search.cname" type="text" name="productName" placeholder="请输入客户名称"/>
+              <span>客户名称：</span><input v-model="search.cname" type="text" name="cname" placeholder="请输入客户名称"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
               <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
@@ -32,7 +32,7 @@
                     </td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
-                    <td>${info.customerStatus</td>
+                    <td><span class="label label-sm ${info.customerStatus | cusColor}">${info.customerStatus | reCus}</span></td>
                   </tr>
                   </tbody>
                 </table>
@@ -48,8 +48,8 @@
                 </ul>
               </div>
               <div class="col-xs-12 col-md-offset-5 contain">
-                <button id="btn_submit" class="btn btn-success" v-on:click="nextStep()">下一步</button>
-                <button class="btn btn-info" @click="backStep()">返回上一步</button>
+                <button id="btn_submit" class="btn btn-success" v-on:click="nextStep">下一步</button>
+                <button class="btn btn-info" v-link={path:'/system/application/new'}>返回上一步</button>
               </div>
             </div>
           </div>
@@ -69,13 +69,6 @@
   export default{
     data: function () {
       return {
-        todo: {
-          text: ''
-        },
-        product: {
-          productId: '',
-          productName: '选择申请产品',
-        },
         infos: [{
           id: '',
           cname: '',
@@ -88,26 +81,12 @@
         visiblepage: 10,//隐藏10页
         search: {
           cname: ''
-        },
-        obj: {
-          id: '',
-          productName: '选择申请产品'
         }
       }
     },
     ready: function () {
       this.init()
-      //this.changeText()
     },
-    route: {
-      canReuse: function () {
-        return false
-      }
-    },
-    created: function () {
-      QK.vector.$on('getfrom', this.bindPro)
-    },
-
     computed: {
       pagenums: function () {
         //初始化前后页边界
@@ -148,7 +127,7 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/'+1, searchAll, true).then(function (data) {
+        that.$http.post(QK.SERVER_URL + '/api/customerBasic/condition/'+0, searchAll, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
@@ -167,19 +146,6 @@
         if (that.currentpage != page) {
           that.currentpage = page
         }
-      },
-      bindPro: function (obj) {
-        var that = this
-        var product = that.product
-        this.$set("product.productId", obj.id)
-        this.$set("product.productName", obj.productName)
-      },
-      changeText: function () {
-        var that = this
-        var product = that.product.productName
-        //console.log(product)
-        that.$set('infoData[0].text', product)
-
       },
       nextStep: function () {
         var that = this
@@ -212,9 +178,6 @@
         var that = this
         $(event.currentTarget).addClass("activePro").siblings("tr").removeClass("activePro")
         $(event.currentTarget).find("input[type=radio]").attr("checked", true)
-      },
-      backStep:function(){
-        this.$router.go({path:'/system/application/new'})
       }
     }
   }

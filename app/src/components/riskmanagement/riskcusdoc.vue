@@ -10,10 +10,10 @@
         <div class="panel-body">
           <div class="row searchDiv">
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>客户经理名称：</span><input v-model="search.badCustomerCname" type="text" name="productName"/>
+              <span>客户经理名称：</span><input v-model="search.userCname" type="text" name="productName"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
-              <span>工号：</span><input v-model="search.badCustomerCardNum" type="text" name="productState"/>
+              <span>工号：</span><input v-model="search.employeeNumber" type="text" name="productState"/>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12">
               <span>所属日期：</span>
@@ -33,7 +33,7 @@
               </calendar>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
-              <button v-on:click="init()" class="btn btn-info btn-sm" type="button">搜 索</button>
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
             </div>
           </div>
           <div class="tableDiv">
@@ -58,11 +58,18 @@
                 <template v-else>
                   <td v-if="info.riskBlackOperationType == 1"><a class="btn btn-warning btn-xs" href="javascript:void (0);">申请转出黑名单</a></td>
                   <template v-else>
-                    <td v-if="info.riskBlackApproveStatus == 2"><a class="btn btn-info btn-xs" href="javascript:void (0);">转出风险名单</a></td>
+                    <td v-if="info.riskBlackOperationType == 2"><a class="btn btn-info btn-xs" href="javascript:void (0);">转出风险名单</a></td>
                   </template>
                 </template>
-                <td v-if = "info.riskBlackApproveStatus == 0"><a class="btn btn-info btn-xs" v-on:click="editInfo(info.riskBlackCustomerId,info.riskBlackApproveId)">审核</a></td>
-                <td v-else><a class="btn btn-default btn-xs">审核</a></td>
+                <td v-if = "info.riskBlackApproveStatus == 0"><a class="btn btn-info btn-xs" v-on:click="editInfo(info.riskBlackCustomerId,info.riskBlackApproveId)"><i
+                  class="fa fa-edit"></i>审核</a></td>
+                <template v-else>
+                  <td v-if = "info.riskBlackApproveStatus == 1"><a class="btn btn-default btn-xs">(已同意)</a></td>
+                  <template v-else>
+                    <td v-if = "info.riskBlackApproveStatus == 2"><a class="btn btn-default btn-xs">(已拒绝)</a></td>
+                  </template>
+                </template>
+
               </tr>
               </tbody>
             </table>
@@ -107,9 +114,9 @@
                 totlepage: '',//共几页
                 visiblepage: 10,//隐藏10页
                 search:{
-                     badCustomerCname: '',
-                     badCustomerCardNum: '',
-                     cuatomerType:''
+                     userCname: '',
+                     employeeNumber: '',
+                     createTime:''
                    },
                     // 数据绑定
                 calendar:{
@@ -200,6 +207,7 @@
         methods:{
           init:function() {
             var that = this
+            that.search.createTime = that.calendar.items.picker3.value
             var searchAll = {
                   pageStart : that.currentpage,
                   pageLength : that.visiblepage,

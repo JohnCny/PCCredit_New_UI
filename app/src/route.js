@@ -10,6 +10,8 @@ import Test from './components/user/index.vue'
  * ***********************/
 import Login from './components/Login.vue'
 import System from './components/System.vue'
+import Admin from './components/dashboard/admin.vue'
+import Manager from './components/dashboard/manager.vue'
 import Error from './components/error.vue'
 
 /************************
@@ -151,10 +153,12 @@ import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
 import appliApproval from './components/application/approval.vue'//征信报告
 import informationAll from './components/application/informationAll.vue'//进件信息总览
-import appliCheck from './components/application/appliSearch.vue'//进件查询
+import appliCheck from './components/application/index.vue'//进件查询
 import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
 import customerSign from './components/application/cusSign.vue'//进件客户签约
 import inputSign from './components/application/inputSignMess.vue'//录入客户签约
+import rowApproval from './components/application/rowApproval.vue'//审贷会排审
+import theRow from './components/application/theRow.vue'//排审
 
 export default {
   // '/index': {
@@ -176,7 +180,10 @@ export default {
     component: System,
     subRoutes: {
       '/admin': {
-        component: System
+        component: Admin
+      },
+      '/manager': {
+        component: Manager
       },
       '/user/changePass': { //修改密码
         component: UserChangePass
@@ -226,6 +233,12 @@ export default {
       },
       '/application/inputSign/:id':{//进件客户签约
         component:inputSign
+      },
+      '/application/rowApproval':{//审贷会排审
+        component:rowApproval
+      },
+      '/application/theRow/:id':{//排审
+        component:theRow
       },
       /*end---进件---end*/
 

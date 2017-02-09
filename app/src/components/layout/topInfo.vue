@@ -1,8 +1,8 @@
 <template>
   <li>
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      <img src="/static/images/photos/user-avatar.png" alt=""/>
-      ${user.roleNameZh}
+      <img v-bind:src="userProfile" alt=""/>
+      ${userCname}
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -19,11 +19,8 @@
   export default{
     data(){
       return {
-        user: {
-          id: '',
-          roleName: '',
-          roleNameZh: ''
-        }
+        userCname:'',
+        userProfile:''
       }
     },
     ready: function () {
@@ -31,7 +28,11 @@
     },
     methods: {
       init: function () {
-        this.$set('user', JSON.parse(localStorage.user))
+        this.$set('userCname', JSON.parse(localStorage.user).user["userCname"])
+        var urlStr = JSON.parse(localStorage.user).user["userProfile"]
+        this.$set('userProfile', document.location.protocol + '://' + urlStr)
+        //console.log(QK.SERVER_URL)
+        console.log(this.userProfile)
       },
       personalInfo: function () {
         //记录当前地址

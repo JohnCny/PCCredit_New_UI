@@ -32,9 +32,9 @@
                 <td>${info.customerCname}</td>
                 <td>${info.customerCardNumber}</td>
                 <td>${info.productName}</td>
-                <td>${info.approveAmount}</td>
-                <td>${info.applicationStatus}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
+                <td>${info.applyAmount | isEmpty}</td>
+                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span></td>
+                <td><a href="javascript:;" v-on:click="show(info.applicationId)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
               </tr>
               </tbody>
             </table>

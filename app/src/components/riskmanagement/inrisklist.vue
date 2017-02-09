@@ -43,7 +43,7 @@
            return {
               infos:{
               riskBlackTransforReason:'',
-              riskBlackOperationType:'2'
+              riskBlackOperationType:'0'
               }
            }
         },
@@ -63,21 +63,21 @@
             })
             //验证结果  true  false
             if(bool){
-              var riskCustomerId = that.$route.params.id
-              that.$http.put(QK.SERVER_URL+'/api/riskBlackCustomerApprove/approve?riskCustomerId='+riskCustomerId, that.infos, true).then(function (data) {
+              var customerId = that.$route.params.id
+              that.$http.put(QK.SERVER_URL+'/api/riskBlackCustomerApprove/approve?customerId='+customerId, that.infos, true).then(function (data) {
                 var data = jQuery.parseJSON(data.body)
                 var result = QK.getStateCode(that,data.code)
                 if (result.state) {
                   var optionObj = {
                       'that' : that,
-                      'title' : '转出成功!',
+                      'title' : '转入成功!',
                       'listUrl' : '/system/riskmanagement/risklist'
                     }
                     QK.successSwal(optionObj)
                 }else{
                   var optionObj = {
                       'that' : that,
-                      'title' : '转出失败!',
+                      'title' : '转入失败!',
                       'text' : result.msg+"！",
                     }
                     QK.errorSwal(optionObj)
