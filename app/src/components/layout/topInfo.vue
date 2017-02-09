@@ -1,7 +1,7 @@
 <template>
   <li>
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      <img src=${userProfile} alt=""/>
+      <img v-bind:src="userProfile" alt=""/>
       ${userCname}
       <span class="caret"></span>
     </a>
@@ -29,7 +29,10 @@
     methods: {
       init: function () {
         this.$set('userCname', JSON.parse(localStorage.user).user["userCname"])
-        this.$set('userProfile', JSON.parse(localStorage.user).user["userProfile"])
+        var urlStr = JSON.parse(localStorage.user).user["userProfile"]
+        this.$set('userProfile', document.location.protocol + '://' + urlStr)
+        //console.log(QK.SERVER_URL)
+        console.log(this.userProfile)
       },
       personalInfo: function () {
         //记录当前地址
