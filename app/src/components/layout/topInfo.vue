@@ -30,8 +30,9 @@
       init: function () {
         this.$set('userCname', JSON.parse(localStorage.user).user["userCname"])
         var urlStr = JSON.parse(localStorage.user).user["userProfile"]
-        this.$set('userProfile', document.location.protocol + '://' + urlStr)
-        //console.log(QK.SERVER_URL)
+        console.dir(JSON.parse(localStorage.user))
+        this.$set('userProfile', document.location.protocol + '//'+QK.SERVER_URL+ '' + urlStr)
+        console.log(QK.SERVER_URL)
         console.log(this.userProfile)
       },
       personalInfo: function () {

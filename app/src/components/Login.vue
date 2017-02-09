@@ -135,8 +135,10 @@
               $(".registration").addClass("isHidden")
               if(data.data.roleType == 2){
                 that.$router.go({path: '/system/admin'})
-              }else if(data.data.roleType == 3 || 1){
+              }else if(data.data.roleType == 3){
                 that.$router.go({path: '/system/manager'})
+              }else if(data.data.roleType == 1){
+                that.$router.go({path: '/system/admin'})
               }
 
               // $('body').css({'background':'#424f63'})
