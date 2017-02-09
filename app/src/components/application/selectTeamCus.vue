@@ -69,9 +69,6 @@
   export default{
     data: function () {
       return {
-        todo: {
-          text: ''
-        },
         product: {
           productId: '',
           productName: '选择申请产品',
@@ -88,26 +85,12 @@
         visiblepage: 10,//隐藏10页
         search: {
           cname: ''
-        },
-        obj: {
-          id: '',
-          productName: '选择申请产品'
         }
       }
     },
     ready: function () {
       this.init()
-      //this.changeText()
     },
-    route: {
-      canReuse: function () {
-        return false
-      }
-    },
-    created: function () {
-      QK.vector.$on('getfrom', this.bindPro)
-    },
-
     computed: {
       pagenums: function () {
         //初始化前后页边界
@@ -167,19 +150,6 @@
         if (that.currentpage != page) {
           that.currentpage = page
         }
-      },
-      bindPro: function (obj) {
-        var that = this
-        var product = that.product
-        this.$set("product.productId", obj.id)
-        this.$set("product.productName", obj.productName)
-      },
-      changeText: function () {
-        var that = this
-        var product = that.product.productName
-        //console.log(product)
-        that.$set('infoData[0].text', product)
-
       },
       nextStep: function () {
         var that = this
