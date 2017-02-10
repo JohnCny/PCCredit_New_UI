@@ -161,10 +161,10 @@ import Reviewed from './components/riskmanagement/reviewed.vue'//审核
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
 import appliCus from './components/application/appliCus.vue'//选择申请客户
-import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import writeAppli from './components/application/writeAppli.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
-import appliApproval from './components/application/approval.vue'//征信报告
+import creditReport from './components/application/creditReport.vue'//征信报告
 import informationAll from './components/application/informationAll.vue'//进件信息总览
 import appliCheck from './components/application/index.vue'//进件查询
 import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
@@ -172,6 +172,7 @@ import customerSign from './components/application/cusSign.vue'//进件客户签
 import inputSign from './components/application/inputSignMess.vue'//录入客户签约
 import rowApproval from './components/application/rowApproval.vue'//审贷会排审
 import theRow from './components/application/theRow.vue'//排审
+import newRow from './components/application/newRow.vue'//新增排审
 
 export default {
   // '/index': {
@@ -221,7 +222,7 @@ export default {
         component: appliCus
       },
       '/application/cusBasic/:customerId/:appliId':{//填写申请表
-        component: cusBasic
+        component: writeAppli
       },
       '/application/ipc/:appliId/:templateId':{//填写IPC调查报告
         component: ipcSupply
@@ -235,8 +236,8 @@ export default {
       '/application/picture/:id':{//调查图片
         component:appliPicture
       },
-      '/application/approval/:id':{//征信报告列表
-        component:appliApproval
+      '/application/creditReport/:id':{//征信报告列表
+        component:creditReport
       },
       '/application/informationAll/:id':{//进件信息总览
         component:informationAll
@@ -252,6 +253,9 @@ export default {
       },
       '/application/theRow/:id':{//排审
         component:theRow
+      },
+      '/application/newRow/:id':{//新增排审
+        component:newRow
       },
       /*end---进件---end*/
 

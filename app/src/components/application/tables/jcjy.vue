@@ -32,6 +32,7 @@ export default{
       $(varsArr).each(function(i,v){
         if($(v)[0].groupName == "交叉检验表"){
           that.$set("vars",$(v))
+          console.log(that.vars)
         }
       })
       console.log(that.vars)

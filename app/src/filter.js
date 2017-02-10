@@ -937,7 +937,6 @@ export const marriageCondition = (num) => {
   }
   return state;
 }
-
 /**
  * 国籍信息
  * @method nationalName
@@ -968,21 +967,14 @@ export const nationalName = (num) => {
  * @author: zx
  * @date: 2017.2.7
  */
-export const changeUrl = (fileUrl)=> {
+export const getSrc = (fileUrl)=> {
   var str = "";
-  //console.log(fileUrl)
-  //var strUrl=fileUrl.indexOf('/');
-  //var sUrl=fileUrl.substring(strUrl+1);
- var arr = fileUrl.split("/")
-   console.log(arr)
-   arr[0] = ""
-   var newArr = arr
-   console.log(newArr)
-   var newStr = newArr.join("")
- // str.replace('QK.SERVER_URL'+sUrl);
-  str = document.location.protocol +"//"+newStr
+  console.log(fileUrl)
+  var strUrl=fileUrl.indexOf('117')
+  var sUrl=fileUrl.substring(strUrl+3)
+  str = document.location.protocol +"//192.168.1.118:8091"+sUrl
   console.log(str)
-  //return str;
+  return str;
 }
 /**
  * 时间戳转字符日期信息

@@ -27,6 +27,7 @@
                   </tr>
                   </thead>
                   <tbody>
+                  <template v-if="infos.length">
                   <tr v-on:click="showInfo(info)" v-for="info in infos">
                     <td><input type="radio" name="radio" id="radio" value="${info.id}"/><label class="radio"></label>
                     </td>
@@ -34,6 +35,12 @@
                     <td>${info.certificateNumber}</td>
                     <td><span class="label label-sm ${info.customerStatus | cusColor}">${info.customerStatus | reCus}</span></td>
                   </tr>
+                  </template>
+                  <template  v-else>
+                    <tr>
+                      <td colspan="4">没有数据</td>
+                    </tr>
+                  </template>
                   </tbody>
                 </table>
               </div>
@@ -162,18 +169,28 @@
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
-            var appliId = data.data
-            that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
             if (!data.data) {
               swal({
-                title: "您已申请过该产品！",
-                text: "",
-                confirmButtonColor: "#EF5350",
-                type: "error",
+                  title: "您已申请过该产品!",
+                  text: "",
+                  confirmButtonColor: "#EF5350",
+                  type: "error",
+                  confirmButtonText: '确定'
+                })
+            } else {
+              swal({
+                title: "申请成功！",
+                text: result.msg + "！",
+                confirmButtonColor: "#66BB6A",
+                type: "success",
                 confirmButtonText: '确定'
-              })
-            }
-          }
+              },
+              function () {
+                  var appliId = data.data
+                  that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
+                })
+              }
+           }
         })
       },
       showInfo: function () {
@@ -182,7 +199,7 @@
         $(event.currentTarget).find("input[type=radio]").attr("checked", true)
       },
       backStep:function(){
-        this.$router.go({path:'/system/application/new'})
+        window.history.back()
       }
     }
   }

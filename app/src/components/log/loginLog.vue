@@ -34,15 +34,21 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.loginAccount}</td>
-                <td><span
-                  class="label label-sm ${info.loginOperation | reLogColor}">${info.loginOperation | reLog}</span></td>
+                <td><span class="label label-sm ${info.loginOperation | loginColor}">${info.loginOperation | reLog}</span></td>
                 <td>${info.loginTime | formatDate}</td>
                 <td><span class="label label-sm ${info.loginResult | logColor}">${info.loginResult | changeLog}</span>
                 </td>
                 <td>${info.loginIp}</td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="5">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
