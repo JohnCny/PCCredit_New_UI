@@ -45,7 +45,7 @@
             <div class="row">
               <div class="col-md-12 col-md-offset-5">
                 <button id="btn_submit" class="btn btn-success">保存</button>
-                <a href="javascript:void (0);" v-link="{path:'/system/product/list'}" class="btn btn-default">返回</a>
+                <a @click="cancelMethod()" class="btn btn-default">返回</a>
               </div>
             </div>
           </form>
@@ -118,6 +118,9 @@
           })
         }
         return false
+      },
+       cancelMethod:function(){
+        this.$router.go({path:localStorage.nowurl})
       }
     }
   }

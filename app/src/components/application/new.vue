@@ -152,6 +152,8 @@
           if (result.state) {
             that.$set("infos", data.data)
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
 

@@ -1,7 +1,7 @@
 <!--各机构逾期率不良率统计-->
 <template>
   <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-12">
-    <div class="form-ground">
+    <div class="form-group">
       <label for=""style="font-size:18px;color:#49586e;">各机构逾期率不良率统计</label>
       <div class="input-icon right">
         <div id="echart4" style="height:350px;"></div>

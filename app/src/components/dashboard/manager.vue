@@ -5,7 +5,7 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-md-4 col-sm-6 col-xs-12">
-              <div class="form-ground backgrounds colorone">
+              <div class="form-group backgrounds colorone">
                 <label for=""style="font-size:18px;color:#fff;">进件情况</label>
                 <div class="input-icon right">
                   <manager-piece></manager-piece>
@@ -13,7 +13,7 @@
               </div>
             </div>
             <div class=" col-md-4 col-sm-6 col-xs-12">
-              <div class="form-ground backgrounds colortwo">
+              <div class="form-group backgrounds colortwo">
                 <label for=""style="font-size:18px;color:#fff;">贷款情况</label>
                 <div class="input-icon right">
                   <manager-loan></manager-loan>
@@ -21,7 +21,7 @@
               </div>
             </div>
             <div class=" col-md-4 col-sm-6 col-xs-12">
-              <div class="form-ground">
+              <div class="form-group">
                 <div class="input-icon right">
                   <div class="colorthree backgrounds">
                     <h3 style="margin-top: 0px;">当前贷款余额</h3>
@@ -41,7 +41,7 @@
           </div>
           <div class="row" style="margin-top:30px">
             <div class="col-md-12  col-sm-12 col-xs-12">
-              <div class="form-ground">
+              <div class="form-group">
                 <div class="input-icon right">
                   <manager-overdue></manager-overdue>
                 </div>

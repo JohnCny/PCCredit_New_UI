@@ -485,7 +485,9 @@
             that.$set("proType", data.data.productTypes)
             that.$set("industryes", data.data.industry)
             that.$set("tProductInfo", data.data.product)
+            if(data.data.product.productIndustryLimit){
             that.$set("productIndustryLimit", data.data.product.productIndustryLimit.split(","))
+            }
             that.$set("picdec", data.data.productDesc)
             that.ComponentsSelect2()
             var a = data.data.productOrg
@@ -502,8 +504,9 @@
               treeObj.checkNode(nodes[0], true, true);
               treeObj.cancelSelectedNode(nodes[0]);
             }
-
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       setTab2: function () {

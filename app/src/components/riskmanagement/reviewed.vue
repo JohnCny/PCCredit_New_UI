@@ -9,8 +9,8 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="monitorTimeFirst">客户名称:</label>
+                <div class="form-group">
+                  <label for="">客户名称:</label>
                   <div class="input-icon right">
                     <span><a>${infos.customerName}</a></span>
                     <div class="message">${errors.monitorTimeFirstError}</div>
@@ -18,8 +18,8 @@
                 </div>
               </div>
               <div class=" col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="monitorTimeRate">	证件号码:</label>
+                <div class="form-group">
+                  <label for="">	证件号码:</label>
                   <div class="input-icon right">
                     <span><a>${infos.idCard}</a></span>
                     <div class="message">${errors.monitorTimeRateError}</div>
@@ -29,8 +29,8 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="sex">进入风险名单日期:</label>
+                <div class="form-group">
+                  <label for="">进入风险名单日期:</label>
                   <div class="input-icon right">
                     <span><a>${infos.createTime | formatDate}</a></span>
                     <div class="message">${errors.siteVisitsrateError}</div>
@@ -38,8 +38,8 @@
                 </div>
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="sex">进入原因:</label>
+                <div class="form-group">
+                  <label for="">进入原因:</label>
                   <div class="input-icon right">
                     <span><a>${infos.riskBlackTransforReason}</a></span>
                     <div class="message">${errors.siteVisitsrateError}</div>
@@ -49,8 +49,8 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="sex">申请操作:</label>
+                <div class="form-group">
+                  <label for="">申请操作:</label>
                   <div class="input-icon right">
                    <span>
                      <a v-if="infos.riskBlackOperationType == 0">转入黑名单</a>

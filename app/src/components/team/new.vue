@@ -194,6 +194,8 @@
           if (result.state) {
            that.$set('teamLeaders', data.data)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       cancelMethod:function(){

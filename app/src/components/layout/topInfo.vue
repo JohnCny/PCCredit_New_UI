@@ -3,6 +3,16 @@
     <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       <img v-bind:src="userProfile" alt=""/>
       ${userCname}
+      <span v-if="roleType == 1">（超级管理员）</span>
+      <template v-else>
+        <span v-if="roleType == 2">（管理员）</span>
+        <template v-else>
+          <span v-if="roleType == 3">（客户经理）</span>
+          <template v-else>
+            <span v-if="roleType == 4">（专家）</span>
+          </template>
+        </template>
+      </template>
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -20,7 +30,8 @@
     data(){
       return {
         userCname:'',
-        userProfile:''
+        userProfile:'',
+        roleType:''
       }
     },
     ready: function () {
@@ -29,11 +40,10 @@
     methods: {
       init: function () {
         this.$set('userCname', JSON.parse(localStorage.user).user["userCname"])
+        this.$set('roleType', JSON.parse(localStorage.user).roleType)
         var urlStr = JSON.parse(localStorage.user).user["userProfile"]
-        console.dir(JSON.parse(localStorage.user))
-        this.$set('userProfile', document.location.protocol + '//'+QK.SERVER_URL+ '' + urlStr)
-        console.log(QK.SERVER_URL)
-        console.log(this.userProfile)
+        //this.$set('userProfile', QK.SERVER_URL+ '' + urlStr)
+         this.$set('userProfile', document.location.protocol + '//192.168.1.118:8091' + urlStr)
       },
       personalInfo: function () {
         //记录当前地址

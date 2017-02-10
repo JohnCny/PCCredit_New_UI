@@ -252,6 +252,8 @@
           if (result.state) {
             that.$set("tOrganization", data.data)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       cnameCheck: function () {

@@ -100,6 +100,8 @@
             }
             that.getArr()
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
       getArr: function(){
