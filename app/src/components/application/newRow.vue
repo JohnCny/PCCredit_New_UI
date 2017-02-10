@@ -13,17 +13,17 @@
             <label for="reviewEndTime" style="margin-left: -320px;margin-top:15px;" class="col-sm-5 control-label">结束时间：</label>
             <input class="input" id="reviewEndTime" name="reviewEndTime" style="height:40px;margin-bottom:50px;" size="50" type="text" @click.stop="open($event,'picker5')"  v-model="calendar.items.picker5.value"><br>
             <calendar style="z-index: 1;"
-                  :show.sync="calendar.show"
-                  :type="calendar.type"
-                  :value.sync="calendar.value"
-                  :x="calendar.x"
-                  :y="calendar.y"
-                  :begin.sync="calendar.begin"
-                  :end.sync="calendar.end"
-                  :range.sync="calendar.range"
-                  :weeks="calendar.weeks"
-                  :months="calendar.months"
-                  :sep="calendar.sep">
+                      :show.sync="calendar.show"
+                      :type="calendar.type"
+                      :value.sync="calendar.value"
+                      :x="calendar.x"
+                      :y="calendar.y"
+                      :begin.sync="calendar.begin"
+                      :end.sync="calendar.end"
+                      :range.sync="calendar.range"
+                      :weeks="calendar.weeks"
+                      :months="calendar.months"
+                      :sep="calendar.sep">
             </calendar>
           </div>
           <div class="form-group col-md-offset-4" style="margin-left:50px;height:80px;">
@@ -37,7 +37,7 @@
           </div>
         </form>
         <div class="col-xs-12 col-md-offset-5 contain">
-          <button id="btn_submit" class="btn btn-success" v-on:click="save">保存</button>
+          <button id="btn_submit" class="btn btn-success" v-on:click="newRow">保存</button>
         </div>
       </section>
     </div>
@@ -128,66 +128,22 @@
             }
         },
         ready: function(){
-          this.init()
+
         },
         methods:{
-          init: function () {
-              var that = this
-              var id = that.$route.params.id
-              that.$http.get(QK.SERVER_URL + '/api/applicationApprovalReview/' + id, true).then(function (data) {
-                var data = $.parseJSON(data.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  var datePicker1 = that.formatDate(data.data.reviewStartTime, true)
-                  var datePicker2 = that.formatDate(data.data.reviewEndTime, true)
-                  that.$set("calendar.items.picker3.value", datePicker1)
-                  that.$set("calendar.items.picker5.value", datePicker2)
-                  that.$set("reviewPersonCname", data.data.reviewPersonCname)
-              }
-           })
-        },
-            add0: function (m) {
-              return m < 10 ? '0' + m : m
-            },
-            formatDate: function (num, bool) {
-              if (!isNaN(parseInt(num))) {
-                var myDate = new Date(num),
-                  year = myDate.getFullYear(),
-                  month = myDate.getMonth() + 1,
-                  date = myDate.getDate(),
-                  hour = myDate.getHours(),
-                  minute = myDate.getMinutes(),
-                  second = myDate.getSeconds(),
-                  dateStr = year + "-" + this.add0(month) + "-" + this.add0(date),
-                  timeStr = "   " + this.add0(hour) + ":" + this.add0(minute) + ":" + this.add0(second);
-                if (bool) {
-                  return dateStr + timeStr
-                } else {
-                  return dateStr
-                }
-              }
-              else {
-                var now = new Date(),
-                  year = now.getFullYear(),
-                  month = now.getMonth() + 1,
-                  date = now.getDate(),
-                  dateStr = year + "-" + this.add0(month) + "-" + this.add0(date)
-                return dateStr
-              }
-            },
-           save: function () {
+           newRow: function () {
             var that = this
             var id = that.$route.params.id
-            that.$http.get(QK.SERVER_URL + '/api/applicationApprovalReview/' + id,{
-            reviewStartTime: that.reviewStartTime,
-            reviewEndTime: that.reviewEndTime,
+            that.$http.post(QK.SERVER_URL + '/api/applicationApprovalReview',{
+            reviewStartTime: that.calendar.items.picker3.value,
+            reviewEndTime: that.calendar.items.picker5.value,
             reviewPersonCname: that.reviewPersonCname
             }, true).then(function (data) {
               var data = $.parseJSON(data.body)
               var result = QK.getStateCode(that, data.code)
               if (result.state) {
                   swal({
-                      title: "修改成功!",
+                      title: "创建成功!",
                       text: "",
                       confirmButtonColor: "#66BB6A",
                       type: "success",
@@ -198,7 +154,7 @@
                   })
                 }else{
                   swal({
-                      title: "修改失败！",
+                      title: "创建失败！",
                       text: result.msg+"！",
                       confirmButtonColor: "#EF5350",
                       type: "error",

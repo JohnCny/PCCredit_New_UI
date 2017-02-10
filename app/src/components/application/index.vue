@@ -30,6 +30,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.customer.cname}</td>
                 <td>${info.customer.certificateNumber | isEmpty}</td>
@@ -40,6 +41,12 @@
                 <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
                   class="fa fa-edit"></i> 编辑 </a></td>
               </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td colspan="6">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>

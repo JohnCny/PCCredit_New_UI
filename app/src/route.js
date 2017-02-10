@@ -159,6 +159,7 @@ import customerSign from './components/application/cusSign.vue'//进件客户签
 import inputSign from './components/application/inputSignMess.vue'//录入客户签约
 import rowApproval from './components/application/rowApproval.vue'//审贷会排审
 import theRow from './components/application/theRow.vue'//排审
+import newRow from './components/application/newRow.vue'//新增排审
 
 export default {
   // '/index': {
@@ -239,6 +240,9 @@ export default {
       },
       '/application/theRow/:id':{//排审
         component:theRow
+      },
+      '/application/newRow/:id':{//新增排审
+        component:newRow
       },
       /*end---进件---end*/
 

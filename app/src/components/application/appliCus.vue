@@ -1,33 +1,34 @@
 <style src='../../../static/css/Tabs.css'></style>
 <template>
-    <my-tab></my-tab>
+  <my-tab></my-tab>
   <div class="col-sm-12 col-lg-12 col-md-12 col-sm-12">
     <ul class="nav nav-tabs">
-        <li class="active">
-          <a data-toggle="tab" href="#home3">
-            <i class="fa fa-user"></i>
-            个人客户列表
-          </a>
-        </li>
-        <li class="">
-          <a data-toggle="tab" href="#about3">
-            <i class="fa fa-university"></i>
-            企业客户列表
-          </a>
-        </li>
-      </ul>
+      <li class="active">
+        <a data-toggle="tab" href="#home3">
+          <i class="fa fa-user"></i>
+          个人客户列表
+        </a>
+      </li>
+      <li class="">
+        <a data-toggle="tab" href="#about3">
+          <i class="fa fa-university"></i>
+          企业客户列表
+        </a>
+      </li>
+    </ul>
   </div>
-    <div class="panel-body">
-      <div class="tab-content">
-        <div id="home3" class="tab-pane active">
-          <person></person>
-        </div>
-        <div id="about3" class="tab-pane">
-          <team></team>
-        </div>
+  <div class="panel-body">
+    <div class="tab-content">
+      <div id="home3" class="tab-pane active">
+        <person></person>
+      </div>
+      <div id="about3" class="tab-pane">
+        <team></team>
       </div>
     </div>
-  </template>
+  </div>
+
+</template>
 <style scoped>
     .nav > li > a:hover, .nav > li > a:focus {
       text-decoration: none;
@@ -87,9 +88,9 @@
        }
     },
         components: {
-           'person': person,
-           'team':team,
-           'my-Tab':myTab
+            person,
+            team,
+            myTab
         }
     }
 </script>

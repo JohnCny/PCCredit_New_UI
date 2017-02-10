@@ -29,6 +29,7 @@
                   </tr>
                   </thead>
                   <tbody>
+                  <template v-if="infos.length">
                   <tr v-on:click="showInfo(info)" v-for="info in infos">
                     <td><input type="radio" name="radio" id="radio" value="${info.id}"/><label class="radio"></label>
                     </td>
@@ -37,6 +38,12 @@
                     <td>${info.productLimitMin}~${info.productLimitMax}</td>
                     <td>${info.productInterestMin}~${info.productInterestMax}</td>
                   </tr>
+                  </template>
+                  <template  v-else>
+                    <tr>
+                      <td colspan="4">没有数据</td>
+                    </tr>
+                  </template>
                   </tbody>
                 </table>
               </div>

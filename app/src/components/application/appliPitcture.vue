@@ -23,6 +23,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}
                 </td>
@@ -30,6 +31,12 @@
                 <td><a href="javascript:;" v-on:click="goAdd" class="btn btn-success btn-xs"><i
                   class="fa fa-plus"></i>继续添加</a></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="3">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -104,6 +111,7 @@
     ready: function () {
       this.init()
       this.initActive()
+
     },
     methods: {
       initActive: function(){
@@ -121,10 +129,11 @@
         })
       },
       goAdd: function () {
-        $(event.currentTarget).parent("td").prev("td").append("<form id='upfile'>选择一个文件:<input action='/api/applicationInvestPicture' type='file' name='file' id='upload' /><br/><br/>	<input id='uploadFile' value='上传' type='button'/></form>")
+        $(event.currentTarget).parent("td").prev("td").append("<form id='upfile'>选择一个文件:<input type='file' name='file' id='upload' /><br/><br/>	<input id='uploadFile' value='上传' type='button'/></form>")
         var that = this
         var applicationId = that.$route.params.id
         var productInvestPictureDesc = $("#descript").val()
+        var files= $("#upload").val()
         $("#uploadFile").click(function () {
           that.$http.post(QK.SERVER_URL + '/api/applicationInvestPicture', {
             applicationId: applicationId,

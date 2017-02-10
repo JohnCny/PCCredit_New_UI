@@ -136,13 +136,7 @@
       nextStep: function(){
         var that = this
         var id = that.$route.params.appliId
-        that.$http.get(QK.SERVER_URL+'/api/applicationInvestPicture/ifFileNext/'+id, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state){
-             that.$router.go({path:"/system/application/picture/"+id})
-          }
-        })
+        that.$router.go({path:"/system/application/picture/"+id})
       },
       cancel :function(){
          window.history.back()

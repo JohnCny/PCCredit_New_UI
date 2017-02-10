@@ -1,4 +1,3 @@
-<!--<style src='../../../static/css/Tabs.css'></style>-->
 <template>
   <ul class="myTab">
     <template v-for="todo in infoData">
@@ -201,6 +200,7 @@
                   </tr>
                   </thead>
                   <tbody>
+                  <template v-if="infos.length">
                   <tr v-for="info in infos">
                     <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}
                     </td>
@@ -208,6 +208,12 @@
                     <td><a href="javascript:;" v-on:click="goAdd" class="btn btn-success btn-xs"><i
                       class="fa fa-plus"></i>继续添加</a></td>
                   </tr>
+                  </template>
+                  <template  v-else>
+                    <tr>
+                      <td colspan="3">没有数据</td>
+                    </tr>
+                  </template>
                   </tbody>
                 </table>
               </div>
@@ -254,6 +260,7 @@
                   </tr>
                   </thead>
                   <tbody>
+                  <template v-if="vars.length">
                   <tr v-for="var in vars">
                     <td>客户经理审批</td>
                     <td>${var.approvalPersonCname}</td>
@@ -263,6 +270,12 @@
                     <td>${var.approvalRate}</td>
                     <td>${var.approvalOpinion}</td>
                   </tr>
+                  </template>
+                  <template  v-else>
+                    <tr>
+                      <td colspan="7">没有数据</td>
+                    </tr>
+                  </template>
                   </tbody>
                 </table>
               </div>
@@ -274,8 +287,8 @@
             <table class="bxd">
               <tbody>
               <tr>
-                <td>贷款开始日期：<span>${temp.loanStartTime | isEmpty}</span></td>
-                <td>贷款结束日期：<span>${temp.loanEndTime | isEmpty}</span></td>
+                <td>贷款开始日期：<span>${temp.loanStartTime | formatDate}</span></td>
+                <td>贷款结束日期：<span>${temp.loanEndTime | formatDate}</span></td>
                 <td>合同编号：<span>${temp.contractNumber | isEmpty}</span></td>
                 <td>放款账号：<span>${temp.loanAccount | isEmpty}</span></td>
               </tr>
@@ -290,7 +303,7 @@
                 <tr>
                   <td class="pull-right">审批决定：</td>
                   <td>
-                    <select>
+                    <select style="border: 1px solid;">
                       <option>--请选择--</option>
                       <option>通过</option>
                       <option>有条件通过</option>
@@ -299,17 +312,17 @@
                     </select>
                   </td>
                   <td class="pull-right">通过条件：</td>
-                  <td><input type="text"></td>
+                  <td><input style="border: 1px solid;" type="text"></td>
                 </tr>
                 <tr>
                   <td class="pull-right">审批额度：</td>
-                  <td><input type="text"></td>
+                  <td><input style="border: 1px solid;" type="text"></td>
                   <td class="pull-right">审批利率：</td>
-                  <td><input type="text"></td>
+                  <td><input style="border: 1px solid;" type="text"></td>
                 </tr>
                 <tr>
                   <td class="pull-right">审批意见：</td>
-                  <td colspan="3"><textarea></textarea></td>
+                  <td colspan="3"><textarea style="border: 1px solid;"></textarea></td>
                 </tr>
                 </tbody>
               </table>
