@@ -214,6 +214,8 @@
           if (result.state) {
             that.$set("tCustomerBasic", data.data.customer)
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
       searchPic: function () {

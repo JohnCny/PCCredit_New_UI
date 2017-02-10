@@ -17,18 +17,12 @@
               </tr>
               </thead>
               <tbody>
-              <template v-if="info.length">
+
               <tr v-for="info in infos">
                 <td>${info.fileName}</td>
-                <td><img id="changeImg"  v-bind:src="info.fileUrl"></td>
+                <td><img id="changeImg"  v-bind:src="info.fileUrl | getSrc"></td>
                 <td><a href="javascript:;" class="btn btn-success btn-xs"><i class="fa fa-plus"></i>继续添加</a></td>
               </tr>
-              </template>
-              <template  v-else>
-                <tr>
-                  <td colspan="3">没有数据</td>
-                </tr>
-              </template>
               </tbody>
             </table>
           </div>
@@ -102,8 +96,6 @@
     ready: function () {
      this.init()
      this.initActive()
-     this.changeUrl()
-
     },
     methods: {
      initActive: function(){
@@ -118,13 +110,10 @@
           if (result.state) {
               that.$set("infos", data.data)
             }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
-       //changeUrl: function () {
-
-        //console.log(QK.SERVER_URL)
-
-      //},
        nextStep: function () {
         var that = this
         var id = that.$route.params.id

@@ -32,6 +32,7 @@ export default{
       $(varsArr).each(function(i,v){
         if($(v)[0].groupId == menuid){
           that.$set("vars",$(v))
+          console.log(that.vars)
         }
       })
     },

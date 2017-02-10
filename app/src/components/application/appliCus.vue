@@ -11,7 +11,7 @@
       </li>
       <li class="">
         <a data-toggle="tab" href="#about3">
-          <i class="fa fa-university"></i>
+          <i class="fa fa-user"></i>
           企业客户列表
         </a>
       </li>
