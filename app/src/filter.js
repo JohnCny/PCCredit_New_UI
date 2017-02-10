@@ -937,7 +937,6 @@ export const marriageCondition = (num) => {
   }
   return state;
 }
-
 /**
  * 国籍信息
  * @method nationalName

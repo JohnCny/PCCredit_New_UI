@@ -31,6 +31,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.productName}</td>
                 <td>${info.productLimitMin}~${info.productLimitMax}</td>
@@ -47,6 +48,12 @@
                   <a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">配置贷后监控规则</a>
                   <a class="btn btn-warning btn-xs" v-on:click="editRisk(info.id)">配置风险属性</a></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="5">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>

@@ -148,7 +148,7 @@ import Reviewed from './components/riskmanagement/reviewed.vue'//审核
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
 import appliCus from './components/application/appliCus.vue'//选择申请客户
-import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import writeAppli from './components/application/writeAppli.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
 import creditReport from './components/application/creditReport.vue'//征信报告
@@ -209,7 +209,7 @@ export default {
         component: appliCus
       },
       '/application/cusBasic/:customerId/:appliId':{//填写申请表
-        component: cusBasic
+        component: writeAppli
       },
       '/application/ipc/:appliId/:templateId':{//填写IPC调查报告
         component: ipcSupply

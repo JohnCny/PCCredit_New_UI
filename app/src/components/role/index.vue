@@ -18,6 +18,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.roleNameZh}</td>
                 <td>${info.roleStatus | getRoleState}</td>
@@ -26,6 +27,12 @@
                   class="fa fa-edit"></i>
                   编辑 </a></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="4">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>

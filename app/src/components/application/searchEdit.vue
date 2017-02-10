@@ -4,7 +4,6 @@
       <li v-on:click="changeTab" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
     </template>
   </ul>
-
   <div class="row tabCon" id="xxzl">
     <div class="col-sm-12">
       <section class="panel">
