@@ -352,7 +352,7 @@
           productMarriageLimit: '',
           explainJson: '',
           productCreditLevelLimit: '',
-          productLimitType:'0'
+          productLimitType:'1'
         },
         proType: [{
           id: '',
@@ -447,9 +447,9 @@
                 },
                 function (isConfirm) {
                   if (isConfirm) {
-                    that.$router.go({path: "/system/product/newTwo/" + id})
+                    that.$router.go({path: "/system/companypro/newTwo/" + id})
                   } else {
-                    that.$router.go({path: "/system/product/list"})
+                    that.$router.go({path: "/system/companypro/list"})
                   }
                 })
             }

@@ -136,7 +136,7 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/product/pageList/0', searchAll, true).then(function (data) {
+        that.$http.post(QK.SERVER_URL + '/api/product/pageList/1', searchAll, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
@@ -162,7 +162,7 @@
         //QK.noteNowUrl()
         //跳转地址
         //this.$router.go({path: '/system/product/newOne'})
-         swal({
+      swal({
               title: "请选择产品类型",
               text: "",
               type: "info",
