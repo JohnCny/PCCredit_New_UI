@@ -99,7 +99,7 @@ import OrgNewTop from './components/organization/newTop.vue'//新建机构
 
 
 /************************
- * 产品管理
+ * 个人产品管理
  * ***********************/
 import ProNew1 from './components/product/newOne.vue'//新建产品1
 import ProNew2 from './components/product/newTwo.vue'//新建产品2
@@ -112,6 +112,17 @@ import ProEditTwo from './components/product/editTwo.vue'//编辑产品2
 import ProEditThree from './components/product/editThree.vue'//编辑产品3
 import ProEditFour from './components/product/editFour.vue'//编辑产品4
 import ProEditTwos from './components/product/editTwos.vue'//编辑产品2s
+
+/************************
+ * 企业产品管理
+ * ***********************/
+import ComProList from './components/companyproduct/index.vue'//企业产品列表
+import ProNewOne from './components/companyproduct/newOne.vue'//企业产品新建产品1
+import ProNewTwo from './components/companyproduct/newTwo.vue'//企业产品新建产品2
+import ProNewThree from './components/companyproduct/newThree.vue'//企业产品新建产品3
+import ProNewFour from './components/companyproduct/newFour.vue'//企业产品新建产品4
+import ProNewFive from './components/companyproduct/newFive.vue'//企业产品新建产品4
+
 /************************
  * 菜单管理
  * ***********************/
@@ -374,7 +385,7 @@ export default {
       /*end---数据字典---end*/
 
 
-      /*start---产品---start*/
+      /*start---个人产品---start*/
         '/product/newOne':{//新建产品1
           component:ProNew1
         },
@@ -408,7 +419,27 @@ export default {
         '/product/editTwos/:id/:pid':{//编辑产品2s
           component:ProEditTwos
         },
-        /*end---产品---end*/
+        /*end---个人产品---end*/
+      /*start---企业产品---start*/
+        '/companypro/list':{//产品列表
+          component:ComProList
+        },
+        '/companypro/newOne':{//新建产品1
+          component:ProNewOne
+        },
+        '/companypro/newTwo/:id':{//新建产品2
+          component:ProNewTwo
+        },
+        '/companypro/newThree/:id':{//新建产品3
+          component:ProNewThree
+        },
+        '/companypro/newFour/:id':{//新建产品4
+          component:ProNewFour
+        },
+        '/companypro/newFive/:id':{//新建产品5
+          component:ProNewFive
+        },
+      /*end---企业产品---end*/
         /*start---菜单管理---start*/
         '/menu/manage': {
           component: MenuManage
