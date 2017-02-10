@@ -9,7 +9,7 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="monitorTimeFirst">放款后首次贷后监控时间:</label>
                   <div class="input-icon right">
                     <select id="monitorTimeFirst" type="text" name="monitorTimeFirst" class="form-control"
@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class=" col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="monitorTimeRate">首次贷后监控后监控频率:</label>
                   <div class="input-icon right">
                     <select id="monitorTimeRate" type="text" name="monitorTimeRate" class="form-control"
@@ -40,7 +40,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="sex">实时回访频率:</label>
                   <div class="input-icon right">
                     <select id="siteVisitsrate" type="text" name="siteVisitsrate" class="form-control"
@@ -67,7 +67,7 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="phoneCollectionRate">电话催收频率:</label>
                   <div class="input-icon right">
                     <select id="phoneCollectionRate" type="text" name="phoneCollectionRate" class="form-control"
@@ -81,8 +81,8 @@
                 </div>
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
-                  <label for="sex">上门催收频率:</label>
+                <div class="form-group">
+                  <label for="homeCollectionRate">上门催收频率:</label>
                   <div class="input-icon right">
                     <select id="homeCollectionRate" type="text" name="homeCollectionRate" class="form-control"
                             v-model="proMonitor.homeCollectionRate">
@@ -102,7 +102,7 @@
     <div class="row">
       <div class="col-md-12 col-md-offset-5">
         <button id="btn_submit" class="btn btn-success">保存</button>
-        <a href="javascript:void (0);" v-link="{path:'/system/product/list'}" class="btn btn-default">返回</a>
+        <a @click="cancelMethod()" class="btn btn-default">返回</a>
       </div>
     </div>
   </form>
@@ -193,7 +193,9 @@
         }
         return false
       },
-
+      cancelMethod:function(){
+        this.$router.go({path:localStorage.nowurl})
+      }
     }
   }
 
