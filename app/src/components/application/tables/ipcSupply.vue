@@ -58,6 +58,7 @@
         varsArr:[],
         ipcMenu:[],
         ids:[],
+        index:0,
       }
     },
     components: {
@@ -70,11 +71,18 @@
       this.init()
     },
     methods:{
+      getVarsArr: function(){
+        return this.varsArr
+      },
       init:function() {
         var that = this
-        $("#zcfz").show().siblings("div.tabContent").hide()
+        //第一个财务报表显示其余的隐藏
+        $("div.tabContent").eq(0).show().siblings("div.tabContent").hide()
+        //当前页进度条样式
         $(".xzkhNormal,.sqbNormal,.ipcNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+        //进件Id
         var applicationId = that.$route.params.appliId
+        //获取该进件下的所有申请项
         that.$http.get(QK.SERVER_URL+'/api/application/ipc/menu/'+applicationId, true).then(function (data) {
           var data = $.parseJSON(data.body);
           var result = QK.getStateCode(that, data.code)
@@ -87,18 +95,24 @@
             for(var i =0;i<divs.length;i++){
               $(divs[i]).addClass("tabContent"+that.ids[i])
             }
-            for(var i=0;i<that.ids.length;i++){
-              that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+that.ids[i], true).then(function (data) {
-                var data = $.parseJSON(data.body)
-                var result = QK.getStateCode(that, data.code)
-                if (result.state) {
-                  that.varsArr.push(data.data)
-                }
-              })
-            }
-            QK.vector.$emit('getfromchild', that.varsArr)
-            console.log(that.varsArr)
-            //this.setTab2()
+            that.getArr()
+          }
+        })
+      },
+      getArr: function(){
+        var that = this
+        if(that.index>=that.ids.length){
+          QK.vector.$emit('getfromcwbb', that.getVarsArr())
+          return
+        }
+        var applicationId = that.$route.params.appliId
+        that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+that.ids[that.index]).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.varsArr.push(data.data)
+            that.index++
+            that.getArr()
           }
         })
       },
@@ -108,30 +122,6 @@
         var applicationId = that.$route.params.appliId
         var templateId = $(event.currentTarget).data("id")?$(event.currentTarget).data("id"):that.ids[0]
         $("div.tabContent"+templateId).show().siblings("div.tabContent").hide()
-        //that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+templateId, true).then(function (data) {
-          //var data = $.parseJSON(data.body)
-          //var result = QK.getStateCode(that, data.code)
-          //if (result.state) {
-            //that.$set("vars", data.data)
-            //QK.vector.$emit('getfromchild', that.vars)
-          //}
-        //})
-      },
-      getVarArr: function(){
-        var that = this
-        var applicationId = that.$route.params.appliId
-         console.log(that.ids)
-        for(var i=0;i<that.ids.length;i++){
-          that.$http.get(QK.SERVER_URL+'/api/application/ipc/'+applicationId+'/'+that.ids[i], true).then(function (data) {
-            var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-              that.varsArr.push(data.data)
-            }
-          })
-        }
-        QK.vector.$emit('getfromchild', that.varsArr)
-        console.log(that.varsArr)
       },
       nextStep: function(){
         var that = this
