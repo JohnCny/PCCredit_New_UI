@@ -42,7 +42,8 @@
         this.$set('userCname', JSON.parse(localStorage.user).user["userCname"])
         this.$set('roleType', JSON.parse(localStorage.user).roleType)
         var urlStr = JSON.parse(localStorage.user).user["userProfile"]
-        this.$set('userProfile', document.location.protocol + '//'+QK.SERVER_URL+ '' + urlStr)
+        //this.$set('userProfile', QK.SERVER_URL+ '' + urlStr)
+         this.$set('userProfile', document.location.protocol + '//192.168.1.118:8091' + urlStr)
       },
       personalInfo: function () {
         //记录当前地址
