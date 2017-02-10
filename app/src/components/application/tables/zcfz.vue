@@ -90,24 +90,22 @@
       }
     },
     ready :function(){
-      //this.init()
     },
     created: function () {
-      QK.vector.$on('getfromchild', this.init)
+      QK.vector.$on('getfromcwbb', this.init)
     },
     beforeDestroy: function () {
-      QK.vector.$off('getfromchild', this.init)
+      QK.vector.$off('getfromcwbb', this.init)
     },
     methods:{
       init:function(varsArr) {
-        //$(varsArr).each(function(i,v){
-         // $(v)[0].groupId
-        //})
-        var arr = varsArr
-        this.$set("vars", arr[0])
-        console.log(varsArr)
-        console.log(arr)
-        console.log(this.vars)
+        var that = this
+        var menuid = $("#menu1").find("li.active").data("menuid")
+        $(varsArr).each(function(i,v){
+          if($(v)[0].groupId == menuid){
+            that.$set("vars",$(v))
+          }
+        })
       },
       addRow: function(row){
         row.push({})
