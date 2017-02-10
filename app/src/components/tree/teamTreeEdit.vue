@@ -164,14 +164,15 @@
         this.$router.go({path:'/system/team/new'})
       },
       baseTree: function (url, setting) {
+        var that = this
         var height = $(window).height()
         $(".wdlb").css("height", (parseInt(height) - 176) + "px")
         var zTreeObj
-        $.ajax({
-          type: 'GET',
-          url: url,
-          success: function (res) {
-            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, res.data)
+        that.$http.get(url, true).then(function (res) {
+          var data = $.parseJSON(res.body)
+          var result = QK.getStateCode(this, data.code)
+          if (result.state) {
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data)
             zTreeObj.expandAll(true)
           }
         })

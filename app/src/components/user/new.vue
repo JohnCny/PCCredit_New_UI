@@ -143,6 +143,7 @@
       </section>
     </div>
   </div>
+  <button id="clickActive" @click="getActive()">点击</button>
 </template>
 <style scoped>
   #userNew input, #userNew select {
@@ -286,8 +287,11 @@
           if (result.state) {
             that.$set("roles", data.data)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
         QK.vector.$emit('getfromCrumb', that.crumbData)
+
       },
       changeOrg: function () {
         var that = this
@@ -381,7 +385,8 @@
         }
       },
       cancelMethod:function(){
-         this.$router.go({path:localStorage.nowurl})
+        this.$router.go({path:localStorage.nowurl})
+
       },
     }
   }

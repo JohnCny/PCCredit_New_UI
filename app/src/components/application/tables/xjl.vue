@@ -1,9 +1,11 @@
 <template>
   <table class="table table-bordered" id="xjlTable">
     <thead>
-    现金流
+    <tr>
+      <th>月份</th>
+      <th><input class="" type="text" /></th>
+    </tr>
     </thead>
-
   </table>
 </template>
 <style scope>
@@ -17,7 +19,6 @@ export default{
     }
   },
   ready :function(){
-    
   },
   created: function () {
     QK.vector.$on('getfromchild', this.init)
@@ -32,10 +33,10 @@ export default{
       $(varsArr).each(function(i,v){
         if($(v)[0].groupId == menuid){
           that.$set("vars",$(v))
+          conso
         }
       })
     },
   }
 }
-
 </script>

@@ -314,6 +314,8 @@
           if (result.state) {
             that.$set("roles", data.data)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
         that.$http.get(QK.SERVER_URL + '/api/user/' + id + '/updateUser', true).then(function (data) {
           var data = $.parseJSON(data.body)

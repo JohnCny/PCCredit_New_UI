@@ -194,6 +194,8 @@
           if (result.state) {
            that.$set('orgLeaders', data.data)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
     }

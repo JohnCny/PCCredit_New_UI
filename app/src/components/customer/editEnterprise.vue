@@ -210,6 +210,8 @@
                     if (result.state) {
                         that.$set("enterPrise", data.data)
                     }
+                }).then(function(){
+                    QK.getActive(localStorage.nowurl)
                 })
             },
             ComponentsSelect2: function () {
