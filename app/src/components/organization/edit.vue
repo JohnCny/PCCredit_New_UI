@@ -179,6 +179,8 @@
             that.$set("tOrganization", data.data)
             console.log(that.tOrganization)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       cancelMethod(){

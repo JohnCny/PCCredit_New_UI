@@ -152,6 +152,8 @@
           var data = $.parseJSON(res.body)
           that.$set('infos', data.data.customerManager)
           that.$set('levers', data.data.customerManagerLevel)
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       cancelMethod:function(){

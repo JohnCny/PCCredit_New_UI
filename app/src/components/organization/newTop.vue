@@ -170,6 +170,7 @@
     },
     ready: function () {
       QK.addMethod()
+      this.active()
     },
     components: {},
     methods: {
@@ -219,11 +220,14 @@
         }
         return false
       },
+      active:function(){
+        setTimeout(QK.getActive(localStorage.nowurl),5000)
+      },
       cnameCheck: function () {
         var that = this
-        var loginName = that.tOrganization.username;
-        var msg1 = "用户名可用!";
-        var msg3 = "请输入正确的登录名!";
+        var loginName = that.tOrganization.username
+        var msg1 = "用户名可用!"
+        var msg3 = "请输入正确的登录名!"
         var msg4 = "用户名已存在!";
         var login_name = "^[A-Za-z0-9_-]{4,12}$"
         if (loginName.length > 3 && loginName.match(login_name)) {

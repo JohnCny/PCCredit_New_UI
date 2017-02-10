@@ -9,7 +9,7 @@
       <ul v-if="menu.menuLists.length > 0" class="sub-menu-list">
         <template v-for="menuSmall in menu.menuLists">
           <li class="dropdown more-dropdown-sub">
-            <a href="${menuSmall.menuUrl}" @click="navTabClick(menuSmall.menuUrl)"> ${menuSmall.menuNameZh}</a>
+            <a class="dropdowna" href="${menuSmall.menuUrl}" @click="navTabClick(menuSmall.menuUrl)"> ${menuSmall.menuNameZh}</a>
           </li>
         </template>
       </ul>
