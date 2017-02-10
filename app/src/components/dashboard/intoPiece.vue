@@ -1,7 +1,7 @@
 <!--各机构进件情况-->
 <template>
     <div class="col-md-5 col-sm-6 col-xs-12">
-      <div class="form-ground">
+      <div class="form-group">
         <label for=""style="font-size:18px;color:#49586e;">各机构进件情况</label>
         <div class="input-icon right">
           <div id="echart1" style="height:350px;"></div>

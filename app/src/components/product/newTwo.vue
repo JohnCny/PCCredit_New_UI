@@ -161,7 +161,7 @@
             <div class="row">
               <div class="col-md-12 col-md-offset-5">
                 <button id="btn_submit" class="btn btn-success">保存</button>
-                <a href="javascript:void (0);" v-link="{path:'/system/product/list'}" class="btn btn-default">返回</a>
+                <a @click="cancelMethod()" class="btn btn-default">返回</a>
               </div>
             </div>
           </form>
@@ -384,7 +384,10 @@
         }), $(".js-btn-set-scaling-classes").on("click", function () {
           $("#select2-multiple-input-sm, #select2-single-input-sm").next(".select2-container--bootstrap").addClass("input-sm"), $("#select2-multiple-input-lg, #select2-single-input-lg").next(".select2-container--bootstrap").addClass("input-lg"), $(this).removeClass("btn-primary btn-outline").prop("disabled", !0)
         })
-      }
+      },
+      cancelMethod:function(){
+        this.$router.go({path:localStorage.nowurl})
+      },
     }
   }
 </script>

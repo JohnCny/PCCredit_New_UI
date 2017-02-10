@@ -9,7 +9,7 @@
           <form id="property_new" @submit.prevent="handleSubmit">
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="overPeriodLimit">逾期超过__期转入风险名单:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.overPeriodLimit" id="overPeriodLimit" type="text" class="form-control"
@@ -19,7 +19,7 @@
                 </div>
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="isLoanBadToBlack">不良转入黑名单:</label>
                   <div class="input-icon right">
                     <input id="isLoanBadToBlack" type="radio" name="isLoanBadToBlack" value="1"
@@ -39,7 +39,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="overdueWarningLimit">逾期率高于___%时预警:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.overdueWarningLimit" id="overdueWarningLimit" type="text"
@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="badloanWarningLimit">不良率高于___%时预警:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.badloanWarningLimit" id="badloanWarningLimit" type="text"
@@ -61,7 +61,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="industryOverdueWarningLimit">行业逾期率高于___%时预警:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.industryOverdueWarningLimit" id="industryOverdueWarningLimit" type="text"
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="industryBadloanWarningLimit">行业不良率高于___%时预警:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.industryBadloanWarningLimit" id="industryBadloanWarningLimit" type="text"
@@ -83,7 +83,7 @@
             </div>
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                <div class="form-ground">
+                <div class="form-group">
                   <label for="rejectionRate">行业拒件率高于___%时预警:</label>
                   <div class="input-icon right">
                     <input v-model="overdue.rejectionRate" id="rejectionRate" type="text" class="form-control"
@@ -96,7 +96,7 @@
             <div class="row">
               <div class="col-md-12 col-md-offset-5">
                 <button id="btn_submit" class="btn btn-success">保存</button>
-                <a href="javascript:void (0);" v-link="{path:'/system/product/list'}" class="btn btn-default">返回</a>
+                <a @click="cancelMethod()" class="btn btn-default">返回</a>
               </div>
             </div>
           </form>
@@ -199,6 +199,9 @@
           })
         }
         return false
+      },
+      cancelMethod:function(){
+        this.$router.go({path:localStorage.nowurl})
       }
     }
   }

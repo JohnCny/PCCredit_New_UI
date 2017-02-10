@@ -13,7 +13,7 @@
           </div>
           <div class="row">
             <div class="col-md-12  col-sm-12 col-xs-12">
-              <div class="form-ground">
+              <div class="form-group">
                 <label for=""style="font-size:18px;color:#49586e;">各机构（团队）绩效金额</label>
                 <div class="input-icon right">
                   <table class="table table-striped">

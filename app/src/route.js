@@ -40,7 +40,9 @@ import ManagerBasicEdit from './components/manager/basic/edit.vue'//编辑客户
 import ManagerLevelNew from './components/manager/level/new.vue'//编辑客户经理级别信息
 import ManagerLevel from './components/manager/level/index.vue'//客户经理级别列表
 import ManagerLevelEdit from './components/manager/level/edit.vue'//编辑客户经理级别信息
-
+import ManagerDailyIdex from './components/manager/daily/index.vue'//客户经理日报
+import ManagerDailyInfo from './components/manager/daily/dailyInfo.vue'//客户经理日报信息
+import ManagerWeekilyOut from './components/manager/weekily/weekliyout.vue'//客户经理日报信息
 /************************
  * 系统管理
  * ***********************/
@@ -273,6 +275,15 @@ export default {
       },
       '/managerLevel/new': { //客户经理级别编辑
         component: ManagerLevelNew
+      },
+      '/managerDaliy/index': { //客户经理日报
+        component: ManagerDailyIdex
+      },
+      '/managerDaliy/dailyinfo': { //客户经理日报详情
+        component: ManagerDailyInfo
+      },
+      '/managerweekiy/weekliyout': { //客户经理周报导出
+        component: ManagerWeekilyOut
       },
       /*end---客户经理级别信息---end*/
 
