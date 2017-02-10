@@ -12,6 +12,18 @@ QK.vector = new Vue()
 // QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : 'http://192.168.1.118:8091');
 QK.SERVER_URL = ('https:' == document.location.protocol ? 'https://www.advisingbank.com:8443' : '');
 
+
+
+QK.getActive = (url) => {
+  var tempA = document.getElementsByClassName('dropdowna')
+  $(tempA).each(function (i,v) {
+    var href = $(v).attr('href').split("/#")[1]
+    if(href == url){
+      $(v).parent().addClass('active')
+      $(v).parents('.menu-list').addClass('nav-active')
+    }
+  })
+}
 /*用户列表删除弹出框*/
 QK.deleteSwal = (option) => {
   swal({

@@ -53,6 +53,8 @@ export default{
         if (result.state) {
           that.$set("tCustomerBasic", data.data)
         }
+      }).then(function(){
+        QK.getActive(localStorage.nowurl)
       })
     },
   }

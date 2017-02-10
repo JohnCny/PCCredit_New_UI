@@ -154,7 +154,6 @@
       nextStep: function () {
         var that = this
         var id = that.$route.params.appliId
-
         that.$http.get(QK.SERVER_URL + '/api/application/' + id, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
@@ -174,6 +173,8 @@
           if (result.state) {
             that.$set("tCustomerBasic", data.data)
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
       initActive: function(){

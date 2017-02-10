@@ -299,6 +299,8 @@
                     if (result.state) {
                         that.$set("tCustomerBasic", data.data)
                     }
+                }).then(function(){
+                    QK.getActive(localStorage.nowurl)
                 })
             },
             searchId:function() {
@@ -324,7 +326,7 @@
                       $(data.data).each(function(i,v){
                         that.customerIndustry.push($(v)[0].industryId)
                       })
-                      console.log(that.customerIndustry)
+                      //console.log(that.customerIndustry)
                     }
                 })
             },
@@ -335,7 +337,7 @@
                     var result = QK.getStateCode(that, data.code)
                     if (result.state) {
                       that.$set("allCustomerIndustry", data.data)
-                      console.log(that.allCustomerIndustry)
+                      //console.log(that.allCustomerIndustry)
                     }
                 })
             },

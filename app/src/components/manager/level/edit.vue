@@ -227,6 +227,8 @@
             that.$set("crumbData.currentUser", data.data.levelName)
             QK.vector.$emit('getfromCrumb', that.crumbData)
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       cancelMethod:function(){

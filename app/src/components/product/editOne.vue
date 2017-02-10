@@ -502,8 +502,9 @@
               treeObj.checkNode(nodes[0], true, true);
               treeObj.cancelSelectedNode(nodes[0]);
             }
-
           }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
         })
       },
       setTab2: function () {
