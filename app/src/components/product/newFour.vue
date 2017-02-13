@@ -1,4 +1,5 @@
 <template>
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-md-12">
       <section class="panel">
@@ -118,6 +119,7 @@
 <script>
   import QK from '../../QK'
   import jQueryValidation from 'jquery-validation'
+  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -143,6 +145,10 @@
     },
     ready: function () {
       QK.addMethod()
+      this.initActive()
+    },
+    components: {
+      "my-tab": myTab
     },
     methods: {
       handleSubmit () {
@@ -200,6 +206,11 @@
         }
         return false
       },
+      initActive: function(){
+           $(".xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+           $(".sqbNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+           $(".ipcNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+       },
       cancelMethod:function(){
         this.$router.go({path:localStorage.nowurl})
       }

@@ -1,5 +1,4 @@
 <template>
-  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
@@ -13,13 +12,12 @@
                 <div class="form-group">
                   <label for="nodeTyp">节点类型</label>
                   <div class="input-icon right">
-                    <select id="nodeTyp" type="text" name="nodeTyp" v-model="infos.nodeType" class="form-control"
-                            v-on:change="whatCheck()">
-                      <option value="-1" selected="selected">--请选择--</option>
-                      <template v-for="node in nodes">
-                        <option v-bind:value="node.id">${node.nodeName}</option>
-                      </template>
-                    </select>
+                    <input id="nodeTyp" type="text" name="nodeTyp" class="form-control" v-if="infos.nodeType == 0"
+                           v-model="node.start" disabled>
+                    <input id="nodeTyp" type="text" name="nodeTyp" class="form-control" v-if="infos.nodeType == 1"
+                           v-model="node.mid" disabled>
+                    <input id="nodeTyp" type="text" name="nodeTyp" class="form-control" v-if="infos.nodeType == 2"
+                           v-model="node.end" disabled>
                     <div class="message">${errors.nodeTypeError}</div>
                   </div>
                 </div>
@@ -38,12 +36,14 @@
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="preNodeI">上一节点</label>
+                  <label for="preNodeI">上一节点(请点击)</label>
                   <div class="input-icon right">
-                    <select id="preNodeI" type="text" name="preNodeI" v-model="infos.preNodeId" class="form-control">
+                    <select id="preNodeI" type="text" name="preNodeI" v-model="infos.preNodeId" class="form-control"
+                            v-on:focus="whatCheck()">
                       <option value="-1" selected="selected">--请选择--</option>
                       <template v-for="todos in nodeNames">
-                        <option v-bind:value="todos.id">${todos.nodeName}</option>
+                        <option v-if="preNodeId==todos.id" selected v-bind:value="todos.id">${todos.nodeName}</option>
+                        <option v-else v-bind:value="todos.id">${todos.nodeName}</option>
                       </template>
                     </select>
                     <div class="message">${errors.preNodeIdError}</div>
@@ -68,7 +68,7 @@
                   <label for="approveRoles">可审批角色</label>
                   <div class="input-icon right">
                     <select id="approveRoles" type="text" name="approveRoles" class="form-control select2-multiple"
-                            multiple v-model="approveRoles">
+                            multiple v-model="approveRoleses">
                       <template v-for="roleeee in approveRoles">
                         <option v-bind:value="roleeee.id">${roleeee.roleNameZh}</option>
                       </template>
@@ -182,7 +182,6 @@
   import jQueryValidation from 'jquery-validation'
   import swal from 'sweetalert'
   import selsect2 from 'select2'
-  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -220,16 +219,24 @@
           id: '',
           nodeName: ''
         }],
+        ids: {
+          flowId: '',
+          proId: ''
+        },
+        node: {
+          start: '起始节点', //0
+          mid: '中间节点', //1
+          end: '结束节点'//2
+        },
+        approveRoleses: [],
+        preNodeId: ''
       }
     },
     ready: function () {
       QK.addMethod()
-      this.searchInfo()
       this.ComponentsSelect2()
-      this.initActive()
-    },
-    components: {
-      "my-tab": myTab
+      this.getIds()
+      this.init()
     },
     methods: {
       handleSubmit () {
@@ -252,97 +259,32 @@
 
         //验证结果  true  false
         if (bool) {
-          var infos = that.infos
           var approveRoles = that.approveRoles
-          approveRoles = $("#approveRoles").val().join(",")
-          var vals = that.infos.nodeType
-          var id = that.$route.params.id
-          console.log(vals)
-          that.$http.post(QK.SERVER_URL + '/api/productApprove', {
-            nodeType: infos.nodeType,
-            nodeName: infos.nodeName,
-            preNodeId: infos.preNodeId,
-            nextNodeId: infos.nextNodeId,
-            isRandomDivision: infos.isRandomDivision,
-            isLoanMeeting: infos.isLoanMeeting,
-            isLoanLimit: infos.isLoanLimit,
-            loanLimit: infos.loanLimit,
-            isReviewNode: infos.isReviewNode,
-            approveRoles: approveRoles,
-            productId: id,
-            loanMeetingType: infos.loanMeetingType,
-          }, true).then(function (data) {
+          that.infos.approveRoles = $("#approveRoles").val().join(",")
+          that.infos.flowId = that.ids.flowId
+          that.infos.proId = that.ids.proId
+          that.$http.put(QK.SERVER_URL + '/api/productApprove', that.infos, true).then(function (data) {
             var id = that.$route.params.id
             var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
-              swal({
-                  title: "是否继续填写?",
-                  text: "",
-                  type: "info",
-                  showCancelButton: true,
-                  confirmButtonColor: "#2196F3",
-                  confirmButtonText: "是",
-                  cancelButtonText: "否",
-                  closeOnConfirm: true,
-                  closeOnCancel: true
-                },
-                function (isConfirm) {
-                  if (isConfirm && vals == 0 || vals == 1) {
-                    alert(11111111)
-                    location.reload()
-                  } else if (isConfirm && vals == 2) {
-                    that.$router.go({path: "/system/companypro/newThree/" + id})
-                  } else {
-                    that.$router.go({path: "/system/companypro/list"})
-                  }
-                })
+              var optionObj = {
+                'that': that,
+                'title': '修改成功!',
+                'listUrl': '/system/product/editTwo/' + that.ids.proId
+              }
+              QK.successSwal(optionObj)
+            } else {
+              var optionObj = {
+                'that': that,
+                'title': '修改失败!',
+                'text': result.msg + "！",
+              }
+              QK.errorSwal(optionObj)
             }
           })
         }
         return false
-      },
-      initActive: function(){
-           $(".xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-       },
-      searchInfo: function () {
-        var that = this
-        var id = that.$route.params.id
-        that.$http.get(QK.SERVER_URL + '/api/productApprove/' + id, true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            that.$set("approveRoles", data.data.roles)
-            var start = data.data.haveStart
-            var end = data.data.haveNext
-            that.nodes = []
-            if (start) {
-              that.nodes.push({id: '0', nodeName: '起始节点'})
-            } else if (!start && !end) {
-              that.nodes.push({id: '1', nodeName: '中间节点'}, {id: '2', nodeName: '结束节点'})
-            } else if (!start && end) {
-              that.$router.go({path: "/system/product/newThree/" + id})
-            }
-          }
-        })
-      },
-      whatCheck: function () {
-        var that = this
-        var productId = that.$route.params.id
-        console.log(productId)
-        var vals = $("#nodeTyp").val()
-        console.log(vals)
-        if (vals == 0) {
-          $("#preNodeI").attr("disabled", true)
-        } else if (vals == 1 || vals == 2) {
-          that.$http.get(QK.SERVER_URL + '/api/productApprove?productId=' + productId + '', true).then(function (data) {
-            var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-              that.$set("nodeNames", data.data)
-            }
-          })
-        }
       },
       ComponentsSelect2: function () {
         function e(e) {
@@ -394,9 +336,48 @@
           $("#select2-multiple-input-sm, #select2-single-input-sm").next(".select2-container--bootstrap").addClass("input-sm"), $("#select2-multiple-input-lg, #select2-single-input-lg").next(".select2-container--bootstrap").addClass("input-lg"), $(this).removeClass("btn-primary btn-outline").prop("disabled", !0)
         })
       },
+      init: function () {
+        var that = this
+        var proId = that.ids.proId
+        var flowId = that.ids.flowId
+        that.$http.get(QK.SERVER_URL + '/api/productApprove/' + proId + '?approveId=' + flowId, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("infos", data.data.productApprove)
+            that.$set("approveRoles", data.data.roles)
+            that.$set("approveRoleses", data.data.productApprove.approveRoles.split(","))
+            that.preNodeId = data.data.productApprove.preNodeId
+          }
+        })
+
+      },
+      getIds: function () {
+        var arr = location.href.split("/")
+        this.$set("ids.flowId", arr[arr.length - 2])
+        this.$set("ids.proId", arr[arr.length - 1])
+      },
+      whatCheck: function () {
+        var that = this
+        var proId = that.ids.proId
+        var flowId = that.ids.flowId
+        var vals = $("#nodeTyp").val()
+        if (vals == "起始节点" || vals == "结束节点") {
+          $("#preNodeI").attr("disabled", true)
+        } else if (vals == "中间节点") {
+          that.$http.get(QK.SERVER_URL + '/api/productApprove?productId=' + proId + '', true).then(function (data) {
+            var data = $.parseJSON(data.body)
+            var result = QK.getStateCode(that, data.code)
+            if (result.state) {
+              that.$set("nodeNames", data.data)
+
+            }
+          })
+        }
+      },
       cancelMethod:function(){
         this.$router.go({path:localStorage.nowurl})
-      },
+      }
     }
   }
 </script>

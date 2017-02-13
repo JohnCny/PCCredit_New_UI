@@ -121,8 +121,12 @@ import ProNewOne from './components/companyproduct/newOne.vue'//企业产品新�
 import ProNewTwo from './components/companyproduct/newTwo.vue'//企业产品新建产品2
 import ProNewThree from './components/companyproduct/newThree.vue'//企业产品新建产品3
 import ProNewFour from './components/companyproduct/newFour.vue'//企业产品新建产品4
-import ProNewFive from './components/companyproduct/newFive.vue'//企业产品新建产品4
-
+import ProNewFive from './components/companyproduct/newFive.vue'//企业产品新建产品5
+import ComProEditOne from './components/companyproduct/editOne.vue'//企业产品编辑1
+import ComProEditTwo from './components/companyproduct/editTwo.vue'//企业产品编辑2
+import ComProEditTwos from './components/companyproduct/editTwos.vue'//企业产品编辑2s
+import ComProEditThree from './components/companyproduct/editThree.vue'//企业产品编辑3
+import ComProEditFour from './components/companyproduct/editFour.vue'//企业产品编辑3
 /************************
  * 菜单管理
  * ***********************/
@@ -438,6 +442,21 @@ export default {
         },
         '/companypro/newFive/:id':{//新建产品5
           component:ProNewFive
+        },
+        '/companypro/editOne/:id':{//编辑产品1
+          component:ComProEditOne
+        },
+        '/companypro/editTwo/:id':{//编辑产品2
+          component:ComProEditTwo
+        },
+        '/companypro/editTwos/:id/:pid':{//编辑产品2s
+          component:ComProEditTwos
+        },
+        '/companypro/editThree/:id':{//编辑产品3
+          component:ComProEditThree
+        },
+        '/companypro/editFour/:id':{//编辑产品4
+          component:ComProEditFour
         },
       /*end---企业产品---end*/
         /*start---菜单管理---start*/

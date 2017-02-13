@@ -1,7 +1,7 @@
 <style src='../../../static/css/Tabs.css'></style>
 <style src='../../../static/css/sweetalert.css'></style>
 <template>
-
+  <my-tab></my-tab>
   <ul class="myTab">
     <template v-for="todo in infoData">
       <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
@@ -255,7 +255,7 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-            <div id="addImg">
+            <div class="addImg">
               <div class="row adds count0">
                 <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
                   <label for="pritureDescription">图片说明:</label>
@@ -319,6 +319,7 @@
   import OrgTree from '../tree/orgTrees.vue'
   import jQueryValidation from 'jquery-validation'
   import selsect2 from 'select2'
+  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -390,7 +391,8 @@
       this.ComponentsSelect2()
     },
     components: {
-      OrgTree
+      OrgTree,
+      "my-tab": myTab
     },
     methods: {
       handleSubmit () {
@@ -469,7 +471,7 @@
       addTap: function () {
         var html = ''
         var len = $(".adds").length
-        $("#addImg").append('<div class="row adds count' + len + '"></div>')
+        $(".addImg").append('<div class="row adds count' + len + '"></div>')
         html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
         html += '<label for="pritureDescription">图片说明:</label>'
         html += '<div class="input-icon right">'
