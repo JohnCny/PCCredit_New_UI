@@ -1,5 +1,4 @@
 <template>
-  <my-tab></my-tab>
   <form id="monito_new" @submit.prevent="handleSubmit">
     <div class="row">
       <div class="col-md-12">
@@ -11,7 +10,7 @@
             <div class="row">
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="monitorTimeFirst">放款后首次贷后监控时间:</label>
+                  <label for="monitorTimeFirst">放款后首次贷后监控时间</label>
                   <div class="input-icon right">
                     <select id="monitorTimeFirst" type="text" name="monitorTimeFirst" class="form-control"
                             v-model="proMonitor.monitorTimeFirst">
@@ -83,7 +82,7 @@
               </div>
               <div class="col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
                 <div class="form-group">
-                  <label for="homeCollectionRate">上门催收频率:</label>
+                  <label for="sex">上门催收频率:</label>
                   <div class="input-icon right">
                     <select id="homeCollectionRate" type="text" name="homeCollectionRate" class="form-control"
                             v-model="proMonitor.homeCollectionRate">
@@ -102,8 +101,8 @@
     </div>
     <div class="row">
       <div class="col-md-12 col-md-offset-5">
-        <button id="btn_submit" class="btn btn-success">保存</button>
-        <a @click="cancelMethod()" class="btn btn-default">返回</a>
+        <button id="btn_submit" class="btn btn-success">确定</button>
+        <a @click="cancelMethod()" class="btn btn-default">取消</a>
       </div>
     </div>
   </form>
@@ -121,7 +120,6 @@
 <script>
   import QK from '../../QK'
   import jQueryValidation from 'jquery-validation'
-  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -143,10 +141,7 @@
     },
     ready: function () {
       QK.addMethod()
-      this.initActive()
-    },
-    components: {
-      "my-tab": myTab
+      this.init()
     },
     methods: {
       handleSubmit () {
@@ -164,46 +159,49 @@
           console.log(bool)
           var productId = that.$route.params.id
           var productInfo = that.proMonitor
-          that.$http.post(QK.SERVER_URL + '/api/productLoan', {
+          that.$http.put(QK.SERVER_URL + '/api/productLoan', {
             monitorTimeFirst: productInfo.monitorTimeFirst,
             monitorTimeRate: productInfo.monitorTimeRate,
             siteVisitsrate: productInfo.siteVisitsrate,
             phoneCollectionRate: productInfo.phoneCollectionRate,
             homeCollectionRate: productInfo.homeCollectionRate,
-            productId: productId
+            productId: productId,
+            id: productInfo.id
           }, true).then(function (data) {
             var data = $.parseJSON(data.body)
             var result = QK.getStateCode(that, data.code)
             var id = that.$route.params.id
             if (result.state) {
-              swal({
-                  title: "是否继续填写?",
-                  text: "",
-                  type: "info",
-                  showCancelButton: true,
-                  confirmButtonColor: "#2196F3",
-                  confirmButtonText: "是",
-                  cancelButtonText: "否",
-                  closeOnConfirm: true,
-                  closeOnCancel: true
-                },
-                function (isConfirm) {
-                  if (isConfirm) {
-                    that.$router.go({path: "/system/product/newFour/" + id})
-                  } else {
-                    that.$router.go({path: "/system/product/list"})
-                  }
-                })
+              var optionObj = {
+                'that': that,
+                'title': '修改成功!',
+                'listUrl': '/system/product/list'
+              }
+              QK.successSwal(optionObj)
+            } else {
+              var optionObj = {
+                'that': that,
+                'title': '修改失败!',
+                'text': result.msg + "！",
+              }
+              QK.errorSwal(optionObj)
             }
           })
         }
         return false
       },
-      initActive: function(){
-           $(".xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-           $(".sqbNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
-       },
-      cancelMethod:function(){
+      init: function () {
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/productLoan?productId=' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("proMonitor", data.data)
+          }
+        })
+      },
+       cancelMethod:function(){
         this.$router.go({path:localStorage.nowurl})
       }
     }

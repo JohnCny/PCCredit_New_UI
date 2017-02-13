@@ -23,29 +23,34 @@
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>产品名称</th>
-                <th>产品额度区间</th>
-                <th>利率区间</th>
-                <th>当前状态</th>
+                <th>节点名称</th>
+                <th>节点类型</th>
+                <th>是否进行额度判断</th>
+                <th>是否是审贷会节点</th>
+                <th>是否随机分件</th>
+                <th>是否复核节点</th>
                 <th colspan="2">操作</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.productName}</td>
-                <td>${info.productLimitMin}~${info.productLimitMax}</td>
-                <td>${info.productInterestMin}~${info.productInterestMax}</td>
-                <td v-if="info.productState == 0"><span class="label label-success">正常</span></td>
-                <td v-if="info.productState == 1"><span class="label label-default">关闭</span></td>
-                <td v-if="info.productState == 2"><span class="label label-info">创建中</span></td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-warning btn-xs"><i
+                <td>${info.nodeName}</td>
+                <td v-if="info.nodeType == 0"><span>起始节点</span></td>
+                <td v-if="info.nodeType == 1"><span>中间节点</span></td>
+                <td v-if="info.nodeType == 2"><span>结束节点</span></td>
+                <td v-if="info.isLoanLimit == 0"><span>否</span></td>
+                <td v-if="info.isLoanLimit == 1"><span>是</span></td>
+                <td v-if="info.isLoanMeeting == 0"><span>否</span></td>
+                <td v-if="info.isLoanMeeting == 1"><span>是</span></td>
+                <td v-if="info.isRandomDivision == 0"><span>否</span></td>
+                <td v-if="info.isRandomDivision == 1"><span>是</span></td>
+                <td v-if="info.isReviewNode == 0"><span>否</span></td>
+                <td v-if="info.isReviewNode == 1"><span>是</span></td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id,info.productId)" class="btn btn-warning btn-xs"><i
                   class="fa fa-edit"></i>
                   编辑 </a>
-                  <a v-on:click="flow(info.id)" title="" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i>
-                    配置审批流程
-                  </a>
-                  <a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">配置贷后监控规则</a>
-                  <a class="btn btn-warning btn-xs" v-on:click="editRisk(info.id)">配置风险属性</a></td>
+                  <a v-on:click="flow(info.id)" title="" class="btn btn-warning btn-xs"><i class="fa fa-eraser"></i> 删除</a>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -72,17 +77,16 @@
 <script>
   import QK from '../../QK'
   import swal from 'sweetalert'
-  import jQueryValidation from 'jquery-validation'
   export default{
     data: function () {
       return {
         infos: {
-          productName: '',
-          productLimitMax: '',
-          productLimitMin: '',
-          productInterestMax: '',
-          productInterestMin: '',
-          productState: ''
+          nodeName: '',
+          nodeType: '',
+          isLoanLimit: '',
+          isLoanMeeting: '',
+          isRandomDivision: '',
+          isReviewNode: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
@@ -94,7 +98,7 @@
       }
     },
     ready: function () {
-      this.init();
+      this.init()
     },
     computed: {
       pagenums: function () {
@@ -103,15 +107,15 @@
         var highPage = this.totlepage;
         var pageArr = [];
         if (this.totlepage > this.visiblepage) {//总页数超过可见页数时，进一步处理；
-          var subVisiblePage = Math.ceil(this.visiblepage / 2);
+          var subVisiblePage = Math.ceil(this.visiblepage / 2)
           if (this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage + 1) {//处理正常的分页
             lowPage = this.currentpage - subVisiblePage;
-            highPage = this.currentpage + subVisiblePage - 1;
+            highPage = this.currentpage + subVisiblePage - 1
           } else if (this.currentpage <= subVisiblePage) {//处理前几页的逻辑
             lowPage = 1;
             highPage = this.visiblepage;
           } else {//处理后几页的逻辑
-            lowPage = this.totlepage - this.visiblepage + 1;
+            lowPage = this.totlepage - this.visiblepage + 1
             highPage = this.totlepage;
           }
         }
@@ -136,7 +140,11 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/product/pageList/1', searchAll, true).then(function (data) {
+        var id = that.$route.params.id
+        that.$http.post(QK.SERVER_URL + '/api/productApprove/pageList', {
+          searchAll,
+          productId: id
+        }, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
@@ -157,53 +165,22 @@
         }
       },
       show: function () {
-        var that = this
-        //记录当前地址
-        //QK.noteNowUrl()
-        //跳转地址
-        //this.$router.go({path: '/system/product/newOne'})
-      swal({
-              title: "请选择产品类型",
-              text: "",
-              type: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#2196F3",
-              confirmButtonText: "个人产品",
-              cancelButtonText: "企业产品",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function (isConfirm) {
-              if (isConfirm) {
-                that.$router.go({path: "/system/product/newOne"})
-              } else {
-                that.$router.go({path: "/system/companypro/newOne"})
-              }
-            })
-      },
-      showInfo: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/companypro/editOne/' + id})
+        this.$router.go({path: '/system/product/newOne'})
       },
-      editInfo: function (id) {
+      showInfo: function (id, pid) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/companypro/editThree/' + id})
-      },
-      editRisk: function (id) {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/companypro/editFour/' + id})
+        this.$router.go({path: '/system/product/editTwos/' + id + '/' + pid})
       },
       flow: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/companypro/editTwo/' + id})
+        this.$router.go({path: '/system/product/editTwo/' + id})
       }
     }
   }

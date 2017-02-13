@@ -250,8 +250,40 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-            <!--<template v-for="dropDown in dropDownList">-->
-            <div id="addImg">
+            <div class="statuses" v-if="status == 0">
+            <div class="addImg">
+              <div class="row adds count0">
+                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                  <label for="pritureDescription">图片说明:</label>
+                  <div class="input-icon right">
+                    <input id="pritureDescription" type="text" class="form-control" name="pritureDescription"
+                           v-model="tProductInfo.pritureDescription" placeholder="">
+                    <div style="position:absolute;left:100%; top:25%">
+                      <img src="../../../static/images/add.png" v-on:click="addTap()">
+                      <img src="../../../static/images/del.png" v-on:click="delTap()">
+                    </div>
+                  </div>
+                  <div class="message">${errors.pritureDescriptionError}</div>
+                </div>
+                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                  <label for="isNeed">是否必选:</label>
+                  <div class="input-icon right">
+                    <input id="isNeed" type="radio" name="isNeed0" value="1">
+                    <label class=" radio_a">
+                      是
+                    </label>
+                    <input id="isNee" type="radio" name="isNeed0" value="0">
+                    <label class=" radio_a">
+                      否
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            <template v-else>
+            <div class="statuses" v-if="status == 1">
+            <div class="addImg">
               <template v-for="pic in picdec">
                 <div class="row adds count${$index}">
                   <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
@@ -305,8 +337,9 @@
                 </div>
               </template>
             </div>
+            </div>
+            </template>
           </div>
-          <!--</template>-->
         </div>
       </div>
     </div>
@@ -398,6 +431,7 @@
           productImgError: '',
           pritureDescriptionError: ''
         },
+        status:''
       }
     },
     ready: function () {
@@ -489,6 +523,12 @@
             that.$set("productIndustryLimit", data.data.product.productIndustryLimit.split(","))
             }
             that.$set("picdec", data.data.productDesc)
+            if(data.data.productDesc.length == 0){
+             that.$set("status", 0)
+            }else{
+              that.$set("status", 1)
+            }
+            console.log(that.status)
             that.ComponentsSelect2()
             var a = data.data.productOrg
             console.log(a)
@@ -518,7 +558,7 @@
       addTap: function () {
         var html = ''
         var len = $(".adds").length
-        $("#addImg").append('<div class="row adds count' + len + '"></div>')
+        $(".addImg").append('<div class="row adds count' + len + '"></div>')
         html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
         html += '<label for="pritureDescription">图片说明:</label>'
         html += '<div class="input-icon right">'
