@@ -1,4 +1,5 @@
 <template>
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
@@ -181,6 +182,7 @@
   import jQueryValidation from 'jquery-validation'
   import swal from 'sweetalert'
   import selsect2 from 'select2'
+  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -224,6 +226,10 @@
       QK.addMethod()
       this.searchInfo()
       this.ComponentsSelect2()
+      this.initActive()
+    },
+    components: {
+      "my-tab": myTab
     },
     methods: {
       handleSubmit () {
@@ -296,6 +302,9 @@
         }
         return false
       },
+       initActive: function(){
+           $(".xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+       },
       searchInfo: function () {
         var that = this
         var id = that.$route.params.id
