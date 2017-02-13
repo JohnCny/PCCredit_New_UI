@@ -1,36 +1,46 @@
-<style src='../../../static/css/pageStyle.css'></style>
+<style src='../../../static/css/sweetalert.css'></style>
 <template>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          角色列表 <a v-on:click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
+          进件列表
         </header>
         <div class="panel-body">
+          <div class="row searchDiv">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <span>客户名称：</span><input v-model="search.customerCname" type="text" name="customerCname"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12" style="text-align:center">
+              <button v-on:click="init" class="btn btn-info btn-sm" type="button">搜 索</button>
+            </div>
+          </div>
           <div class="tableDiv">
             <table class="table table-striped table-bordered table-hover order-column" id="dtUsers">
               <thead>
               <tr>
-                <th>角色名称</th>
-                <th>角色状态</th>
-                <th>角色描述</th>
+                <th>客户名称</th>
+                <th>客户证件号码</th>
+                <th>产品名称</th>
+                <th>申请金额</th>
+                <th>当前审批节点</th>
                 <th>操作</th>
               </tr>
               </thead>
               <tbody>
-              <template v-if="infos.length">
+              <template v-if="info.length">
               <tr v-for="info in infos">
-                <td>${info.roleNameZh}</td>
-                <td>${info.roleStatus | getRoleState}</td>
-                <td>${info.roleDescription}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i>
-                  编辑 </a></td>
+                <td>${info.customerCname}</td>
+                <td>${info.customerCardNumber}</td>
+                <td>${info.productName}</td>
+                <td>${info.applyAmount | isEmpty}</td>
+                <td><span class="label label-sm ${info.applicationStatus | appliColor}">${info.applicationStatus | appliChange}</span></td>
+                <td><a href="javascript:;" v-on:click="show(info.applicationId)" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i>录入签约信息</a>
               </tr>
               </template>
               <template  v-else>
                 <tr>
-                  <td colspan="4">没有数据</td>
+                  <td colspan="6">没有数据</td>
                 </tr>
               </template>
               </tbody>
@@ -50,25 +60,28 @@
       </section>
     </div>
   </div>
-
-
 </template>
 <style scoped>
 </style>
 <script>
   import QK from '../../QK'
+  import swal from 'sweetalert'
   export default{
     data: function () {
       return {
         infos: {
-          id: '',
-          orgName: '',
-          orgDirectorName: '',
-          orgLogisticsId: ''
+          customerCname: '',
+          customerCardNumber: '',
+          productName: '',
+          approveAmount: '',
+          applicationStatus: ''
         },
         currentpage: 1,//第几页
         totlepage: '',//共几页
-        visiblepage: 10//隐藏10页
+        visiblepage: 10,//隐藏10页
+        search: {
+          customerCname: ''
+        }
       }
     },
     ready: function () {
@@ -109,14 +122,24 @@
     methods: {
       init: function () {
         var that = this
-        that.$http.get(QK.SERVER_URL + '/api/role/pageList',true).then(function (res) {
-          var data = $.parseJSON(res.body)
-          var page = parseInt(data.recordsTotal / 10)
+        var searchAll = {
+          pageStart: that.currentpage,
+          pageLength: that.visiblepage,
+          pageSearch: JSON.stringify(that.search)
+        }
+        that.$http.post(QK.SERVER_URL + '/api/applicationContract/pageList', searchAll, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          var page = parseInt(data.recordsTotal / 10);
           if (data.recordsTotal % 10) {
-            page = page + 1
+            page = page + 1;
           }
           that.$set('totlepage', page)
-          that.$set('infos', data.data)
+          if (result.state) {
+            that.$set("infos", data.data)
+          }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
       pageChange: function (page) {
@@ -126,19 +149,12 @@
           that.currentpage = page
         }
       },
-      showInfo: function (id) {
+      show: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/role/edit/' + id})
-      },
-      showNewPage: function () {
-        //记录当前地址
-        QK.noteNowUrl()
-        //跳转地址
-        this.$router.go({path: '/system/role/new'})
+        this.$router.go({path: '/system/application/inputSign/'+id})
       }
-
     }
   }
 

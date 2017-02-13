@@ -64,10 +64,17 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="info in infos">
-                <td>${info.investPritureDescription}</td>
-                <td>${info.investPictureUrl}</td>
-              </tr>
+              <template v-if="infos.length">
+                <tr v-for="info in infos">
+                  <td>${info.investPritureDescription}</td>
+                  <td>${info.investPictureUrl}</td>
+                </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="2">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -93,11 +100,18 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="approvals.lenth">
               <tr v-for="approval in approvals">
                 <td></td>
                 <td></td>
                 <td></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="3">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -122,10 +136,17 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="models.length">
               <tr v-for="model in models">
                 <td></td>
                 <td></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="2">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -193,6 +214,8 @@
           if (result.state) {
             that.$set("tCustomerBasic", data.data.customer)
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
       searchPic: function () {

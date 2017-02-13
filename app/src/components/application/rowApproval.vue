@@ -4,7 +4,7 @@
     <div class="col-sm-12">
       <section class="panel">
         <header class="panel-heading">
-          进件列表
+          进件列表&nbsp;&nbsp;<a @click="showNewPage" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 新增</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -30,6 +30,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>客户经理</td>
                 <td>${info.reviewPersonCname}</td>
@@ -40,6 +41,12 @@
                 <td><span class="label label-sm ${info.reviewStatus | checkColor}">${info.reviewStatus | checkStatus}</span></td>
                 <td><a href="javascript:;" v-on:click="show(info.applicationId)" class="btn btn-warning btn-xs"><i class="fa fa-diary"></i>排审</a>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="8">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -150,6 +157,10 @@
         QK.noteNowUrl()
         //跳转地址
         this.$router.go({path: '/system/application/theRow/'+id})
+      },
+      showNewPage: function(){
+        QK.noteNowUrl()
+        this.$router.go({path: '/system/application/newRow'+id})
       }
     }
   }

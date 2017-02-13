@@ -13,6 +13,7 @@
             <div id="zcfz" class="tabContent"><zcfz></zcfz></div>
             <div id="jcjy" class="tabContent"><jcjy></jcjy></div>
             <div id="xjl"  class="tabContent"><xjl></xjl></div>
+            <div id="jy"  class="tabContent"><advice></advice></div>
           </div>
         </div>
       </section>
@@ -49,9 +50,10 @@
 <script>
   import QK from '../../../QK'
   import myTab from '.././myTab.vue'
-  import zcfz from './zcfz.vue'
-  import jcjy from './jcjy.vue'
-  import xjl from './xjl.vue'
+  import zcfz from './zcfz.vue'//资产负债
+  import jcjy from './jcjy.vue'//交叉检验
+  import xjl from './xjl.vue'//现金流
+  import advice from './advice.vue'//建议
   export default{
     data(){
       return{
@@ -65,7 +67,8 @@
       "my-tab": myTab,
       zcfz,
       jcjy,
-      xjl
+      xjl,
+      advice
     },
     ready:function(){
       this.init()

@@ -23,6 +23,7 @@
             <div class="input-icon right">
               <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control"
                      name="productName" placeholder="">
+              <input type="hidden" v-model="tProductInfo.productLimitType" id="productLimitType" name="productLimitType">
               <div class="message">${errors.productNameError}</div>
             </div>
           </div>
@@ -350,7 +351,8 @@
           customerManagerLevelId: '',
           productMarriageLimit: '',
           explainJson: '',
-          productCreditLevelLimit: ''
+          productCreditLevelLimit: '',
+          productLimitType:'0'
         },
         proType: [{
           id: '',
