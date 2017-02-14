@@ -1,7 +1,7 @@
 <style src='../../../static/css/Tabs.css'></style>
 <style src='../../../static/css/sweetalert.css'></style>
 <template>
-  <my-tab></my-tab>
+
   <ul class="myTab">
     <template v-for="todo in infoData">
       <li v-on:click="setTab2" v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
@@ -23,7 +23,6 @@
             <div class="input-icon right">
               <input v-model="tProductInfo.productName" id="productName" type="text" class="form-control"
                      name="productName" placeholder="">
-              <input type="hidden" v-model="tProductInfo.productLimitType" id="productLimitType" name="productLimitType">
               <div class="message">${errors.productNameError}</div>
             </div>
           </div>
@@ -180,19 +179,15 @@
               </div>
               <div class="form-group col-md-6 col-md-offset-2 col-sm-6 col-xs-12">
                 <label>征信</label>
-                <div class="input-icon right chedfd row">
-                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="1"
-                                                                              name="productCreditLevelLimit"><label
-                    class="checkss c_x0 checkbox_a">无信用记录</label></span>
-                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2"
-                                                                              name="productCreditLevelLimit"><label
-                    class="checkss c_x1 checkbox_a">信用良好</label></span>
-                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2"
-                                                                              name="productCreditLevelLimit"><label
-                    class="checkss c_x2 checkbox_a">有少量逾期</label></span>
-                  <span class="hideInput col-md-12 col-sm-6 col-xs-12"><input type="checkbox" value="2"
-                                                                              name="productCreditLevelLimit"><label
-                    class="checkss c_x3 checkbox_a">当前有逾期</label></span>
+                <div class="input-icon right">
+                  <span class="hideInput"><input type="checkbox" value="1" name="productCreditLevelLimit"><label
+                    class="checkss checkbox_a">无信用记录</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label
+                    class="checkss checkbox_a">信用良好</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label
+                    class="checkss checkbox_a">有少量逾期</label></span>
+                  <span class="hideInput"><input type="checkbox" value="2" name="productCreditLevelLimit"><label
+                    class="checkss checkbox_a">当前有逾期</label></span>
                   <div class="message">${errors.productCreditLevelLimitError}</div>
                 </div>
               </div>
@@ -255,42 +250,102 @@
         <h5>调查图片</h5>
         <div class="panel-body">
           <div class="table-responsive">
-            <div class="addImg">
-              <div class="row adds count0">
-                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
-                  <label for="pritureDescription">图片说明:</label>
-                  <div class="input-icon right">
-                    <input id="pritureDescription" type="text" class="form-control" name="pritureDescription"
-                           v-model="tProductInfo.pritureDescription" placeholder="">
-                    <div style="position:absolute;left:100%; top:25%">
-                      <img src="../../../static/images/add.png" v-on:click="addTap()">
-                      <img src="../../../static/images/del.png" v-on:click="delTap()">
+            <div class="statuses" v-if="status == 0">
+              <div class="addImg">
+                <div class="row adds count0">
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                    <label for="pritureDescription">图片说明:</label>
+                    <div class="input-icon right">
+                      <input id="pritureDescription" type="text" class="form-control" name="pritureDescription"
+                             v-model="tProductInfo.pritureDescription" placeholder="">
+                      <div style="position:absolute;left:100%; top:25%">
+                        <img src="../../../static/images/add.png" v-on:click="addTap()">
+                        <img src="../../../static/images/del.png" v-on:click="delTap()">
+                      </div>
                     </div>
+                    <div class="message">${errors.pritureDescriptionError}</div>
                   </div>
-                  <div class="message">${errors.pritureDescriptionError}</div>
-                </div>
-                <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
-                  <label for="isNeed">是否必选:</label>
-                  <div class="input-icon right">
-                    <input id="isNeed" type="radio" name="isNeed0" value="1">
-                    <label class=" radio_a">
-                      是
-                    </label>
-                    <input id="isNee" type="radio" name="isNeed0" value="0">
-                    <label class=" radio_a">
-                      否
-                    </label>
+                  <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                    <label for="isNeed">是否必选:</label>
+                    <div class="input-icon right">
+                      <input id="isNeed" type="radio" name="isNeed0" value="1">
+                      <label class=" radio_a">
+                        是
+                      </label>
+                      <input id="isNee" type="radio" name="isNeed0" value="0">
+                      <label class=" radio_a">
+                        否
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <template v-else>
+              <div class="statuses" v-if="status == 1">
+                <div class="addImg">
+                  <template v-for="pic in picdec">
+                    <div class="row adds count${$index}">
+                      <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-11">
+                        <input type="hidden" value="${pic.id}" class="hiddenin" name="idss">
+                        <label for="pritureDescription">图片说明:</label>
+                        <div class="input-icon right">
+                          <input id="pritureDescription" type="text" class="form-control" name="pritureDescription"
+                                 placeholder="" value="${pic.investPritureDescription}">
+                          <div v-if="$index == 0" style="position:absolute;left:100%; top:25%">
+                            <img src="../../../static/images/add.png" v-on:click="addTap()">
+                            <img src="../../../static/images/del.png" v-on:click="delTap()">
+                          </div>
+                        </div>
+                        <div class="message">${errors.pritureDescriptionError}</div>
+                      </div>
+                      <div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">
+                        <label for="isNeed">是否必选:</label>
+                        <div class="input-icon right" v-if="pic.isNeed == 1">
+                          <input id="isNeed" type="radio" name="isNeed${$index}" value="1" checked="checked">
+                          <label class=" radio_a">
+                            是
+                          </label>
+                          <input id="isNees" type="radio" name="isNeed${$index}" value="0">
+                          <label class=" radio_a">
+                            否
+                          </label>
+                        </div>
+                        <template v-else>
+                          <div class="input-icon right" v-if="pic.isNeed == 0">
+                            <input id="isNeed" type="radio" name="isNeed${$index}" value="1">
+                            <label class=" radio_a">
+                              是
+                            </label>
+                            <input id="isNees" type="radio" name="isNeed${$index}" value="0" checked="checked">
+                            <label class=" radio_a">
+                              否
+                            </label>
+                          </div>
+                          <div class="input-icon right" v-else>
+                            <input id="isNeed" type="radio" name="isNeed${$index}" value="1">
+                            <label class=" radio_a">
+                              是
+                            </label>
+                            <input id="isNees" type="radio" name="isNeed${$index}" value="0">
+                            <label class=" radio_a">
+                              否
+                            </label>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </div>
     </div>
     <p class="button">
       <button id="btn_submit" class="btn btn-success" type="submit">保存</button>
-      <a @click="cancelMethod()" class="btn btn-default">返回</a>
+      <a href="javascript:void (0);" @click="back()" class="btn btn-default">返回</a>
     </p>
   </form>
 </template>
@@ -314,7 +369,6 @@
 </style>
 <script>
   import QK from '../../QK'
-  import myTab from './myTab.vue'
   import ztree from 'ztree'
   import swal from 'sweetalert'
   import OrgTree from '../tree/orgTrees.vue'
@@ -341,25 +395,20 @@
           productInterestMax: '',
           productInterestMin: '',
           productSendProductNumber: '',
-          productDescription: '',
           productImg: '',
-          pritureDescription: '',
-          isNeed: '',
           orgStr: '',
           productHouseholdLevelLimit: '',
           productAgeMaxLimit: '',
           productAgeMinLimit: '',
           customerManagerLevelId: '',
           productMarriageLimit: '',
-          explainJson: '',
-          productCreditLevelLimit: '',
-          productLimitType:'0'
+          explainJson: ''
         },
         proType: [{
           id: '',
           name: ''
         }],
-        productIndustryLimit: ['', ''],
+        productIndustryLimit: [],
         industryes: [{
           id: '',
           industryName: ''
@@ -382,6 +431,7 @@
           productImgError: '',
           pritureDescriptionError: ''
         },
+        status:''
       }
     },
     ready: function () {
@@ -391,12 +441,12 @@
       this.ComponentsSelect2()
     },
     components: {
-      OrgTree,
-      "my-tab": myTab
+      OrgTree
     },
     methods: {
       handleSubmit () {
         var that = this
+        console.log(event.currentTarget)
         var bool = QK.formValidation({
           id: "#pro_new",
           rulesMap: {
@@ -407,8 +457,8 @@
             productApplyTemplateId: {required: !0},
             productLimitMax: {required: !0, digits: !0},
             productLimitMin: {required: !0, digits: !0},
-            productInterestMax: {required: !0, digits: !0},
-            productInterestMin: {required: !0, digits: !0},
+            productInterestMax: {required: !0,},
+            productInterestMin: {required: !0,},
             productSendProductNumber: {required: !0},
             productDescription: {required: !0},
             productAgeMaxLimit: {required: !0, age: !0, productAgeMaxLimit: !0},
@@ -428,39 +478,76 @@
             ids[i] = nodes[i].id
           }
           var orgid = ids.join(",")
-          that.$set("tProductInfo.productIndustryLimit", $("#productIndustryLimit").val().join(","))
-          that.$set("tProductInfo.explainJson", that.getObj($(".adds")))
-          that.$set("tProductInfo.orgStr", orgid)
-          that.$http.post(QK.SERVER_URL + '/api/product', that.tProductInfo, true).then(function (data) {
+
+          that.tProductInfo.productIndustryLimit = $("#productIndustryLimit").val().join(",")
+          that.tProductInfo.explainJson = that.getObj($(".adds"))
+          that.tProductInfo.orgStr = orgid
+          that.tProductInfo.createTime = ""
+          //console.log(that.tProductInfo.productIndustryLimit)
+          //console.log(that.tProductInfo.explainList)
+          //console.log(that.tProductInfo.orgStr)
+          that.$http.put(QK.SERVER_URL + '/api/product', that.tProductInfo, true).then(function (data) {
             var data = $.parseJSON(data.body)
             var id = data.data
             var result = QK.getStateCode(that, data.code)
             if (result.state) {
-              swal({
-                  title: "是否继续填写?",
-                  text: "",
-                  type: "info",
-                  showCancelButton: true,
-                  confirmButtonColor: "#2196F3",
-                  confirmButtonText: "是",
-                  cancelButtonText: "否",
-                  closeOnConfirm: true,
-                  closeOnCancel: true
-                },
-                function (isConfirm) {
-                  if (isConfirm) {
-                    that.$router.go({path: "/system/product/newTwo/" + id})
-                  } else {
-                    that.$router.go({path: "/system/product/list"})
-                  }
-                })
+              var optionObj = {
+                'that': that,
+                'title': '修改成功!',
+                'listUrl': '/system/product/list'
+              }
+              QK.successSwal(optionObj)
+            } else {
+              var optionObj = {
+                'that': that,
+                'title': '修改失败!',
+                'text': result.msg + "！",
+              }
+              QK.errorSwal(optionObj)
             }
           })
         }
         return false
       },
       init: function () {
-
+        var that = this
+        var id = that.$route.params.id
+        that.$http.get(QK.SERVER_URL + '/api/product?productId=' + id, true).then(function (data) {
+          var data = $.parseJSON(data.body)
+          var result = QK.getStateCode(that, data.code)
+          if (result.state) {
+            that.$set("proType", data.data.productTypes)
+            that.$set("industryes", data.data.industry)
+            that.$set("tProductInfo", data.data.product)
+            if(data.data.product.productIndustryLimit){
+            that.$set("productIndustryLimit", data.data.product.productIndustryLimit.split(","))
+            }
+            that.$set("picdec", data.data.productDesc)
+            if(data.data.productDesc.length == 0){
+             that.$set("status", 0)
+            }else{
+              that.$set("status", 1)
+            }
+            console.log(that.status)
+            that.ComponentsSelect2()
+            var a = data.data.productOrg
+            console.log(a)
+            var orgids = []
+            for (var i = 0; i <= a.length - 1; i++) {
+              orgids.push(a[i].oraganizationId)
+            }
+            console.log(orgids)
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo")
+            for (var i = 0; i <= orgids.length - 1; i++) {
+              treeObj.selectNode(treeObj.getNodeByParam("id", orgids[i], null));
+              var nodes = treeObj.getSelectedNodes();
+              treeObj.checkNode(nodes[0], true, true);
+              treeObj.cancelSelectedNode(nodes[0]);
+            }
+          }
+        }).then(function(){
+          QK.getActive(localStorage.nowurl)
+        })
       },
       setTab2: function () {
         var that = this
@@ -471,11 +558,11 @@
       addTap: function () {
         var html = ''
         var len = $(".adds").length
-        $("addImg").append('<div class="row adds count' + len + '"></div>')
+        $(".addImg").append('<div class="row adds count' + len + '"></div>')
         html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
         html += '<label for="pritureDescription">图片说明:</label>'
         html += '<div class="input-icon right">'
-        html += '<input id="pritureDescription" type="text" class="form-control" name="pritureDescription" placeholder="请输入有效地址">'
+        html += '<input id="pritureDescription" type="text" class="form-control" name="pritureDescription" placeholder="">'
         html += '</div>'
         html += '</div>'
         html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
@@ -496,15 +583,7 @@
         }
       },
       searchInfo: function () {
-        var that = this;
-        that.$http.get(QK.SERVER_URL + '/api/product', true).then(function (data) {
-          var data = $.parseJSON(data.body)
-          var result = QK.getStateCode(that, data.code)
-          if (result.state) {
-            that.$set("proType", data.data.productTypes)
-            that.$set("industryes", data.data.industry)
-          }
-        })
+
       },
       ComponentsSelect2: function () {
         function e(e) {
@@ -562,14 +641,17 @@
           var objList = {}
           objList.investPritureDescription = $(v).find("input[name=pritureDescription]").val()
           objList.isNeed = Number($(v).find("input[name^=isNeed]:checked").val())
+          objList.id = Number($(v).find("input[name^=idss]").val())
           arr.push(objList)
         })
         var stringarr = JSON.stringify(arr)
+        console.log(stringarr)
+        console.log("stringarr的類型為：" + (typeof stringarr))
         return stringarr
       },
-      cancelMethod:function(){
-        this.$router.go({path:localStorage.nowurl})
-      },
+      back:function(){
+        this.$router.go({path:'/system/product/list'})
+      }
     }
   }
 </script>
