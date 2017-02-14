@@ -274,6 +274,9 @@ export const getCusState = (state) => {
     case 6:
       stateName = "客户移交中";
       break;
+    case 7:
+      stateName = "转出风险审核中";
+      break;
   }
   return stateName;
 }
@@ -301,6 +304,9 @@ export const getCusClass = (state) => {
       break;
     case 6:
       stateCalss = "label-info";
+      break;
+    case 7:
+      stateCalss = "label-primary";
       break;
   }
   return stateCalss;
@@ -684,6 +690,8 @@ export const appliChange = (num) => {
     return '审核通过';
   } else if (num == '4') {
     return '审核不通过';
+  } else if(num == '5'){
+    return '已放款';
   }else{
     return '无数据';
   }
@@ -709,6 +717,9 @@ export const appliColor = (num) => {
       stateCalss = "label-warning";
       break;
     case 4:
+      stateCalss = "label-danger";
+      break;
+    case 5:
       stateCalss = "label-success";
       break;
   }
@@ -742,6 +753,38 @@ export const checkColor = (num) => {
       break;
     case 1:
       stateCalss = "label-success";
+      break;
+  }
+  return stateCalss;
+}
+
+/**
+ * 文件类别
+ * @method fileType
+ * @date: 2017.2.13
+ */
+export const fileType = (num) => {
+  if (num == '0') {
+    return '征信报告';
+  } else if (num == '2') {
+    return '其他';
+  }else{
+    return '无数据';
+  }
+}
+/**
+ * 文件类别颜色转换
+ * @method fileColor
+ * @date: 2017.2.13
+ */
+export const fileColor = (num) => {
+  var stateCalss = "";
+  switch (num) {
+    case 0:
+      stateCalss = "label-success";
+      break;
+    case 2:
+      stateCalss = "label-info";
       break;
   }
   return stateCalss;

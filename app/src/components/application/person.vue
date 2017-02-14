@@ -1,4 +1,5 @@
 <template>
+  <my-tab></my-tab>
   <div class="row">
     <div class="col-sm-12">
       <section class="panel">
@@ -29,8 +30,7 @@
                   <tbody>
                   <template v-if="infos.length">
                   <tr v-on:click="showInfo(info)" v-for="info in infos">
-                    <td><input type="radio" name="radio" id="radio" value="${info.id}"/><label class="radio"></label>
-                    </td>
+                    <td><input type="radio" name="radio" id="radio" value="${info.id}"/><label class="radio"></label></td>
                     <td>${info.cname}</td>
                     <td>${info.certificateNumber}</td>
                     <td><span class="label label-sm ${info.customerStatus | cusColor}">${info.customerStatus | reCus}</span></td>
@@ -73,7 +73,11 @@
 </style>
 <script>
   import QK from '../../QK'
+  import myTab from './myTab'
   export default{
+  components:{
+    myTab
+  },
     data: function () {
       return {
         infos: [{
@@ -93,6 +97,7 @@
     },
     ready: function () {
       this.init()
+      this.initActive()
     },
     computed: {
       pagenums: function () {
@@ -187,12 +192,15 @@
               },
               function () {
                   var appliId = data.data
-                  that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
+                 that.$router.go({path: "/system/application/cusBasic/" + customerId + '/' + appliId})
                 })
               }
            }
         })
       },
+      initActive: function(){
+           $(".xzkhNormal,.xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
+       },
       showInfo: function () {
         var that = this
         $(event.currentTarget).addClass("activePro").siblings("tr").removeClass("activePro")
