@@ -7,11 +7,52 @@
           <th colspan="2">${item.groupName}</th>
         </tr>
         </thead>
-        <template v-for="temp in item.vars">
+        <template v-for="tempGroups in item.groups">
           <tr>
-            <td class="col-md-3">${temp.templateVarName}</td>
-            <td class="col-md-3"><input class="form-control" v-model="temp.templateVarValue" /></td>
+            <td style="padding-left:20px;width:40%">${tempGroups.groupName}</td>
+            <td></td>
           </tr>
+          <template v-for="tempGroup in tempGroups.vars">
+            <tr>
+              <td style="padding-left:40px;width:40%">${tempGroup.templateVarName}</td>
+              <td>
+                <select v-if="tempGroup.options.length>0" class="form-control" @change="updateValue(tempGroup)">
+                  <option value="-1">--请选择--</option>
+                  <template v-for="var in tempGroup.options">
+                     <option v-bind::value="var.templateVarOptionId">${var.templateVarOptionName}</option>
+                  </template>
+                </select>
+                <input v-else class="form-control" v-model="tempGroup.templateVarValue" @change="updateValue(tempGroup)"/>
+              </td>
+            </tr>
+          </template>
+        </template>
+        <template v-for="tempVars in item.vars">
+          <tr>
+            <td style="padding-left:20px;width:40%">${tempVars.templateVarName}</td>
+            <td>
+              <select v-if="tempVars.options.length>0" class="form-control" @change="updateValue(tempVars)">
+                <option value="-1">--请选择--</option>
+              <template v-for="var in tempVars.options">
+                <option v-bind::value="var.templateVarOptionId">${var.templateVarOptionName}</option>
+              </template>
+              </select>
+              <input v-else class="form-control" v-model="tempVars.templateVarValue" @change="updateValue(tempVars)"/>
+          </tr>
+          <template v-for="tempVar in tempVars.vars">
+            <tr>
+              <td style="padding-left:40px;width:40%">${tempVar.templateVarName}</td>
+              <td>
+                <select v-if="tempVar.options.length>0" class="form-control" @change="updateValue(tempVar)">
+                  <option value="-1">--请选择--</option>
+                  <template v-for="var in tempVar.options">
+                    <option v-bind:value="var.templateVarOptionId">${var.templateVarOptionName}</option>
+                  </template>
+                </select>
+                <input v-else class="form-control" v-model="tempVar.templateVarValue" @change="updateValue(tempVar)"/>
+              </td>
+            </tr>
+          </template>
         </template>
       </template>
     </template>
@@ -26,15 +67,11 @@
     border:1px solid #ddd;
     height:40px
   }
-  #advice input{
-    float:left;
-    width:20%;
-    height:24px
-  }
-  #advice img,#advice button{
-    float:left;
-    margin-left:5px;
-    height:20px
+  #advice input,#advice select{
+    width:auto;
+    height:24px;
+    padding:2px;
+    margin-left:10px
   }
 </style>
 <script>
@@ -43,10 +80,7 @@ export default{
   data(){
     return{
       vars:[],
-      changeData:{
-        groupName: '',
-        templateVarName: ''
-      }
+      sendData:{}
     }
   },
   ready :function(){
@@ -61,14 +95,26 @@ export default{
   methods: {
     init:function(varsArr) {
       var that = this
-      //var menuid = $("#menu1").find("li.active").data("menuid")
       $(varsArr).each(function(i,v){
         if($(v)[0].groupName == "建议"){
           that.$set("vars",$(v))
         }
       })
-      console.log(that.vars)
     },
+    updateValue: function(data){
+      var that = this
+      that.$set("sendData.templateVarId",data.templateVarId)
+      that.$set("sendData.templateVarValue",$(event.currentTarget).val())
+      that.$set("sendData.ipcCRUDType",1)
+      that.$set("sendData.applicationId",that.$route.params.appliId)
+      that.$http.put(QK.SERVER_URL + '/api/application/ipc',that.sendData, true).then(function (data) {
+        var data = $.parseJSON(data.body)
+        var result = QK.getStateCode(that, data.code)
+        if (result.state) {
+          console.log("更新成功！")
+        }
+      })
+    }
   }
 }
 

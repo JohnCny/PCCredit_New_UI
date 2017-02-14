@@ -8,13 +8,11 @@
         </template>
       </ul>
       <section class="panel">
-        <div class="panel-body">
-          <div class="table-responsive">
-            <div id="zcfz" class="tabContent"><zcfz></zcfz></div>
-            <div id="jcjy" class="tabContent"><jcjy></jcjy></div>
-            <div id="xjl"  class="tabContent"><xjl></xjl></div>
-            <div id="jy"  class="tabContent"><advice></advice></div>
-          </div>
+        <div class="panel-body" style="border:1px solid #65cea7">
+          <div style="width:100%;overflow-x:scroll;" id="zcfz" class="tabContent table-responsive"><zcfz></zcfz></div>
+          <div style="width:100%;overflow-x:scroll;" id="jcjy" class="tabContent table-responsive"><jcjy></jcjy></div>
+          <div style="width:100%;overflow-x:scroll;" id="xjl"  class="tabContent table-responsive"><xjl></xjl></div>
+          <div style="width:100%;overflow-x:scroll;" id="jy"  class="tabContent table-responsive"><advice></advice></div>
         </div>
       </section>
     </div>
