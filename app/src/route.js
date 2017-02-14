@@ -164,7 +164,8 @@ import Reviewed from './components/riskmanagement/reviewed.vue'//审核
  * 进件
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
-import appliCus from './components/application/appliCus.vue'//选择申请客户
+import personCus from './components/application/person.vue'//选择申请个人客户
+import teamCus from './components/application/team.vue'//选择申请企业客户
 import writeAppli from './components/application/writeAppli.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
@@ -222,8 +223,11 @@ export default {
       '/application/new': {//进件申请
         component: ApplicationNew
       },
-      '/application/appliCus/:id':{//选择申请客户
-        component: appliCus
+      '/application/personCus/:id':{//选择申请个人客户
+        component: personCus
+      },
+      '/application/teamCus/:id':{//选择申请企业客户
+        component: teamCus
       },
       '/application/cusBasic/:customerId/:appliId':{//填写申请表
         component: writeAppli
@@ -298,7 +302,7 @@ export default {
       '/managerDaliy/index': { //客户经理日报
         component: ManagerDailyIdex
       },
-      '/managerDaliy/dailyinfo': { //客户经理日报详情
+      '/managerDaliy/dailyinfo/:id': { //客户经理日报详情
         component: ManagerDailyInfo
       },
       '/managerweekiy/weekliyout': { //客户经理周报导出
