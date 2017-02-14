@@ -6,7 +6,7 @@
       <section class="panel">
         <header class="panel-heading">
           客户经理列表
-          <a class="btn btn-success btn-xs" v-on:click="inList(info.customerId)">导出</a>
+          <a class="btn btn-success btn-xs outed" href="">导出</a>
         </header>
         <div class="panel-body">
           <div class="row searchDiv">
@@ -49,10 +49,10 @@
               </thead>
               <tbody>
               <tr v-for="info in infos">
-                <td>${info.customerName}</td>
-                <td>${info.idCard}</td>
-                <td>${info.createTime | formatDate}</td>
-                <td><a class="btn btn-info btn-xs" v-on:click="inList(info.customerId)">查看</a></td>
+                <td>${info.userCname}</td>
+                <td>${info.employeeNumber}</td>
+                <td>${info.dailyTime | formatDate}</td>
+                <td><a class="btn btn-info btn-xs" v-on:click="Look(info.customerManagerId)">查看</a></td>
               </tr>
               </tbody>
             </table>
@@ -87,11 +87,10 @@
         data:function(){
            return {
               infos:{
-                customerName: '',
-                idCard: '',
-                createTime: '',
-                badReason: '',
-                riskType:'',
+                userCname: '',
+                employeeNumber: '',
+                dailyTime: '',
+                customerManagerId:''
               },
               currentpage: 1,//第几页
               totlepage: '',//共几页
@@ -99,7 +98,7 @@
               search:{
                    userCname: '',
                    employeeNumber: '',
-                   createTime:''
+                   dailyTime:''
                  },
                   // 数据绑定
               calendar:{
@@ -190,13 +189,13 @@
         methods:{
             init:function() {
                 var that = this
-                that.search.createTime = that.calendar.items.picker3.value
+                that.search.dailyTime = that.calendar.items.picker3.value
                 var searchAll = {
                       pageStart : that.currentpage,
                       pageLength : that.visiblepage,
                       pageSearch : JSON.stringify(that.search)
                     }
-                that.$http.post(QK.SERVER_URL+'', searchAll , true).then(function (data) {
+                that.$http.post(QK.SERVER_URL+'/api/customerManagerDay/pageList', searchAll , true).then(function (data) {
                   var data = jQuery.parseJSON(data.body);
                   var result = QK.getStateCode(that, data.code)
                   var page = parseInt(data.recordsTotal / 10);
@@ -206,6 +205,7 @@
                    that.$set('totlepage', page)
                   if (result.state) {
                     that.$set("infos", data.data)
+                    $(".outed").attr('href','/api/customerManagerDay/excelDay?pageStart='+that.currentpage+'&pageLength='+that.visiblepage+'&pageSearch={"userCname":"'+that.search.userCname+'","employeeNumber":"'+that.search.employeeNumber+'","dailyTime":"'+that.calendar.items.picker3.value+'"}')
                   }
                })
           },
@@ -231,6 +231,12 @@
                 this.calendar.show=true
                 this.calendar.x=e.target.offsetLeft
                 this.calendar.y=e.target.offsetTop+e.target.offsetHeight+8
+          },
+          Look:function(id){
+                //记录当前地址
+                QK.noteNowUrl()
+                //跳转地址
+                this.$router.go({path: '/system/managerDaliy/dailyinfo/' + id})
           }
         }
     }

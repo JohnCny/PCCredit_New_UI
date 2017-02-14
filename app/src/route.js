@@ -298,7 +298,7 @@ export default {
       '/managerDaliy/index': { //客户经理日报
         component: ManagerDailyIdex
       },
-      '/managerDaliy/dailyinfo': { //客户经理日报详情
+      '/managerDaliy/dailyinfo/:id': { //客户经理日报详情
         component: ManagerDailyInfo
       },
       '/managerweekiy/weekliyout': { //客户经理周报导出

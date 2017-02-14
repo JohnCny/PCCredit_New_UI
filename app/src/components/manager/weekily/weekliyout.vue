@@ -33,7 +33,7 @@
             </div>
             <div class="row">
               <div class="col-md-12" style="text-align:center;margin-top:250px">
-                <button id="btn_submit" class="btn btn-success">确定</button>
+                <a id="btn_submit" class="btn btn-success outed" href="">确定</a>
                 <a @click="cancelMethod()" class="btn btn-default">取消</a>
               </div>
             </div>
@@ -121,15 +121,8 @@
     },
     methods: {
       init: function () {
-        //var that = this
-        //var id = that.$route.params.id
-        //that.$http.get(QK.SERVER_URL + '/api/customerManagerLevel/' + id, true).then(function (data) {
-          //var data = $.parseJSON(data.body)
-          //var result = QK.getStateCode(that, data.code)
-          //if (result.state) {
-
-          //}
-        //})
+      var that = this
+        $(".outed").attr('href','/api/customerManagerDay/excelWeekly?date='+that.calendar.items.picker3.value)
       },
       cancelMethod:function(){
          this.$router.go({path:localStorage.nowurl})

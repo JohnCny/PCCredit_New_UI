@@ -13,7 +13,7 @@
                   <div class="input-icon right">
                     <div class="message"></div>
                     拜访/新增客户数:
-                    <span><a>5</a></span>
+                    <span><a>${infos.visitNewNumber}</a></span>
                     <div class="message"></div>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
                   <div class="input-icon right">
                     <div class="message"></div>
                     客户维护数:
-                    <span><a>5</a></span>
+                    <span><a>${infos.maintenanceNumber}</a></span>
                     <div class="message"></div>
                   </div>
                 </div>
@@ -33,7 +33,7 @@
                   <div class="input-icon right">
                     <div class="message"></div>
                     新申请贷款数:
-                    <span><a>5</a></span>
+                    <span><a>${infos.loanNewNumber}</a></span>
                     <div class="message"></div>
                   </div>
                 </div>
@@ -45,7 +45,7 @@
                   <div class="input-icon right">
                     <div class="message"></div>
                     贷前调查数量:
-                    <span><a>5</a></span>
+                    <span><a>${infos.preLoanNumber}</a></span>
                     <div class="message"></div>
                   </div>
                 </div>
@@ -55,7 +55,7 @@
                   <div class="input-icon right">
                     <div class="message"></div>
                     贷后监控数量:
-                    <span><a>5</a></span>
+                    <span><a>${infos.postLoanNumber}</a></span>
                     <div class="message"></div>
                   </div>
                 </div>
@@ -63,8 +63,7 @@
             </div>
             <div class="row">
               <div class="col-md-12" style="text-align:center">
-                <button id="btn_submit" class="btn btn-success">确定</button>
-                <a @click="cancelMethod()" class="btn btn-default">取消</a>
+                <a @click="cancelMethod()" class="btn btn-default">返回</a>
               </div>
             </div>
           </form>
@@ -89,7 +88,13 @@
   export default{
     data: function () {
       return {
-
+        infos:{
+          visitNewNumber:'',
+          preLoanNumber:'',
+          postLoanNumber:'',
+          maintenanceNumber:'',
+          loanNewNumber:''
+        }
       }
     },
     ready: function () {
@@ -100,13 +105,11 @@
       init: function () {
         var that = this
         var id = that.$route.params.id
-        that.$http.get(QK.SERVER_URL + '', true).then(function (data) {
+        that.$http.get(QK.SERVER_URL + '/api/customerManagerDay?customerManagerId='+ id +'', true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("infos", data.data)
-            that.$set("crumbData.currentUser", data.data.levelName)
-            QK.vector.$emit('getfromCrumb', that.crumbData)
           }
         })
       },
