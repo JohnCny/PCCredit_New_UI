@@ -1,11 +1,5 @@
-<style src='../../../static/css/Tabs.css'></style>
 <template>
   <my-tab></my-tab>
-  <ul class="myTab">
-    <template v-for="todo in infoData">
-      <li v-bind:data-id="todo.id" v-bind:class="todo.classname">${todo.text}</li>
-    </template>
-  </ul>
   <div class="row">
     <div class="col-md-12">
       <section class="panel">
@@ -23,9 +17,10 @@
               </tr>
               </thead>
               <tbody>
+
               <tr v-for="info in infos">
                 <td>${info.fileName}</td>
-                <td><img id="changeImg"  v-bind:src="info.fileUrl"></td>
+                <td><img id="changeImg"  v-bind:src="info.fileUrl | getSrc"></td>
                 <td><a href="javascript:;" class="btn btn-success btn-xs"><i class="fa fa-plus"></i>继续添加</a></td>
               </tr>
               </tbody>
@@ -91,6 +86,7 @@
     data: function () {
       return {
         //baseUrl: 'QK.SERVER_URL',
+        fileUrl:'',
         infos: [{
           fileName: '',
           fileUrl: ''
@@ -100,8 +96,6 @@
     ready: function () {
      this.init()
      this.initActive()
-    // this.changeUrl()
-
     },
     methods: {
      initActive: function(){
@@ -116,21 +110,10 @@
           if (result.state) {
               that.$set("infos", data.data)
             }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
-       //changeUrl: function (fileUrl) {
-
-        //var arr = fileUrl.split("/")
-           //console.log(arr)
-          // arr[0] = ""
-          // var newArr = arr
-         //  console.log(newArr)
-         //  var newStr = newArr.join("")
-         // str.replace('QK.SERVER_URL'+sUrl);
-         // str = document.location.protocol +"//"+newStr
-         // console.log(str)
-          //return str;
-      // },
        nextStep: function () {
         var that = this
         var id = that.$route.params.id

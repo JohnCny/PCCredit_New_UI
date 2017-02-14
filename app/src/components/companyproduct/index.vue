@@ -31,7 +31,6 @@
               </tr>
               </thead>
               <tbody>
-              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.productName}</td>
                 <td>${info.productLimitMin}~${info.productLimitMax}</td>
@@ -48,12 +47,6 @@
                   <a class="btn btn-warning btn-xs" v-on:click="editInfo(info.id)">配置贷后监控规则</a>
                   <a class="btn btn-warning btn-xs" v-on:click="editRisk(info.id)">配置风险属性</a></td>
               </tr>
-              </template>
-              <template  v-else>
-                <tr>
-                  <td colspan="5">没有数据</td>
-                </tr>
-              </template>
               </tbody>
             </table>
           </div>
@@ -143,7 +136,7 @@
           pageLength: that.visiblepage,
           pageSearch: JSON.stringify(that.search)
         }
-        that.$http.post(QK.SERVER_URL + '/api/product/pageList/0', searchAll, true).then(function (data) {
+        that.$http.post(QK.SERVER_URL + '/api/product/pageList/1', searchAll, true).then(function (data) {
           var data = $.parseJSON(data.body)
           var result = QK.getStateCode(that, data.code)
           var page = parseInt(data.recordsTotal / 10);
@@ -169,7 +162,7 @@
         //QK.noteNowUrl()
         //跳转地址
         //this.$router.go({path: '/system/product/newOne'})
-         swal({
+      swal({
               title: "请选择产品类型",
               text: "",
               type: "info",
@@ -192,25 +185,25 @@
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/product/editOne/' + id})
+        this.$router.go({path: '/system/companypro/editOne/' + id})
       },
       editInfo: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/product/editThree/' + id})
+        this.$router.go({path: '/system/companypro/editThree/' + id})
       },
       editRisk: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/product/editFour/' + id})
+        this.$router.go({path: '/system/companypro/editFour/' + id})
       },
       flow: function (id) {
         //记录当前地址
         QK.noteNowUrl()
         //跳转地址
-        this.$router.go({path: '/system/product/editTwo/' + id})
+        this.$router.go({path: '/system/companypro/editTwo/' + id})
       }
     }
   }

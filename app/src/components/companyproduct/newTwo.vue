@@ -292,9 +292,9 @@
                     alert(11111111)
                     location.reload()
                   } else if (isConfirm && vals == 2) {
-                    that.$router.go({path: "/system/product/newThree/" + id})
+                    that.$router.go({path: "/system/companypro/newThree/" + id})
                   } else {
-                    that.$router.go({path: "/system/product/list"})
+                    that.$router.go({path: "/system/companypro/list"})
                   }
                 })
             }
@@ -302,7 +302,7 @@
         }
         return false
       },
-       initActive: function(){
+      initActive: function(){
            $(".xzkhNormal").css({"background":"url(../../../static/images/stepActive.png) no-repeat left center","color":"#fff"})
        },
       searchInfo: function () {

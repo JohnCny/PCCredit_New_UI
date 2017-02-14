@@ -256,7 +256,7 @@ export default {
         },
         sep:{
             type: String,
-            twoWay: true,
+            //twoWay: true,
             default: ""
         },
         weeks: {

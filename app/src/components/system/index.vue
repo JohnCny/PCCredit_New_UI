@@ -23,6 +23,7 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
                 <td>${info.parameterName}</td>
                 <td>${info.parameterValue}</td>
@@ -32,10 +33,15 @@
                 <td>${info.createTime | formatDate}</td>
                 <td>${info.modifyBy}</td>
                 <td>${info.modifyTime | formatDate}</td>
-                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs"><i
-                  class="fa fa-edit"></i>
-                  编辑 </a></td>
+                <td><a href="javascript:;" v-on:click="showInfo(info.id)" class="btn btn-info btn-xs">
+                  <i class="fa fa-edit"></i>编辑 </a></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="9">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>

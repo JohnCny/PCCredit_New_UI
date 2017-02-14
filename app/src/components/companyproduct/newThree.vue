@@ -189,9 +189,9 @@
                 },
                 function (isConfirm) {
                   if (isConfirm) {
-                    that.$router.go({path: "/system/product/newFour/" + id})
+                    that.$router.go({path: "/system/companypro/newFour/" + id})
                   } else {
-                    that.$router.go({path: "/system/product/list"})
+                    that.$router.go({path: "/system/companypro/list"})
                   }
                 })
             }

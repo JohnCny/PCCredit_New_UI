@@ -314,12 +314,12 @@
 </style>
 <script>
   import QK from '../../QK'
-  import myTab from './myTab.vue'
   import ztree from 'ztree'
   import swal from 'sweetalert'
   import OrgTree from '../tree/orgTrees.vue'
   import jQueryValidation from 'jquery-validation'
   import selsect2 from 'select2'
+  import myTab from './myTab.vue'
   export default{
     data: function () {
       return {
@@ -353,7 +353,7 @@
           productMarriageLimit: '',
           explainJson: '',
           productCreditLevelLimit: '',
-          productLimitType:'0'
+          productLimitType:'1'
         },
         proType: [{
           id: '',
@@ -449,9 +449,9 @@
                 },
                 function (isConfirm) {
                   if (isConfirm) {
-                    that.$router.go({path: "/system/product/newTwo/" + id})
+                    that.$router.go({path: "/system/companypro/newTwo/" + id})
                   } else {
-                    that.$router.go({path: "/system/product/list"})
+                    that.$router.go({path: "/system/companypro/list"})
                   }
                 })
             }
@@ -471,7 +471,7 @@
       addTap: function () {
         var html = ''
         var len = $(".adds").length
-        $("addImg").append('<div class="row adds count' + len + '"></div>')
+        $(".addImg").append('<div class="row adds count' + len + '"></div>')
         html += '<div class="form-group col-md-3 col-md-offset-2 col-sm-6 col-xs-12">'
         html += '<label for="pritureDescription">图片说明:</label>'
         html += '<div class="input-icon right">'

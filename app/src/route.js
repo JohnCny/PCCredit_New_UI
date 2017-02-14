@@ -99,7 +99,7 @@ import OrgNewTop from './components/organization/newTop.vue'//新建机构
 
 
 /************************
- * 产品管理
+ * 个人产品管理
  * ***********************/
 import ProNew1 from './components/product/newOne.vue'//新建产品1
 import ProNew2 from './components/product/newTwo.vue'//新建产品2
@@ -112,6 +112,21 @@ import ProEditTwo from './components/product/editTwo.vue'//编辑产品2
 import ProEditThree from './components/product/editThree.vue'//编辑产品3
 import ProEditFour from './components/product/editFour.vue'//编辑产品4
 import ProEditTwos from './components/product/editTwos.vue'//编辑产品2s
+
+/************************
+ * 企业产品管理
+ * ***********************/
+import ComProList from './components/companyproduct/index.vue'//企业产品列表
+import ProNewOne from './components/companyproduct/newOne.vue'//企业产品新建产品1
+import ProNewTwo from './components/companyproduct/newTwo.vue'//企业产品新建产品2
+import ProNewThree from './components/companyproduct/newThree.vue'//企业产品新建产品3
+import ProNewFour from './components/companyproduct/newFour.vue'//企业产品新建产品4
+import ProNewFive from './components/companyproduct/newFive.vue'//企业产品新建产品5
+import ComProEditOne from './components/companyproduct/editOne.vue'//企业产品编辑1
+import ComProEditTwo from './components/companyproduct/editTwo.vue'//企业产品编辑2
+import ComProEditTwos from './components/companyproduct/editTwos.vue'//企业产品编辑2s
+import ComProEditThree from './components/companyproduct/editThree.vue'//企业产品编辑3
+import ComProEditFour from './components/companyproduct/editFour.vue'//企业产品编辑3
 /************************
  * 菜单管理
  * ***********************/
@@ -150,10 +165,10 @@ import Reviewed from './components/riskmanagement/reviewed.vue'//审核
  * ***********************/
 import ApplicationNew from './components/application/new.vue'//进件申请
 import appliCus from './components/application/appliCus.vue'//选择申请客户
-import cusBasic from './components/application/cusBasicinfo.vue'//填写申请表
+import writeAppli from './components/application/writeAppli.vue'//填写申请表
 import ipcSupply from './components/application/tables/ipcSupply.vue'//填写IPC调查报告
 import appliPicture from './components/application/appliPitcture.vue'//调查图片
-import appliApproval from './components/application/approval.vue'//征信报告
+import creditReport from './components/application/creditReport.vue'//征信报告
 import informationAll from './components/application/informationAll.vue'//进件信息总览
 import appliCheck from './components/application/index.vue'//进件查询
 import searchEdit from './components/application/searchEdit.vue'//进件查询编辑
@@ -161,6 +176,7 @@ import customerSign from './components/application/cusSign.vue'//进件客户签
 import inputSign from './components/application/inputSignMess.vue'//录入客户签约
 import rowApproval from './components/application/rowApproval.vue'//审贷会排审
 import theRow from './components/application/theRow.vue'//排审
+import newRow from './components/application/newRow.vue'//新增排审
 
 export default {
   // '/index': {
@@ -210,7 +226,7 @@ export default {
         component: appliCus
       },
       '/application/cusBasic/:customerId/:appliId':{//填写申请表
-        component: cusBasic
+        component: writeAppli
       },
       '/application/ipc/:appliId/:templateId':{//填写IPC调查报告
         component: ipcSupply
@@ -224,8 +240,8 @@ export default {
       '/application/picture/:id':{//调查图片
         component:appliPicture
       },
-      '/application/approval/:id':{//征信报告列表
-        component:appliApproval
+      '/application/creditReport/:id':{//征信报告列表
+        component:creditReport
       },
       '/application/informationAll/:id':{//进件信息总览
         component:informationAll
@@ -241,6 +257,9 @@ export default {
       },
       '/application/theRow/:id':{//排审
         component:theRow
+      },
+      '/application/newRow/:id':{//新增排审
+        component:newRow
       },
       /*end---进件---end*/
 
@@ -370,7 +389,7 @@ export default {
       /*end---数据字典---end*/
 
 
-      /*start---产品---start*/
+      /*start---个人产品---start*/
         '/product/newOne':{//新建产品1
           component:ProNew1
         },
@@ -404,7 +423,42 @@ export default {
         '/product/editTwos/:id/:pid':{//编辑产品2s
           component:ProEditTwos
         },
-        /*end---产品---end*/
+        /*end---个人产品---end*/
+      /*start---企业产品---start*/
+        '/companypro/list':{//产品列表
+          component:ComProList
+        },
+        '/companypro/newOne':{//新建产品1
+          component:ProNewOne
+        },
+        '/companypro/newTwo/:id':{//新建产品2
+          component:ProNewTwo
+        },
+        '/companypro/newThree/:id':{//新建产品3
+          component:ProNewThree
+        },
+        '/companypro/newFour/:id':{//新建产品4
+          component:ProNewFour
+        },
+        '/companypro/newFive/:id':{//新建产品5
+          component:ProNewFive
+        },
+        '/companypro/editOne/:id':{//编辑产品1
+          component:ComProEditOne
+        },
+        '/companypro/editTwo/:id':{//编辑产品2
+          component:ComProEditTwo
+        },
+        '/companypro/editTwos/:id/:pid':{//编辑产品2s
+          component:ComProEditTwos
+        },
+        '/companypro/editThree/:id':{//编辑产品3
+          component:ComProEditThree
+        },
+        '/companypro/editFour/:id':{//编辑产品4
+          component:ComProEditFour
+        },
+      /*end---企业产品---end*/
         /*start---菜单管理---start*/
         '/menu/manage': {
           component: MenuManage

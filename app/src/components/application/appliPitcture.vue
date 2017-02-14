@@ -23,13 +23,22 @@
               </tr>
               </thead>
               <tbody>
+              <template v-if="infos.length">
               <tr v-for="info in infos">
-                <td><input type="hidden" id="descript" name="descript" value="${info.investPritureDescription}"/>${info.investPritureDescription}
-                </td>
-                <td>${info.investPictureUrl}</td>
-                <td><a href="javascript:;" v-on:click="goAdd" class="btn btn-success btn-xs"><i
-                  class="fa fa-plus"></i>继续添加</a></td>
+                <td>${info.investPictureDescription}</td>
+                <td>
+                <template v-for="var in info.pictureList">
+                 <img v-bind:src="var.investPictureUrl | getSrc" />
+                </template>
+              </td>
+                <td><a href="javascript:;" v-on:click="goAdd(info)" class="btn btn-success btn-xs"><i class="fa fa-plus"></i>继续添加</a></td>
               </tr>
+              </template>
+              <template  v-else>
+                <tr>
+                  <td colspan="3">没有数据</td>
+                </tr>
+              </template>
               </tbody>
             </table>
           </div>
@@ -104,6 +113,7 @@
     ready: function () {
       this.init()
       this.initActive()
+
     },
     methods: {
       initActive: function(){
@@ -118,39 +128,17 @@
           if (result.state) {
             that.$set("infos", data.data)
           }
+        }).then(function(){
+          QK.getActive("/system/application/new")
         })
       },
-      goAdd: function () {
-        $(event.currentTarget).parent("td").prev("td").append("<form id='upfile'>选择一个文件:<input action='/api/applicationInvestPicture' type='file' name='file' id='upload' /><br/><br/>	<input id='uploadFile' value='上传' type='button'/></form>")
+      goAdd: function (info) {
         var that = this
+       console.log(info)
+        var productInvestPictureDesc = info.investPictureDescription
+        var id = info.id
         var applicationId = that.$route.params.id
-        var productInvestPictureDesc = $("#descript").val()
-        $("#uploadFile").click(function () {
-          that.$http.post(QK.SERVER_URL + '/api/applicationInvestPicture', {
-            applicationId: applicationId,
-            productInvestPictureDesc: productInvestPictureDesc
-          }, true).then(function (data) {
-            var data = $.parseJSON(data.body)
-            var result = QK.getStateCode(that, data.code)
-            if (result.state) {
-              swal({
-                title: "上传成功！",
-                text: result.msg + "！",
-                confirmButtonColor: "#66BB6A",
-                type: "success",
-                confirmButtonText: '确定'
-              })
-            } else {
-              swal({
-                title: "上传失败！",
-                text: result.msg + "！",
-                confirmButtonColor: "#EF5350",
-                type: "error",
-                confirmButtonText: '确定'
-              })
-            }
-          })
-        })
+        $(event.currentTarget).parent("td").prev("td").append("<form enctype='multipart/form-data' action='"+QK.SERVER_URL + "/api/applicationInvestPicture' method='post' id='upfile'>选择一个文件:<input type='file' name='files'  id='upload' /><input type='hidden' name = 'productInvestPictureDesc' id = 'productInvestPictureDesc' value='"+productInvestPictureDesc+"' /><input type='hidden' name = 'productInvestPictureId' id = 'productInvestPictureId' value='"+id+"'/>	 <input type='hidden' name = 'applicationId' id = 'applicationId' value='"+applicationId+"'/>	<button class='btn-sm btn-success' id='uploadFile' type='submit'>上传</button></form><br>")
       },
       nextStep: function () {
         var that = this
@@ -160,7 +148,7 @@
           var result = QK.getStateCode(that, data.code)
           if (result.state) {
             that.$set("infos", data.data)
-            that.$router.go({path: "/system/application/approval/" + id})
+            that.$router.go({path: "/system/application/creditReport/" + id})
           }
         })
       },
